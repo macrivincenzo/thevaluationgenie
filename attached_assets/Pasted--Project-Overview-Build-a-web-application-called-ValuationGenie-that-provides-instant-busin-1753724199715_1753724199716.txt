@@ -1,0 +1,123 @@
+**Project Overview:**  
+Build a web application called “ValuationGenie” that provides instant business valuations for both buyers and sellers of small service-based businesses in the US. The app should be simple, secure, and focused on delivering a clear PDF valuation report based on user-entered financial data.
+
+---
+
+**Core Features:**
+
+1. **Landing Page**
+   - Headline: “Instant Business Valuation for Buyers & Sellers”
+   - Subheadline: “Get a credible, data-driven business valuation in minutes—whether you’re buying or selling.”
+   - Brief description of the service and how it works (3 steps: Upload/Enter Data → Answer Questions → Get Report).
+   - Email signup form for early access or updates.
+   - FAQ section.
+   - Responsive design.
+
+2. **User Registration & Login**
+   - Email/password authentication (use Firebase Auth, Supabase Auth, or similar).
+   - Password reset functionality.
+
+3. **Valuation Flow**
+   - **Step 1: Are you buying or selling?** (radio button)
+   - **Step 2: Manual Data Entry Form**
+     - Required fields: Business name, industry (dropdown), location (state), years in business, annual revenue, SDE/owner’s profit, add-backs, major risks (text), growth trend (dropdown), owner involvement (dropdown).
+   - **Step 3: File Upload (optional)**
+     - Allow users to upload P&L and balance sheet (PDF or CSV). For MVP, files are stored but not parsed.
+   - **Step 4: Valuation Calculation**
+     - Use SDE × industry multiple (hardcoded table for 5-10 common industries).
+     - Show a valuation range (e.g., $120k–$150k).
+   - **Step 5: PDF Report Generation**
+     - Generate a PDF with: business info, valuation range, key ratios, industry multiple used, and a prominent disclaimer (“For informational purposes only, not a formal appraisal.”).
+     - Allow user to download the PDF after payment.
+
+4. **Payment Processing**
+   - Integrate Stripe Checkout for pay-per-report ($99).
+   - Only allow PDF download after successful payment.
+
+5. **User Dashboard**
+   - List of previous valuations/reports (if user is logged in).
+   - Option to delete uploaded data and reports.
+
+6. **Admin Dashboard (Basic)**
+   - View registered users and number of reports generated.
+   - Export user emails.
+
+7. **Security & Compliance**
+   - Store only necessary data.
+   - Allow users to delete their data.
+   - Include Terms of Service, Privacy Policy, and disclaimers on all relevant pages and in the PDF report.
+
+---
+
+**Technical Requirements:**
+- **Frontend:** React (Next.js preferred) or similar modern framework.
+- **Backend:** Node.js/Express or Firebase Functions.
+- **Database:** Firebase, Supabase, or PostgreSQL.
+- **File Storage:** AWS S3, Firebase Storage, or similar.
+- **PDF Generation:** Use jsPDF (frontend) or PDFKit (backend).
+- **Email:** Integrate Mailgun, SendGrid, or Mailchimp for notifications and email capture.
+- **Responsive design:** Must work on desktop and mobile.
+
+---
+
+**User Flows:**
+- User visits landing page → signs up/logs in → chooses “buying” or “selling” → enters business data → uploads files (optional) → sees calculated valuation → pays via Stripe → downloads PDF report → can view/delete past reports in dashboard.
+
+---
+
+**What to Skip for MVP:**
+- No OCR or auto-parsing of uploaded financials (manual entry only).
+- No advanced AI/ML.
+- US users only.
+- No mobile app (responsive web only).
+
+---
+
+**Design/UX:**
+- Clean, modern, and simple interface.
+- Prominent call-to-action buttons.
+- Clear progress indicator during valuation flow.
+
+---
+
+**Legal:**
+- Prominently display disclaimers that the valuation is for informational purposes only and not a formal appraisal.
+- Include Terms of Service and Privacy Policy.
+
+---
+
+**Deliverables:**
+- Complete source code for the web app.
+- Instructions for deployment and configuration.
+- Sample industry multiples table (for SDE × multiple calculation).
+- Example PDF report.
+
+---
+
+**Additional Requirements: Intelligent Questionnaire & User Clarity**
+
+1. **Intelligent Questionnaire Design**
+   - Before building the questionnaire, research the most important factors and questions that affect small business valuation for both buyers and sellers.
+     - Consider industry standards, best practices, and what professional business appraisers ask.
+     - Include questions that capture not just financials, but also qualitative factors (e.g., owner involvement, customer concentration, growth trends, risks, competitive advantages).
+     - Tailor some questions based on whether the user is a buyer or a seller (e.g., “What is your main goal: maximize sale price, quick sale, etc.?” for sellers; “What is your main concern: risk, growth, etc.?” for buyers).
+   - The app should explain to users, in plain language, why each question is being asked and how it affects the valuation.
+     - For example:
+       - “We ask about owner involvement because businesses that run independently of the owner are often valued higher.”
+       - “Growth trends can increase or decrease your business’s value—please describe any recent changes.”
+   - The questionnaire should be dynamic:
+     - If possible, adjust follow-up questions based on previous answers (e.g., if the business is in a specific industry, ask industry-relevant questions).
+
+2. **User Clarity and Transparency**
+   - At the start of the questionnaire, display a clear message:
+     - “To provide the most accurate valuation, we’ll ask you a series of questions about your business. Each question is designed to capture factors that affect your business’s value, whether you’re buying or selling. We’ll explain why we ask each question along the way.”
+   - For each question, include a short explanation or tooltip:
+     - “Why we ask this: [brief explanation].”
+   - After the questionnaire, show a summary:
+     - “Here’s how your answers impact your valuation: [list key factors and their influence].”
+
+3. **Research and Best Practices**
+   - Before finalizing the questionnaire, research reputable sources (e.g., IBBA, BizBuySell, business broker guides) to ensure the questions align with industry best practices.
+   - Optionally, provide references or links to users who want to learn more.
+
+---
