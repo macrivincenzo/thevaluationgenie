@@ -1,0 +1,274 @@
+import type { Express } from "express";
+import express from "express";
+import { createServer, type Server } from "http";
+import Stripe from "stripe";
+import multer from "multer";
+import path from "path";
+import fs from "fs";
+import { storage } from "./storage";
+import { setupAuth, isAuthenticated } from "./replitAuth";
+import { 
+  insertEmailSubscriptionSchema, 
+  insertValuationSchema,
+  insertFileUploadSchema 
+} from "@shared/schema";
+import { z } from "zod";
+
+// Stripe setup - only initialize if key is available
+let stripe: Stripe | null = null;
+if (process.env.STRIPE_SECRET_KEY) {
+  stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+    apiVersion: "2025-06-30.basil",
+  });
+}
+
+// File upload setup
+const upload = multer({
+  dest: 'uploads/',
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = ['application/pdf', 'text/csv', 'application/vnd.ms-excel'];
+    cb(null, allowedTypes.includes(file.mimetype));
+  }
+});
+
+export async function registerRoutes(app: Express): Promise<Server> {
+  // Auth middleware
+  await setupAuth(app);
+
+  // Auth routes
+  app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const user = await storage.getUser(userId);
+      res.json(user);
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      res.status(500).json({ message: "Failed to fetch user" });
+    }
+  });
+
+  // Email subscription
+  app.post('/api/subscribe', async (req, res) => {
+    try {
+      const data = insertEmailSubscriptionSchema.parse(req.body);
+      const subscription = await storage.createEmailSubscription(data);
+      res.json(subscription);
+    } catch (error: any) {
+      res.status(400).json({ message: error.message });
+    }
+  });
+
+  // Valuation routes
+  app.post('/api/valuations', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const data = insertValuationSchema.parse({
+        ...req.body,
+        userId
+      });
+      
+      // Calculate valuation based on industry multiples
+      const { calculateValuation } = await import('../../client/src/lib/industry-multiples.js');
+      const { low, high, multiple } = calculateValuation(data.industry, parseFloat(data.sde.toString()));
+      
+      const valuation = await storage.createValuation({
+        ...data,
+        valuationLow: low.toString(),
+        valuationHigh: high.toString(),
+        industryMultiple: multiple.toString()
+      });
+      
+      res.json(valuation);
+    } catch (error: any) {
+      res.status(400).json({ message: error.message });
+    }
+  });
+
+  app.get('/api/valuations', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const valuations = await storage.getUserValuations(userId);
+      res.json(valuations);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  app.get('/api/valuations/:id', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const valuation = await storage.getValuation(req.params.id);
+      
+      if (!valuation || valuation.userId !== userId) {
+        return res.status(404).json({ message: 'Valuation not found' });
+      }
+      
+      res.json(valuation);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  app.delete('/api/valuations/:id', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const valuation = await storage.getValuation(req.params.id);
+      
+      if (!valuation || valuation.userId !== userId) {
+        return res.status(404).json({ message: 'Valuation not found' });
+      }
+      
+      await storage.deleteValuation(req.params.id);
+      res.json({ message: 'Valuation deleted' });
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  // File upload
+  app.post('/api/valuations/:id/files', isAuthenticated, upload.single('file'), async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const valuation = await storage.getValuation(req.params.id);
+      
+      if (!valuation || valuation.userId !== userId) {
+        return res.status(404).json({ message: 'Valuation not found' });
+      }
+      
+      if (!req.file) {
+        return res.status(400).json({ message: 'No file uploaded' });
+      }
+      
+      const fileUpload = await storage.createFileUpload({
+        valuationId: req.params.id,
+        fileName: req.file.originalname,
+        filePath: req.file.path,
+        fileSize: req.file.size,
+        mimeType: req.file.mimetype
+      });
+      
+      res.json(fileUpload);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  // Stripe payment
+  app.post("/api/create-payment-intent", isAuthenticated, async (req: any, res) => {
+    try {
+      const { valuationId } = req.body;
+      const userId = req.user.claims.sub;
+      
+      const valuation = await storage.getValuation(valuationId);
+      if (!valuation || valuation.userId !== userId) {
+        return res.status(404).json({ message: 'Valuation not found' });
+      }
+      
+      const paymentIntent = await stripe!.paymentIntents.create({
+        amount: 9900, // $99.00 in cents
+        currency: "usd",
+        metadata: {
+          valuationId,
+          userId
+        }
+      });
+      
+      res.json({ clientSecret: paymentIntent.client_secret });
+    } catch (error: any) {
+      res.status(500).json({ message: "Error creating payment intent: " + error.message });
+    }
+  });
+
+  // Webhook for Stripe payment confirmation
+  app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async (req, res) => {
+    const sig = req.headers['stripe-signature'];
+    let event;
+
+    try {
+      event = stripe!.webhooks.constructEvent(req.body, sig!, process.env.STRIPE_WEBHOOK_SECRET!);
+    } catch (err: any) {
+      console.log(`Webhook signature verification failed.`, err.message);
+      return res.status(400).send(`Webhook Error: ${err.message}`);
+    }
+
+    if (event.type === 'payment_intent.succeeded') {
+      const paymentIntent = event.data.object as Stripe.PaymentIntent;
+      const { valuationId } = paymentIntent.metadata;
+      
+      if (valuationId) {
+        // Generate PDF and update valuation
+        const pdfPath = `/pdfs/${valuationId}.pdf`;
+        await storage.updateValuationPayment(valuationId, paymentIntent.id, pdfPath);
+      }
+    }
+
+    res.json({ received: true });
+  });
+
+  // PDF download
+  app.get('/api/valuations/:id/pdf', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const valuation = await storage.getValuation(req.params.id);
+      
+      if (!valuation || valuation.userId !== userId || !valuation.paid) {
+        return res.status(404).json({ message: 'PDF not found or not paid' });
+      }
+      
+      // Generate PDF on demand
+      const { generateValuationPDF } = await import('../../client/src/lib/pdf-generator.js');
+      const { getIndustryMultiple } = await import('../../client/src/lib/industry-multiples.js');
+      const industryData = getIndustryMultiple(valuation.industry);
+      const pdf = generateValuationPDF({ valuation, industryData });
+      const pdfBuffer = pdf.output('arraybuffer');
+      
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `attachment; filename="${valuation.businessName}-valuation.pdf"`);
+      res.send(pdfBuffer);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  // Admin routes
+  app.get('/api/admin/users', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const isAdmin = await storage.isAdmin(userId);
+      
+      if (!isAdmin) {
+        return res.status(403).json({ message: 'Admin access required' });
+      }
+      
+      const users = await storage.getAllUsers();
+      res.json(users);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  app.get('/api/admin/stats', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const isAdmin = await storage.isAdmin(userId);
+      
+      if (!isAdmin) {
+        return res.status(403).json({ message: 'Admin access required' });
+      }
+      
+      const userCount = await storage.getUserCount();
+      const valuationStats = await storage.getValuationStats();
+      
+      res.json({
+        userCount,
+        ...valuationStats
+      });
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  const httpServer = createServer(app);
+  return httpServer;
+}
