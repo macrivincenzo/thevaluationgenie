@@ -27,7 +27,12 @@ const upload = multer({
   dest: 'uploads/',
   limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
   fileFilter: (req, file, cb) => {
-    const allowedTypes = ['application/pdf', 'text/csv', 'application/vnd.ms-excel'];
+    const allowedTypes = [
+      'application/pdf', 
+      'text/csv', 
+      'application/vnd.ms-excel',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    ];
     cb(null, allowedTypes.includes(file.mimetype));
   }
 });
@@ -87,8 +92,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
       
       // Calculate valuation based on industry multiples
-      const { calculateValuation } = await import('../../client/src/lib/industry-multiples.js');
-      const { low, high, multiple } = calculateValuation(data.industry, parseFloat(data.sde.toString()));
+      const { calculateValuation } = await import('../client/src/lib/industry-multiples.ts');
+      
+      // Extract SDE from the new data structure (support both old and new formats)
+      let sdeValue = 0;
+      if (data.sdeData && Array.isArray(data.sdeData)) {
+        // Use the most recent year's SDE data
+        sdeValue = data.sdeData[0] || 0;
+      } else if (data.sde) {
+        sdeValue = parseFloat(data.sde.toString());
+      }
+      
+      const { low, high, multiple } = calculateValuation(data.industry, sdeValue);
       
       const valuation = await storage.createValuation({
         ...data,
@@ -144,7 +159,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // File upload
+  // Temporary file upload (before valuation creation)
+  app.post('/api/files/upload', isAuthenticated, upload.single('file'), async (req: any, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ message: 'No file uploaded' });
+      }
+      
+      // Return file information for temporary storage
+      const fileInfo = {
+        id: `temp_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        fileName: req.file.originalname,
+        fileSize: req.file.size,
+        mimeType: req.file.mimetype,
+        filePath: req.file.path, // Store for later association with valuation
+      };
+      
+      res.json(fileInfo);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  // File upload for existing valuations
   app.post('/api/valuations/:id/files', isAuthenticated, upload.single('file'), async (req: any, res) => {
     try {
       const userId = req.user.claims.sub;
@@ -235,8 +272,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       // Generate PDF on demand
-      const { generateValuationPDF } = await import('../../client/src/lib/pdf-generator.js');
-      const { getIndustryMultiple } = await import('../../client/src/lib/industry-multiples.js');
+      const { generateValuationPDF } = await import('../client/src/lib/pdf-generator.ts');
+      const { getIndustryMultiple } = await import('../client/src/lib/industry-multiples.ts');
       const industryData = getIndustryMultiple(valuation.industry);
       const pdf = generateValuationPDF({ valuation, industryData });
       const pdfBuffer = pdf.output('arraybuffer');

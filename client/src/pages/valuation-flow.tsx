@@ -64,6 +64,9 @@ export interface ValuationData {
   ownerInvolvement: string;
   growthTrend: string;
   majorRisks: string;
+  
+  // Uploaded files
+  uploadedFiles?: any[];
 }
 
 const initialData: ValuationData = {
@@ -266,6 +269,7 @@ export default function ValuationFlow() {
               onNext={handleNext}
               onPrevious={handlePrevious}
               isLoading={createValuationMutation.isPending}
+              onFilesUpdate={(files) => handleDataUpdate({ uploadedFiles: files })}
             />
           )}
 

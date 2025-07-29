@@ -11,6 +11,7 @@ interface FileUploadProps {
   onNext: () => void;
   onPrevious: () => void;
   isLoading?: boolean;
+  onFilesUpdate?: (files: UploadedFile[]) => void;
 }
 
 interface UploadedFile {
@@ -20,23 +21,24 @@ interface UploadedFile {
   mimeType: string;
 }
 
-export default function FileUpload({ valuationId, onNext, onPrevious, isLoading }: FileUploadProps) {
+export default function FileUpload({ valuationId, onNext, onPrevious, isLoading, onFilesUpdate }: FileUploadProps) {
   const [dragActive, setDragActive] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
   const { toast } = useToast();
 
   const uploadMutation = useMutation({
     mutationFn: async (file: File) => {
-      if (!valuationId) throw new Error("Valuation ID is required");
-      
       const formData = new FormData();
       formData.append('file', file);
       
-      const response = await apiRequest("POST", `/api/valuations/${valuationId}/files`, formData);
+      // Upload to temporary files endpoint that doesn't require valuation ID
+      const response = await apiRequest("POST", `/api/files/upload`, formData);
       return await response.json();
     },
     onSuccess: (data) => {
-      setUploadedFiles(prev => [...prev, data]);
+      const newFiles = [...uploadedFiles, data];
+      setUploadedFiles(newFiles);
+      onFilesUpdate?.(newFiles);
       toast({
         title: "File uploaded successfully",
         description: "Your file has been uploaded and will be included in the valuation.",
@@ -104,7 +106,9 @@ export default function FileUpload({ valuationId, onNext, onPrevious, isLoading 
   };
 
   const removeFile = (fileId: string) => {
-    setUploadedFiles(prev => prev.filter(f => f.id !== fileId));
+    const newFiles = uploadedFiles.filter(f => f.id !== fileId);
+    setUploadedFiles(newFiles);
+    onFilesUpdate?.(newFiles);
   };
 
   const formatFileSize = (bytes: number) => {
