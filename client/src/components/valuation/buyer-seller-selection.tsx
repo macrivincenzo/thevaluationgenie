@@ -9,6 +9,25 @@ interface BuyerSellerSelectionProps {
 }
 
 export default function BuyerSellerSelection({ value, onChange, onNext }: BuyerSellerSelectionProps) {
+  const handleDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = event.target.value as 'buying' | 'selling';
+    console.log('Dropdown selection changed to:', selectedValue);
+    console.log('Event target value:', event.target.value);
+    onChange(selectedValue);
+  };
+
+  const handleContinueClick = () => {
+    console.log('Continue button clicked with value:', value);
+    if (value) {
+      console.log('Proceeding to next step with selection:', value);
+      onNext();
+    } else {
+      console.log('Cannot proceed - no selection made');
+    }
+  };
+
+  console.log('Component rendered with current value:', value);
+
   return (
     <Card className="shadow-lg">
       <CardContent className="p-8">
@@ -22,57 +41,114 @@ export default function BuyerSellerSelection({ value, onChange, onNext }: BuyerS
           </div>
         </div>
 
-        {/* Simple dropdown approach */}
-        <div className="mb-6">
-          <label htmlFor="buyerSeller" className="block text-lg font-semibold mb-3">
-            Select your role:
-          </label>
-          <select 
-            id="buyerSeller"
-            value={value}
-            onChange={(e) => onChange(e.target.value as 'buying' | 'selling')}
-            className="w-full p-4 border-2 border-gray-300 rounded-lg text-lg focus:border-blue-500 focus:outline-none"
-          >
-            <option value="">Choose an option...</option>
-            <option value="buying">I'm Buying a Business</option>
-            <option value="selling">I'm Selling a Business</option>
-          </select>
+        {/* Debug information */}
+        <div className="mb-4 p-3 bg-gray-100 border rounded text-sm">
+          <strong>Debug Info:</strong> Current selection = "{value || 'none'}"
         </div>
 
-        {/* Visual cards for better UX */}
-        {value && (
-          <div className="grid md:grid-cols-2 gap-6 mb-6">
-            <div className={`p-6 border-2 rounded-lg ${value === 'buying' ? 'border-blue-500 bg-blue-50' : 'opacity-50'}`}>
-              <div className="flex items-center mb-4">
-                <Users className="w-8 h-8 text-blue-600 mr-3" />
-                <div>
-                  <h4 className="text-xl font-bold">I'm Buying</h4>
-                  <p className="text-gray-600">Looking to acquire a business</p>
-                </div>
-              </div>
-              <p className="text-gray-600 text-sm">We'll focus on risk assessment, growth potential, and fair market value to help you make an informed offer.</p>
-            </div>
-
-            <div className={`p-6 border-2 rounded-lg ${value === 'selling' ? 'border-green-500 bg-green-50' : 'opacity-50'}`}>
-              <div className="flex items-center mb-4">
-                <TrendingUp className="w-8 h-8 text-green-600 mr-3" />
-                <div>
-                  <h4 className="text-xl font-bold">I'm Selling</h4>
-                  <p className="text-gray-600">Ready to sell my business</p>
-                </div>
-              </div>
-              <p className="text-gray-600 text-sm">We'll help you understand your business's market value and identify factors that could increase its worth.</p>
-            </div>
+        {/* Standard HTML Form with Select Dropdown */}
+        <form onSubmit={(e) => { e.preventDefault(); handleContinueClick(); }}>
+          <div className="mb-6">
+            <label htmlFor="buyer-seller-select" className="block text-lg font-semibold mb-3 text-slate-900">
+              Select your role:
+            </label>
+            <select 
+              id="buyer-seller-select"
+              name="buyerSeller"
+              value={value}
+              onChange={handleDropdownChange}
+              className="w-full p-4 border-2 border-gray-300 rounded-lg text-lg bg-white focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-all"
+              style={{ minHeight: '56px' }}
+            >
+              <option value="" disabled>Choose an option...</option>
+              <option value="buying">I'm Buying a Business</option>
+              <option value="selling">I'm Selling a Business</option>
+            </select>
           </div>
-        )}
 
-        <div className="mt-8 flex justify-between">
-          <Button variant="ghost" disabled>
-            Previous
-          </Button>
-          <Button onClick={onNext} disabled={!value}>
-            Continue
-          </Button>
+          {/* Visual confirmation cards */}
+          {value && (
+            <div className="mb-6">
+              <h4 className="text-lg font-semibold mb-3 text-slate-900">Your Selection:</h4>
+              <div className="grid gap-4">
+                {value === 'buying' && (
+                  <div className="p-4 border-2 border-blue-500 bg-blue-50 rounded-lg">
+                    <div className="flex items-center">
+                      <Users className="w-8 h-8 text-blue-600 mr-3" />
+                      <div>
+                        <h5 className="text-lg font-bold text-blue-900">I'm Buying a Business</h5>
+                        <p className="text-blue-700">We'll focus on risk assessment and fair market value</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                
+                {value === 'selling' && (
+                  <div className="p-4 border-2 border-green-500 bg-green-50 rounded-lg">
+                    <div className="flex items-center">
+                      <TrendingUp className="w-8 h-8 text-green-600 mr-3" />
+                      <div>
+                        <h5 className="text-lg font-bold text-green-900">I'm Selling a Business</h5>
+                        <p className="text-green-700">We'll help maximize your business value</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Form buttons */}
+          <div className="flex justify-between items-center">
+            <Button type="button" variant="ghost" disabled>
+              Previous
+            </Button>
+            <Button 
+              type="button"
+              onClick={handleContinueClick}
+              disabled={!value}
+              className={`${!value ? 'opacity-50 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}
+            >
+              Continue {value && `(${value === 'buying' ? 'Buyer' : 'Seller'})`}
+            </Button>
+          </div>
+        </form>
+
+        {/* Additional debug buttons for testing */}
+        <div className="mt-6 pt-4 border-t border-gray-200">
+          <p className="text-sm text-gray-600 mb-2">Debug Test Buttons:</p>
+          <div className="space-x-2">
+            <button
+              type="button"
+              onClick={() => {
+                console.log('Manual test: Setting to buying');
+                onChange('buying');
+              }}
+              className="px-3 py-1 bg-blue-500 text-white text-sm rounded"
+            >
+              Test: Set Buying
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                console.log('Manual test: Setting to selling');
+                onChange('selling');
+              }}
+              className="px-3 py-1 bg-green-500 text-white text-sm rounded"
+            >
+              Test: Set Selling
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                console.log('Manual test: Clearing selection');
+                onChange('' as any);
+              }}
+              className="px-3 py-1 bg-gray-500 text-white text-sm rounded"
+            >
+              Clear
+            </button>
+          </div>
         </div>
       </CardContent>
     </Card>
