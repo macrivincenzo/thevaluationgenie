@@ -51,7 +51,7 @@ export default function BuyerSellerSelection({ value, onChange, onNext }: BuyerS
           >
             <CardContent className="p-6">
               <div className="flex items-center mb-4">
-                <div className="bg-secondary text-white w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                <div className="bg-green-500 text-white w-12 h-12 rounded-full flex items-center justify-center mr-4">
                   <TrendingUp className="w-6 h-6" />
                 </div>
                 <div>

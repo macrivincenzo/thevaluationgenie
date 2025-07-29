@@ -59,6 +59,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Contact form
+  app.post('/api/contact', async (req, res) => {
+    try {
+      const { name, email, subject, message } = req.body;
+      if (!name || !email || !message) {
+        return res.status(400).json({ message: "Name, email, and message are required" });
+      }
+
+      // In a real app, you'd send an email or save to database
+      console.log("Contact form submission:", { name, email, subject, message });
+      
+      res.json({ message: "Message sent successfully" });
+    } catch (error: any) {
+      console.error("Contact error:", error);
+      res.status(500).json({ message: "Failed to send message" });
+    }
+  });
+
   // Valuation routes
   app.post('/api/valuations', isAuthenticated, async (req: any, res) => {
     try {

@@ -31,12 +31,20 @@ export default function Header() {
             <Link href="/" className="text-slate-600 hover:text-slate-900 transition-colors">
               Home
             </Link>
-            <Link href="/valuation" className="text-slate-600 hover:text-slate-900 transition-colors">
-              Get Valuation
-            </Link>
-            <Link href="/dashboard" className="text-slate-600 hover:text-slate-900 transition-colors">
-              Dashboard
-            </Link>
+            {isAuthenticated ? (
+              <>
+                <Link href="/valuation" className="text-slate-600 hover:text-slate-900 transition-colors">
+                  Get Valuation
+                </Link>
+                <Link href="/dashboard" className="text-slate-600 hover:text-slate-900 transition-colors">
+                  Dashboard
+                </Link>
+              </>
+            ) : (
+              <a href="/api/login" className="text-slate-600 hover:text-slate-900 transition-colors">
+                Get Valuation
+              </a>
+            )}
           </nav>
 
           {/* User Section */}

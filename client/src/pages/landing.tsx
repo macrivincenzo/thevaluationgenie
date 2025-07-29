@@ -61,6 +61,13 @@ export default function Landing() {
     window.location.href = "/api/login";
   };
 
+  const scrollToHowItWorks = () => {
+    const element = document.getElementById('how-it-works');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <Header />
@@ -84,12 +91,13 @@ export default function Landing() {
                 onClick={handleGetStarted}
               >
                 <Calculator className="w-5 h-5 mr-2" />
-                Start Valuation - $99
+                Get Valuation - $99
               </Button>
               <Button 
                 variant="outline" 
                 size="lg" 
                 className="text-lg px-8 py-4"
+                onClick={scrollToHowItWorks}
               >
                 Learn More
               </Button>
@@ -115,7 +123,7 @@ export default function Landing() {
       </section>
 
       {/* How It Works */}
-      <section className="py-20 bg-white">
+      <section id="how-it-works" className="py-20 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">How It Works</h2>

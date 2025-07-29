@@ -26,19 +26,19 @@ export default function Footer() {
             <h3 className="font-semibold mb-4">Services</h3>
             <ul className="space-y-2 text-slate-300">
               <li>
-                <Link href="/valuation" className="hover:text-white transition-colors">
+                <a href="/api/login" className="hover:text-white transition-colors">
                   Business Valuation
-                </Link>
+                </a>
               </li>
               <li>
-                <Link href="/dashboard" className="hover:text-white transition-colors">
+                <a href="/api/login" className="hover:text-white transition-colors">
                   Valuation Dashboard
-                </Link>
+                </a>
               </li>
               <li>
-                <Link href="/" className="hover:text-white transition-colors">
+                <a href="/api/login" className="hover:text-white transition-colors">
                   Industry Analysis
-                </Link>
+                </a>
               </li>
             </ul>
           </div>
@@ -58,9 +58,9 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <a href="mailto:support@valuationgenie.com" className="hover:text-white transition-colors">
+                <Link href="/contact" className="hover:text-white transition-colors">
                   Contact Support
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
