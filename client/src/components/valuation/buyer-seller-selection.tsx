@@ -9,16 +9,6 @@ interface BuyerSellerSelectionProps {
 }
 
 export default function BuyerSellerSelection({ value, onChange, onNext }: BuyerSellerSelectionProps) {
-  const handleBuyingClick = () => {
-    console.log('Buying option clicked');
-    onChange('buying');
-  };
-
-  const handleSellingClick = () => {
-    console.log('Selling option clicked');
-    onChange('selling');
-  };
-
   return (
     <Card className="shadow-lg">
       <CardContent className="p-8">
@@ -33,45 +23,59 @@ export default function BuyerSellerSelection({ value, onChange, onNext }: BuyerS
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
-          <div 
-            className={`cursor-pointer transition-colors border-2 rounded-lg ${
-              value === 'buying' ? 'border-primary bg-blue-50' : 'border-slate-200 hover:border-primary'
+          {/* Buying Option */}
+          <button 
+            type="button"
+            className={`buyer-seller-option w-full text-left p-6 border-2 rounded-lg transition-all duration-200 hover:shadow-md ${
+              value === 'buying' 
+                ? 'border-blue-500 bg-blue-50 shadow-md' 
+                : 'border-slate-200 hover:border-blue-300 bg-white'
             }`}
-            onClick={handleBuyingClick}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              console.log('Buying clicked!');
+              onChange('buying');
+            }}
           >
-            <div className="p-6">
-              <div className="flex items-center mb-4">
-                <div className="bg-blue-100 text-primary w-12 h-12 rounded-full flex items-center justify-center mr-4">
-                  <Users className="w-6 h-6" />
-                </div>
-                <div>
-                  <h4 className="text-lg font-semibold text-slate-900">I'm Buying</h4>
-                  <p className="text-slate-600 text-sm">Looking to acquire a business</p>
-                </div>
+            <div className="flex items-center mb-4">
+              <div className="bg-blue-100 text-blue-600 w-12 h-12 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                <Users className="w-6 h-6" />
               </div>
-              <p className="text-slate-600 text-sm">We'll focus on risk assessment, growth potential, and fair market value to help you make an informed offer.</p>
+              <div>
+                <h4 className="text-lg font-semibold text-slate-900 mb-1">I'm Buying</h4>
+                <p className="text-slate-600 text-sm">Looking to acquire a business</p>
+              </div>
             </div>
-          </div>
+            <p className="text-slate-600 text-sm">We'll focus on risk assessment, growth potential, and fair market value to help you make an informed offer.</p>
+          </button>
 
-          <div 
-            className={`cursor-pointer transition-colors border-2 rounded-lg ${
-              value === 'selling' ? 'border-primary bg-blue-50' : 'border-slate-200 hover:border-primary'
+          {/* Selling Option */}
+          <button 
+            type="button"
+            className={`buyer-seller-option w-full text-left p-6 border-2 rounded-lg transition-all duration-200 hover:shadow-md ${
+              value === 'selling' 
+                ? 'border-green-500 bg-green-50 shadow-md' 
+                : 'border-slate-200 hover:border-green-300 bg-white'
             }`}
-            onClick={handleSellingClick}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              console.log('Selling clicked!');
+              onChange('selling');
+            }}
           >
-            <div className="p-6">
-              <div className="flex items-center mb-4">
-                <div className="bg-green-500 text-white w-12 h-12 rounded-full flex items-center justify-center mr-4">
-                  <TrendingUp className="w-6 h-6" />
-                </div>
-                <div>
-                  <h4 className="text-lg font-semibold text-slate-900">I'm Selling</h4>
-                  <p className="text-slate-600 text-sm">Ready to sell my business</p>
-                </div>
+            <div className="flex items-center mb-4">
+              <div className="bg-green-100 text-green-600 w-12 h-12 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                <TrendingUp className="w-6 h-6" />
               </div>
-              <p className="text-slate-600 text-sm">We'll help you understand your business's market value and identify factors that could increase its worth.</p>
+              <div>
+                <h4 className="text-lg font-semibold text-slate-900 mb-1">I'm Selling</h4>
+                <p className="text-slate-600 text-sm">Ready to sell my business</p>
+              </div>
             </div>
-          </div>
+            <p className="text-slate-600 text-sm">We'll help you understand your business's market value and identify factors that could increase its worth.</p>
+          </button>
         </div>
 
         <div className="mt-8 flex justify-between">

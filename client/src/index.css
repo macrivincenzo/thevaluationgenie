@@ -57,3 +57,13 @@
     @apply font-sans antialiased bg-background text-foreground;
   }
 }
+
+/* Fix any potential pointer event issues */
+.buyer-seller-option {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
+
+.buyer-seller-option * {
+  pointer-events: none;
+}
