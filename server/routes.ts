@@ -17,9 +17,12 @@ import { z } from "zod";
 // Stripe setup - only initialize if key is available
 let stripe: Stripe | null = null;
 if (process.env.STRIPE_SECRET_KEY) {
-  stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-    apiVersion: "2025-06-30.basil",
-  });
+  try {
+    stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+    console.log('Stripe initialized successfully');
+  } catch (error) {
+    console.error('Failed to initialize Stripe:', error);
+  }
 }
 
 // File upload setup - Create uploads directory if it doesn't exist
@@ -251,10 +254,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Test Stripe connection
+  app.post("/api/test-stripe", isAuthenticated, async (req: any, res) => {
+    try {
+      if (!stripe) {
+        return res.status(500).json({ message: "Stripe not initialized. Check your STRIPE_SECRET_KEY." });
+      }
+      
+      // Simple test - just try to create a test payment intent
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: 100, // $1.00 test amount
+        currency: "usd",
+        metadata: {
+          test: "stripe-connection"
+        }
+      });
+      
+      res.json({ 
+        success: true, 
+        message: "Stripe connection successful!", 
+        clientSecret: paymentIntent.client_secret 
+      });
+    } catch (error: any) {
+      res.status(500).json({ 
+        success: false, 
+        message: "Stripe error: " + error.message 
+      });
+    }
+  });
+
   // Stripe payment
   app.post("/api/create-payment-intent", isAuthenticated, async (req: any, res) => {
     try {
-      // For development - return success without actual payment processing
       const { valuationId } = req.body;
       const userId = req.user.claims.sub;
       
@@ -263,13 +294,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: 'Valuation not found' });
       }
       
-      // Development mode - simulate successful payment
-      return res.json({ 
-        clientSecret: "dev_payment_simulation",
-        message: "Development mode - payment simulation"
-      });
-      
-      // Check if Stripe is configured (for production)
+      // Check if Stripe is configured
       if (!stripe) {
         return res.status(500).json({ message: "Payment processing not configured. Please contact support." });
       }
@@ -360,10 +385,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
           
           <div class="section value-range">
             <h3>Valuation Summary</h3>
-            <p><strong>Estimated Value Range:</strong> $${parseInt(valuation.valuationLow || 0).toLocaleString()} - $${parseInt(valuation.valuationHigh || 0).toLocaleString()}</p>
+            <p><strong>Estimated Value Range:</strong> $${parseInt(String(valuation.valuationLow) || '0').toLocaleString()} - $${parseInt(String(valuation.valuationHigh) || '0').toLocaleString()}</p>
             <p><strong>Industry Multiple:</strong> ${valuation.industryMultiple}x</p>
-            <p><strong>Annual Revenue:</strong> $${parseInt(valuation.annualRevenue || 0).toLocaleString()}</p>
-            <p><strong>SDE:</strong> $${parseInt(valuation.sde || 0).toLocaleString()}</p>
+            <p><strong>Annual Revenue:</strong> $${parseInt(String(valuation.annualRevenue) || '0').toLocaleString()}</p>
+            <p><strong>SDE:</strong> $${parseInt(String(valuation.sde) || '0').toLocaleString()}</p>
           </div>
           
           <div class="section">
@@ -381,7 +406,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Use puppeteer to generate PDF from HTML
       const puppeteer = await import('puppeteer');
       const browser = await puppeteer.default.launch({
-        headless: 'new',
+        headless: true,
         args: ['--no-sandbox', '--disable-setuid-sandbox']
       });
       const page = await browser.newPage();
