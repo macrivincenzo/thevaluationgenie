@@ -9,6 +9,16 @@ interface BuyerSellerSelectionProps {
 }
 
 export default function BuyerSellerSelection({ value, onChange, onNext }: BuyerSellerSelectionProps) {
+  const handleBuyingClick = () => {
+    console.log('Buying option clicked');
+    onChange('buying');
+  };
+
+  const handleSellingClick = () => {
+    console.log('Selling option clicked');
+    onChange('selling');
+  };
+
   return (
     <Card className="shadow-lg">
       <CardContent className="p-8">
@@ -23,13 +33,13 @@ export default function BuyerSellerSelection({ value, onChange, onNext }: BuyerS
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
-          <Card 
-            className={`cursor-pointer transition-colors ${
+          <div 
+            className={`cursor-pointer transition-colors border-2 rounded-lg ${
               value === 'buying' ? 'border-primary bg-blue-50' : 'border-slate-200 hover:border-primary'
             }`}
-            onClick={() => onChange('buying')}
+            onClick={handleBuyingClick}
           >
-            <CardContent className="p-6">
+            <div className="p-6">
               <div className="flex items-center mb-4">
                 <div className="bg-blue-100 text-primary w-12 h-12 rounded-full flex items-center justify-center mr-4">
                   <Users className="w-6 h-6" />
@@ -40,16 +50,16 @@ export default function BuyerSellerSelection({ value, onChange, onNext }: BuyerS
                 </div>
               </div>
               <p className="text-slate-600 text-sm">We'll focus on risk assessment, growth potential, and fair market value to help you make an informed offer.</p>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
-          <Card 
-            className={`cursor-pointer transition-colors ${
+          <div 
+            className={`cursor-pointer transition-colors border-2 rounded-lg ${
               value === 'selling' ? 'border-primary bg-blue-50' : 'border-slate-200 hover:border-primary'
             }`}
-            onClick={() => onChange('selling')}
+            onClick={handleSellingClick}
           >
-            <CardContent className="p-6">
+            <div className="p-6">
               <div className="flex items-center mb-4">
                 <div className="bg-green-500 text-white w-12 h-12 rounded-full flex items-center justify-center mr-4">
                   <TrendingUp className="w-6 h-6" />
@@ -60,8 +70,8 @@ export default function BuyerSellerSelection({ value, onChange, onNext }: BuyerS
                 </div>
               </div>
               <p className="text-slate-600 text-sm">We'll help you understand your business's market value and identify factors that could increase its worth.</p>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
 
         <div className="mt-8 flex justify-between">
