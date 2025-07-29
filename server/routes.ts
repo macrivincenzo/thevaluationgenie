@@ -115,7 +115,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
         // Use the most recent year's SDE data
         sdeValue = data.sdeData[0] || 0;
       } else if (data.sde) {
-        sdeValue = parseFloat(data.sde.toString());
+        // Handle both string and number values, and JSON arrays
+        const sdeData = typeof data.sde === 'string' ? JSON.parse(data.sde) : data.sde;
+        if (Array.isArray(sdeData)) {
+          sdeValue = sdeData[0] || 0;
+        } else {
+          sdeValue = parseFloat(sdeData?.toString() || '0') || 0;
+        }
       }
       
       const { low, high, multiple } = calculateValuation(data.industry, sdeValue);
