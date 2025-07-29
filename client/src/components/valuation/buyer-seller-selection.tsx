@@ -22,60 +22,57 @@ export default function BuyerSellerSelection({ value, onChange, onNext }: BuyerS
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6">
-          {/* Buying Option */}
-          <button 
-            type="button"
-            className={`buyer-seller-option w-full text-left p-6 border-2 rounded-lg transition-all duration-200 hover:shadow-md ${
-              value === 'buying' 
-                ? 'border-blue-500 bg-blue-50 shadow-md' 
-                : 'border-slate-200 hover:border-blue-300 bg-white'
+        {/* Debug info */}
+        <div className="mb-4 p-2 bg-gray-100 text-sm">
+          Current value: {value || 'none'}
+        </div>
+
+        <div className="space-y-4">
+          {/* Buying Option - Simplified */}
+          <div 
+            className={`p-4 border-2 rounded cursor-pointer ${
+              value === 'buying' ? 'border-blue-500 bg-blue-50' : 'border-gray-300'
             }`}
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              console.log('Buying clicked!');
+            onMouseDown={() => {
+              console.log('Mouse down on buying');
+              onChange('buying');
+            }}
+            onTouchStart={() => {
+              console.log('Touch start on buying');
               onChange('buying');
             }}
           >
-            <div className="flex items-center mb-4">
-              <div className="bg-blue-100 text-blue-600 w-12 h-12 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-                <Users className="w-6 h-6" />
-              </div>
+            <div className="flex items-center">
+              <Users className="w-8 h-8 text-blue-600 mr-3" />
               <div>
-                <h4 className="text-lg font-semibold text-slate-900 mb-1">I'm Buying</h4>
-                <p className="text-slate-600 text-sm">Looking to acquire a business</p>
+                <h4 className="text-xl font-bold">I'm Buying</h4>
+                <p className="text-gray-600">Looking to acquire a business</p>
               </div>
             </div>
-            <p className="text-slate-600 text-sm">We'll focus on risk assessment, growth potential, and fair market value to help you make an informed offer.</p>
-          </button>
+          </div>
 
-          {/* Selling Option */}
-          <button 
-            type="button"
-            className={`buyer-seller-option w-full text-left p-6 border-2 rounded-lg transition-all duration-200 hover:shadow-md ${
-              value === 'selling' 
-                ? 'border-green-500 bg-green-50 shadow-md' 
-                : 'border-slate-200 hover:border-green-300 bg-white'
+          {/* Selling Option - Simplified */}
+          <div 
+            className={`p-4 border-2 rounded cursor-pointer ${
+              value === 'selling' ? 'border-green-500 bg-green-50' : 'border-gray-300'
             }`}
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              console.log('Selling clicked!');
+            onMouseDown={() => {
+              console.log('Mouse down on selling');
+              onChange('selling');
+            }}
+            onTouchStart={() => {
+              console.log('Touch start on selling');
               onChange('selling');
             }}
           >
-            <div className="flex items-center mb-4">
-              <div className="bg-green-100 text-green-600 w-12 h-12 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-                <TrendingUp className="w-6 h-6" />
-              </div>
+            <div className="flex items-center">
+              <TrendingUp className="w-8 h-8 text-green-600 mr-3" />
               <div>
-                <h4 className="text-lg font-semibold text-slate-900 mb-1">I'm Selling</h4>
-                <p className="text-slate-600 text-sm">Ready to sell my business</p>
+                <h4 className="text-xl font-bold">I'm Selling</h4>
+                <p className="text-gray-600">Ready to sell my business</p>
               </div>
             </div>
-            <p className="text-slate-600 text-sm">We'll help you understand your business's market value and identify factors that could increase its worth.</p>
-          </button>
+          </div>
         </div>
 
         <div className="mt-8 flex justify-between">
