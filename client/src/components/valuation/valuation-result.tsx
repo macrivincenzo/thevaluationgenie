@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
-import PDFTest from "@/components/pdf-test";
 import { 
   CheckCircle, 
   DollarSign, 
@@ -173,39 +172,109 @@ export default function ValuationResult({ valuation, onPaymentComplete, onPrevio
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <PDFTest />
               <Button 
                 className="flex-1 py-3 text-lg font-semibold"
-                onClick={async () => {
-                  console.log('Button clicked!');
-                  alert('Button was clicked - starting PDF generation...');
+                onClick={() => {
+                  // Create HTML content and use print functionality as fallback
+                  const htmlContent = `
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                      <title>ValuationGenie Business Valuation Report</title>
+                      <style>
+                        body { font-family: Arial, sans-serif; margin: 40px; }
+                        .header { color: #2563eb; font-size: 24px; font-weight: bold; margin-bottom: 20px; }
+                        .section { margin: 20px 0; }
+                        .value { font-size: 18px; font-weight: bold; color: #059669; }
+                        @media print { body { margin: 0; } }
+                      </style>
+                    </head>
+                    <body>
+                      <div class="header">ValuationGenie Business Valuation Report</div>
+                      
+                      <div class="section">
+                        <h3>Business Information</h3>
+                        <p><strong>Business Name:</strong> ${valuation.businessName}</p>
+                        <p><strong>Industry:</strong> ${valuation.industry}</p>
+                        <p><strong>Location:</strong> ${valuation.location}</p>
+                        <p><strong>Years in Business:</strong> ${valuation.yearsInBusiness}</p>
+                        <p><strong>Report Date:</strong> ${new Date().toLocaleDateString()}</p>
+                      </div>
+                      
+                      <div class="section">
+                        <h3>Valuation Summary</h3>
+                        <p class="value">Estimated Value Range: $${valuationLow.toLocaleString()} - $${valuationHigh.toLocaleString()}</p>
+                        <p><strong>Industry Multiple:</strong> ${multiple}x</p>
+                        <p><strong>Annual Revenue:</strong> $${parseInt(valuation.annualRevenue || '0').toLocaleString()}</p>
+                        <p><strong>SDE:</strong> $${parseInt(valuation.sde || '0').toLocaleString()}</p>
+                      </div>
+                      
+                      <div class="section">
+                        <h3>Disclaimer</h3>
+                        <p>This valuation is based on industry-standard methodologies and should be used for informational purposes only.</p>
+                      </div>
+                      
+                      <div class="section">
+                        <p><em>© ValuationGenie - Confidential Business Valuation Report</em></p>
+                      </div>
+                    </body>
+                    </html>
+                  `;
                   
-                  try {
-                    // Simple, direct PDF generation without complex imports
-                    const jsPDF = (await import('jspdf')).default;
-                    const doc = new jsPDF();
+                  // Open in new window for printing/saving
+                  const newWindow = window.open('', '_blank');
+                  if (newWindow) {
+                    newWindow.document.write(htmlContent);
+                    newWindow.document.close();
+                    newWindow.focus();
                     
-                    // Simple PDF content
-                    doc.setFontSize(20);
-                    doc.text('ValuationGenie Business Valuation Report', 20, 30);
+                    // Auto-trigger print dialog
+                    setTimeout(() => {
+                      newWindow.print();
+                    }, 500);
                     
-                    doc.setFontSize(14);
-                    doc.text(`Business: ${valuation.businessName}`, 20, 60);
-                    doc.text(`Industry: ${valuation.industry}`, 20, 80);
-                    doc.text(`Value Range: $${valuationLow.toLocaleString()} - $${valuationHigh.toLocaleString()}`, 20, 100);
-                    doc.text(`Report Date: ${new Date().toLocaleDateString()}`, 20, 120);
+                    toast({
+                      title: "Report Opened",
+                      description: "Your valuation report opened in a new window. Use Ctrl+P to print or save as PDF.",
+                    });
+                  } else {
+                    // Fallback: create downloadable text file
+                    const textContent = `
+VALUATIONGENIE BUSINESS VALUATION REPORT
+
+Business Information:
+Business Name: ${valuation.businessName}
+Industry: ${valuation.industry}
+Location: ${valuation.location}
+Years in Business: ${valuation.yearsInBusiness}
+Report Date: ${new Date().toLocaleDateString()}
+
+Valuation Summary:
+Estimated Value Range: $${valuationLow.toLocaleString()} - $${valuationHigh.toLocaleString()}
+Industry Multiple: ${multiple}x
+Annual Revenue: $${parseInt(valuation.annualRevenue || '0').toLocaleString()}
+SDE: $${parseInt(valuation.sde || '0').toLocaleString()}
+
+Disclaimer:
+This valuation is based on industry-standard methodologies and should be used for informational purposes only.
+
+© ValuationGenie - Confidential Business Valuation Report
+                    `;
                     
-                    doc.text('This is your business valuation report.', 20, 160);
-                    doc.text('© ValuationGenie', 20, 280);
+                    const blob = new Blob([textContent], { type: 'text/plain' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `${valuation.businessName.replace(/[^a-zA-Z0-9]/g, '_')}-valuation.txt`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
                     
-                    // Download
-                    const fileName = `${valuation.businessName.replace(/[^a-zA-Z0-9]/g, '_')}-valuation.pdf`;
-                    doc.save(fileName);
-                    
-                    alert('PDF downloaded successfully!');
-                  } catch (error: any) {
-                    console.error('PDF Error:', error);
-                    alert('PDF generation failed: ' + (error?.message || 'Unknown error'));
+                    toast({
+                      title: "Report Downloaded",
+                      description: "Your valuation report has been downloaded as a text file.",
+                    });
                   }
                 }}
               >
