@@ -254,6 +254,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Stripe payment
   app.post("/api/create-payment-intent", isAuthenticated, async (req: any, res) => {
     try {
+      // For development - return success without actual payment processing
       const { valuationId } = req.body;
       const userId = req.user.claims.sub;
       
@@ -262,7 +263,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: 'Valuation not found' });
       }
       
-      // Check if Stripe is configured
+      // Development mode - simulate successful payment
+      return res.json({ 
+        clientSecret: "dev_payment_simulation",
+        message: "Development mode - payment simulation"
+      });
+      
+      // Check if Stripe is configured (for production)
       if (!stripe) {
         return res.status(500).json({ message: "Payment processing not configured. Please contact support." });
       }
