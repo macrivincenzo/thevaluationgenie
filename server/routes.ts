@@ -22,18 +22,33 @@ if (process.env.STRIPE_SECRET_KEY) {
   });
 }
 
-// File upload setup
+// File upload setup - Create uploads directory if it doesn't exist
+const uploadsDir = path.join(process.cwd(), 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
 const upload = multer({
-  dest: 'uploads/',
+  dest: uploadsDir,
   limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
   fileFilter: (req, file, cb) => {
+    console.log("Multer file filter - file mimetype:", file.mimetype);
     const allowedTypes = [
       'application/pdf', 
-      'text/csv', 
+      'text/csv',
+      'application/csv', 
       'application/vnd.ms-excel',
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     ];
-    cb(null, allowedTypes.includes(file.mimetype));
+    
+    // Also check file extensions as fallback
+    const fileName = file.originalname.toLowerCase();
+    const allowedExtensions = ['.pdf', '.csv', '.xls', '.xlsx'];
+    const hasValidExtension = allowedExtensions.some(ext => fileName.endsWith(ext));
+    
+    const isAllowed = allowedTypes.includes(file.mimetype) || hasValidExtension;
+    console.log("File allowed:", isAllowed, "Type:", file.mimetype, "Name:", file.originalname);
+    cb(null, isAllowed);
   }
 });
 
@@ -162,9 +177,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Temporary file upload (before valuation creation)
   app.post('/api/files/upload', isAuthenticated, upload.single('file'), async (req: any, res) => {
     try {
+      console.log("File upload request received");
+      console.log("Request file:", req.file);
+      console.log("Request body:", req.body);
+      
       if (!req.file) {
+        console.error("No file in request");
         return res.status(400).json({ message: 'No file uploaded' });
       }
+      
+      console.log("File details:", {
+        originalname: req.file.originalname,
+        mimetype: req.file.mimetype,
+        size: req.file.size,
+        path: req.file.path
+      });
       
       // Return file information for temporary storage
       const fileInfo = {
@@ -175,8 +202,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
         filePath: req.file.path, // Store for later association with valuation
       };
       
+      console.log("Returning file info:", fileInfo);
       res.json(fileInfo);
     } catch (error: any) {
+      console.error("File upload error:", error);
       res.status(500).json({ message: error.message });
     }
   });

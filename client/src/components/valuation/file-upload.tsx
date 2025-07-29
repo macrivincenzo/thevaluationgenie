@@ -28,14 +28,31 @@ export default function FileUpload({ valuationId, onNext, onPrevious, isLoading,
 
   const uploadMutation = useMutation({
     mutationFn: async (file: File) => {
+      console.log("Creating FormData with file:", file.name);
       const formData = new FormData();
       formData.append('file', file);
       
+      console.log("Sending file upload request...");
       // Upload to temporary files endpoint that doesn't require valuation ID
-      const response = await apiRequest("POST", `/api/files/upload`, formData);
-      return await response.json();
+      const response = await fetch('/api/files/upload', {
+        method: 'POST',
+        body: formData,
+        credentials: 'include', // Include cookies for authentication
+      });
+      
+      console.log("Upload response status:", response.status);
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Upload failed:", errorText);
+        throw new Error(`Upload failed: ${errorText}`);
+      }
+      
+      const result = await response.json();
+      console.log("Upload successful:", result);
+      return result;
     },
     onSuccess: (data) => {
+      console.log("Upload mutation success:", data);
       const newFiles = [...uploadedFiles, data];
       setUploadedFiles(newFiles);
       onFilesUpdate?.(newFiles);
@@ -45,6 +62,7 @@ export default function FileUpload({ valuationId, onNext, onPrevious, isLoading,
       });
     },
     onError: (error: Error) => {
+      console.error("Upload mutation error:", error);
       toast({
         title: "Upload failed",
         description: error.message,
@@ -81,12 +99,26 @@ export default function FileUpload({ valuationId, onNext, onPrevious, isLoading,
   };
 
   const handleFile = (file: File) => {
-    // Validate file type
-    const allowedTypes = ['application/pdf', 'text/csv', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
-    if (!allowedTypes.includes(file.type)) {
+    console.log("File selected:", file.name, file.type, file.size);
+    
+    // Validate file type - be more permissive to handle different MIME types
+    const allowedTypes = [
+      'application/pdf', 
+      'text/csv', 
+      'application/csv',
+      'application/vnd.ms-excel', 
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    ];
+    
+    // Also check file extensions as fallback
+    const fileName = file.name.toLowerCase();
+    const allowedExtensions = ['.pdf', '.csv', '.xls', '.xlsx'];
+    const hasValidExtension = allowedExtensions.some(ext => fileName.endsWith(ext));
+    
+    if (!allowedTypes.includes(file.type) && !hasValidExtension) {
       toast({
         title: "Invalid file type",
-        description: "Please upload PDF, CSV, or Excel files only.",
+        description: `Please upload PDF, CSV, or Excel files only. File type: ${file.type}`,
         variant: "destructive",
       });
       return;
@@ -102,6 +134,7 @@ export default function FileUpload({ valuationId, onNext, onPrevious, isLoading,
       return;
     }
 
+    console.log("File validation passed, uploading...");
     uploadMutation.mutate(file);
   };
 
