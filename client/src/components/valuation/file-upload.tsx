@@ -263,7 +263,14 @@ export default function FileUpload({ valuationId, onNext, onPrevious, isLoading,
           <Button variant="ghost" onClick={onPrevious} disabled={isLoading}>
             Previous
           </Button>
-          <Button onClick={onNext} disabled={isLoading}>
+          <Button 
+            onClick={() => {
+              console.log("Calculate button clicked - proceeding to calculation");
+              onNext();
+            }} 
+            disabled={isLoading}
+            className="bg-blue-600 hover:bg-blue-700 text-white"
+          >
             {isLoading ? "Calculating..." : "Calculate Valuation"}
           </Button>
         </div>

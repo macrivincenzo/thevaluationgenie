@@ -135,12 +135,24 @@ export default function ValuationFlow() {
 
   const createValuationMutation = useMutation({
     mutationFn: async (data: ValuationData) => {
+      console.log("Starting valuation calculation...");
       console.log("Sending valuation data:", JSON.stringify(data, null, 2));
+      
+      // Add detailed validation logging
+      console.log("Business name:", data.businessName);
+      console.log("Industry:", data.industry);
+      console.log("Annual revenue:", data.annualRevenue);
+      console.log("SDE data:", data.sdeData);
+      
       const response = await apiRequest("POST", "/api/valuations", data);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || `Server error: ${response.status}`);
+      }
       return await response.json();
     },
     onSuccess: (result) => {
-      console.log("Valuation created successfully:", result);
+      console.log("✓ Valuation created successfully:", result);
       setValuationResult(result);
       setCurrentStep(5);
       toast({
@@ -149,21 +161,26 @@ export default function ValuationFlow() {
       });
     },
     onError: (error: Error) => {
-      console.error("Valuation creation error:", error);
+      console.error("✗ Valuation creation error:", error);
       toast({
-        title: "Error Creating Valuation",
-        description: `${error.message}. Please check all required fields are filled.`,
+        title: "Calculation Failed",
+        description: `${error.message}`,
         variant: "destructive",
       });
     },
   });
 
   const handleNext = () => {
+    console.log("handleNext called, current step:", currentStep);
+    console.log("Current valuation data:", valuationData);
+    
     if (currentStep < totalSteps) {
       if (currentStep === 4) {
         // Submit valuation on step 4 completion (after file upload)
+        console.log("Triggering valuation calculation...");
         createValuationMutation.mutate(valuationData);
       } else {
+        console.log("Moving to next step:", currentStep + 1);
         setCurrentStep(currentStep + 1);
       }
     }
