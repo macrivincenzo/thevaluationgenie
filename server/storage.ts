@@ -105,6 +105,22 @@ export class DatabaseStorage implements IStorage {
   // Valuations
   async createValuation(valuation: InsertValuation & { valuationLow: string; valuationHigh: string; industryMultiple: string }): Promise<Valuation> {
     try {
+      // Extract the first value from arrays for numeric fields
+      let annualRevenueValue = 0;
+      let sdeValue = 0;
+
+      if (Array.isArray(valuation.annualRevenue)) {
+        annualRevenueValue = valuation.annualRevenue[0] || 0;
+      } else {
+        annualRevenueValue = parseFloat(valuation.annualRevenue?.toString() || '0') || 0;
+      }
+
+      if (Array.isArray(valuation.sde)) {
+        sdeValue = valuation.sde[0] || 0;
+      } else {
+        sdeValue = parseFloat(valuation.sde?.toString() || '0') || 0;
+      }
+
       // Use only the core fields that exist in the current database schema
       const coreData = {
         userId: valuation.userId,
@@ -113,8 +129,12 @@ export class DatabaseStorage implements IStorage {
         location: valuation.location,
         yearsInBusiness: valuation.yearsInBusiness,
         buyerOrSeller: valuation.buyerOrSeller,
-        annualRevenue: valuation.annualRevenue,
-        sde: valuation.sde,
+        annualRevenue: annualRevenueValue.toString(),
+        sde: sdeValue.toString(),
+        addBacks: "0", // Default value
+        ownerInvolvement: "", // Default value 
+        growthTrend: "", // Default value
+        majorRisks: "", // Default value
         valuationLow: valuation.valuationLow,
         valuationHigh: valuation.valuationHigh,
         industryMultiple: valuation.industryMultiple,
@@ -132,29 +152,7 @@ export class DatabaseStorage implements IStorage {
 
   async getValuation(id: string): Promise<Valuation | undefined> {
     try {
-      // Select only the core fields that exist in the database
-      const [result] = await db
-        .select({
-          id: valuations.id,
-          userId: valuations.userId,
-          businessName: valuations.businessName,
-          industry: valuations.industry,
-          location: valuations.location,
-          yearsInBusiness: valuations.yearsInBusiness,
-          buyerOrSeller: valuations.buyerOrSeller,
-          annualRevenue: valuations.annualRevenue,
-          sde: valuations.sde,
-          valuationLow: valuations.valuationLow,
-          valuationHigh: valuations.valuationHigh,
-          industryMultiple: valuations.industryMultiple,
-          pdfPath: valuations.pdfPath,
-          stripePaymentIntentId: valuations.stripePaymentIntentId,
-          paid: valuations.paid,
-          createdAt: valuations.createdAt,
-          updatedAt: valuations.updatedAt,
-        })
-        .from(valuations)
-        .where(eq(valuations.id, id));
+      const [result] = await db.select().from(valuations).where(eq(valuations.id, id));
       return result;
     } catch (error: any) {
       console.error('Error fetching valuation:', error);
@@ -164,27 +162,8 @@ export class DatabaseStorage implements IStorage {
 
   async getUserValuations(userId: string): Promise<Valuation[]> {
     try {
-      // Select only the core fields that exist in the database
       return await db
-        .select({
-          id: valuations.id,
-          userId: valuations.userId,
-          businessName: valuations.businessName,
-          industry: valuations.industry,
-          location: valuations.location,
-          yearsInBusiness: valuations.yearsInBusiness,
-          buyerOrSeller: valuations.buyerOrSeller,
-          annualRevenue: valuations.annualRevenue,
-          sde: valuations.sde,
-          valuationLow: valuations.valuationLow,
-          valuationHigh: valuations.valuationHigh,
-          industryMultiple: valuations.industryMultiple,
-          pdfPath: valuations.pdfPath,
-          stripePaymentIntentId: valuations.stripePaymentIntentId,
-          paid: valuations.paid,
-          createdAt: valuations.createdAt,
-          updatedAt: valuations.updatedAt,
-        })
+        .select()
         .from(valuations)
         .where(eq(valuations.userId, userId))
         .orderBy(desc(valuations.createdAt));
