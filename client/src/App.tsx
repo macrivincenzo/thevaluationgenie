@@ -9,7 +9,7 @@ import { useAuth } from "@/hooks/useAuth";
 import Landing from "@/pages/landing";
 import Home from "@/pages/home";
 import ValuationFlow from "@/pages/valuation-flow";
-import Checkout from "@/pages/checkout";
+import CheckoutNew from "@/pages/checkout-new";
 import Dashboard from "@/pages/dashboard";
 import Admin from "@/pages/admin";
 import StripeTest from "@/pages/stripe-test";
@@ -34,7 +34,7 @@ function Router() {
         <>
           <Route path="/" component={Home} />
           <Route path="/valuation" component={ValuationFlow} />
-          <Route path="/checkout/:id" component={Checkout} />
+          <Route path="/checkout/:id" component={CheckoutNew} />
           <Route path="/dashboard" component={Dashboard} />
           <Route path="/admin" component={Admin} />
           <Route path="/stripe-test" component={StripeTest} />

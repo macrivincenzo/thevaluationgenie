@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useRoute } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js';
+import { useStripe, useElements, PaymentElement, Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
@@ -14,13 +15,74 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle, DollarSign, FileText, Shield } from "lucide-react";
 
-export default function Checkout() {
-  const [, params] = useRoute("/checkout/:id");
-  const valuationId = params?.id;
-  const [clientSecret, setClientSecret] = useState("");
+// Load Stripe
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY!);
+
+// Payment Form Component
+function CheckoutForm({ valuation, onSuccess }: { valuation: any, onSuccess: () => void }) {
   const [isProcessing, setIsProcessing] = useState(false);
   const stripe = useStripe();
   const elements = useElements();
+  const { toast } = useToast();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!stripe || !elements) {
+      return;
+    }
+
+    setIsProcessing(true);
+
+    const { error } = await stripe.confirmPayment({
+      elements,
+      confirmParams: {
+        return_url: `${window.location.origin}/dashboard`,
+      },
+    });
+
+    if (error) {
+      toast({
+        title: "Payment Failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Payment Successful",
+        description: "Thank you for your purchase! Your PDF report is now available.",
+      });
+      onSuccess();
+    }
+
+    setIsProcessing(false);
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <PaymentElement />
+      
+      <div className="flex items-center space-x-2 text-sm text-slate-600">
+        <Shield className="w-4 h-4" />
+        <span>Secured by Stripe. Your payment information is encrypted and secure.</span>
+      </div>
+      
+      <Button 
+        type="submit" 
+        className="w-full py-3 text-lg font-semibold"
+        disabled={!stripe || !elements || isProcessing}
+      >
+        {isProcessing ? "Processing..." : "Complete Payment - $99"}
+      </Button>
+    </form>
+  );
+}
+
+// Main Checkout Component
+export default function CheckoutNew() {
+  const [, params] = useRoute("/checkout/:id");
+  const valuationId = params?.id;
+  const [clientSecret, setClientSecret] = useState("");
   const { toast } = useToast();
   const { isAuthenticated, isLoading } = useAuth();
 
@@ -79,36 +141,10 @@ export default function Checkout() {
     }
   }, [valuationId, valuation, clientSecret]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!stripe || !elements || !clientSecret) {
-      return;
-    }
-
-    setIsProcessing(true);
-
-    const { error } = await stripe.confirmPayment({
-      elements,
-      confirmParams: {
-        return_url: `${window.location.origin}/dashboard`,
-      },
-    });
-
-    if (error) {
-      toast({
-        title: "Payment Failed",
-        description: error.message,
-        variant: "destructive",
-      });
-    } else {
-      toast({
-        title: "Payment Successful",
-        description: "Thank you for your purchase! Your PDF report is now available.",
-      });
-    }
-
-    setIsProcessing(false);
+  const handlePaymentSuccess = () => {
+    setTimeout(() => {
+      window.location.href = '/dashboard';
+    }, 2000);
   };
 
   if (isLoading || valuationLoading) {
@@ -149,38 +185,13 @@ export default function Checkout() {
     );
   }
 
-  if (valuation.paid) {
-    return (
-      <div className="min-h-screen bg-white">
-        <Header />
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <Card>
-            <CardContent className="p-8 text-center">
-              <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-              <h2 className="text-2xl font-bold text-slate-900 mb-4">Already Paid</h2>
-              <p className="text-slate-600 mb-6">This valuation has already been paid for. You can download the PDF from your dashboard.</p>
-              <Button onClick={() => window.location.href = '/dashboard'}>
-                Go to Dashboard
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    );
-  }
-
-  if (!clientSecret) {
-    return (
-      <div className="min-h-screen bg-white">
-        <Header />
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="flex items-center justify-center">
-            <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" />
-          </div>
-        </div>
-      </div>
-    );
-  }
+  // Elements options with clientSecret
+  const options = {
+    clientSecret,
+    appearance: {
+      theme: 'stripe' as const,
+    },
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -200,22 +211,16 @@ export default function Checkout() {
                 <CardTitle>Payment Details</CardTitle>
               </CardHeader>
               <CardContent>
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <PaymentElement />
-                  
-                  <div className="flex items-center space-x-2 text-sm text-slate-600">
-                    <Shield className="w-4 h-4" />
-                    <span>Secured by Stripe. Your payment information is encrypted and secure.</span>
+                {!clientSecret ? (
+                  <div className="flex items-center justify-center py-8">
+                    <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" aria-label="Loading payment form"/>
+                    <span className="ml-3 text-slate-600">Preparing payment form...</span>
                   </div>
-                  
-                  <Button 
-                    type="submit" 
-                    className="w-full py-3 text-lg font-semibold"
-                    disabled={!stripe || !elements || isProcessing}
-                  >
-                    {isProcessing ? "Processing..." : "Complete Payment - $99"}
-                  </Button>
-                </form>
+                ) : (
+                  <Elements stripe={stripePromise} options={options}>
+                    <CheckoutForm valuation={valuation} onSuccess={handlePaymentSuccess} />
+                  </Elements>
+                )}
               </CardContent>
             </Card>
           </div>
@@ -236,7 +241,7 @@ export default function Checkout() {
                 <div className="flex items-center justify-between py-2">
                   <span className="text-slate-600">Estimated Value:</span>
                   <Badge variant="secondary" className="text-lg font-semibold">
-                    ${parseInt(valuation.valuationLow).toLocaleString()} - ${parseInt(valuation.valuationHigh).toLocaleString()}
+                    ${parseInt(String(valuation.valuationLow) || '0').toLocaleString()} - ${parseInt(String(valuation.valuationHigh) || '0').toLocaleString()}
                   </Badge>
                 </div>
                 
@@ -245,15 +250,15 @@ export default function Checkout() {
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
                     <span>Annual Revenue:</span>
-                    <span>${parseInt(valuation.annualRevenue).toLocaleString()}</span>
+                    <span>${parseInt(String(valuation.annualRevenue) || '0').toLocaleString()}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>SDE:</span>
-                    <span>${parseInt(valuation.sde).toLocaleString()}</span>
+                    <span>${parseInt(String(valuation.sde) || '0').toLocaleString()}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Industry Multiple:</span>
-                    <span>{parseFloat(valuation.industryMultiple).toFixed(1)}x</span>
+                    <span>{valuation.industryMultiple}x</span>
                   </div>
                 </div>
               </CardContent>
