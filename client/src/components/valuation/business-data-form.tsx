@@ -167,7 +167,7 @@ export default function BusinessDataForm({ data, onChange, onNext, onPrevious }:
               <div>
                 <Label htmlFor="industry" className="flex items-center">
                   Industry
-                  <Info className="w-4 h-4 text-blue-500 ml-1" title="Why we ask this: Different industries have different valuation multiples based on market conditions and risk factors." />
+                  <Info className="w-4 h-4 text-blue-500 ml-1" />
                 </Label>
                 <Select value={data.industry} onValueChange={(value) => onChange({ industry: value })}>
                   <SelectTrigger className={errors.industry ? "border-red-500" : ""}>
@@ -205,7 +205,7 @@ export default function BusinessDataForm({ data, onChange, onNext, onPrevious }:
               <div>
                 <Label htmlFor="yearsInBusiness" className="flex items-center">
                   Years in Business
-                  <Info className="w-4 h-4 text-blue-500 ml-1" title="Why we ask this: Established businesses typically command higher multiples due to proven track record and reduced risk." />
+                  <Info className="w-4 h-4 text-blue-500 ml-1" />
                 </Label>
                 <Input
                   id="yearsInBusiness"
@@ -247,7 +247,7 @@ export default function BusinessDataForm({ data, onChange, onNext, onPrevious }:
               <div>
                 <Label htmlFor="sde" className="flex items-center">
                   SDE/Owner's Profit ($)
-                  <Info className="w-4 h-4 text-blue-500 ml-1" title="Why we ask this: SDE is the primary metric used in small business valuations as it represents the true earning potential for a new owner." />
+                  <Info className="w-4 h-4 text-blue-500 ml-1" />
                 </Label>
                 <Input
                   id="sde"
@@ -262,7 +262,7 @@ export default function BusinessDataForm({ data, onChange, onNext, onPrevious }:
               <div>
                 <Label htmlFor="addBacks" className="flex items-center">
                   Add-backs (Annual) ($)
-                  <Info className="w-4 h-4 text-blue-500 ml-1" title="Why we ask this: Add-backs are personal expenses that increase the true profitability for a buyer, affecting the valuation positively." />
+                  <Info className="w-4 h-4 text-blue-500 ml-1" />
                 </Label>
                 <Input
                   id="addBacks"
@@ -282,7 +282,7 @@ export default function BusinessDataForm({ data, onChange, onNext, onPrevious }:
             <div>
               <Label htmlFor="ownerInvolvement" className="flex items-center">
                 Owner Involvement
-                <Info className="w-4 h-4 text-blue-500 ml-1" title="Why we ask this: Businesses that run independently of the owner are often valued higher due to reduced transition risk." />
+                <Info className="w-4 h-4 text-blue-500 ml-1" />
               </Label>
               <Select value={data.ownerInvolvement} onValueChange={(value) => onChange({ ownerInvolvement: value })}>
                 <SelectTrigger className={errors.ownerInvolvement ? "border-red-500" : ""}>
@@ -300,7 +300,7 @@ export default function BusinessDataForm({ data, onChange, onNext, onPrevious }:
             <div>
               <Label htmlFor="growthTrend" className="flex items-center">
                 Growth Trend (Last 3 Years)
-                <Info className="w-4 h-4 text-blue-500 ml-1" title="Why we ask this: Growth trends can increase or decrease your business's value based on future potential." />
+                <Info className="w-4 h-4 text-blue-500 ml-1" />
               </Label>
               <Select value={data.growthTrend} onValueChange={(value) => onChange({ growthTrend: value })}>
                 <SelectTrigger className={errors.growthTrend ? "border-red-500" : ""}>
@@ -318,7 +318,7 @@ export default function BusinessDataForm({ data, onChange, onNext, onPrevious }:
             <div>
               <Label htmlFor="majorRisks" className="flex items-center">
                 Major Business Risks
-                <Info className="w-4 h-4 text-blue-500 ml-1" title="Why we ask this: Identifying risks helps provide a more accurate valuation range and alerts potential buyers to important factors." />
+                <Info className="w-4 h-4 text-blue-500 ml-1" />
               </Label>
               <Textarea
                 id="majorRisks"
