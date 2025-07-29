@@ -105,84 +105,36 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       console.log('Received valuation data:', JSON.stringify(rawData, null, 2));
       
-      // Prepare data with defaults for missing required fields
-      const preparedData = {
+      // Extract core values from arrays or defaults
+      const annualRevenueValue = Array.isArray(rawData.annualRevenue) ? rawData.annualRevenue[0] || 0 : rawData.annualRevenue || 0;
+      const sdeValue = Array.isArray(rawData.sdeData) ? rawData.sdeData[0] || 0 : rawData.sde || 0;
+      
+      // Calculate valuation using industry multiples
+      const { calculateValuation } = await import('../client/src/lib/industry-multiples.ts');
+      const { low, high, multiple } = calculateValuation(rawData.industry || 'other', sdeValue);
+      
+      // Create core data object matching the actual database structure
+      const valuationData = {
         userId,
         businessName: rawData.businessName || 'Business Name Not Provided',
         industry: rawData.industry || 'other',
         location: rawData.location || 'Not Specified',
         yearsInBusiness: rawData.yearsInBusiness || 1,
         buyerOrSeller: rawData.buyerOrSeller || 'buying',
-        annualRevenue: rawData.annualRevenue || [0, 0, 0],
-        sde: rawData.sdeData || rawData.sde || [0, 0, 0],
-        profitMargin: rawData.profitMargin?.toString() || '0',
-        ownerWorkHours: rawData.ownerWorkHours || 0,
-        canRunWithoutOwner: rawData.canRunWithoutOwner || false,
-        hasKeyEmployees: rawData.hasKeyEmployees || false,
-        topCustomersRevenuePct: rawData.topCustomersRevenuePct?.toString() || '0',
-        customerRetentionPct: rawData.customerRetentionPct?.toString() || '0',
-        hasLongTermContracts: rawData.hasLongTermContracts || false,
-        growthRates: rawData.growthRates || [0, 0, 0],
-        competitiveAdvantage: rawData.competitiveAdvantage || '',
-        marketSize: rawData.marketSize || 'local',
-        ownedAssets: rawData.ownedAssets || '',
-        businessDebts: rawData.businessDebts || '',
-        locationOwnership: rawData.locationOwnership || 'lease',
-        maxInvestmentBudget: rawData.maxInvestmentBudget?.toString() || '0',
-        availableCash: rawData.availableCash?.toString() || '0',
-        hasIndustryExperience: rawData.hasIndustryExperience || false,
-        timeCommitmentHours: rawData.timeCommitmentHours || 0,
-        managementPlan: rawData.managementPlan || 'have',
-        riskTolerance: rawData.riskTolerance || 'medium',
-        buyingMotivation: rawData.buyingMotivation || '',
-        plannedChanges: rawData.plannedChanges || '',
-        investmentTimeline: rawData.investmentTimeline || '1-3',
-        financialRecordPriorities: rawData.financialRecordPriorities || [],
-        customerRelationshipConcerns: rawData.customerRelationshipConcerns || '',
-        legalRegulatoryIssues: rawData.legalRegulatoryIssues || '',
-        preferredPurchaseMethod: rawData.preferredPurchaseMethod || 'cash',
-        openToEarnOut: rawData.openToEarnOut || false,
-        minAcceptableROI: rawData.minAcceptableROI?.toString() || '0',
-        // Add required valuation calculation defaults
-        valuationLow: '0',
-        valuationHigh: '0', 
-        industryMultiple: '0'
-      };
-      
-      console.log('Prepared valuation data:', JSON.stringify(preparedData, null, 2));
-      
-      // Now validate the prepared data
-      const data = insertValuationSchema.parse(preparedData);
-      
-      // Calculate valuation based on industry multiples
-      const { calculateValuation } = await import('../client/src/lib/industry-multiples.ts');
-      
-      // Extract SDE from the data structure (handle both direct and JSON formats)
-      let sdeValue = 0;
-      if (data.sde) {
-        // Handle JSON array from database or direct values
-        if (typeof data.sde === 'string') {
-          try {
-            const sdeArray = JSON.parse(data.sde);
-            sdeValue = Array.isArray(sdeArray) ? (sdeArray[0] || 0) : parseFloat(sdeArray) || 0;
-          } catch {
-            sdeValue = parseFloat(data.sde) || 0;
-          }
-        } else if (Array.isArray(data.sde)) {
-          sdeValue = data.sde[0] || 0;
-        } else {
-          sdeValue = parseFloat(data.sde?.toString() || '0') || 0;
-        }
-      }
-      
-      const { low, high, multiple } = calculateValuation(data.industry, sdeValue);
-      
-      const valuation = await storage.createValuation({
-        ...data,
+        annualRevenue: annualRevenueValue.toString(),
+        sde: sdeValue.toString(),
+        addBacks: "0",
+        ownerInvolvement: "",
+        growthTrend: "",
+        majorRisks: "",
         valuationLow: low.toString(),
         valuationHigh: high.toString(),
         industryMultiple: multiple.toString()
-      });
+      };
+      
+      console.log('Creating valuation with data:', JSON.stringify(valuationData, null, 2));
+      
+      const valuation = await storage.createValuation(valuationData);
       
       res.json(valuation);
     } catch (error: any) {

@@ -60,8 +60,8 @@ export const valuations = pgTable("valuations", {
   annualRevenue: decimal("annual_revenue").notNull(),
   sde: decimal("sde").notNull(),
   addBacks: decimal("add_backs"),
-  ownerInvolvement: varchar("owner_involvement"),
-  growthTrend: varchar("growth_trend"),
+  ownerInvolvement: varchar("owner_involvement").notNull(),
+  growthTrend: varchar("growth_trend").notNull(),
   majorRisks: text("major_risks"),
   
   // Valuation results
@@ -110,20 +110,6 @@ export const insertValuationSchema = createInsertSchema(valuations).omit({
   pdfPath: true,
   stripePaymentIntentId: true,
   paid: true,
-}).extend({
-  // Override types to handle both arrays and strings
-  annualRevenue: z.union([z.string(), z.array(z.number()), z.number()]).transform(val => {
-    if (Array.isArray(val)) return val[0]?.toString() || "0";
-    return val?.toString() || "0";
-  }),
-  sde: z.union([z.string(), z.array(z.number()), z.number()]).transform(val => {
-    if (Array.isArray(val)) return val[0]?.toString() || "0";
-    return val?.toString() || "0";
-  }),
-  addBacks: z.string().optional(),
-  valuationLow: z.string(),
-  valuationHigh: z.string(),
-  industryMultiple: z.string(),
 });
 
 export const insertFileUploadSchema = createInsertSchema(fileUploads).omit({

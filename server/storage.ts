@@ -103,46 +103,11 @@ export class DatabaseStorage implements IStorage {
   }
 
   // Valuations
-  async createValuation(valuation: InsertValuation & { valuationLow: string; valuationHigh: string; industryMultiple: string }): Promise<Valuation> {
+  async createValuation(valuationData: any): Promise<Valuation> {
     try {
-      // Extract the first value from arrays for numeric fields
-      let annualRevenueValue = 0;
-      let sdeValue = 0;
+      console.log('Storage: Creating valuation with data:', JSON.stringify(valuationData, null, 2));
 
-      if (Array.isArray(valuation.annualRevenue)) {
-        annualRevenueValue = valuation.annualRevenue[0] || 0;
-      } else {
-        annualRevenueValue = parseFloat(valuation.annualRevenue?.toString() || '0') || 0;
-      }
-
-      if (Array.isArray(valuation.sde)) {
-        sdeValue = valuation.sde[0] || 0;
-      } else {
-        sdeValue = parseFloat(valuation.sde?.toString() || '0') || 0;
-      }
-
-      // Use only the core fields that exist in the current database schema
-      const coreData = {
-        userId: valuation.userId,
-        businessName: valuation.businessName,
-        industry: valuation.industry,
-        location: valuation.location,
-        yearsInBusiness: valuation.yearsInBusiness,
-        buyerOrSeller: valuation.buyerOrSeller,
-        annualRevenue: annualRevenueValue.toString(),
-        sde: sdeValue.toString(),
-        addBacks: "0", // Default value
-        ownerInvolvement: "", // Default value 
-        growthTrend: "", // Default value
-        majorRisks: "", // Default value
-        valuationLow: valuation.valuationLow,
-        valuationHigh: valuation.valuationHigh,
-        industryMultiple: valuation.industryMultiple,
-      };
-
-      console.log('Creating valuation with core data only:', JSON.stringify(coreData, null, 2));
-
-      const [result] = await db.insert(valuations).values(coreData as any).returning();
+      const [result] = await db.insert(valuations).values(valuationData).returning();
       return result;
     } catch (error: any) {
       console.error('Database insertion error:', error);
