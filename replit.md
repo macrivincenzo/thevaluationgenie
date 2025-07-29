@@ -121,3 +121,21 @@ Preferred communication style: Simple, everyday language.
 - **Legal Compliance**: Terms of Service and Privacy Policy included
 
 The application follows a typical full-stack TypeScript pattern with strong type safety across the entire codebase, shared schemas between client and server, and a focus on user experience with comprehensive error handling and loading states.
+
+## Recent Changes: Latest modifications with dates
+
+### January 29, 2025
+- **MAJOR ENHANCEMENT**: Integrated comprehensive valuation questionnaire structure
+- **Industry Expansion**: Added 37 industry types with specific SDE multipliers (2.0x - 6.0x range)
+- **Schema Update**: Enhanced database schema to support detailed buyer/seller questionnaires
+- **Questionnaire Features**: 
+  - Separate question flows for buyers vs sellers
+  - 3-year financial data collection (revenue, SDE, growth rates)
+  - Business dependency assessment (owner involvement, key employees)
+  - Customer concentration and retention metrics
+  - Due diligence priorities and deal structure preferences
+- **Technical Implementation**: 
+  - Fixed buyer-seller selection dropdown with reliable HTML select element
+  - Updated industry multipliers library with comprehensive business types
+  - Enhanced database schema with JSONB fields for multi-year data
+- **User Preference**: User confirmed dropdown selection works correctly with proper state management

@@ -44,24 +44,72 @@ export const emailSubscriptions = pgTable("email_subscriptions", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
-// Business valuations table
+// Business valuations table - enhanced for comprehensive questionnaire
 export const valuations = pgTable("valuations", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   userId: varchar("user_id").references(() => users.id).notNull(),
+  
+  // Basic business info
   businessName: varchar("business_name").notNull(),
   industry: varchar("industry").notNull(),
   location: varchar("location").notNull(),
   yearsInBusiness: integer("years_in_business").notNull(),
-  annualRevenue: decimal("annual_revenue", { precision: 12, scale: 2 }).notNull(),
-  sde: decimal("sde", { precision: 12, scale: 2 }).notNull(),
-  addBacks: decimal("add_backs", { precision: 12, scale: 2 }).default('0'),
-  ownerInvolvement: varchar("owner_involvement").notNull(),
-  growthTrend: varchar("growth_trend").notNull(),
-  majorRisks: text("major_risks"),
   buyerOrSeller: varchar("buyer_or_seller").notNull(),
+  
+  // Financial data (3 years)
+  annualRevenue: jsonb("annual_revenue").notNull(), // Array of 3 years
+  sde: jsonb("sde_data").notNull(), // Array of 3 years  
+  profitMargin: decimal("profit_margin", { precision: 5, scale: 2 }),
+  
+  // Business dependency (seller questions)
+  ownerWorkHours: integer("owner_work_hours"),
+  canRunWithoutOwner: boolean("can_run_without_owner"),
+  hasKeyEmployees: boolean("has_key_employees"),
+  
+  // Customer data
+  topCustomersRevenuePct: decimal("top_customers_revenue_pct", { precision: 5, scale: 2 }),
+  customerRetentionPct: decimal("customer_retention_pct", { precision: 5, scale: 2 }),
+  hasLongTermContracts: boolean("has_long_term_contracts"),
+  
+  // Growth & market
+  growthRates: jsonb("growth_rates"), // Array of 3 years
+  competitiveAdvantage: text("competitive_advantage"),
+  marketSize: varchar("market_size"), // local/regional/national
+  
+  // Assets & liabilities
+  ownedAssets: text("owned_assets"),
+  businessDebts: text("business_debts"),
+  locationOwnership: varchar("location_ownership"), // own/lease
+  
+  // Buyer-specific fields
+  maxInvestmentBudget: decimal("max_investment_budget", { precision: 12, scale: 2 }),
+  availableCash: decimal("available_cash", { precision: 12, scale: 2 }),
+  hasIndustryExperience: boolean("has_industry_experience"),
+  timeCommitmentHours: integer("time_commitment_hours"),
+  managementPlan: varchar("management_plan"), // have/will-hire
+  riskTolerance: varchar("risk_tolerance"), // low/medium/high
+  
+  // Strategic planning
+  buyingMotivation: text("buying_motivation"),
+  plannedChanges: text("planned_changes"),
+  investmentTimeline: varchar("investment_timeline"), // 1-3/3-5/5+ years
+  
+  // Due diligence priorities (stored as JSON array)
+  financialRecordPriorities: jsonb("financial_record_priorities"),
+  customerRelationshipConcerns: text("customer_relationship_concerns"),
+  legalRegulatoryIssues: text("legal_regulatory_issues"),
+  
+  // Deal structure
+  preferredPurchaseMethod: varchar("preferred_purchase_method"), // cash/seller-financing
+  openToEarnOut: boolean("open_to_earn_out"),
+  minAcceptableROI: decimal("min_acceptable_roi", { precision: 5, scale: 2 }),
+  
+  // Valuation results
   valuationLow: decimal("valuation_low", { precision: 12, scale: 2 }).notNull(),
   valuationHigh: decimal("valuation_high", { precision: 12, scale: 2 }).notNull(),
   industryMultiple: decimal("industry_multiple", { precision: 3, scale: 2 }).notNull(),
+  
+  // System fields
   pdfPath: varchar("pdf_path"),
   stripePaymentIntentId: varchar("stripe_payment_intent_id"),
   paid: boolean("paid").default(false),
