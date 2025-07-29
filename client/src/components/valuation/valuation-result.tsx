@@ -29,10 +29,16 @@ export default function ValuationResult({ valuation, onPaymentComplete, onPrevio
   const downloadPDF = async (valuationId: string) => {
     try {
       console.log('Starting client-side PDF generation for:', valuationId);
+      console.log('Valuation object:', valuation);
+      alert('About to import jsPDF...'); // Debug alert
       
       // Import jsPDF dynamically for client-side use
       const jsPDF = (await import('jspdf')).default;
+      console.log('jsPDF imported successfully:', !!jsPDF);
+      alert('jsPDF imported, creating document...'); // Debug alert
+      
       const doc = new jsPDF();
+      console.log('PDF document created');
       
       // Page setup
       const pageWidth = doc.internal.pageSize.getWidth();
@@ -277,6 +283,8 @@ export default function ValuationResult({ valuation, onPaymentComplete, onPrevio
                 className="flex-1 py-3 text-lg font-semibold"
                 onClick={() => {
                   console.log('Download PDF button clicked for valuation:', valuation.id);
+                  console.log('Valuation data:', valuation);
+                  alert('PDF download starting...'); // Test alert
                   downloadPDF(valuation.id);
                 }}
               >
