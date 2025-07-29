@@ -262,7 +262,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: 'Valuation not found' });
       }
       
-      const paymentIntent = await stripe!.paymentIntents.create({
+      // Check if Stripe is configured
+      if (!stripe) {
+        return res.status(500).json({ message: "Payment processing not configured. Please contact support." });
+      }
+      
+      const paymentIntent = await stripe.paymentIntents.create({
         amount: 9900, // $99.00 in cents
         currency: "usd",
         metadata: {
@@ -309,22 +314,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const userId = req.user.claims.sub;
       const valuation = await storage.getValuation(req.params.id);
       
-      if (!valuation || valuation.userId !== userId || !valuation.paid) {
-        return res.status(404).json({ message: 'PDF not found or not paid' });
+      if (!valuation || valuation.userId !== userId) {
+        return res.status(404).json({ message: 'Valuation not found' });
       }
+      
+      // For development: Allow PDF downloads without payment requirement
+      // In production: Uncomment the line below to require payment
+      // if (!valuation.paid) {
+      //   return res.status(402).json({ message: 'Payment required to download PDF' });
+      // }
+      
+      console.log('Generating PDF for valuation:', valuation.id);
       
       // Generate PDF on demand
       const { generateValuationPDF } = await import('../client/src/lib/pdf-generator.ts');
       const { getIndustryMultiple } = await import('../client/src/lib/industry-multiples.ts');
+      
       const industryData = getIndustryMultiple(valuation.industry);
+      console.log('Industry data:', industryData);
+      
       const pdf = generateValuationPDF({ valuation, industryData });
       const pdfBuffer = pdf.output('arraybuffer');
       
       res.setHeader('Content-Type', 'application/pdf');
-      res.setHeader('Content-Disposition', `attachment; filename="${valuation.businessName}-valuation.pdf"`);
-      res.send(pdfBuffer);
+      res.setHeader('Content-Disposition', `attachment; filename="${valuation.businessName.replace(/[^a-zA-Z0-9]/g, '_')}-valuation.pdf"`);
+      res.send(Buffer.from(pdfBuffer));
     } catch (error: any) {
-      res.status(500).json({ message: error.message });
+      console.error('PDF generation error:', error);
+      res.status(500).json({ message: 'Error generating PDF: ' + error.message });
     }
   });
 

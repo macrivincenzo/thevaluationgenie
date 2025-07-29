@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { useToast } from "@/hooks/use-toast";
 import { 
   CheckCircle, 
   DollarSign, 
@@ -19,10 +20,46 @@ interface ValuationResultProps {
 }
 
 export default function ValuationResult({ valuation, onPaymentComplete, onPrevious }: ValuationResultProps) {
+  const { toast } = useToast();
   const valuationLow = parseInt(valuation.valuationLow);
   const valuationHigh = parseInt(valuation.valuationHigh);
   const multiple = parseFloat(valuation.industryMultiple);
   const sde = parseInt(valuation.sde);
+
+  const downloadPDF = async (valuationId: string) => {
+    try {
+      const response = await fetch(`/api/valuations/${valuationId}/pdf`, {
+        method: 'GET',
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${valuation.businessName.replace(/[^a-zA-Z0-9]/g, '_')}-valuation.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+
+      toast({
+        title: "PDF Downloaded",
+        description: "Your valuation report has been downloaded successfully.",
+      });
+    } catch (error: any) {
+      console.error('PDF download error:', error);
+      toast({
+        title: "Download Failed",
+        description: "There was an error downloading your PDF. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
 
   return (
     <div className="space-y-8">
@@ -168,12 +205,13 @@ export default function ValuationResult({ valuation, onPaymentComplete, onPrevio
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link href={`/checkout/${valuation.id}`} className="flex-1">
-                <Button className="w-full py-3 text-lg font-semibold">
-                  <DollarSign className="w-5 h-5 mr-2" />
-                  Get PDF Report - $99
-                </Button>
-              </Link>
+              <Button 
+                className="flex-1 py-3 text-lg font-semibold"
+                onClick={() => downloadPDF(valuation.id)}
+              >
+                <FileText className="w-5 h-5 mr-2" />
+                Download PDF Report
+              </Button>
               <Button variant="outline" onClick={() => onPaymentComplete(valuation.id)}>
                 <TrendingUp className="w-4 h-4 mr-2" />
                 Go to Dashboard
