@@ -5,10 +5,11 @@ interface ProgressStepsProps {
 }
 
 const steps = [
-  { number: 1, label: "Buyer/Seller" },
-  { number: 2, label: "Business Data" },
-  { number: 3, label: "File Upload" },
-  { number: 4, label: "Report" },
+  { number: 1, label: "User Type" },
+  { number: 2, label: "Questions" },
+  { number: 3, label: "Industry" },
+  { number: 4, label: "Upload" },
+  { number: 5, label: "Report" },
 ];
 
 export default function ProgressSteps({ currentStep }: ProgressStepsProps) {

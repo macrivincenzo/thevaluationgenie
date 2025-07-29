@@ -6,17 +6,59 @@ import { useLocation } from "wouter";
 import Header from "@/components/layout/header";
 import ProgressSteps from "@/components/valuation/progress-steps";
 import BuyerSellerSelection from "@/components/valuation/buyer-seller-selection";
-import BusinessDataForm from "@/components/valuation/business-data-form";
+import SellerQuestions from "@/components/valuation/seller-questions";
+import BuyerQuestions from "@/components/valuation/buyer-questions";
+import IndustrySelection from "@/components/valuation/industry-selection";
 import FileUpload from "@/components/valuation/file-upload";
 import ValuationResult from "@/components/valuation/valuation-result";
 
 export interface ValuationData {
+  // Step 1: Buyer/Seller Selection
   buyerOrSeller: 'buying' | 'selling' | '';
+  
+  // Basic Business Info
   businessName: string;
   industry: string;
   location: string;
   yearsInBusiness: number;
-  annualRevenue: number;
+  
+  // Financial data (3 years)
+  annualRevenue: number[]; // Array of 3 years
+  sdeData: number[]; // Array of 3 years  
+  profitMargin: number;
+  
+  // Seller-specific questions
+  ownerWorkHours: number;
+  canRunWithoutOwner: boolean;
+  hasKeyEmployees: boolean;
+  topCustomersRevenuePct: number;
+  customerRetentionPct: number;
+  hasLongTermContracts: boolean;
+  growthRates: number[]; // Array of 3 years
+  competitiveAdvantage: string;
+  marketSize: string; // local/regional/national
+  ownedAssets: string;
+  businessDebts: string;
+  locationOwnership: string; // own/lease
+  
+  // Buyer-specific questions
+  maxInvestmentBudget: number;
+  availableCash: number;
+  hasIndustryExperience: boolean;
+  timeCommitmentHours: number;
+  managementPlan: string; // have/will-hire
+  riskTolerance: string; // low/medium/high
+  buyingMotivation: string;
+  plannedChanges: string;
+  investmentTimeline: string; // 1-3/3-5/5+ years
+  financialRecordPriorities: string[];
+  customerRelationshipConcerns: string;
+  legalRegulatoryIssues: string;
+  preferredPurchaseMethod: string; // cash/seller-financing
+  openToEarnOut: boolean;
+  minAcceptableROI: number;
+  
+  // Legacy fields for compatibility
   sde: number;
   addBacks: number;
   ownerInvolvement: string;
@@ -25,12 +67,52 @@ export interface ValuationData {
 }
 
 const initialData: ValuationData = {
+  // Step 1: Buyer/Seller Selection  
   buyerOrSeller: '',
+  
+  // Basic Business Info
   businessName: '',
   industry: '',
   location: '',
   yearsInBusiness: 0,
-  annualRevenue: 0,
+  
+  // Financial data (3 years)
+  annualRevenue: [0, 0, 0],
+  sdeData: [0, 0, 0],
+  profitMargin: 0,
+  
+  // Seller-specific questions
+  ownerWorkHours: 0,
+  canRunWithoutOwner: false,
+  hasKeyEmployees: false,
+  topCustomersRevenuePct: 0,
+  customerRetentionPct: 0,
+  hasLongTermContracts: false,
+  growthRates: [0, 0, 0],
+  competitiveAdvantage: '',
+  marketSize: '',
+  ownedAssets: '',
+  businessDebts: '',
+  locationOwnership: '',
+  
+  // Buyer-specific questions
+  maxInvestmentBudget: 0,
+  availableCash: 0,
+  hasIndustryExperience: false,
+  timeCommitmentHours: 0,
+  managementPlan: '',
+  riskTolerance: '',
+  buyingMotivation: '',
+  plannedChanges: '',
+  investmentTimeline: '',
+  financialRecordPriorities: [],
+  customerRelationshipConcerns: '',
+  legalRegulatoryIssues: '',
+  preferredPurchaseMethod: '',
+  openToEarnOut: false,
+  minAcceptableROI: 0,
+  
+  // Legacy fields for compatibility
   sde: 0,
   addBacks: 0,
   ownerInvolvement: '',
@@ -45,6 +127,9 @@ export default function ValuationFlow() {
   const { toast } = useToast();
   const [, setLocation] = useLocation();
 
+  // Total steps: 1=Buyer/Seller, 2=Questions, 3=Industry, 4=FileUpload, 5=Results
+  const totalSteps = 5;
+
   const createValuationMutation = useMutation({
     mutationFn: async (data: ValuationData) => {
       const response = await apiRequest("POST", "/api/valuations", data);
@@ -52,7 +137,7 @@ export default function ValuationFlow() {
     },
     onSuccess: (result) => {
       setValuationResult(result);
-      setCurrentStep(4);
+      setCurrentStep(5);
       toast({
         title: "Valuation Complete!",
         description: "Your business valuation has been calculated.",
@@ -68,9 +153,9 @@ export default function ValuationFlow() {
   });
 
   const handleNext = () => {
-    if (currentStep < 4) {
-      if (currentStep === 3) {
-        // Submit valuation on step 3 completion
+    if (currentStep < totalSteps) {
+      if (currentStep === 4) {
+        // Submit valuation on step 4 completion (after file upload)
         createValuationMutation.mutate(valuationData);
       } else {
         setCurrentStep(currentStep + 1);
@@ -101,17 +186,22 @@ export default function ValuationFlow() {
       case 1:
         return valuationData.buyerOrSeller !== '';
       case 2:
+        // Questions step - basic validation based on buyer/seller type
+        if (valuationData.buyerOrSeller === 'selling') {
+          return valuationData.annualRevenue.some(rev => rev > 0) &&
+                 valuationData.sdeData.some(sde => sde > 0);
+        } else {
+          return valuationData.maxInvestmentBudget > 0 &&
+                 valuationData.availableCash > 0;
+        }
+      case 3:
         return valuationData.businessName && 
                valuationData.industry && 
                valuationData.location &&
-               valuationData.yearsInBusiness > 0 &&
-               valuationData.annualRevenue > 0 &&
-               valuationData.sde > 0 &&
-               valuationData.ownerInvolvement &&
-               valuationData.growthTrend;
-      case 3:
-        return true; // File upload is optional
+               valuationData.yearsInBusiness > 0;
       case 4:
+        return true; // File upload is optional
+      case 5:
         return false; // Final step
       default:
         return false;
@@ -131,6 +221,7 @@ export default function ValuationFlow() {
         <ProgressSteps currentStep={currentStep} />
 
         <div className="mt-8">
+          {/* Step 1: Buyer/Seller Selection */}
           {currentStep === 1 && (
             <BuyerSellerSelection
               value={valuationData.buyerOrSeller}
@@ -139,8 +230,9 @@ export default function ValuationFlow() {
             />
           )}
 
-          {currentStep === 2 && (
-            <BusinessDataForm
+          {/* Step 2: Detailed Questions based on buyer/seller type */}
+          {currentStep === 2 && valuationData.buyerOrSeller === 'selling' && (
+            <SellerQuestions
               data={valuationData}
               onChange={handleDataUpdate}
               onNext={handleNext}
@@ -148,7 +240,27 @@ export default function ValuationFlow() {
             />
           )}
 
+          {currentStep === 2 && valuationData.buyerOrSeller === 'buying' && (
+            <BuyerQuestions
+              data={valuationData}
+              onChange={handleDataUpdate}
+              onNext={handleNext}
+              onPrevious={handlePrevious}
+            />
+          )}
+
+          {/* Step 3: Industry Selection and Business Details */}
           {currentStep === 3 && (
+            <IndustrySelection
+              data={valuationData}
+              onChange={handleDataUpdate}
+              onNext={handleNext}
+              onPrevious={handlePrevious}
+            />
+          )}
+
+          {/* Step 4: File Upload */}
+          {currentStep === 4 && (
             <FileUpload
               valuationId={valuationResult?.id}
               onNext={handleNext}
@@ -157,7 +269,8 @@ export default function ValuationFlow() {
             />
           )}
 
-          {currentStep === 4 && valuationResult && (
+          {/* Step 5: Valuation Results */}
+          {currentStep === 5 && valuationResult && (
             <ValuationResult
               valuation={valuationResult}
               onPaymentComplete={handlePaymentComplete}
