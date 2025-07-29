@@ -114,42 +114,7 @@ export default function BuyerSellerSelection({ value, onChange, onNext }: BuyerS
           </div>
         </form>
 
-        {/* Additional debug buttons for testing */}
-        <div className="mt-6 pt-4 border-t border-gray-200">
-          <p className="text-sm text-gray-600 mb-2">Debug Test Buttons:</p>
-          <div className="space-x-2">
-            <button
-              type="button"
-              onClick={() => {
-                console.log('Manual test: Setting to buying');
-                onChange('buying');
-              }}
-              className="px-3 py-1 bg-blue-500 text-white text-sm rounded"
-            >
-              Test: Set Buying
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                console.log('Manual test: Setting to selling');
-                onChange('selling');
-              }}
-              className="px-3 py-1 bg-green-500 text-white text-sm rounded"
-            >
-              Test: Set Selling
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                console.log('Manual test: Clearing selection');
-                onChange('' as any);
-              }}
-              className="px-3 py-1 bg-gray-500 text-white text-sm rounded"
-            >
-              Clear
-            </button>
-          </div>
-        </div>
+
       </CardContent>
     </Card>
   );
