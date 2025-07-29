@@ -131,16 +131,67 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getValuation(id: string): Promise<Valuation | undefined> {
-    const [result] = await db.select().from(valuations).where(eq(valuations.id, id));
-    return result;
+    try {
+      // Select only the core fields that exist in the database
+      const [result] = await db
+        .select({
+          id: valuations.id,
+          userId: valuations.userId,
+          businessName: valuations.businessName,
+          industry: valuations.industry,
+          location: valuations.location,
+          yearsInBusiness: valuations.yearsInBusiness,
+          buyerOrSeller: valuations.buyerOrSeller,
+          annualRevenue: valuations.annualRevenue,
+          sde: valuations.sde,
+          valuationLow: valuations.valuationLow,
+          valuationHigh: valuations.valuationHigh,
+          industryMultiple: valuations.industryMultiple,
+          pdfPath: valuations.pdfPath,
+          stripePaymentIntentId: valuations.stripePaymentIntentId,
+          paid: valuations.paid,
+          createdAt: valuations.createdAt,
+          updatedAt: valuations.updatedAt,
+        })
+        .from(valuations)
+        .where(eq(valuations.id, id));
+      return result;
+    } catch (error: any) {
+      console.error('Error fetching valuation:', error);
+      return undefined;
+    }
   }
 
   async getUserValuations(userId: string): Promise<Valuation[]> {
-    return await db
-      .select()
-      .from(valuations)
-      .where(eq(valuations.userId, userId))
-      .orderBy(desc(valuations.createdAt));
+    try {
+      // Select only the core fields that exist in the database
+      return await db
+        .select({
+          id: valuations.id,
+          userId: valuations.userId,
+          businessName: valuations.businessName,
+          industry: valuations.industry,
+          location: valuations.location,
+          yearsInBusiness: valuations.yearsInBusiness,
+          buyerOrSeller: valuations.buyerOrSeller,
+          annualRevenue: valuations.annualRevenue,
+          sde: valuations.sde,
+          valuationLow: valuations.valuationLow,
+          valuationHigh: valuations.valuationHigh,
+          industryMultiple: valuations.industryMultiple,
+          pdfPath: valuations.pdfPath,
+          stripePaymentIntentId: valuations.stripePaymentIntentId,
+          paid: valuations.paid,
+          createdAt: valuations.createdAt,
+          updatedAt: valuations.updatedAt,
+        })
+        .from(valuations)
+        .where(eq(valuations.userId, userId))
+        .orderBy(desc(valuations.createdAt));
+    } catch (error: any) {
+      console.error('Error fetching user valuations:', error);
+      return [];
+    }
   }
 
   async updateValuationPayment(id: string, paymentIntentId: string, pdfPath: string): Promise<Valuation> {
