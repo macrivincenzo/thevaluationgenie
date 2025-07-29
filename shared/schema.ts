@@ -111,7 +111,15 @@ export const insertValuationSchema = createInsertSchema(valuations).omit({
   stripePaymentIntentId: true,
   paid: true,
 }).extend({
-  // Make decimal fields optional and as strings
+  // Override types to handle both arrays and strings
+  annualRevenue: z.union([z.string(), z.array(z.number()), z.number()]).transform(val => {
+    if (Array.isArray(val)) return val[0]?.toString() || "0";
+    return val?.toString() || "0";
+  }),
+  sde: z.union([z.string(), z.array(z.number()), z.number()]).transform(val => {
+    if (Array.isArray(val)) return val[0]?.toString() || "0";
+    return val?.toString() || "0";
+  }),
   addBacks: z.string().optional(),
   valuationLow: z.string(),
   valuationHigh: z.string(),
