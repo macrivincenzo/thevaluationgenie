@@ -109,18 +109,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Calculate valuation based on industry multiples
       const { calculateValuation } = await import('../client/src/lib/industry-multiples.ts');
       
-      // Extract SDE from the new data structure (support both old and new formats)
+      // Extract SDE from the data structure (handle both direct and JSON formats)
       let sdeValue = 0;
-      if (data.sdeData && Array.isArray(data.sdeData)) {
-        // Use the most recent year's SDE data
-        sdeValue = data.sdeData[0] || 0;
-      } else if (data.sde) {
-        // Handle both string and number values, and JSON arrays
-        const sdeData = typeof data.sde === 'string' ? JSON.parse(data.sde) : data.sde;
-        if (Array.isArray(sdeData)) {
-          sdeValue = sdeData[0] || 0;
+      if (data.sde) {
+        // Handle JSON array from database or direct values
+        if (typeof data.sde === 'string') {
+          try {
+            const sdeArray = JSON.parse(data.sde);
+            sdeValue = Array.isArray(sdeArray) ? (sdeArray[0] || 0) : parseFloat(sdeArray) || 0;
+          } catch {
+            sdeValue = parseFloat(data.sde) || 0;
+          }
+        } else if (Array.isArray(data.sde)) {
+          sdeValue = data.sde[0] || 0;
         } else {
-          sdeValue = parseFloat(sdeData?.toString() || '0') || 0;
+          sdeValue = parseFloat(data.sde?.toString() || '0') || 0;
         }
       }
       

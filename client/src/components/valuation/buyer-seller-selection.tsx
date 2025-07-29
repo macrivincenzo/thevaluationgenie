@@ -41,10 +41,7 @@ export default function BuyerSellerSelection({ value, onChange, onNext }: BuyerS
           </div>
         </div>
 
-        {/* Debug information */}
-        <div className="mb-4 p-3 bg-gray-100 border rounded text-sm">
-          <strong>Debug Info:</strong> Current selection = "{value || 'none'}"
-        </div>
+
 
         {/* Standard HTML Form with Select Dropdown */}
         <form onSubmit={(e) => { e.preventDefault(); handleContinueClick(); }}>

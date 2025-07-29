@@ -58,7 +58,7 @@ export const valuations = pgTable("valuations", {
   
   // Financial data (3 years)
   annualRevenue: jsonb("annual_revenue").notNull(), // Array of 3 years
-  sde: jsonb("sde_data").notNull(), // Array of 3 years  
+  sde: jsonb("sde").notNull(), // Array of 3 years  
   profitMargin: decimal("profit_margin", { precision: 5, scale: 2 }),
   
   // Business dependency (seller questions)

@@ -135,10 +135,12 @@ export default function ValuationFlow() {
 
   const createValuationMutation = useMutation({
     mutationFn: async (data: ValuationData) => {
+      console.log("Sending valuation data:", JSON.stringify(data, null, 2));
       const response = await apiRequest("POST", "/api/valuations", data);
       return await response.json();
     },
     onSuccess: (result) => {
+      console.log("Valuation created successfully:", result);
       setValuationResult(result);
       setCurrentStep(5);
       toast({
@@ -147,9 +149,10 @@ export default function ValuationFlow() {
       });
     },
     onError: (error: Error) => {
+      console.error("Valuation creation error:", error);
       toast({
-        title: "Error",
-        description: error.message,
+        title: "Error Creating Valuation",
+        description: `${error.message}. Please check all required fields are filled.`,
         variant: "destructive",
       });
     },
