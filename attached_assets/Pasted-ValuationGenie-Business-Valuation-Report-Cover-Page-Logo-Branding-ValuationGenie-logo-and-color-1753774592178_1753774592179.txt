@@ -1,0 +1,58 @@
+ValuationGenie Business Valuation Report
+Cover Page
+Logo & Branding: ValuationGenie logo and color scheme
+Report Title: Business Valuation Report
+Date of Report Generation
+Confidentiality Statement:
+“This report is confidential and intended solely for the recipient.”
+1. Executive Summary
+Business Name
+Industry
+Location
+Valuation Range: (e.g., $350,000 – $420,000)
+Valuation Date
+Purpose: (e.g., Sale, Acquisition, Planning)
+Key Takeaway: One-sentence summary of the business’s value and main drivers
+2. Business Overview
+Business Description: Short paragraph
+Years in Operation
+Ownership Structure
+Geographic Market Size: (Local/Regional/National)
+Competitive Advantage: (from questionnaire)
+3. Financial Highlights
+Annual Revenue (last 3 years): Table
+Seller’s Discretionary Earnings (SDE, last 3 years): Table
+Profit Margin: %
+Year-over-Year Growth Rate: %
+Key Assets & Liabilities: Short summary
+4. Valuation Calculation
+Industry Selected: (from dropdown)
+Industry SDE Multiple Used: (e.g., 3.0x)
+Base Value Calculation: SDE × Multiple = Base Value
+Adjustment Factors: List and explain each (e.g., +10% for low customer concentration)
+Final Valuation Range: (Base Value × Adjustment Factor)
+Table Example:
+| Item | Value |
+|---------------------|--------------|
+| SDE (last year) | $150,000 |
+| Industry Multiple | 2.5x |
+| Base Value | $375,000 |
+| Adjustments | +5% |
+| Final Value | $393,750 |
+5. Key Value Drivers & Risks
+Top 3 Value Drivers: (e.g., Recurring revenue, strong growth, low owner dependency)
+Top 3 Risks: (e.g., High customer concentration, owner is essential, declining revenue)
+Customer Concentration: %
+Owner Involvement: Hours/week
+6. Market & Industry Overview
+Industry Description: Short paragraph
+Typical SDE Multiples for Industry: (from table)
+Market Trends: (optional, 2-3 bullet points)
+7. Recommendations
+For Sellers: (e.g., Reduce owner dependency, diversify customer base)
+For Buyers: (e.g., Retain key employees, verify customer contracts)
+8. Supporting Data
+Summary of Questionnaire Answers: (Table or appendix)
+Uploaded Documents: (List of files, if any)
+9. Disclaimer
+> “This valuation is for informational purposes only and is not a formal appraisal. The results are based on user-provided data and industry averages. ValuationGenie and its affiliates are not responsible for decisions made based on this report.”
