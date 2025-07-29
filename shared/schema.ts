@@ -149,9 +149,17 @@ export const insertValuationSchema = createInsertSchema(valuations).omit({
   pdfPath: true,
   stripePaymentIntentId: true,
   paid: true,
-  valuationLow: true,
-  valuationHigh: true,
-  industryMultiple: true,
+}).extend({
+  // Make decimal fields optional during creation
+  profitMargin: z.string().optional(),
+  topCustomersRevenuePct: z.string().optional(),
+  customerRetentionPct: z.string().optional(),
+  maxInvestmentBudget: z.string().optional(),
+  availableCash: z.string().optional(),
+  minAcceptableROI: z.string().optional(),
+  valuationLow: z.string(),
+  valuationHigh: z.string(),
+  industryMultiple: z.string(),
 });
 
 export const insertFileUploadSchema = createInsertSchema(fileUploads).omit({
