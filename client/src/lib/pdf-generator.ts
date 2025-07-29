@@ -62,8 +62,8 @@ export function generateValuationPDF({ valuation, industryData }: ValuationData)
   });
   
   // Key takeaway
-  const sdeValue = valuation.sdeData?.[0] || valuation.sde || 0;
-  const takeaway = `This ${valuation.industry} business demonstrates strong fundamentals with SDE of $${parseInt(sdeValue).toLocaleString()}, resulting in a valuation range of $${parseInt(valuation.valuationLow || 0).toLocaleString()} to $${parseInt(valuation.valuationHigh || 0).toLocaleString()}.`;
+  const sdeValue = parseInt(valuation.sde || 0);
+  const takeaway = `This ${valuation.industry} business demonstrates strong fundamentals with SDE of $${sdeValue.toLocaleString()}, resulting in a valuation range of $${parseInt(valuation.valuationLow || 0).toLocaleString()} to $${parseInt(valuation.valuationHigh || 0).toLocaleString()}.`;
   yPosition = addText(`Key Takeaway: ${takeaway}`, 25, yPosition + 5, 11);
   yPosition += 15;
   
@@ -152,7 +152,7 @@ export function generateValuationPDF({ valuation, industryData }: ValuationData)
   const calcData = [
     ['SDE (Current Year)', `$${parseInt(baseSDE).toLocaleString()}`],
     ['Industry Multiple', `${multiple}x`],
-    ['Base Value', `$${parseInt(baseValue).toLocaleString()}`],
+    ['Base Value', `$${parseInt(baseValue.toString()).toLocaleString()}`],
     ['Adjustments', '+/- 10%'],
     ['Final Value Range', `$${parseInt(valuation.valuationLow || 0).toLocaleString()} - $${parseInt(valuation.valuationHigh || 0).toLocaleString()}`]
   ];

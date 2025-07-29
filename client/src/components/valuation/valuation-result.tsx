@@ -28,16 +28,32 @@ export default function ValuationResult({ valuation, onPaymentComplete, onPrevio
 
   const downloadPDF = async (valuationId: string) => {
     try {
+      console.log('Starting PDF download for valuation:', valuationId);
+      
+      // Use the same API pattern as other requests in the app
       const response = await fetch(`/api/valuations/${valuationId}/pdf`, {
         method: 'GET',
         credentials: 'include',
+        headers: {
+          'Accept': 'application/pdf',
+        },
       });
 
+      console.log('PDF download response status:', response.status);
+
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorText = await response.text();
+        console.error('PDF download error response:', errorText);
+        throw new Error(`Download failed: ${response.status} ${response.statusText}`);
       }
 
       const blob = await response.blob();
+      console.log('PDF blob size:', blob.size);
+      
+      if (blob.size === 0) {
+        throw new Error('PDF file is empty');
+      }
+
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
@@ -55,7 +71,7 @@ export default function ValuationResult({ valuation, onPaymentComplete, onPrevio
       console.error('PDF download error:', error);
       toast({
         title: "Download Failed",
-        description: "There was an error downloading your PDF. Please try again.",
+        description: error.message || "There was an error downloading your PDF. Please try again.",
         variant: "destructive",
       });
     }
