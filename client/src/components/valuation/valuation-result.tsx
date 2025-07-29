@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
+import PDFTest from "@/components/pdf-test";
 import { 
   CheckCircle, 
   DollarSign, 
@@ -172,6 +173,7 @@ export default function ValuationResult({ valuation, onPaymentComplete, onPrevio
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
+              <PDFTest />
               <Button 
                 className="flex-1 py-3 text-lg font-semibold"
                 onClick={async () => {
@@ -201,9 +203,9 @@ export default function ValuationResult({ valuation, onPaymentComplete, onPrevio
                     doc.save(fileName);
                     
                     alert('PDF downloaded successfully!');
-                  } catch (error) {
+                  } catch (error: any) {
                     console.error('PDF Error:', error);
-                    alert('PDF generation failed: ' + error.message);
+                    alert('PDF generation failed: ' + (error?.message || 'Unknown error'));
                   }
                 }}
               >
