@@ -28,50 +28,102 @@ export default function ValuationResult({ valuation, onPaymentComplete, onPrevio
 
   const downloadPDF = async (valuationId: string) => {
     try {
-      console.log('Starting PDF download for valuation:', valuationId);
+      console.log('Starting client-side PDF generation for:', valuationId);
       
-      // Use the same API pattern as other requests in the app
-      const response = await fetch(`/api/valuations/${valuationId}/pdf`, {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Accept': 'application/pdf',
-        },
-      });
-
-      console.log('PDF download response status:', response.status);
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('PDF download error response:', errorText);
-        throw new Error(`Download failed: ${response.status} ${response.statusText}`);
-      }
-
-      const blob = await response.blob();
-      console.log('PDF blob size:', blob.size);
+      // Import jsPDF dynamically for client-side use
+      const jsPDF = (await import('jspdf')).default;
+      const doc = new jsPDF();
       
-      if (blob.size === 0) {
-        throw new Error('PDF file is empty');
-      }
-
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${valuation.businessName.replace(/[^a-zA-Z0-9]/g, '_')}-valuation.pdf`;
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
-
+      // Page setup
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const margin = 20;
+      let yPosition = 30;
+      
+      // Helper function for text
+      const addText = (text: string, fontSize: number = 12, isBold: boolean = false) => {
+        doc.setFontSize(fontSize);
+        doc.setFont('helvetica', isBold ? 'bold' : 'normal');
+        doc.text(text, margin, yPosition);
+        yPosition += fontSize * 0.5;
+      };
+      
+      // Header with blue background
+      doc.setFillColor(37, 99, 235);
+      doc.rect(0, 0, pageWidth, 50, 'F');
+      doc.setTextColor(255, 255, 255);
+      addText('ValuationGenie', 22, true);
+      yPosition = 40;
+      addText('Business Valuation Report', 14);
+      
+      // Reset colors and position
+      doc.setTextColor(0, 0, 0);
+      yPosition = 70;
+      
+      // Business Information
+      addText('Business Information', 16, true);
+      yPosition += 5;
+      addText(`Business Name: ${valuation.businessName}`);
+      addText(`Industry: ${valuation.industry}`);
+      addText(`Location: ${valuation.location}`);
+      addText(`Years in Business: ${valuation.yearsInBusiness}`);
+      addText(`Report Date: ${new Date().toLocaleDateString()}`);
+      
+      yPosition += 15;
+      
+      // Valuation Summary with light blue background
+      const summaryHeight = 65;
+      doc.setFillColor(240, 249, 255);
+      doc.rect(margin - 5, yPosition - 10, pageWidth - (margin * 2) + 10, summaryHeight, 'F');
+      
+      addText('Valuation Summary', 16, true);
+      yPosition += 5;
+      addText(`Estimated Value Range: $${valuationLow.toLocaleString()} - $${valuationHigh.toLocaleString()}`, 14, true);
+      addText(`Industry Multiple: ${multiple}x`);
+      addText(`Annual Revenue: $${parseInt(valuation.annualRevenue || '0').toLocaleString()}`);
+      addText(`SDE: $${parseInt(valuation.sde || '0').toLocaleString()}`);
+      
+      yPosition += 20;
+      
+      // Methodology
+      addText('Valuation Methodology', 16, true);
+      yPosition += 5;
+      doc.setFontSize(12);
+      const methodText = 'This valuation uses the SDE (Seller\'s Discretionary Earnings) multiple method, which is the industry standard for small business valuations.';
+      const lines = doc.splitTextToSize(methodText, pageWidth - (margin * 2));
+      doc.text(lines, margin, yPosition);
+      yPosition += lines.length * 6;
+      
+      yPosition += 15;
+      
+      // Disclaimer
+      addText('Important Disclaimer', 16, true);
+      yPosition += 5;
+      doc.setFontSize(11);
+      const disclaimerText = 'This valuation is based on industry-standard methodologies and should be used for informational purposes only. It does not constitute professional financial advice. Consult with qualified professionals before making investment or business decisions.';
+      const disclaimerLines = doc.splitTextToSize(disclaimerText, pageWidth - (margin * 2));
+      doc.text(disclaimerLines, margin, yPosition);
+      
+      // Footer
+      const footerY = doc.internal.pageSize.getHeight() - 20;
+      doc.setFontSize(10);
+      doc.setTextColor(128, 128, 128);
+      doc.text('© ValuationGenie - Confidential Business Valuation Report', margin, footerY);
+      
+      // Save the PDF
+      const fileName = `${valuation.businessName.replace(/[^a-zA-Z0-9]/g, '_')}-valuation.pdf`;
+      doc.save(fileName);
+      
+      console.log('PDF generated and downloaded successfully');
+      
       toast({
         title: "PDF Downloaded",
         description: "Your valuation report has been downloaded successfully.",
       });
     } catch (error: any) {
-      console.error('PDF download error:', error);
+      console.error('PDF generation error:', error);
       toast({
         title: "Download Failed",
-        description: error.message || "There was an error downloading your PDF. Please try again.",
+        description: error.message || "There was an error generating your PDF. Please try again.",
         variant: "destructive",
       });
     }
@@ -223,7 +275,10 @@ export default function ValuationResult({ valuation, onPaymentComplete, onPrevio
             <div className="flex flex-col sm:flex-row gap-4">
               <Button 
                 className="flex-1 py-3 text-lg font-semibold"
-                onClick={() => downloadPDF(valuation.id)}
+                onClick={() => {
+                  console.log('Download PDF button clicked for valuation:', valuation.id);
+                  downloadPDF(valuation.id);
+                }}
               >
                 <FileText className="w-5 h-5 mr-2" />
                 Download PDF Report

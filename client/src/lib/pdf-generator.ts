@@ -1,12 +1,27 @@
-import jsPDF from 'jspdf';
+// Dynamic import for Node.js compatibility
+let jsPDFConstructor: any;
+try {
+  // Browser environment
+  const jsPDFModule = require('jspdf');
+  jsPDFConstructor = jsPDFModule.default || jsPDFModule;
+} catch {
+  // Node.js environment - use dynamic import
+  jsPDFConstructor = null;
+}
 
 interface ValuationData {
   valuation: any;
   industryData: any;
 }
 
-export function generateValuationPDF({ valuation, industryData }: ValuationData) {
-  const doc = new jsPDF();
+export async function generateValuationPDF({ valuation, industryData }: ValuationData) {
+  // Handle dynamic import for Node.js
+  if (!jsPDFConstructor) {
+    const jsPDFModule = await import('jspdf');
+    jsPDFConstructor = jsPDFModule.default;
+  }
+  
+  const doc = new jsPDFConstructor();
   let yPosition = 20;
   
   // Helper function to add text with automatic line breaks

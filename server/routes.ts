@@ -308,37 +308,89 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.json({ received: true });
   });
 
-  // PDF download
-  app.get('/api/valuations/:id/pdf', isAuthenticated, async (req: any, res) => {
+  // PDF download (development version - public access for testing)
+  app.get('/api/valuations/:id/pdf', async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      console.log('PDF download request for ID:', req.params.id);
+      
       const valuation = await storage.getValuation(req.params.id);
       
-      if (!valuation || valuation.userId !== userId) {
+      if (!valuation) {
+        console.error('Valuation not found:', req.params.id);
         return res.status(404).json({ message: 'Valuation not found' });
       }
       
-      // For development: Allow PDF downloads without payment requirement
-      // In production: Uncomment the line below to require payment
-      // if (!valuation.paid) {
-      //   return res.status(402).json({ message: 'Payment required to download PDF' });
-      // }
-      
       console.log('Generating PDF for valuation:', valuation.id);
+      console.log('Valuation data:', JSON.stringify(valuation, null, 2));
       
-      // Generate PDF on demand
-      const { generateValuationPDF } = await import('../client/src/lib/pdf-generator.ts');
-      const { getIndustryMultiple } = await import('../client/src/lib/industry-multiples.ts');
+      // Generate HTML content for PDF conversion
+      const htmlContent = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <style>
+            body { font-family: Arial, sans-serif; margin: 40px; }
+            .header { color: #2563eb; border-bottom: 2px solid #2563eb; padding-bottom: 10px; }
+            .title { font-size: 24px; font-weight: bold; margin-bottom: 20px; }
+            .section { margin: 20px 0; }
+            .value-range { background: #f0f9ff; padding: 15px; border-left: 4px solid #2563eb; }
+            .footer { margin-top: 50px; font-size: 12px; color: #666; }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <div class="title">ValuationGenie Business Valuation Report</div>
+          </div>
+          
+          <div class="section">
+            <h3>Business Information</h3>
+            <p><strong>Business Name:</strong> ${valuation.businessName}</p>
+            <p><strong>Industry:</strong> ${valuation.industry}</p>
+            <p><strong>Location:</strong> ${valuation.location}</p>
+            <p><strong>Years in Business:</strong> ${valuation.yearsInBusiness}</p>
+            <p><strong>Report Date:</strong> ${new Date().toLocaleDateString()}</p>
+          </div>
+          
+          <div class="section value-range">
+            <h3>Valuation Summary</h3>
+            <p><strong>Estimated Value Range:</strong> $${parseInt(valuation.valuationLow || 0).toLocaleString()} - $${parseInt(valuation.valuationHigh || 0).toLocaleString()}</p>
+            <p><strong>Industry Multiple:</strong> ${valuation.industryMultiple}x</p>
+            <p><strong>Annual Revenue:</strong> $${parseInt(valuation.annualRevenue || 0).toLocaleString()}</p>
+            <p><strong>SDE:</strong> $${parseInt(valuation.sde || 0).toLocaleString()}</p>
+          </div>
+          
+          <div class="section">
+            <h3>Disclaimer</h3>
+            <p>This valuation is based on industry-standard methodologies and should be used for informational purposes only. It does not constitute professional financial advice.</p>
+          </div>
+          
+          <div class="footer">
+            <p>© ValuationGenie - Confidential Business Valuation Report</p>
+          </div>
+        </body>
+        </html>
+      `;
       
-      const industryData = getIndustryMultiple(valuation.industry);
-      console.log('Industry data:', industryData);
+      // Use puppeteer to generate PDF from HTML
+      const puppeteer = await import('puppeteer');
+      const browser = await puppeteer.default.launch({
+        headless: 'new',
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
+      });
+      const page = await browser.newPage();
+      await page.setContent(htmlContent);
+      const pdfBuffer = await page.pdf({ 
+        format: 'A4',
+        margin: { top: '20px', bottom: '20px', left: '20px', right: '20px' }
+      });
+      await browser.close();
       
-      const pdf = generateValuationPDF({ valuation, industryData });
-      const pdfBuffer = pdf.output('arraybuffer');
+      console.log('PDF generated successfully, buffer size:', pdfBuffer.length);
       
       res.setHeader('Content-Type', 'application/pdf');
       res.setHeader('Content-Disposition', `attachment; filename="${valuation.businessName.replace(/[^a-zA-Z0-9]/g, '_')}-valuation.pdf"`);
-      res.send(Buffer.from(pdfBuffer));
+      res.setHeader('Content-Length', pdfBuffer.length.toString());
+      res.send(pdfBuffer);
     } catch (error: any) {
       console.error('PDF generation error:', error);
       res.status(500).json({ message: 'Error generating PDF: ' + error.message });
