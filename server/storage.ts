@@ -104,8 +104,30 @@ export class DatabaseStorage implements IStorage {
 
   // Valuations
   async createValuation(valuation: InsertValuation & { valuationLow: string; valuationHigh: string; industryMultiple: string }): Promise<Valuation> {
-    const [result] = await db.insert(valuations).values(valuation).returning();
-    return result;
+    try {
+      // Use only the core fields that exist in the current database schema
+      const coreData = {
+        userId: valuation.userId,
+        businessName: valuation.businessName,
+        industry: valuation.industry,
+        location: valuation.location,
+        yearsInBusiness: valuation.yearsInBusiness,
+        buyerOrSeller: valuation.buyerOrSeller,
+        annualRevenue: valuation.annualRevenue,
+        sde: valuation.sde,
+        valuationLow: valuation.valuationLow,
+        valuationHigh: valuation.valuationHigh,
+        industryMultiple: valuation.industryMultiple,
+      };
+
+      console.log('Creating valuation with core data only:', JSON.stringify(coreData, null, 2));
+
+      const [result] = await db.insert(valuations).values(coreData as any).returning();
+      return result;
+    } catch (error: any) {
+      console.error('Database insertion error:', error);
+      throw new Error(`Failed to create valuation: ${error.message}`);
+    }
   }
 
   async getValuation(id: string): Promise<Valuation | undefined> {

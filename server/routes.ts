@@ -151,8 +151,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       console.log('Prepared valuation data:', JSON.stringify(preparedData, null, 2));
       
-      // Skip validation temporarily and use data directly for debugging
-      const data = preparedData;
+      // Now validate the prepared data
+      const data = insertValuationSchema.parse(preparedData);
       
       // Calculate valuation based on industry multiples
       const { calculateValuation } = await import('../client/src/lib/industry-multiples.ts');
@@ -186,7 +186,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       res.json(valuation);
     } catch (error: any) {
-      res.status(400).json({ message: error.message });
+      console.error('Valuation creation error:', error);
+      res.status(400).json({ 
+        message: `Error creating valuation: ${error.message}`,
+        details: error.issues || error.stack
+      });
     }
   });
 
