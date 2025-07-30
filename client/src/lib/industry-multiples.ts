@@ -9,34 +9,232 @@ interface IndustryMultiple {
 // Comprehensive industry list with typical multiplier ranges
 const industryMultiples: IndustryMultiple[] = [
   {
-    industry: "cleaning",
+    industry: "accounting-bookkeeping",
+    multiple: 3.8,
+    description: "Accounting & Bookkeeping",
+    factors: ["Professional licensing", "Client retention", "Technology systems", "Seasonal workload"]
+  },
+  {
+    industry: "advertising-marketing",
+    multiple: 3.5,
+    description: "Advertising & Marketing",
+    factors: ["Client portfolio", "Creative assets", "Team expertise", "Market competition"]
+  },
+  {
+    industry: "architecture-engineering",
+    multiple: 3.8,
+    description: "Architecture & Engineering",
+    factors: ["Professional licensing", "Project complexity", "Technology tools", "Industry expertise"]
+  },
+  {
+    industry: "auto-repair-services",
+    multiple: 2.6,
+    description: "Auto Repair & Services",
+    factors: ["Equipment value", "Technical expertise", "Customer relationships", "Location"]
+  },
+  {
+    industry: "beauty-personal-care",
+    multiple: 2.8,
+    description: "Beauty & Personal Care",
+    factors: ["Location lease", "Equipment value", "Client retention", "Service variety"]
+  },
+  {
+    industry: "cleaning-services",
     multiple: 2.5,
     description: "Cleaning Services",
     factors: ["Contract stability", "Low barrier to entry", "Equipment needs", "Staff turnover"]
   },
   {
-    industry: "landscaping",
-    multiple: 3.0,
-    description: "Landscaping Services",
-    factors: ["Equipment value", "Seasonal patterns", "Contract vs. one-time work", "Labor management"]
+    industry: "computer-it-services",
+    multiple: 4.2,
+    description: "Computer & IT Services",
+    factors: ["Technical expertise", "Client contracts", "Technology assets", "Market demand"]
   },
   {
-    industry: "consulting",
-    multiple: 3.5,
+    industry: "consulting-services",
+    multiple: 4.0,
     description: "Consulting Services",
     factors: ["High margins", "Intellectual property", "Client relationships", "Owner dependency"]
   },
   {
-    industry: "healthcare",
+    industry: "construction",
+    multiple: 2.4,
+    description: "Construction",
+    factors: ["Equipment value", "Licensing", "Project pipeline", "Bonding capacity"]
+  },
+  {
+    industry: "daycare-education",
+    multiple: 2.8,
+    description: "Daycare & Education",
+    factors: ["Licensing requirements", "Facility value", "Staff qualifications", "Waiting lists"]
+  },
+  {
+    industry: "dental-practice",
+    multiple: 3.8,
+    description: "Dental Practice",
+    factors: ["Professional licenses", "Patient base", "Equipment value", "Insurance contracts"]
+  },
+  {
+    industry: "e-commerce-online-retail",
+    multiple: 3.8,
+    description: "E-commerce & Online Retail",
+    factors: ["Digital assets", "Customer base", "Supply chain", "Platform dependency"]
+  },
+  {
+    industry: "event-planning",
+    multiple: 2.9,
+    description: "Event Planning",
+    factors: ["Client relationships", "Vendor networks", "Seasonal patterns", "Creative assets"]
+  },
+  {
+    industry: "financial-services",
     multiple: 4.0,
+    description: "Financial Services",
+    factors: ["Professional licensing", "Client assets", "Regulatory compliance", "Trust relationships"]
+  },
+  {
+    industry: "fitness-wellness",
+    multiple: 3.0,
+    description: "Fitness & Wellness",
+    factors: ["Membership base", "Equipment value", "Location lease", "Competition"]
+  },
+  {
+    industry: "food-beverage",
+    multiple: 2.5,
+    description: "Food & Beverage",
+    factors: ["Brand recognition", "Supply chain", "Quality systems", "Market demand"]
+  },
+  {
+    industry: "graphic-design-creative",
+    multiple: 3.0,
+    description: "Graphic Design & Creative",
+    factors: ["Portfolio quality", "Client base", "Creative tools", "Market positioning"]
+  },
+  {
+    industry: "healthcare-services",
+    multiple: 4.2,
     description: "Healthcare Services",
     factors: ["Professional licensing", "Recurring patients", "Equipment value", "Regulatory compliance"]
   },
   {
-    industry: "technology",
-    multiple: 5.0,
-    description: "Technology Services",
+    industry: "home-services-maintenance",
+    multiple: 2.7,
+    description: "Home Services & Maintenance",
+    factors: ["Technical licensing", "Equipment value", "Service contracts", "Geographic coverage"]
+  },
+  {
+    industry: "insurance-services",
+    multiple: 3.5,
+    description: "Insurance Services",
+    factors: ["Client portfolio", "Licensing", "Commission structure", "Carrier relationships"]
+  },
+  {
+    industry: "landscaping-lawn-care",
+    multiple: 2.8,
+    description: "Landscaping & Lawn Care",
+    factors: ["Equipment value", "Seasonal patterns", "Contract vs. one-time work", "Labor management"]
+  },
+  {
+    industry: "legal-services",
+    multiple: 3.2,
+    description: "Legal Services",
+    factors: ["Professional licensing", "Client base", "Specialization", "Case complexity"]
+  },
+  {
+    industry: "manufacturing",
+    multiple: 3.0,
+    description: "Manufacturing",
+    factors: ["Equipment value", "Supply chain", "Quality systems", "Market demand"]
+  },
+  {
+    industry: "medical-practice",
+    multiple: 4.0,
+    description: "Medical Practice",
+    factors: ["Professional licenses", "Patient base", "Equipment value", "Insurance contracts"]
+  },
+  {
+    industry: "pet-services",
+    multiple: 2.7,
+    description: "Pet Services",
+    factors: ["Customer loyalty", "Service contracts", "Facility requirements", "Insurance needs"]
+  },
+  {
+    industry: "photography-video",
+    multiple: 2.6,
+    description: "Photography & Video",
+    factors: ["Equipment value", "Portfolio quality", "Client relationships", "Market competition"]
+  },
+  {
+    industry: "plumbing-hvac",
+    multiple: 2.9,
+    description: "Plumbing & HVAC",
+    factors: ["Technical licensing", "Equipment value", "Emergency services", "Customer contracts"]
+  },
+  {
+    industry: "professional-services",
+    multiple: 4.5,
+    description: "Professional Services",
+    factors: ["Expertise level", "Client relationships", "Industry reputation", "Service quality"]
+  },
+  {
+    industry: "real-estate-services",
+    multiple: 3.3,
+    description: "Real Estate Services",
+    factors: ["Agent retention", "Market cycles", "Brand recognition", "Territory coverage"]
+  },
+  {
+    industry: "restaurant-food-service",
+    multiple: 2.3,
+    description: "Restaurant & Food Service",
+    factors: ["Location premium", "Brand recognition", "Operating complexity", "Market saturation"]
+  },
+  {
+    industry: "retail-store",
+    multiple: 2.4,
+    description: "Retail Store",
+    factors: ["Location value", "Inventory turnover", "Brand recognition", "Customer loyalty"]
+  },
+  {
+    industry: "software-as-a-service--saas-",
+    multiple: 6.0,
+    description: "Software as a Service (SaaS)",
+    factors: ["Recurring revenue", "Scalability", "Technology stack", "Customer retention"]
+  },
+  {
+    industry: "technology-software",
+    multiple: 5.5,
+    description: "Technology & Software",
     factors: ["Scalability", "Intellectual property", "Market growth", "Innovation potential"]
+  },
+  {
+    industry: "transportation-logistics",
+    multiple: 2.6,
+    description: "Transportation & Logistics",
+    factors: ["Fleet value", "Routes and contracts", "Regulatory compliance", "Fuel costs"]
+  },
+  {
+    industry: "travel-tourism",
+    multiple: 2.5,
+    description: "Travel & Tourism",
+    factors: ["Seasonal patterns", "Location dependence", "Service quality", "Market volatility"]
+  },
+  {
+    industry: "veterinary-services",
+    multiple: 3.5,
+    description: "Veterinary Services",
+    factors: ["Professional licensing", "Equipment value", "Client loyalty", "Emergency services"]
+  },
+  {
+    industry: "web-design-development",
+    multiple: 3.5,
+    description: "Web Design & Development",
+    factors: ["Technical expertise", "Portfolio quality", "Client retention", "Technology trends"]
+  },
+  {
+    industry: "wholesale-distribution",
+    multiple: 2.2,
+    description: "Wholesale & Distribution",
+    factors: ["Inventory management", "Supplier relationships", "Logistics efficiency", "Market reach"]
   },
   {
     industry: "convenience-store",
