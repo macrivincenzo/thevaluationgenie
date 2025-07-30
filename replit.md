@@ -146,3 +146,9 @@ The application follows a typical full-stack TypeScript pattern with strong type
 - **Checkout Flow**: Created new checkout page (checkout-new.tsx) with proper Stripe Elements configuration
 - **Payment Security**: $99 per report with secure Stripe processing and webhook support
 - **Error Resolution**: Fixed Stripe Elements clientSecret requirement and TypeScript errors
+
+### January 30, 2025
+- **SIMPLIFIED QUESTIONNAIRE**: Removed buyer/seller distinction per user request
+- **Universal Questions**: Same questionnaire for all users (buyers and sellers)
+- **Streamlined UI**: Replaced buyer/seller selection with single professional valuation introduction
+- **Future Flexibility**: Framework in place for easy question modification later

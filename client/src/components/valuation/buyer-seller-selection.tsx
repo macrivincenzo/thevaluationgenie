@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Users, TrendingUp, Info } from "lucide-react";
+import { Calculator, Info } from "lucide-react";
+import { useEffect } from "react";
 
 interface BuyerSellerSelectionProps {
   value: 'buying' | 'selling' | '';
@@ -9,109 +10,77 @@ interface BuyerSellerSelectionProps {
 }
 
 export default function BuyerSellerSelection({ value, onChange, onNext }: BuyerSellerSelectionProps) {
-  const handleDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedValue = event.target.value as 'buying' | 'selling';
-    console.log('Dropdown selection changed to:', selectedValue);
-    console.log('Event target value:', event.target.value);
-    onChange(selectedValue);
-  };
-
-  const handleContinueClick = () => {
-    console.log('Continue button clicked with value:', value);
-    if (value) {
-      console.log('Proceeding to next step with selection:', value);
-      onNext();
-    } else {
-      console.log('Cannot proceed - no selection made');
+  
+  // Automatically set the value to "selling" since we're using the same questions for everyone
+  useEffect(() => {
+    if (!value) {
+      onChange('selling');
     }
-  };
+  }, [value, onChange]);
 
-  console.log('Component rendered with current value:', value);
+  const handleContinue = () => {
+    console.log("Continue button clicked, proceeding to business questions");
+    onNext();
+  };
 
   return (
     <Card className="shadow-lg">
       <CardContent className="p-8">
-        <div className="mb-6">
-          <h3 className="text-2xl font-bold text-slate-900 mb-2">Are you buying or selling?</h3>
-          <div className="flex items-start text-slate-600 mb-4">
+        <div className="text-center mb-8">
+          <h2 className="text-2xl font-bold text-slate-900 mb-3">Business Valuation</h2>
+          <div className="flex items-start justify-center mb-6">
             <Info className="w-5 h-5 text-blue-500 mr-2 mt-0.5 flex-shrink-0" />
-            <p>
-              <strong>Why we ask this:</strong> Buyers and sellers have different priorities that affect valuation approach and the questions we'll ask next.
+            <p className="text-slate-600 text-left">
+              Get a professional business valuation using industry-standard methodologies. We'll ask questions about your business to provide an accurate assessment.
             </p>
           </div>
         </div>
 
-
-
-        {/* Standard HTML Form with Select Dropdown */}
-        <form onSubmit={(e) => { e.preventDefault(); handleContinueClick(); }}>
-          <div className="mb-6">
-            <label htmlFor="buyer-seller-select" className="block text-lg font-semibold mb-3 text-slate-900">
-              Select your role:
-            </label>
-            <select 
-              id="buyer-seller-select"
-              name="buyerSeller"
-              value={value}
-              onChange={handleDropdownChange}
-              className="w-full p-4 border-2 border-gray-300 rounded-lg text-lg bg-white focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-all"
-              style={{ minHeight: '56px' }}
-            >
-              <option value="" disabled>Choose an option...</option>
-              <option value="buying">I'm Buying a Business</option>
-              <option value="selling">I'm Selling a Business</option>
-            </select>
-          </div>
-
-          {/* Visual confirmation cards */}
-          {value && (
-            <div className="mb-6">
-              <h4 className="text-lg font-semibold mb-3 text-slate-900">Your Selection:</h4>
-              <div className="grid gap-4">
-                {value === 'buying' && (
-                  <div className="p-4 border-2 border-blue-500 bg-blue-50 rounded-lg">
-                    <div className="flex items-center">
-                      <Users className="w-8 h-8 text-blue-600 mr-3" />
-                      <div>
-                        <h5 className="text-lg font-bold text-blue-900">I'm Buying a Business</h5>
-                        <p className="text-blue-700">We'll focus on risk assessment and fair market value</p>
-                      </div>
-                    </div>
-                  </div>
-                )}
-                
-                {value === 'selling' && (
-                  <div className="p-4 border-2 border-green-500 bg-green-50 rounded-lg">
-                    <div className="flex items-center">
-                      <TrendingUp className="w-8 h-8 text-green-600 mr-3" />
-                      <div>
-                        <h5 className="text-lg font-bold text-green-900">I'm Selling a Business</h5>
-                        <p className="text-green-700">We'll help maximize your business value</p>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
+        <div className="border-2 border-blue-500 bg-blue-50 rounded-lg p-6 mb-8">
+          <div className="flex items-center justify-center">
+            <Calculator className="w-8 h-8 text-blue-600 mr-4" />
+            <div>
+              <h3 className="text-xl font-semibold text-slate-900 mb-2">Professional Business Valuation</h3>
+              <p className="text-slate-600">
+                Our comprehensive questionnaire will gather the necessary information to calculate your business value using proven methodologies and industry multiples.
+              </p>
             </div>
-          )}
-
-          {/* Form buttons */}
-          <div className="flex justify-between items-center">
-            <Button type="button" variant="ghost" disabled>
-              Previous
-            </Button>
-            <Button 
-              type="button"
-              onClick={handleContinueClick}
-              disabled={!value}
-              className={`${!value ? 'opacity-50 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}
-            >
-              Continue {value && `(${value === 'buying' ? 'Buyer' : 'Seller'})`}
-            </Button>
           </div>
-        </form>
+        </div>
 
+        <div className="bg-slate-50 rounded-lg p-6 mb-8">
+          <h4 className="font-semibold text-slate-900 mb-3">What's Included:</h4>
+          <ul className="space-y-2 text-sm text-slate-700">
+            <li className="flex items-center">
+              <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+              SDE (Seller's Discretionary Earnings) analysis
+            </li>
+            <li className="flex items-center">
+              <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+              Industry-specific multiplier application
+            </li>
+            <li className="flex items-center">
+              <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+              Comprehensive PDF valuation report
+            </li>
+            <li className="flex items-center">
+              <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+              Risk assessment and market analysis
+            </li>
+          </ul>
+        </div>
 
+        <div className="flex justify-between">
+          <Button variant="ghost" disabled>
+            Previous
+          </Button>
+          <Button 
+            onClick={handleContinue}
+            className="bg-blue-600 hover:bg-blue-700 text-white"
+          >
+            Start Valuation
+          </Button>
+        </div>
       </CardContent>
     </Card>
   );

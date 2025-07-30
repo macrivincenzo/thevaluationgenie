@@ -70,8 +70,8 @@ export interface ValuationData {
 }
 
 const initialData: ValuationData = {
-  // Step 1: Buyer/Seller Selection  
-  buyerOrSeller: '',
+  // Step 1: Buyer/Seller Selection (now universal - everyone gets same questions)
+  buyerOrSeller: 'selling',
   
   // Basic Business Info
   businessName: '',
@@ -130,7 +130,7 @@ export default function ValuationFlow() {
   const { toast } = useToast();
   const [, setLocation] = useLocation();
 
-  // Total steps: 1=Buyer/Seller, 2=Questions, 3=Industry, 4=FileUpload, 5=Results
+  // Total steps: 1=Start, 2=Questions, 3=Industry, 4=FileUpload, 5=Results
   const totalSteps = 5;
 
   const createValuationMutation = useMutation({
@@ -207,16 +207,11 @@ export default function ValuationFlow() {
   const canProceed = () => {
     switch (currentStep) {
       case 1:
-        return valuationData.buyerOrSeller !== '';
+        return true; // Always can proceed from intro step
       case 2:
-        // Questions step - basic validation based on buyer/seller type
-        if (valuationData.buyerOrSeller === 'selling') {
-          return valuationData.annualRevenue.some(rev => rev > 0) &&
-                 valuationData.sdeData.some(sde => sde > 0);
-        } else {
-          return valuationData.maxInvestmentBudget > 0 &&
-                 valuationData.availableCash > 0;
-        }
+        // Questions step - validate core business data
+        return valuationData.annualRevenue.some(rev => rev > 0) &&
+               valuationData.sdeData.some(sde => sde > 0);
       case 3:
         return valuationData.businessName && 
                valuationData.industry && 
