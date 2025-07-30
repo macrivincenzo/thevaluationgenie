@@ -108,13 +108,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       console.log('Received valuation data:', JSON.stringify(rawData, null, 2));
       
-      // Extract core values from arrays or defaults
+      // Extract core values from comprehensive data
       const annualRevenueValue = Array.isArray(rawData.annualRevenue) ? rawData.annualRevenue[0] || 0 : rawData.annualRevenue || 0;
-      const sdeValue = Array.isArray(rawData.sdeData) ? rawData.sdeData[0] || 0 : rawData.sde || 0;
+      const sdeValue = rawData.sde || 0;
+      const addBacksValue = rawData.addBacks || 0;
+      
+      // Calculate SDE if not provided (Revenue - Owner Salary + Add-backs)
+      const calculatedSDE = sdeValue || (annualRevenueValue - (rawData.ownerSalary || 0) + addBacksValue);
       
       // Calculate valuation using industry multiples
       const { calculateValuation } = await import('../client/src/lib/industry-multiples.ts');
-      const { low, high, multiple } = calculateValuation(rawData.industry || 'other', sdeValue);
+      const { low, high, multiple } = calculateValuation(rawData.industry || 'other', calculatedSDE);
       
       // Create core data object matching the actual database structure
       const valuationData = {
@@ -123,16 +127,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
         industry: rawData.industry || 'other',
         location: rawData.location || 'Not Specified',
         yearsInBusiness: rawData.yearsInBusiness || 1,
-        buyerOrSeller: rawData.buyerOrSeller || 'buying',
-        annualRevenue: annualRevenueValue.toString(),
-        sde: sdeValue.toString(),
-        addBacks: "0",
-        ownerInvolvement: "",
-        growthTrend: "",
-        majorRisks: "",
-        valuationLow: low.toString(),
-        valuationHigh: high.toString(),
-        industryMultiple: multiple.toString()
+        buyerOrSeller: rawData.buyerOrSeller || 'selling',
+        annualRevenue: annualRevenueValue,
+        sde: calculatedSDE,
+        addBacks: addBacksValue,
+        ownerInvolvement: rawData.ownerInvolvement || 'moderate',
+        growthTrend: rawData.growthTrend || 'stable',
+        majorRisks: Array.isArray(rawData.majorRiskFactors) ? rawData.majorRiskFactors.join(', ') : (rawData.majorRisks || 'None specified'),
+        valuationLow: low,
+        valuationHigh: high,
+        industryMultiple: multiple,
+        paid: false
       };
       
       console.log('Creating valuation with data:', JSON.stringify(valuationData, null, 2));
