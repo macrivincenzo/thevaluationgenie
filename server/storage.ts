@@ -107,7 +107,29 @@ export class DatabaseStorage implements IStorage {
     try {
       console.log('Storage: Creating valuation with data:', JSON.stringify(valuationData, null, 2));
 
-      const [result] = await db.insert(valuations).values(valuationData).returning();
+      // Create a sanitized object with only the columns that exist in the database
+      const sanitizedData = {
+        userId: valuationData.userId,
+        businessName: valuationData.businessName,
+        industry: valuationData.industry,
+        location: valuationData.location,
+        yearsInBusiness: valuationData.yearsInBusiness,
+        annualRevenue: valuationData.annualRevenue,
+        sde: valuationData.sde,
+        addBacks: valuationData.addBacks,
+        ownerInvolvement: valuationData.ownerInvolvement,
+        growthTrend: valuationData.growthTrend,
+        majorRisks: valuationData.majorRisks,
+        buyerOrSeller: valuationData.buyerOrSeller,
+        valuationLow: valuationData.valuationLow,
+        valuationHigh: valuationData.valuationHigh,
+        industryMultiple: valuationData.industryMultiple,
+        paid: valuationData.paid || false
+      };
+
+      console.log('Sanitized data for insertion:', JSON.stringify(sanitizedData, null, 2));
+
+      const [result] = await db.insert(valuations).values(sanitizedData).returning();
       return result;
     } catch (error: any) {
       console.error('Database insertion error:', error);
