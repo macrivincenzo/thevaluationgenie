@@ -44,30 +44,73 @@ export const emailSubscriptions = pgTable("email_subscriptions", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
-// Business valuations table - matches current database structure
+// Business valuations table - enhanced for comprehensive questionnaire
 export const valuations = pgTable("valuations", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   userId: varchar("user_id").references(() => users.id).notNull(),
   
-  // Basic business info
+  // Section 1: Basic Business Information
   businessName: varchar("business_name").notNull(),
   industry: varchar("industry").notNull(),
+  businessDescription: text("business_description"),
+  foundedYear: integer("founded_year"),
   location: varchar("location").notNull(),
+  employeeCount: integer("employee_count"),
+  
+  // Section 2: Financial Performance (Last 12 Months)
+  annualRevenue: decimal("annual_revenue").notNull(),
+  recurringRevenuePct: decimal("recurring_revenue_pct"),
+  oneTimeRevenuePct: decimal("one_time_revenue_pct"),
+  ebitda: decimal("ebitda"),
+  ebitdaMargin: decimal("ebitda_margin"),
+  ownerSalary: decimal("owner_salary"),
+  addBacks: decimal("add_backs"),
+  
+  // Section 3: Customer & Market Metrics
+  customerRetentionRate: decimal("customer_retention_rate"),
+  top5CustomersPct: decimal("top5_customers_pct"),
+  customerLifetimeValue: decimal("customer_lifetime_value"),
+  customerAcquisitionCost: decimal("customer_acquisition_cost"),
+  revenueGrowthRate: decimal("revenue_growth_rate"),
+  
+  // Section 4: Operational Metrics
+  ownerInvolvement: varchar("owner_involvement").notNull(),
+  managementTeam: varchar("management_team"),
+  systemsProcesses: varchar("systems_processes"),
+  
+  // Section 5: Market & Competition
+  marketPosition: varchar("market_position"),
+  competitiveAdvantages: jsonb("competitive_advantages"),
+  marketGrowth: varchar("market_growth"),
+  
+  // Section 6: Risk Assessment
+  majorRiskFactors: jsonb("major_risk_factors"),
+  technologyRisk: varchar("technology_risk"),
+  
+  // Section 7: Growth & Future Potential
+  growthOpportunities: jsonb("growth_opportunities"),
+  expansionPlans: varchar("expansion_plans"),
+  
+  // Section 8: Assets & Liabilities
+  majorAssets: text("major_assets"),
+  outstandingDebt: decimal("outstanding_debt"),
+  intellectualProperty: jsonb("intellectual_property"),
+  
+  // Legacy/compatibility fields
   yearsInBusiness: integer("years_in_business").notNull(),
   buyerOrSeller: varchar("buyer_or_seller").notNull(),
-  
-  // Financial data - core fields only (matching actual database)
-  annualRevenue: decimal("annual_revenue").notNull(),
   sde: decimal("sde").notNull(),
-  addBacks: decimal("add_backs"),
-  ownerInvolvement: varchar("owner_involvement").notNull(),
   growthTrend: varchar("growth_trend").notNull(),
   majorRisks: text("major_risks"),
   
-  // Valuation results
+  // Enhanced valuation results
   valuationLow: decimal("valuation_low"),
   valuationHigh: decimal("valuation_high"),
   industryMultiple: decimal("industry_multiple"),
+  revenueMultiple: decimal("revenue_multiple"),
+  ebitdaMultiple: decimal("ebitda_multiple"),
+  dcfValuation: decimal("dcf_valuation"),
+  weightedValuation: decimal("weighted_valuation"),
   
   // Payment and file tracking
   pdfPath: varchar("pdf_path"),

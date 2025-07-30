@@ -8,6 +8,7 @@ import ProgressSteps from "@/components/valuation/progress-steps";
 import BuyerSellerSelection from "@/components/valuation/buyer-seller-selection";
 import SellerQuestions from "@/components/valuation/seller-questions";
 import BuyerQuestions from "@/components/valuation/buyer-questions";
+import ComprehensiveQuestions from "@/components/valuation/comprehensive-questions";
 import IndustrySelection from "@/components/valuation/industry-selection";
 import FileUpload from "@/components/valuation/file-upload";
 import ValuationResult from "@/components/valuation/valuation-result";
@@ -16,54 +17,91 @@ export interface ValuationData {
   // Step 1: Buyer/Seller Selection
   buyerOrSeller: 'buying' | 'selling' | '';
   
-  // Basic Business Info
+  // Section 1: Basic Business Information
   businessName: string;
   industry: string;
+  businessDescription?: string;
+  foundedYear?: number;
   location: string;
-  yearsInBusiness: number;
+  employeeCount?: number;
   
-  // Financial data (3 years)
-  annualRevenue: number[]; // Array of 3 years
-  sdeData: number[]; // Array of 3 years  
-  profitMargin: number;
+  // Section 2: Financial Performance (Last 12 Months)
+  annualRevenue: number | number[]; // Can be single value or array for compatibility
+  recurringRevenuePct?: number;
+  oneTimeRevenuePct?: number;
+  ebitda?: number;
+  ebitdaMargin?: number;
+  ownerSalary?: number;
+  addBacks?: number;
   
-  // Seller-specific questions
-  ownerWorkHours: number;
-  canRunWithoutOwner: boolean;
-  hasKeyEmployees: boolean;
-  topCustomersRevenuePct: number;
-  customerRetentionPct: number;
-  hasLongTermContracts: boolean;
-  growthRates: number[]; // Array of 3 years
-  competitiveAdvantage: string;
-  marketSize: string; // local/regional/national
-  ownedAssets: string;
-  businessDebts: string;
-  locationOwnership: string; // own/lease
+  // Section 3: Customer & Market Metrics
+  customerRetentionRate?: number;
+  top5CustomersPct?: number;
+  customerLifetimeValue?: number;
+  customerAcquisitionCost?: number;
+  revenueGrowthRate?: number;
   
-  // Buyer-specific questions
-  maxInvestmentBudget: number;
-  availableCash: number;
-  hasIndustryExperience: boolean;
-  timeCommitmentHours: number;
-  managementPlan: string; // have/will-hire
-  riskTolerance: string; // low/medium/high
-  buyingMotivation: string;
-  plannedChanges: string;
-  investmentTimeline: string; // 1-3/3-5/5+ years
-  financialRecordPriorities: string[];
-  customerRelationshipConcerns: string;
-  legalRegulatoryIssues: string;
-  preferredPurchaseMethod: string; // cash/seller-financing
-  openToEarnOut: boolean;
-  minAcceptableROI: number;
+  // Section 4: Operational Metrics
+  ownerInvolvement: string;
+  managementTeam?: string;
+  systemsProcesses?: string;
+  
+  // Section 5: Market & Competition
+  marketPosition?: string;
+  competitiveAdvantages?: string[];
+  marketGrowth?: string;
+  
+  // Section 6: Risk Assessment
+  majorRiskFactors?: string[];
+  technologyRisk?: string;
+  
+  // Section 7: Growth & Future Potential
+  growthOpportunities?: string[];
+  expansionPlans?: string;
+  
+  // Section 8: Assets & Liabilities
+  majorAssets?: string;
+  outstandingDebt?: number;
+  intellectualProperty?: string[];
   
   // Legacy fields for compatibility
+  yearsInBusiness: number;
+  sdeData?: number[]; // Array of 3 years  
+  profitMargin?: number;
   sde: number;
-  addBacks: number;
-  ownerInvolvement: string;
   growthTrend: string;
   majorRisks: string;
+  
+  // Legacy seller-specific questions
+  ownerWorkHours?: number;
+  canRunWithoutOwner?: boolean;
+  hasKeyEmployees?: boolean;
+  topCustomersRevenuePct?: number;
+  customerRetentionPct?: number;
+  hasLongTermContracts?: boolean;
+  growthRates?: number[]; // Array of 3 years
+  competitiveAdvantage?: string;
+  marketSize?: string; // local/regional/national
+  ownedAssets?: string;
+  businessDebts?: string;
+  locationOwnership?: string; // own/lease
+  
+  // Legacy buyer-specific questions
+  maxInvestmentBudget?: number;
+  availableCash?: number;
+  hasIndustryExperience?: boolean;
+  timeCommitmentHours?: number;
+  managementPlan?: string; // have/will-hire
+  riskTolerance?: string; // low/medium/high
+  buyingMotivation?: string;
+  plannedChanges?: string;
+  investmentTimeline?: string; // 1-3/3-5/5+ years
+  financialRecordPriorities?: string[];
+  customerRelationshipConcerns?: string;
+  legalRegulatoryIssues?: string;
+  preferredPurchaseMethod?: string; // cash/seller-financing
+  openToEarnOut?: boolean;
+  minAcceptableROI?: number;
   
   // Uploaded files
   uploadedFiles?: any[];
@@ -73,25 +111,60 @@ const initialData: ValuationData = {
   // Step 1: Buyer/Seller Selection (now universal - everyone gets same questions)
   buyerOrSeller: 'selling',
   
-  // Basic Business Info
+  // Section 1: Basic Business Info
   businessName: '',
   industry: '',
+  businessDescription: '',
+  foundedYear: new Date().getFullYear(),
   location: '',
-  yearsInBusiness: 0,
+  employeeCount: 0,
   
-  // Financial data (3 years)
-  annualRevenue: [0, 0, 0],
+  // Section 2: Financial Performance
+  annualRevenue: 0,
+  recurringRevenuePct: 0,
+  oneTimeRevenuePct: 0,
+  ebitda: 0,
+  ebitdaMargin: 0,
+  ownerSalary: 0,
+  addBacks: 0,
+  
+  // Section 3: Customer & Market Metrics
+  customerRetentionRate: 0,
+  top5CustomersPct: 0,
+  customerLifetimeValue: 0,
+  customerAcquisitionCost: 0,
+  revenueGrowthRate: 0,
+  
+  // Section 4: Operational Metrics
+  ownerInvolvement: '',
+  managementTeam: '',
+  systemsProcesses: '',
+  
+  // Section 5: Market & Competition
+  marketPosition: '',
+  competitiveAdvantages: [],
+  marketGrowth: '',
+  
+  // Section 6: Risk Assessment
+  majorRiskFactors: [],
+  technologyRisk: '',
+  
+  // Section 7: Growth & Future Potential
+  growthOpportunities: [],
+  expansionPlans: '',
+  
+  // Section 8: Assets & Liabilities
+  majorAssets: '',
+  outstandingDebt: 0,
+  intellectualProperty: [],
+  
+  // Legacy compatibility fields
+  yearsInBusiness: 0,
   sdeData: [0, 0, 0],
   profitMargin: 0,
-  
-  // Seller-specific questions
-  ownerWorkHours: 0,
-  canRunWithoutOwner: false,
-  hasKeyEmployees: false,
-  topCustomersRevenuePct: 0,
-  customerRetentionPct: 0,
-  hasLongTermContracts: false,
-  growthRates: [0, 0, 0],
+  sde: 0,
+  growthTrend: '',
+  majorRisks: '',
   competitiveAdvantage: '',
   marketSize: '',
   ownedAssets: '',
@@ -113,14 +186,7 @@ const initialData: ValuationData = {
   legalRegulatoryIssues: '',
   preferredPurchaseMethod: '',
   openToEarnOut: false,
-  minAcceptableROI: 0,
-  
-  // Legacy fields for compatibility
-  sde: 0,
-  addBacks: 0,
-  ownerInvolvement: '',
-  growthTrend: '',
-  majorRisks: '',
+  minAcceptableROI: 0
 };
 
 export default function ValuationFlow() {
@@ -209,9 +275,13 @@ export default function ValuationFlow() {
       case 1:
         return true; // Always can proceed from intro step
       case 2:
-        // Questions step - validate core business data
-        return valuationData.annualRevenue.some(rev => rev > 0) &&
-               valuationData.sdeData.some(sde => sde > 0);
+        // Comprehensive questions - validate core data
+        return valuationData.businessName && 
+               valuationData.industry && 
+               ((typeof valuationData.annualRevenue === 'number' && valuationData.annualRevenue > 0) ||
+                (Array.isArray(valuationData.annualRevenue) && valuationData.annualRevenue.some(rev => rev > 0))) &&
+               valuationData.ebitda !== undefined &&
+               valuationData.ownerInvolvement;
       case 3:
         return valuationData.businessName && 
                valuationData.industry && 
@@ -248,18 +318,9 @@ export default function ValuationFlow() {
             />
           )}
 
-          {/* Step 2: Detailed Questions based on buyer/seller type */}
-          {currentStep === 2 && valuationData.buyerOrSeller === 'selling' && (
-            <SellerQuestions
-              data={valuationData}
-              onChange={handleDataUpdate}
-              onNext={handleNext}
-              onPrevious={handlePrevious}
-            />
-          )}
-
-          {currentStep === 2 && valuationData.buyerOrSeller === 'buying' && (
-            <BuyerQuestions
+          {/* Step 2: Comprehensive Questions */}
+          {currentStep === 2 && (
+            <ComprehensiveQuestions
               data={valuationData}
               onChange={handleDataUpdate}
               onNext={handleNext}

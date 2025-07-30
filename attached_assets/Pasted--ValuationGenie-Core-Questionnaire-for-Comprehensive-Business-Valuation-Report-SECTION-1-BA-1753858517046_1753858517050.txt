@@ -1,0 +1,304 @@
+# ValuationGenie: Core Questionnaire for Comprehensive Business Valuation Report
+
+## **SECTION 1: BASIC BUSINESS INFORMATION**
+
+### 1.1 Company Details
+**Question:** What is your company name?
+**Type:** Text field
+**Purpose:** For report header and identification
+
+### 1.2 Industry Classification
+**Question:** What industry is your business in?
+**Type:** Dropdown
+**Options:**
+- Software as a Service (SaaS)
+- Professional Services
+- Manufacturing
+- Retail/E-commerce
+- Healthcare Services
+- Financial Services
+- Construction
+- Food & Beverage
+- Transportation & Logistics
+- Real Estate Services
+- Technology/Software
+- Other (specify)
+
+**Purpose:** Determines appropriate valuation multiples and benchmarks
+
+### 1.3 Business Description
+**Question:** Briefly describe what your business does (2-3 sentences)
+**Type:** Text area
+**Purpose:** For company overview section
+
+### 1.4 Business Foundation
+**Question:** When was your business founded?
+**Type:** Year field
+**Purpose:** Shows business maturity and track record
+
+### 1.5 Location
+**Question:** Where is your business located?
+**Type:** State dropdown + City text field
+**Purpose:** Regional market analysis
+
+### 1.6 Team Size
+**Question:** How many employees do you have?
+**Type:** Number field
+**Purpose:** Indicates business scale and operational complexity
+
+## **SECTION 2: FINANCIAL PERFORMANCE (Last 12 Months)**
+
+### 2.1 Annual Revenue
+**Question:** What was your total annual revenue for the last 12 months?
+**Type:** Number field
+**Purpose:** Primary valuation metric for revenue multiple approach
+
+### 2.2 Recurring Revenue
+**Question:** What percentage of your revenue is recurring vs. one-time?
+**Type:** Two percentage fields
+- Recurring revenue: [percentage]%
+- One-time revenue: [percentage]%
+
+**Purpose:** Recurring revenue is more valuable and predictable
+
+### 2.3 EBITDA (Earnings Before Interest, Taxes, Depreciation, Amortization)
+**Question:** What is your EBITDA for the last 12 months?
+**Type:** Number field
+**Purpose:** Key profitability metric for EBITDA multiple approach
+
+### 2.4 EBITDA Margin
+**Question:** What is your EBITDA margin percentage?
+**Type:** Percentage field (auto-calculated if not provided)
+**Purpose:** Shows operational efficiency vs. industry benchmarks
+
+### 2.5 Owner's Salary/Draw
+**Question:** What is your annual salary or draw from the business?
+**Type:** Number field
+**Purpose:** For SDE calculation and add-backs
+
+### 2.6 Add-backs (One-time/Personal Expenses)
+**Question:** What one-time or personal expenses do you run through the business annually?
+**Type:** Number field (total)
+**Purpose:** Adjusts EBITDA to show true business profitability
+
+## **SECTION 3: CUSTOMER & MARKET METRICS**
+
+### 3.1 Customer Retention Rate
+**Question:** What is your annual customer retention rate?
+**Type:** Percentage field
+**Purpose:** Critical metric for SaaS and subscription businesses
+
+### 3.2 Customer Concentration
+**Question:** What percentage of revenue comes from your top 5 customers?
+**Type:** Percentage field
+**Purpose:** Risk assessment - high concentration reduces value
+
+### 3.3 Customer Lifetime Value (LTV)
+**Question:** What is the average customer lifetime value?
+**Type:** Number field
+**Purpose:** Unit economics analysis
+
+### 3.4 Customer Acquisition Cost (CAC)
+**Question:** What is your customer acquisition cost?
+**Type:** Number field
+**Purpose:** Unit economics analysis (LTV/CAC ratio)
+
+### 3.5 Revenue Growth Rate
+**Question:** What is your annual revenue growth rate?
+**Type:** Percentage field
+**Purpose:** Growth projection for DCF analysis
+
+## **SECTION 4: OPERATIONAL METRICS**
+
+### 4.1 Owner Involvement
+**Question:** How involved are you in daily operations?
+**Type:** Dropdown
+**Options:**
+- Hands-on (I handle most daily tasks)
+- Semi-absentee (I manage but have good systems)
+- Absentee (Business runs without my daily involvement)
+
+**Purpose:** Transferability assessment - affects value
+
+### 4.2 Management Team
+**Question:** Do you have a management team that could run the business without you?
+**Type:** Dropdown
+**Options:**
+- Yes, strong management team
+- Yes, some key employees
+- No, I'm essential to operations
+
+**Purpose:** Management depth assessment
+
+### 4.3 Systems & Processes
+**Question:** How well documented are your systems and processes?
+**Type:** Dropdown
+**Options:**
+- Fully documented (SOPs for everything)
+- Well documented (most processes)
+- Partially documented
+- Minimal documentation
+
+**Purpose:** Transferability and scalability assessment
+
+## **SECTION 5: MARKET & COMPETITION**
+
+### 5.1 Market Position
+**Question:** What is your position in the market?
+**Type:** Dropdown
+**Options:**
+- Market leader
+- Strong competitor
+- Niche player
+- Follower
+- New entrant
+
+**Purpose:** Competitive position analysis
+
+### 5.2 Competitive Advantages
+**Question:** What are your main competitive advantages?
+**Type:** Checkboxes
+**Options:**
+- Superior product/service quality
+- Better customer service
+- Lower prices
+- Proprietary technology
+- Strong brand recognition
+- Exclusive relationships
+- First-mover advantage
+- Other
+
+**Purpose:** Value driver identification
+
+### 5.3 Market Growth
+**Question:** Is your target market growing?
+**Type:** Dropdown
+**Options:**
+- Rapidly growing
+- Moderately growing
+- Stable
+- Declining
+
+**Purpose:** Growth potential assessment
+
+## **SECTION 6: RISK ASSESSMENT**
+
+### 6.1 Major Risk Factors
+**Question:** What are the biggest risks to your business?
+**Type:** Checkboxes
+**Options:**
+- Customer concentration
+- Supplier dependency
+- Regulatory changes
+- Technology disruption
+- Key person risk
+- Economic sensitivity
+- Competition
+- Other
+
+**Purpose:** Risk factor identification for valuation adjustments
+
+### 6.2 Technology Risk
+**Question:** How vulnerable is your business to technology changes?
+**Type:** Dropdown
+**Options:**
+- High risk (technology changes rapidly)
+- Moderate risk
+- Low risk (stable technology)
+- No significant risk
+
+**Purpose:** Technology risk assessment
+
+## **SECTION 7: GROWTH & FUTURE POTENTIAL**
+
+### 7.1 Growth Opportunities
+**Question:** What growth opportunities have you identified?
+**Type:** Checkboxes
+**Options:**
+- New geographic markets
+- New products/services
+- Market share expansion
+- Operational efficiency
+- Acquisitions
+- New customer segments
+- Online expansion
+- Other
+
+**Purpose:** Growth strategy development
+
+### 7.2 Expansion Plans
+**Question:** Do you have specific expansion plans?
+**Type:** Dropdown
+**Options:**
+- Yes, detailed plans
+- Yes, general plans
+- Considering expansion
+- No plans
+- Planning to scale back
+
+**Purpose:** Future growth assessment
+
+## **SECTION 8: ASSETS & LIABILITIES**
+
+### 8.1 Major Assets
+**Question:** What major assets does your business own?
+**Type:** Text area
+**Purpose:** Asset value assessment
+
+### 8.2 Outstanding Debt
+**Question:** What is your total outstanding business debt?
+**Type:** Number field
+**Purpose:** Debt adjustment to enterprise value
+
+### 8.3 Intellectual Property
+**Question:** Do you own any intellectual property?
+**Type:** Checkboxes
+**Options:**
+- Patents
+- Trademarks
+- Copyrights
+- Trade secrets
+- Proprietary processes
+- None
+
+**Purpose:** IP value assessment
+
+## **VALUATION REPORT GENERATION**
+
+Based on these answers, the system will generate a comprehensive report including:
+
+### **1. Executive Summary**
+- Company overview
+- Key financial highlights
+- Valuation conclusion
+
+### **2. Financial Performance Analysis**
+- Revenue, EBITDA, margins
+- Growth trends
+- Industry benchmarks
+- Performance ratings
+
+### **3. Valuation Methodologies**
+- **Revenue Multiple Approach** (for SaaS/tech companies)
+- **EBITDA Multiple Approach** (for profitable businesses)
+- **Discounted Cash Flow** (for growth companies)
+- **Weighted average** of all methods
+
+### **4. Risk Assessment & Value Drivers**
+- Positive value drivers
+- Key risk factors
+- Impact on valuation
+
+### **5. Strategic Recommendations**
+- Growth strategy
+- Operational improvements
+- Risk mitigation
+
+### **6. Professional Formatting**
+- Clean, professional layout
+- Charts and graphs
+- Executive summary
+- Detailed methodology
+- Disclaimers
+
+This streamlined questionnaire captures all essential data needed for a professional-grade valuation report while keeping it user-friendly and completable in 10-15 minutes.

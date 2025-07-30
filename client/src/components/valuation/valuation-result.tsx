@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
+import { generateComprehensivePDF } from "@/lib/comprehensive-pdf-generator";
 import { 
   CheckCircle, 
   DollarSign, 
@@ -175,53 +176,20 @@ export default function ValuationResult({ valuation, onPaymentComplete, onPrevio
               <Button 
                 className="flex-1 py-3 text-lg font-semibold"
                 onClick={() => {
-                  // Create HTML content and use print functionality as fallback
-                  const htmlContent = `
-                    <!DOCTYPE html>
-                    <html>
-                    <head>
-                      <title>ValuationGenie Business Valuation Report</title>
-                      <style>
-                        body { font-family: Arial, sans-serif; margin: 40px; }
-                        .header { color: #2563eb; font-size: 24px; font-weight: bold; margin-bottom: 20px; }
-                        .section { margin: 20px 0; }
-                        .value { font-size: 18px; font-weight: bold; color: #059669; }
-                        @media print { body { margin: 0; } }
-                      </style>
-                    </head>
-                    <body>
-                      <div class="header">ValuationGenie Business Valuation Report</div>
-                      
-                      <div class="section">
-                        <h3>Business Information</h3>
-                        <p><strong>Business Name:</strong> ${valuation.businessName}</p>
-                        <p><strong>Industry:</strong> ${valuation.industry}</p>
-                        <p><strong>Location:</strong> ${valuation.location}</p>
-                        <p><strong>Years in Business:</strong> ${valuation.yearsInBusiness}</p>
-                        <p><strong>Report Date:</strong> ${new Date().toLocaleDateString()}</p>
-                      </div>
-                      
-                      <div class="section">
-                        <h3>Valuation Summary</h3>
-                        <p class="value">Estimated Value Range: $${valuationLow.toLocaleString()} - $${valuationHigh.toLocaleString()}</p>
-                        <p><strong>Industry Multiple:</strong> ${multiple}x</p>
-                        <p><strong>Annual Revenue:</strong> $${parseInt(valuation.annualRevenue || '0').toLocaleString()}</p>
-                        <p><strong>SDE:</strong> $${parseInt(valuation.sde || '0').toLocaleString()}</p>
-                      </div>
-                      
-                      <div class="section">
-                        <h3>Disclaimer</h3>
-                        <p>This valuation is based on industry-standard methodologies and should be used for informational purposes only.</p>
-                      </div>
-                      
-                      <div class="section">
-                        <p><em>© ValuationGenie - Confidential Business Valuation Report</em></p>
-                      </div>
-                    </body>
-                    </html>
-                  `;
-                  
-                  // Open in new window for printing/saving
+                  try {
+                    generateComprehensivePDF(valuation);
+                    toast({
+                      title: "PDF Generated",
+                      description: "Your comprehensive valuation report is opening in a new window. Use your browser's print function to save as PDF.",
+                    });
+                  } catch (error) {
+                    console.error('PDF generation error:', error);
+                    toast({
+                      title: "PDF Error",
+                      description: "Unable to generate PDF. Please check if popups are enabled.",
+                      variant: "destructive",
+                    });
+                  }
                   const newWindow = window.open('', '_blank');
                   if (newWindow) {
                     newWindow.document.write(htmlContent);
