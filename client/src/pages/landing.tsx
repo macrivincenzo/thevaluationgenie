@@ -187,53 +187,55 @@ export default function Landing() {
           <Card className="shadow-lg">
             <CardContent className="p-8">
               <div className="mb-6">
-                <h3 className="text-2xl font-bold text-slate-900 mb-2">Are you buying or selling?</h3>
+                <h3 className="text-2xl font-bold text-slate-900 mb-2">Business Valuation</h3>
                 <div className="flex items-start text-slate-600 mb-4">
                   <Info className="w-5 h-5 text-blue-500 mr-2 mt-0.5 flex-shrink-0" />
                   <p>
-                    <strong>Why we ask this:</strong> Buyers and sellers have different priorities that affect valuation approach and the questions we'll ask next.
+                    Get a professional business valuation using industry-standard methodologies. We'll ask questions about your business to provide an accurate assessment.
                   </p>
                 </div>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-6">
-                <Card className="cursor-pointer hover:border-primary transition-colors">
-                  <CardContent className="p-6">
-                    <div className="flex items-center mb-4">
-                      <div className="bg-blue-100 text-primary w-12 h-12 rounded-full flex items-center justify-center mr-4">
-                        <Users className="w-6 h-6" />
-                      </div>
-                      <div>
-                        <h4 className="text-lg font-semibold text-slate-900">I'm Buying</h4>
-                        <p className="text-slate-600 text-sm">Looking to acquire a business</p>
-                      </div>
-                    </div>
-                    <p className="text-slate-600 text-sm">We'll focus on risk assessment, growth potential, and fair market value to help you make an informed offer.</p>
-                  </CardContent>
-                </Card>
+              <div className="border-2 border-blue-500 bg-blue-50 rounded-lg p-6 mb-6">
+                <div className="flex items-center justify-center">
+                  <Calculator className="w-8 h-8 text-blue-600 mr-4" />
+                  <div>
+                    <h3 className="text-xl font-semibold text-slate-900 mb-2">Professional Business Valuation</h3>
+                    <p className="text-slate-600">
+                      Our comprehensive questionnaire will gather the necessary information to calculate your business value using proven methodologies and industry multiples.
+                    </p>
+                  </div>
+                </div>
+              </div>
 
-                <Card className="cursor-pointer border-primary bg-blue-50 transition-colors">
-                  <CardContent className="p-6">
-                    <div className="flex items-center mb-4">
-                      <div className="bg-secondary text-white w-12 h-12 rounded-full flex items-center justify-center mr-4">
-                        <TrendingUp className="w-6 h-6" />
-                      </div>
-                      <div>
-                        <h4 className="text-lg font-semibold text-slate-900">I'm Selling</h4>
-                        <p className="text-slate-600 text-sm">Ready to sell my business</p>
-                      </div>
-                    </div>
-                    <p className="text-slate-600 text-sm">We'll help you understand your business's market value and identify factors that could increase its worth.</p>
-                  </CardContent>
-                </Card>
+              <div className="bg-slate-50 rounded-lg p-6">
+                <h4 className="font-semibold text-slate-900 mb-3">What's Included:</h4>
+                <ul className="space-y-2 text-sm text-slate-700">
+                  <li className="flex items-center">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                    SDE (Seller's Discretionary Earnings) analysis
+                  </li>
+                  <li className="flex items-center">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                    Industry-specific multiplier application
+                  </li>
+                  <li className="flex items-center">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                    Comprehensive PDF valuation report
+                  </li>
+                  <li className="flex items-center">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                    Risk assessment and market analysis
+                  </li>
+                </ul>
               </div>
 
               <div className="mt-8 flex justify-between">
                 <Button variant="ghost" disabled>
                   Previous
                 </Button>
-                <Button onClick={handleGetStarted}>
-                  Continue
+                <Button onClick={handleGetStarted} className="bg-blue-600 hover:bg-blue-700 text-white">
+                  Start Valuation
                 </Button>
               </div>
             </CardContent>
