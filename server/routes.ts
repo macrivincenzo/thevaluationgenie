@@ -110,15 +110,59 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Extract core values from comprehensive data
       const annualRevenueValue = Array.isArray(rawData.annualRevenue) ? rawData.annualRevenue[0] || 0 : rawData.annualRevenue || 0;
-      const sdeValue = rawData.sde || 0;
+      const sdeValue = rawData.sde || rawData.ebitda || 0;
       const addBacksValue = rawData.addBacks || 0;
+      const ownerSalary = rawData.ownerSalary || 0;
       
-      // Calculate SDE if not provided (Revenue - Owner Salary + Add-backs)
-      const calculatedSDE = sdeValue || (annualRevenueValue - (rawData.ownerSalary || 0) + addBacksValue);
+      console.log('SDE Calculation Debug:', {
+        rawSDE: rawData.sde,
+        rawEBITDA: rawData.ebitda,
+        sdeValue,
+        annualRevenueValue,
+        ownerSalary,
+        addBacksValue
+      });
+      
+      // Calculate SDE: Use provided SDE, or calculate from EBITDA, or calculate from Revenue
+      let calculatedSDE = sdeValue;
+      if (!calculatedSDE && rawData.ebitda) {
+        calculatedSDE = rawData.ebitda + ownerSalary + addBacksValue;
+      } else if (!calculatedSDE) {
+        // Rough estimate: assume 20% margin then add owner salary and add-backs
+        calculatedSDE = (annualRevenueValue * 0.2) + ownerSalary + addBacksValue;
+      }
+      
+      console.log('Final calculated SDE:', calculatedSDE);
+      
+      // Map industry names to industry keys for valuation calculation
+      const industryKeyMap: Record<string, string> = {
+        'E-commerce & Online Retail': 'e-commerce-online-retail',
+        'ecommerce': 'e-commerce-online-retail', // backwards compatibility
+        'Software as a Service (SaaS)': 'software-as-a-service--saas-',
+        'Technology & Software': 'technology-software',
+        'Professional Services': 'professional-services',
+        'Consulting Services': 'consulting-services',
+        'Accounting & Bookkeeping': 'accounting-bookkeeping',
+        'Healthcare Services': 'healthcare-services',
+        'Medical Practice': 'medical-practice',
+        'Dental Practice': 'dental-practice',
+        'Legal Services': 'legal-services',
+        'Real Estate Services': 'real-estate-services',
+        'Financial Services': 'financial-services',
+        'Insurance Services': 'insurance-services',
+        'Computer & IT Services': 'computer-it-services',
+        'Web Design & Development': 'web-design-development',
+        'Graphic Design & Creative': 'graphic-design-creative',
+        'Architecture & Engineering': 'architecture-engineering',
+        'Advertising & Marketing': 'advertising-marketing'
+      };
+      
+      const industryKey = industryKeyMap[rawData.industry] || rawData.industry || 'other';
+      console.log('Industry mapping:', { original: rawData.industry, mapped: industryKey });
       
       // Calculate valuation using industry multiples
       const { calculateValuation } = await import('../client/src/lib/industry-multiples.ts');
-      const { low, high, multiple } = calculateValuation(rawData.industry || 'other', calculatedSDE);
+      const { low, high, multiple } = calculateValuation(industryKey, calculatedSDE);
       
       // Create core data object matching the actual database structure
       const valuationData = {
