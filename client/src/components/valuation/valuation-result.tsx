@@ -190,60 +190,6 @@ export default function ValuationResult({ valuation, onPaymentComplete, onPrevio
                       variant: "destructive",
                     });
                   }
-                  const newWindow = window.open('', '_blank');
-                  if (newWindow) {
-                    newWindow.document.write(htmlContent);
-                    newWindow.document.close();
-                    newWindow.focus();
-                    
-                    // Auto-trigger print dialog
-                    setTimeout(() => {
-                      newWindow.print();
-                    }, 500);
-                    
-                    toast({
-                      title: "Report Opened",
-                      description: "Your valuation report opened in a new window. Use Ctrl+P to print or save as PDF.",
-                    });
-                  } else {
-                    // Fallback: create downloadable text file
-                    const textContent = `
-VALUATIONGENIE BUSINESS VALUATION REPORT
-
-Business Information:
-Business Name: ${valuation.businessName}
-Industry: ${valuation.industry}
-Location: ${valuation.location}
-Years in Business: ${valuation.yearsInBusiness}
-Report Date: ${new Date().toLocaleDateString()}
-
-Valuation Summary:
-Estimated Value Range: $${valuationLow.toLocaleString()} - $${valuationHigh.toLocaleString()}
-Industry Multiple: ${multiple}x
-Annual Revenue: $${parseInt(valuation.annualRevenue || '0').toLocaleString()}
-SDE: $${parseInt(valuation.sde || '0').toLocaleString()}
-
-Disclaimer:
-This valuation is based on industry-standard methodologies and should be used for informational purposes only.
-
-© ValuationGenie - Confidential Business Valuation Report
-                    `;
-                    
-                    const blob = new Blob([textContent], { type: 'text/plain' });
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = `${valuation.businessName.replace(/[^a-zA-Z0-9]/g, '_')}-valuation.txt`;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(url);
-                    
-                    toast({
-                      title: "Report Downloaded",
-                      description: "Your valuation report has been downloaded as a text file.",
-                    });
-                  }
                 }}
               >
                 <FileText className="w-5 h-5 mr-2" />
