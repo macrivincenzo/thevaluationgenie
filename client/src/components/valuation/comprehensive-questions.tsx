@@ -394,21 +394,13 @@ export default function ComprehensiveQuestions({ data, onChange, onNext, onPrevi
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="customerLifetimeValue">Customer Lifetime Value (LTV)</Label>
+                  <Label htmlFor="averageCustomerValue">Average Customer Transaction Value</Label>
                   <Input
-                    id="customerLifetimeValue"
+                    id="averageCustomerValue"
                     type="number"
-                    value={data.customerLifetimeValue || ''}
-                    onChange={(e) => {
-                      const ltvValue = parseFloat(e.target.value) || 0;
-                      handleInputChange('customerLifetimeValue', ltvValue);
-                      // Auto-calculate LTV/CAC ratio
-                      if (data.customerAcquisitionCost && data.customerAcquisitionCost > 0) {
-                        const ltvCacRatio = ltvValue / data.customerAcquisitionCost;
-                        handleInputChange('ltvCacRatio', Math.round(ltvCacRatio * 100) / 100);
-                      }
-                    }}
-                    placeholder="Average LTV per customer"
+                    value={data.averageCustomerValue || ''}
+                    onChange={(e) => handleInputChange('averageCustomerValue', parseFloat(e.target.value) || 0)}
+                    placeholder="Average value per customer transaction"
                   />
                 </div>
 
@@ -418,37 +410,14 @@ export default function ComprehensiveQuestions({ data, onChange, onNext, onPrevi
                     id="customerAcquisitionCost"
                     type="number"
                     value={data.customerAcquisitionCost || ''}
-                    onChange={(e) => {
-                      const cacValue = parseFloat(e.target.value) || 0;
-                      handleInputChange('customerAcquisitionCost', cacValue);
-                      // Auto-calculate LTV/CAC ratio
-                      if (data.customerLifetimeValue && cacValue > 0) {
-                        const ltvCacRatio = data.customerLifetimeValue / cacValue;
-                        handleInputChange('ltvCacRatio', Math.round(ltvCacRatio * 100) / 100);
-                      }
-                    }}
+                    onChange={(e) => handleInputChange('customerAcquisitionCost', parseFloat(e.target.value) || 0)}
                     placeholder="Cost to acquire new customer"
                   />
                 </div>
               </div>
 
-              {/* Auto-calculated fields */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                  <Label htmlFor="ltvCacRatio">LTV/CAC Ratio (Auto-calculated)</Label>
-                  <Input
-                    id="ltvCacRatio"
-                    type="number"
-                    value={data.ltvCacRatio || ''}
-                    readOnly
-                    placeholder={data.customerLifetimeValue && data.customerAcquisitionCost ? 
-                      `${Math.round((data.customerLifetimeValue / data.customerAcquisitionCost) * 100) / 100}` : 
-                      "Enter LTV and CAC above"}
-                    className="bg-gray-50"
-                  />
-                  <p className="text-sm text-gray-600 mt-1">Target: 3:1 or higher</p>
-                </div>
-
+              {/* Simple calculations without interest components */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="recurringRevenuePct">Recurring Revenue % (Auto-calculated)</Label>
                   <Input
@@ -465,7 +434,7 @@ export default function ComprehensiveQuestions({ data, onChange, onNext, onPrevi
                   <Label htmlFor="customerConcentrationRisk">Customer Concentration Risk Score</Label>
                   <Input
                     id="customerConcentrationRisk"
-                    type="number"
+                    type="text"
                     value={data.customerConcentrationRisk || ''}
                     readOnly
                     placeholder={data.top5CustomersPct ? 

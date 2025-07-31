@@ -51,15 +51,10 @@ export function generateComprehensivePDF(data: ComprehensiveValuationData) {
   const revenue = typeof data.annualRevenue === 'number' ? data.annualRevenue : (data.annualRevenue?.[0] || 0);
   const ebitda = data.ebitda || data.sde || 0;
   const ebitdaMargin = data.ebitdaMargin || (revenue > 0 ? (ebitda / revenue) * 100 : 0);
-  const ltcacRatio = data.customerLifetimeValue && data.customerAcquisitionCost 
-    ? (data.customerLifetimeValue / data.customerAcquisitionCost) 
-    : 0;
-
-  // Calculate valuation details
+  // Calculate valuation details (halal-compliant, no interest-based calculations)
   const enterpriseValue = (data.valuationLow + data.valuationHigh) / 2;
   const revenueMultiple = data.revenueMultiple || (revenue > 0 ? enterpriseValue / revenue : 0);
-  const ebitdaMultiple = data.ebitdaMultiple || (ebitda > 0 ? enterpriseValue / ebitda : 0);
-  const dcfValue = data.dcfValuation || enterpriseValue * 0.95; // Estimate if not provided
+  const sdeMultiple = (ebitda > 0 ? enterpriseValue / ebitda : 0);
 
   const html = `
 <!DOCTYPE html>
@@ -387,14 +382,12 @@ export function generateComprehensivePDF(data: ComprehensiveValuationData) {
                     </td>
                 </tr>
                 ` : ''}
-                ${ltcacRatio > 0 ? `
+                ${data.customerAcquisitionCost ? `
                 <tr>
-                    <td class="metric">LTV/CAC Ratio</td>
-                    <td>${ltcacRatio.toFixed(2)}</td>
-                    <td>3.0 - 5.0</td>
-                    <td class="performance ${ltcacRatio >= 5 ? 'excellent' : ltcacRatio >= 3 ? 'above-average' : 'average'}">
-                        ${ltcacRatio >= 5 ? 'Excellent' : ltcacRatio >= 3 ? 'Above Average' : 'Needs Improvement'}
-                    </td>
+                    <td class="metric">Customer Acquisition Cost</td>
+                    <td>$${data.customerAcquisitionCost.toLocaleString()}</td>
+                    <td>Varies by Industry</td>
+                    <td class="performance above-average">Business Metric</td>
                 </tr>
                 ` : ''}
             </tbody>
@@ -431,46 +424,27 @@ export function generateComprehensivePDF(data: ComprehensiveValuationData) {
             </div>
         </div>
 
-        <!-- EBITDA Multiple Approach -->
+        <!-- SDE Multiple Approach -->
         <div class="method-section">
-            <div class="method-title">2. EBITDA Multiple Approach</div>
-            <p>Valuation based on EBITDA multiples of comparable businesses.</p>
+            <div class="method-title">2. SDE Multiple Approach</div>
+            <p>Valuation based on Seller's Discretionary Earnings multiples from industry benchmarks.</p>
             
             <div style="margin: 15px 0;">
                 <strong>Key Assumptions:</strong>
                 <div class="assumptions">
-                    • Industry EBITDA multiples: ${(ebitdaMultiple * 0.8).toFixed(1)}x - ${(ebitdaMultiple * 1.2).toFixed(1)}x<br>
-                    • Applied multiple: ${ebitdaMultiple.toFixed(1)}x (${ebitdaMargin > 20 ? 'reflects strong profitability' : 'mid-range multiple'})<br>
-                    • Reflects consistent cash flow generation
+                    • Industry SDE multiples: ${(sdeMultiple * 0.8).toFixed(1)}x - ${(sdeMultiple * 1.2).toFixed(1)}x<br>
+                    • Applied multiple: ${sdeMultiple.toFixed(1)}x (${ebitdaMargin > 20 ? 'reflects strong profitability' : 'mid-range multiple'})<br>
+                    • Reflects owner-operated business cash flow
                 </div>
             </div>
 
             <div style="text-align: center; margin: 15px 0;">
-                <strong>EBITDA: $${ebitda.toLocaleString()}</strong><br>
-                <strong>EBITDA Multiple: ${ebitdaMultiple.toFixed(1)}x</strong>
+                <strong>SDE: $${ebitda.toLocaleString()}</strong><br>
+                <strong>SDE Multiple: ${sdeMultiple.toFixed(1)}x</strong>
             </div>
 
             <div class="method-result">
-                Enterprise Value = $${(ebitda * ebitdaMultiple).toLocaleString()}
-            </div>
-        </div>
-
-        <!-- DCF Analysis -->
-        <div class="method-section">
-            <div class="method-title">3. Discounted Cash Flow (DCF) Analysis</div>
-            <p>Intrinsic valuation based on projected future cash flows.</p>
-            
-            <div style="margin: 15px 0;">
-                <strong>Key Assumptions:</strong>
-                <div class="assumptions">
-                    • Revenue growth: ${data.revenueGrowthRate || 15}% annually (5 years)<br>
-                    • Terminal growth rate: 3%<br>
-                    • Discount rate (WACC): 12%
-                </div>
-            </div>
-
-            <div class="method-result">
-                Total Enterprise Value = $${dcfValue.toLocaleString()}
+                Enterprise Value = $${(ebitda * sdeMultiple).toLocaleString()}
             </div>
         </div>
     </div>
@@ -492,20 +466,14 @@ export function generateComprehensivePDF(data: ComprehensiveValuationData) {
                 <tr>
                     <td>Revenue Multiple</td>
                     <td>$${(revenue * revenueMultiple).toLocaleString()}</td>
-                    <td>30%</td>
-                    <td>$${((revenue * revenueMultiple) * 0.3).toLocaleString()}</td>
+                    <td>50%</td>
+                    <td>$${((revenue * revenueMultiple) * 0.5).toLocaleString()}</td>
                 </tr>
                 <tr>
-                    <td>EBITDA Multiple</td>
-                    <td>$${(ebitda * ebitdaMultiple).toLocaleString()}</td>
-                    <td>40%</td>
-                    <td>$${((ebitda * ebitdaMultiple) * 0.4).toLocaleString()}</td>
-                </tr>
-                <tr>
-                    <td>Discounted Cash Flow</td>
-                    <td>$${dcfValue.toLocaleString()}</td>
-                    <td>30%</td>
-                    <td>$${(dcfValue * 0.3).toLocaleString()}</td>
+                    <td>SDE Multiple</td>
+                    <td>$${(ebitda * sdeMultiple).toLocaleString()}</td>
+                    <td>50%</td>
+                    <td>$${((ebitda * sdeMultiple) * 0.5).toLocaleString()}</td>
                 </tr>
                 <tr class="final-value">
                     <td><strong>FINAL ENTERPRISE VALUE</strong></td>
@@ -523,7 +491,7 @@ export function generateComprehensivePDF(data: ComprehensiveValuationData) {
             <h4>Positive Value Drivers</h4>
             ${(data.competitiveAdvantages || []).concat([
               data.customerRetentionRate && data.customerRetentionRate > 90 ? `Industry-leading retention rate (${data.customerRetentionRate}%)` : null,
-              ltcacRatio >= 3 ? `Strong unit economics (${ltcacRatio.toFixed(2)} LTV/CAC)` : null,
+              data.customerAcquisitionCost && data.customerAcquisitionCost < (revenue / 12) ? 'Efficient customer acquisition' : null,
               ebitdaMargin > 20 ? `Strong EBITDA margins (${ebitdaMargin.toFixed(1)}%)` : null,
               data.recurringRevenuePct && data.recurringRevenuePct > 50 ? 'Predictable recurring revenue model' : null,
               data.managementTeam === 'strong' ? 'Proven management team' : null
