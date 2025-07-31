@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
-import { generateComprehensivePDF } from "@/lib/comprehensive-pdf-generator";
+import { generateProfessionalPDF } from "@/lib/professional-pdf-generator";
 import { 
   CheckCircle, 
   DollarSign, 
@@ -177,10 +177,10 @@ export default function ValuationResult({ valuation, onPaymentComplete, onPrevio
                 className="flex-1 py-3 text-lg font-semibold"
                 onClick={() => {
                   try {
-                    generateComprehensivePDF(valuation);
+                    generateProfessionalPDF(valuation);
                     toast({
                       title: "PDF Generated",
-                      description: "Your comprehensive valuation report is opening in a new window. Use your browser's print function to save as PDF.",
+                      description: "Your professional valuation report is opening in a new window. Use your browser's print function to save as PDF.",
                     });
                   } catch (error) {
                     console.error('PDF generation error:', error);
