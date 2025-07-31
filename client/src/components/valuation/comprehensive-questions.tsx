@@ -37,7 +37,7 @@ export default function ComprehensiveQuestions({ data, onChange, onNext, onPrevi
       case 1:
         return data.businessName && data.industry && data.foundedYear && data.location && data.employeeCount >= 0;
       case 2:
-        return data.annualRevenue > 0 && data.sde > 0 && data.grossMargin >= 0 && data.netProfitMargin >= 0;
+        return data.annualRevenue > 0 && data.sde > 0;
       case 3:
         return data.customerAcquisitionCost >= 0 && data.customerLifetimeValue >= 0 && data.monthlyRecurringRevenue >= 0;
       case 4:
