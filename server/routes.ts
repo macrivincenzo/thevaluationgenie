@@ -124,9 +124,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Use SDE directly as entered by user (SDE already includes owner salary + add-backs)
       let calculatedSDE = sdeValue;
+      
+      // If SDE is 0 or not provided, try to calculate from net profit + owner salary + add backs
       if (!calculatedSDE || calculatedSDE === 0) {
-        // If no SDE provided, show error - we need accurate SDE for proper valuation
-        throw new Error('SDE (Seller\'s Discretionary Earnings) is required for accurate valuation');
+        // Try to estimate SDE from available data
+        const netProfit = rawData.netProfit || 0;
+        calculatedSDE = netProfit + ownerSalary + addBacksValue;
+        
+        // If still 0, we can still proceed but warn about accuracy
+        if (calculatedSDE === 0) {
+          console.log('Warning: SDE is 0, valuation may not be accurate');
+          // Set minimum SDE to 1 to avoid division by zero
+          calculatedSDE = 1;
+        }
       }
       
       console.log('Final calculated SDE:', calculatedSDE);
