@@ -35,21 +35,26 @@ export default function ComprehensiveQuestions({ data, onChange, onNext, onPrevi
   const canProceedToNextSection = () => {
     switch (currentSection) {
       case 1:
+        // Business Basics - only require essential fields that actually exist
         return data.businessName && data.industry && data.foundedYear && data.location && data.employeeCount >= 0;
       case 2:
+        // Financial Performance - only require core financial data
         return data.annualRevenue > 0 && data.sde > 0;
       case 3:
-        return data.customerAcquisitionCost >= 0 && data.customerLifetimeValue >= 0 && data.monthlyRecurringRevenue >= 0;
+        // Customer & Market Metrics - simplified validation
+        return true; // All fields are optional in this section
       case 4:
-        return data.ownerInvolvement && data.keyEmployees >= 0 && data.managementStructure;
+        // Operations & Management - simplified validation
+        return true; // All fields are optional in this section
       case 5:
-        return data.topCustomersPercentage >= 0 && data.averageCustomerTenure >= 0 && data.customerRetentionRate >= 0;
+        // Growth & Opportunities - simplified validation
+        return true; // All fields are optional in this section
       case 6:
-        return data.primaryCompetitors && data.competitiveAdvantages && data.marketTrends;
+        // Risk Assessment - simplified validation
+        return true; // All fields are optional in this section
       case 7:
-        return data.dueDiligencePriorities && data.riskConcerns && data.timelineExpectations;
-      case 8:
-        return data.dealStructurePreferences && data.financingOptions && data.transactionGoals;
+        // Financial Assets - simplified validation
+        return true; // All fields are optional in this section
       default:
         return true;
     }
