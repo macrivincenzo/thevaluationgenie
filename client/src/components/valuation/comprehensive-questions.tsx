@@ -37,7 +37,7 @@ export default function ComprehensiveQuestions({ data, onChange, onNext, onPrevi
       case 1:
         return data.businessName && data.industry && data.foundedYear && data.location && data.employeeCount >= 0;
       case 2:
-        return data.annualRevenue > 0 && data.ebitda !== undefined;
+        return data.annualRevenue > 0 && data.sde !== undefined;
       case 3:
         return true; // All optional
       case 4:
@@ -254,7 +254,13 @@ export default function ComprehensiveQuestions({ data, onChange, onNext, onPrevi
                     id="recurringRevenuePct"
                     type="number"
                     value={data.recurringRevenuePct || ''}
-                    onChange={(e) => handleInputChange('recurringRevenuePct', parseFloat(e.target.value) || 0)}
+                    onChange={(e) => {
+                      const recurringPct = parseFloat(e.target.value) || 0;
+                      handleInputChange('recurringRevenuePct', recurringPct);
+                      // Auto-calculate one-time revenue percentage
+                      const oneTimePct = Math.max(0, 100 - recurringPct);
+                      handleInputChange('oneTimeRevenuePct', oneTimePct);
+                    }}
                     placeholder="e.g., 80"
                     min="0"
                     max="100"
@@ -262,13 +268,14 @@ export default function ComprehensiveQuestions({ data, onChange, onNext, onPrevi
                 </div>
 
                 <div>
-                  <Label htmlFor="oneTimeRevenuePct">One-time Revenue %</Label>
+                  <Label htmlFor="oneTimeRevenuePct">One-time Revenue % (Auto-calculated)</Label>
                   <Input
                     id="oneTimeRevenuePct"
                     type="number"
                     value={data.oneTimeRevenuePct || ''}
-                    onChange={(e) => handleInputChange('oneTimeRevenuePct', parseFloat(e.target.value) || 0)}
-                    placeholder="e.g., 20"
+                    readOnly
+                    placeholder={data.recurringRevenuePct ? `${100 - data.recurringRevenuePct}%` : "Enter recurring revenue % first"}
+                    className="bg-gray-50"
                     min="0"
                     max="100"
                   />
@@ -276,27 +283,41 @@ export default function ComprehensiveQuestions({ data, onChange, onNext, onPrevi
               </div>
 
               <div>
-                <Label htmlFor="ebitda">EBITDA (Earnings Before Interest, Taxes, Depreciation, Amortization) *</Label>
+                <Label htmlFor="sde">SDE (Seller's Discretionary Earnings) for last 12 months *</Label>
                 <Input
-                  id="ebitda"
+                  id="sde"
                   type="number"
-                  value={data.ebitda || ''}
-                  onChange={(e) => handleInputChange('ebitda', parseFloat(e.target.value) || 0)}
-                  placeholder="EBITDA for last 12 months"
+                  value={data.sde || ''}
+                  onChange={(e) => {
+                    const sdeValue = parseFloat(e.target.value) || 0;
+                    handleInputChange('sde', sdeValue);
+                    // Auto-calculate SDE margin if revenue exists
+                    if (data.annualRevenue && data.annualRevenue > 0) {
+                      const sdeMargin = (sdeValue / data.annualRevenue) * 100;
+                      handleInputChange('sdeMargin', Math.round(sdeMargin * 100) / 100);
+                    }
+                  }}
+                  placeholder="Net profit + Owner's salary + One-time expenses + Personal expenses"
                 />
+                <p className="text-sm text-gray-600 mt-1">
+                  SDE = Net profit + Owner's salary + One-time expenses + Personal expenses run through business
+                </p>
               </div>
 
               <div>
-                <Label htmlFor="ebitdaMargin">EBITDA Margin %</Label>
+                <Label htmlFor="sdeMargin">SDE Margin %</Label>
                 <Input
-                  id="ebitdaMargin"
+                  id="sdeMargin"
                   type="number"
-                  value={data.ebitdaMargin || ''}
-                  onChange={(e) => handleInputChange('ebitdaMargin', parseFloat(e.target.value) || 0)}
-                  placeholder="Auto-calculated or enter manually"
+                  value={data.sdeMargin || ''}
+                  onChange={(e) => handleInputChange('sdeMargin', parseFloat(e.target.value) || 0)}
+                  placeholder={data.annualRevenue && data.sde ? `Auto-calculated: ${Math.round((data.sde / data.annualRevenue) * 10000) / 100}%` : "Auto-calculated from SDE/Revenue"}
                   min="0"
                   max="100"
                 />
+                <p className="text-sm text-gray-600 mt-1">
+                  Shows operational efficiency vs. industry benchmarks
+                </p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -355,7 +376,15 @@ export default function ComprehensiveQuestions({ data, onChange, onNext, onPrevi
                     id="top5CustomersPct"
                     type="number"
                     value={data.top5CustomersPct || ''}
-                    onChange={(e) => handleInputChange('top5CustomersPct', parseFloat(e.target.value) || 0)}
+                    onChange={(e) => {
+                      const top5Pct = parseFloat(e.target.value) || 0;
+                      handleInputChange('top5CustomersPct', top5Pct);
+                      // Auto-calculate customer concentration risk score
+                      let riskScore = 'Low';
+                      if (top5Pct > 50) riskScore = 'High';
+                      else if (top5Pct > 30) riskScore = 'Medium';
+                      handleInputChange('customerConcentrationRisk', riskScore);
+                    }}
                     placeholder="e.g., 30"
                     min="0"
                     max="100"
@@ -370,7 +399,15 @@ export default function ComprehensiveQuestions({ data, onChange, onNext, onPrevi
                     id="customerLifetimeValue"
                     type="number"
                     value={data.customerLifetimeValue || ''}
-                    onChange={(e) => handleInputChange('customerLifetimeValue', parseFloat(e.target.value) || 0)}
+                    onChange={(e) => {
+                      const ltvValue = parseFloat(e.target.value) || 0;
+                      handleInputChange('customerLifetimeValue', ltvValue);
+                      // Auto-calculate LTV/CAC ratio
+                      if (data.customerAcquisitionCost && data.customerAcquisitionCost > 0) {
+                        const ltvCacRatio = ltvValue / data.customerAcquisitionCost;
+                        handleInputChange('ltvCacRatio', Math.round(ltvCacRatio * 100) / 100);
+                      }
+                    }}
                     placeholder="Average LTV per customer"
                   />
                 </div>
@@ -381,9 +418,62 @@ export default function ComprehensiveQuestions({ data, onChange, onNext, onPrevi
                     id="customerAcquisitionCost"
                     type="number"
                     value={data.customerAcquisitionCost || ''}
-                    onChange={(e) => handleInputChange('customerAcquisitionCost', parseFloat(e.target.value) || 0)}
+                    onChange={(e) => {
+                      const cacValue = parseFloat(e.target.value) || 0;
+                      handleInputChange('customerAcquisitionCost', cacValue);
+                      // Auto-calculate LTV/CAC ratio
+                      if (data.customerLifetimeValue && cacValue > 0) {
+                        const ltvCacRatio = data.customerLifetimeValue / cacValue;
+                        handleInputChange('ltvCacRatio', Math.round(ltvCacRatio * 100) / 100);
+                      }
+                    }}
                     placeholder="Cost to acquire new customer"
                   />
+                </div>
+              </div>
+
+              {/* Auto-calculated fields */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <Label htmlFor="ltvCacRatio">LTV/CAC Ratio (Auto-calculated)</Label>
+                  <Input
+                    id="ltvCacRatio"
+                    type="number"
+                    value={data.ltvCacRatio || ''}
+                    readOnly
+                    placeholder={data.customerLifetimeValue && data.customerAcquisitionCost ? 
+                      `${Math.round((data.customerLifetimeValue / data.customerAcquisitionCost) * 100) / 100}` : 
+                      "Enter LTV and CAC above"}
+                    className="bg-gray-50"
+                  />
+                  <p className="text-sm text-gray-600 mt-1">Target: 3:1 or higher</p>
+                </div>
+
+                <div>
+                  <Label htmlFor="recurringRevenuePct">Recurring Revenue % (Auto-calculated)</Label>
+                  <Input
+                    id="recurringRevenuePct"
+                    type="number"
+                    value={data.recurringRevenuePct || ''}
+                    readOnly
+                    placeholder="From recurring revenue input above"
+                    className="bg-gray-50"
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="customerConcentrationRisk">Customer Concentration Risk Score</Label>
+                  <Input
+                    id="customerConcentrationRisk"
+                    type="number"
+                    value={data.customerConcentrationRisk || ''}
+                    readOnly
+                    placeholder={data.top5CustomersPct ? 
+                      `${data.top5CustomersPct > 50 ? 'High' : data.top5CustomersPct > 30 ? 'Medium' : 'Low'} (${data.top5CustomersPct}%)` : 
+                      "Enter top 5 customers % above"}
+                    className="bg-gray-50"
+                  />
+                  <p className="text-sm text-gray-600 mt-1">Based on top 5 customers %</p>
                 </div>
               </div>
 

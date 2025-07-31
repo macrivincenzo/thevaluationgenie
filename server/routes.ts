@@ -110,26 +110,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Extract core values from comprehensive data
       const annualRevenueValue = Array.isArray(rawData.annualRevenue) ? rawData.annualRevenue[0] || 0 : rawData.annualRevenue || 0;
-      const sdeValue = rawData.sde || rawData.ebitda || 0;
+      const sdeValue = rawData.sde || 0;
       const addBacksValue = rawData.addBacks || 0;
       const ownerSalary = rawData.ownerSalary || 0;
       
       console.log('SDE Calculation Debug:', {
         rawSDE: rawData.sde,
-        rawEBITDA: rawData.ebitda,
         sdeValue,
         annualRevenueValue,
         ownerSalary,
         addBacksValue
       });
       
-      // Calculate SDE: Use provided SDE, or calculate from EBITDA, or calculate from Revenue
+      // Use SDE directly as entered by user (SDE already includes owner salary + add-backs)
       let calculatedSDE = sdeValue;
-      if (!calculatedSDE && rawData.ebitda) {
-        calculatedSDE = rawData.ebitda + ownerSalary + addBacksValue;
-      } else if (!calculatedSDE) {
-        // Rough estimate: assume 20% margin then add owner salary and add-backs
-        calculatedSDE = (annualRevenueValue * 0.2) + ownerSalary + addBacksValue;
+      if (!calculatedSDE || calculatedSDE === 0) {
+        // If no SDE provided, show error - we need accurate SDE for proper valuation
+        throw new Error('SDE (Seller\'s Discretionary Earnings) is required for accurate valuation');
       }
       
       console.log('Final calculated SDE:', calculatedSDE);

@@ -152,3 +152,15 @@ The application follows a typical full-stack TypeScript pattern with strong type
 - **Universal Questions**: Same questionnaire for all users (buyers and sellers)
 - **Streamlined UI**: Replaced buyer/seller selection with single professional valuation introduction
 - **Future Flexibility**: Framework in place for easy question modification later
+
+### January 31, 2025
+- **SDE-FOCUSED QUESTIONNAIRE**: Replaced EBITDA with SDE (Seller's Discretionary Earnings) questions
+- **Question 2.3**: Added SDE input field with clear explanation (Net profit + Owner's salary + One-time expenses + Personal expenses)
+- **Question 2.4**: Added SDE margin percentage with auto-calculation (SDE/Revenue×100)
+- **AUTO-CALCULATIONS IMPLEMENTED**:
+  - SDE Margin = (SDE / Revenue) × 100
+  - LTV/CAC Ratio = Customer Lifetime Value / Customer Acquisition Cost
+  - Recurring Revenue % with auto-calculated One-time Revenue %
+  - Customer Concentration Risk Score (Low/Medium/High based on top 5 customers %)
+- **BACKEND UPDATES**: Updated valuation calculation to require accurate SDE input instead of EBITDA fallback
+- **ACCURACY FOCUS**: All calculations now use precise SDE methodology for more accurate business valuations
