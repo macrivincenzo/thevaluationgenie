@@ -131,8 +131,8 @@ export default function ValuationResult({ valuation, onPaymentComplete, onPrevio
         <CardContent>
           <div className="space-y-4">
             <p className="text-slate-600">
-              Your valuation summary is complete! To receive a comprehensive PDF report with detailed analysis, 
-              industry comparisons, and professional formatting, complete your purchase below.
+              Your valuation summary is complete! Click below to download your FREE professional PDF report with detailed analysis, 
+              industry comparisons, and professional formatting.
             </p>
 
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
@@ -161,20 +161,20 @@ export default function ValuationResult({ valuation, onPaymentComplete, onPrevio
               </ul>
             </div>
 
-            <div className="flex items-center justify-between p-4 bg-slate-50 rounded-lg">
+            <div className="flex items-center justify-between p-4 bg-green-50 rounded-lg border border-green-200">
               <div>
-                <p className="font-semibold text-slate-900">Professional PDF Report</p>
-                <p className="text-sm text-slate-600">One-time payment • Instant download</p>
+                <p className="font-semibold text-green-900">Your FREE Professional PDF Report</p>
+                <p className="text-sm text-green-700">No payment required • Instant download</p>
               </div>
               <div className="text-right">
-                <div className="text-2xl font-bold text-primary">$99</div>
-                <p className="text-sm text-slate-500">Secure payment via Stripe</p>
+                <div className="text-2xl font-bold text-green-600">FREE</div>
+                <p className="text-sm text-green-600">First report always free</p>
               </div>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
               <Button 
-                className="flex-1 py-3 text-lg font-semibold"
+                className="flex-1 py-3 text-lg font-semibold bg-green-600 hover:bg-green-700"
                 onClick={() => {
                   try {
                     generateProfessionalPDF(valuation);

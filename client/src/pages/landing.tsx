@@ -87,11 +87,11 @@ export default function Landing() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <Button 
                 size="lg" 
-                className="text-lg px-8 py-4"
+                className="text-lg px-8 py-4 bg-green-600 hover:bg-green-700"
                 onClick={handleGetStarted}
               >
                 <Calculator className="w-5 h-5 mr-2" />
-                Get Valuation - $99
+                Get Your First Report FREE
               </Button>
               <Button 
                 variant="outline" 
@@ -101,6 +101,16 @@ export default function Landing() {
               >
                 Learn More
               </Button>
+            </div>
+            
+            {/* Free First Report Highlight */}
+            <div className="bg-green-50 border border-green-200 rounded-lg p-4 max-w-2xl mx-auto mb-8">
+              <p className="text-green-800 text-center font-medium">
+                🎁 <strong>First Report Always FREE</strong> - No credit card required
+              </p>
+              <p className="text-green-700 text-center text-sm mt-1">
+                Complete professional valuation with no watermarks or limitations
+              </p>
             </div>
             
             {/* Trust Indicators */}
@@ -247,65 +257,194 @@ export default function Landing() {
       <section className="py-20 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">Professional Valuation Report</h2>
-            <p className="text-xl text-slate-600">Get everything you need for just $99</p>
+            <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">💰 Our Pricing Structure</h2>
+            <p className="text-xl text-slate-600">Professional business valuations for every need</p>
           </div>
 
-          <div className="max-w-lg mx-auto">
-            <Card className="shadow-xl border-2 border-primary">
-              <CardContent className="p-8">
-                <div className="text-center mb-8">
-                  <h3 className="text-2xl font-bold text-slate-900 mb-4">Complete Valuation Report</h3>
-                  <div className="text-5xl font-bold text-primary mb-2">$99</div>
-                  <p className="text-slate-600">One-time payment • Instant download</p>
-                </div>
-
-                <ul className="space-y-4 mb-8">
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Free First Report */}
+            <Card className="shadow-lg border-2 border-green-500 relative">
+              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                <Badge className="bg-green-500 text-white px-4 py-1">ALWAYS FREE</Badge>
+              </div>
+              <CardHeader className="text-center pt-8">
+                <h3 className="text-2xl font-bold text-slate-900">🎁 First Report FREE</h3>
+                <div className="text-4xl font-bold text-green-600 my-4">$0</div>
+                <p className="text-slate-600">No credit card required</p>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-3 mb-6">
                   <li className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-secondary mr-3" />
-                    <span className="text-slate-700">Professional PDF valuation report</span>
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
+                    <span>Complete PDF valuation report</span>
                   </li>
                   <li className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-secondary mr-3" />
-                    <span className="text-slate-700">Valuation range based on industry multiples</span>
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
+                    <span>Detailed financial analysis</span>
                   </li>
                   <li className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-secondary mr-3" />
-                    <span className="text-slate-700">Key financial ratios and benchmarks</span>
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
+                    <span>Industry benchmarks & comparisons</span>
                   </li>
                   <li className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-secondary mr-3" />
-                    <span className="text-slate-700">Industry comparison analysis</span>
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
+                    <span>Basic risk assessment</span>
                   </li>
                   <li className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-secondary mr-3" />
-                    <span className="text-slate-700">Factors affecting your business value</span>
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-secondary mr-3" />
-                    <span className="text-slate-700">Secure data handling & deletion option</span>
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
+                    <span>No watermarks or limitations</span>
                   </li>
                 </ul>
-
-                <Button 
-                  className="w-full py-4 text-lg font-semibold mb-4"
-                  onClick={handleGetStarted}
-                >
-                  Start Your Valuation
+                <Button className="w-full bg-green-600 hover:bg-green-700" onClick={handleGetStarted}>
+                  Get Your Free Report
                 </Button>
+                <p className="text-center text-sm text-slate-500 mt-3">
+                  Experience our full quality risk-free
+                </p>
+              </CardContent>
+            </Card>
 
-                <p className="text-center text-sm text-slate-500">
-                  Secure payment via Stripe • 30-day money-back guarantee
+            {/* Additional Reports */}
+            <Card className="shadow-lg border-2 border-blue-200">
+              <CardHeader className="text-center">
+                <h3 className="text-2xl font-bold text-slate-900">📊 Additional Reports</h3>
+                <div className="text-4xl font-bold text-blue-600 my-4">
+                  <span className="line-through text-2xl text-slate-400">$39</span> $29
+                </div>
+                <p className="text-slate-600">Limited time pricing</p>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-3 mb-6">
+                  <li className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-blue-500 mr-3" />
+                    <span>Complete PDF valuation report</span>
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-blue-500 mr-3" />
+                    <span>Detailed financial analysis</span>
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-blue-500 mr-3" />
+                    <span>Industry benchmarks & comparisons</span>
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-blue-500 mr-3" />
+                    <span>Basic risk assessment</span>
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-blue-500 mr-3" />
+                    <span>30-day money-back guarantee</span>
+                  </li>
+                </ul>
+                <Button className="w-full" onClick={handleGetStarted}>
+                  Get Additional Report
+                </Button>
+                <p className="text-center text-sm text-slate-500 mt-3">
+                  95% less than traditional costs
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* Pro Monthly */}
+            <Card className="shadow-lg border-2 border-purple-200">
+              <CardHeader className="text-center">
+                <h3 className="text-2xl font-bold text-slate-900">⚡ Pro Monthly</h3>
+                <div className="text-4xl font-bold text-purple-600 my-4">$79<span className="text-lg">/month</span></div>
+                <p className="text-slate-600">For professionals</p>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-3 mb-6">
+                  <li className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-purple-500 mr-3" />
+                    <span>3 Additional Reports per month</span>
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-purple-500 mr-3" />
+                    <span>Priority customer support</span>
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-purple-500 mr-3" />
+                    <span>Bulk report generation</span>
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-purple-500 mr-3" />
+                    <span>Advanced analytics dashboard</span>
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-purple-500 mr-3" />
+                    <span>Export to multiple formats</span>
+                  </li>
+                </ul>
+                <Button className="w-full bg-purple-600 hover:bg-purple-700" onClick={handleGetStarted}>
+                  Start Pro Subscription
+                </Button>
+                <p className="text-center text-sm text-slate-500 mt-3">
+                  $26/report vs $39 individually
                 </p>
               </CardContent>
             </Card>
           </div>
 
+          {/* Competitive Positioning */}
+          <div className="mt-16">
+            <h3 className="text-2xl font-bold text-center text-slate-900 mb-12">🏆 Competitive Positioning</h3>
+            
+            <div className="grid md:grid-cols-3 gap-8">
+              <Card className="border-slate-200">
+                <CardHeader>
+                  <h4 className="text-lg font-semibold text-slate-900">vs. Traditional Valuation Firms</h4>
+                  <p className="text-slate-600">($2,000-$15,000)</p>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-2 text-sm">
+                    <li className="flex items-center"><TrendingUp className="w-4 h-4 text-green-500 mr-2" /><strong>98% cost savings</strong> - Our reports at $29 vs $5,000 average</li>
+                    <li className="flex items-center"><Clock className="w-4 h-4 text-green-500 mr-2" /><strong>Instant delivery</strong> - Hours vs weeks/months</li>
+                    <li className="flex items-center"><Users className="w-4 h-4 text-green-500 mr-2" /><strong>Self-service</strong> - No appointments needed</li>
+                    <li className="flex items-center"><DollarSign className="w-4 h-4 text-green-500 mr-2" /><strong>Transparent pricing</strong> - No hidden fees</li>
+                  </ul>
+                </CardContent>
+              </Card>
+
+              <Card className="border-slate-200">
+                <CardHeader>
+                  <h4 className="text-lg font-semibold text-slate-900">vs. Online Competitors</h4>
+                  <p className="text-slate-600">($99-$499)</p>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-2 text-sm">
+                    <li className="flex items-center"><TrendingUp className="w-4 h-4 text-blue-500 mr-2" /><strong>Better value</strong> - More comprehensive at lower prices</li>
+                    <li className="flex items-center"><FileText className="w-4 h-4 text-blue-500 mr-2" /><strong>Professional quality</strong> - Investment-grade insights</li>
+                    <li className="flex items-center"><Users className="w-4 h-4 text-blue-500 mr-2" /><strong>Human support</strong> - Real assistance when needed</li>
+                    <li className="flex items-center"><Shield className="w-4 h-4 text-blue-500 mr-2" /><strong>Risk-free trial</strong> - Free report to test quality</li>
+                  </ul>
+                </CardContent>
+              </Card>
+
+              <Card className="border-slate-200">
+                <CardHeader>
+                  <h4 className="text-lg font-semibold text-slate-900">vs. Software Tools</h4>
+                  <p className="text-slate-600">($50-$200/month)</p>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-2 text-sm">
+                    <li className="flex items-center"><FileText className="w-4 h-4 text-purple-500 mr-2" /><strong>Complete reports</strong> - Ready-to-use PDFs vs raw data</li>
+                    <li className="flex items-center"><Clock className="w-4 h-4 text-purple-500 mr-2" /><strong>No learning curve</strong> - Instant results, no training</li>
+                    <li className="flex items-center"><TrendingUp className="w-4 h-4 text-purple-500 mr-2" /><strong>Professional deliverables</strong> - Executive-ready presentations</li>
+                    <li className="flex items-center"><Calculator className="w-4 h-4 text-purple-500 mr-2" /><strong>Comprehensive analysis</strong> - Risk + strategic recommendations</li>
+                  </ul>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+
           <div className="text-center mt-12">
-            <div className="flex items-center justify-center text-slate-600 mb-4">
-              <Shield className="w-5 h-5 text-secondary mr-2" />
-              <p>
-                <strong>Professional Disclaimer:</strong> This valuation is for informational purposes only and is not a formal business appraisal.
+            <div className="bg-slate-50 rounded-lg p-6 max-w-4xl mx-auto">
+              <h4 className="text-lg font-semibold text-slate-900 mb-4">🎯 Why We Offer These Options</h4>
+              <p className="text-slate-600 leading-relaxed">
+                We believe every business owner deserves access to professional-grade valuation insights, regardless of their budget. 
+                Traditional valuations cost $2,000-$15,000 and take weeks to complete. We're democratizing business valuation by making 
+                professional analysis accessible, affordable, and instant. Our free first report removes all barriers, allowing you to 
+                experience our quality risk-free.
               </p>
             </div>
           </div>
