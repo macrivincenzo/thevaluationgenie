@@ -37,19 +37,19 @@ export default function ComprehensiveQuestions({ data, onChange, onNext, onPrevi
       case 1:
         return data.businessName && data.industry && data.foundedYear && data.location && data.employeeCount >= 0;
       case 2:
-        return data.annualRevenue > 0 && data.sde !== undefined;
+        return data.annualRevenue > 0 && data.sde > 0 && data.grossMargin >= 0 && data.netProfitMargin >= 0;
       case 3:
-        return true; // All optional
+        return data.customerAcquisitionCost >= 0 && data.customerLifetimeValue >= 0 && data.monthlyRecurringRevenue >= 0;
       case 4:
-        return data.ownerInvolvement;
+        return data.ownerInvolvement && data.keyEmployees >= 0 && data.managementStructure;
       case 5:
-        return true; // All optional
+        return data.topCustomersPercentage >= 0 && data.averageCustomerTenure >= 0 && data.customerRetentionRate >= 0;
       case 6:
-        return true; // All optional
+        return data.primaryCompetitors && data.competitiveAdvantages && data.marketTrends;
       case 7:
-        return true; // All optional
+        return data.dueDiligencePriorities && data.riskConcerns && data.timelineExpectations;
       case 8:
-        return true; // All optional
+        return data.dealStructurePreferences && data.financingOptions && data.transactionGoals;
       default:
         return true;
     }

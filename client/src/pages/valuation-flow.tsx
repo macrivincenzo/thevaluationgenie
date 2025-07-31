@@ -236,11 +236,47 @@ export default function ValuationFlow() {
     },
   });
 
+  const validateRequiredFields = () => {
+    const required = [];
+    
+    // Essential business information
+    if (!valuationData.businessName?.trim()) required.push("Business Name");
+    if (!valuationData.industry) required.push("Industry");
+    if (!valuationData.location?.trim()) required.push("Location");
+    if (!valuationData.foundedYear) required.push("Year Founded");
+    if (valuationData.employeeCount === undefined) required.push("Number of Employees");
+    
+    // Critical financial data - check for SDE or EBITDA
+    if (!valuationData.annualRevenue || valuationData.annualRevenue === 0) required.push("Annual Revenue");
+    if ((!valuationData.sde || valuationData.sde === 0) && (!valuationData.ebitda || valuationData.ebitda === 0)) {
+      required.push("SDE or EBITDA");
+    }
+    
+    // Operational details
+    if (!valuationData.ownerInvolvement) required.push("Owner Involvement Level");
+    
+    return required;
+  };
+
   const handleNext = () => {
     console.log("handleNext called, current step:", currentStep);
     console.log("Current valuation data:", valuationData);
     
     if (currentStep < totalSteps) {
+      if (currentStep === 2) {
+        // Validate essential fields after comprehensive questions
+        const missingFields = validateRequiredFields();
+        
+        if (missingFields.length > 0) {
+          toast({
+            title: "Required Information Missing",
+            description: `Please complete these essential fields: ${missingFields.slice(0, 3).join(', ')}${missingFields.length > 3 ? ` and ${missingFields.length - 3} more` : ''}`,
+            variant: "destructive",
+          });
+          return;
+        }
+      }
+      
       if (currentStep === 4) {
         // Submit valuation on step 4 completion (after file upload)
         console.log("Triggering valuation calculation...");
