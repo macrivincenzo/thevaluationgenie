@@ -8,7 +8,7 @@ export function generateProfessionalPDF(data: ComprehensiveValuationData) {
   }
 
   const revenue = typeof data.annualRevenue === 'number' ? data.annualRevenue : (data.annualRevenue?.[0] || 0);
-  const sde = data.sde || data.ebitda || 0;
+  const sde = data.sde || 0;
   const sdeMargin = data.sdeMargin || (revenue > 0 ? (sde / revenue) * 100 : 0);
   
   // Calculate valuation details (halal-compliant)

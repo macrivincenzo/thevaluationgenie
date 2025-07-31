@@ -357,11 +357,11 @@ export function generateComprehensivePDF(data: ComprehensiveValuationData) {
                 </tr>
                 ` : ''}
                 <tr>
-                    <td class="metric">EBITDA</td>
-                    <td>$${ebitda.toLocaleString()}</td>
+                    <td class="metric">SDE</td>
+                    <td>$${sde.toLocaleString()}</td>
                     <td>$${Math.round(revenue * 0.15).toLocaleString()} - $${Math.round(revenue * 0.25).toLocaleString()}</td>
-                    <td class="performance ${ebitdaMargin > 25 ? 'excellent' : ebitdaMargin > 15 ? 'above-average' : 'average'}">
-                        ${ebitdaMargin > 25 ? 'Excellent' : ebitdaMargin > 15 ? 'Above Average' : 'Average'}
+                    <td class="performance ${sdeMargin > 25 ? 'excellent' : sdeMargin > 15 ? 'above-average' : 'average'}">
+                        ${sdeMargin > 25 ? 'Excellent' : sdeMargin > 15 ? 'Above Average' : 'Average'}
                     </td>
                 </tr>
                 <tr>
@@ -492,7 +492,7 @@ export function generateComprehensivePDF(data: ComprehensiveValuationData) {
             ${(data.competitiveAdvantages || []).concat([
               data.customerRetentionRate && data.customerRetentionRate > 90 ? `Industry-leading retention rate (${data.customerRetentionRate}%)` : null,
               data.customerAcquisitionCost && data.customerAcquisitionCost < (revenue / 12) ? 'Efficient customer acquisition' : null,
-              ebitdaMargin > 20 ? `Strong EBITDA margins (${ebitdaMargin.toFixed(1)}%)` : null,
+              sdeMargin > 20 ? `Strong SDE margins (${sdeMargin.toFixed(1)}%)` : null,
               data.recurringRevenuePct && data.recurringRevenuePct > 50 ? 'Predictable recurring revenue model' : null,
               data.managementTeam === 'strong' ? 'Proven management team' : null
             ].filter((item): item is string => item !== null)).slice(0, 6).map(item => `<div class="risk-item">${item}</div>`).join('')}
@@ -513,7 +513,7 @@ export function generateComprehensivePDF(data: ComprehensiveValuationData) {
     <!-- Strategic Recommendations -->
     <div class="section-spacing">
         <h3>Strategic Recommendations</h3>
-        <p>${data.businessName} is positioned for ${data.revenueGrowthRate && data.revenueGrowthRate > 15 ? 'continued growth' : 'stable operations'} with ${ebitdaMargin > 20 ? 'strong' : 'solid'} fundamentals:</p>
+        <p>${data.businessName} is positioned for ${data.revenueGrowthRate && data.revenueGrowthRate > 15 ? 'continued growth' : 'stable operations'} with ${sdeMargin > 20 ? 'strong' : 'solid'} fundamentals:</p>
         
         <div style="margin-top: 20px;">
             <h4 style="font-size: 14px; margin-bottom: 10px;">Growth Strategy</h4>
