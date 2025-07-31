@@ -49,12 +49,12 @@ export function generateComprehensivePDF(data: ComprehensiveValuationData) {
   }
 
   const revenue = typeof data.annualRevenue === 'number' ? data.annualRevenue : (data.annualRevenue?.[0] || 0);
-  const ebitda = data.ebitda || data.sde || 0;
-  const ebitdaMargin = data.ebitdaMargin || (revenue > 0 ? (ebitda / revenue) * 100 : 0);
+  const sde = data.sde || 0;
+  const sdeMargin = data.sdeMargin || (revenue > 0 ? (sde / revenue) * 100 : 0);
   // Calculate valuation details (halal-compliant, no interest-based calculations)
   const enterpriseValue = (data.valuationLow + data.valuationHigh) / 2;
   const revenueMultiple = data.revenueMultiple || (revenue > 0 ? enterpriseValue / revenue : 0);
-  const sdeMultiple = (ebitda > 0 ? enterpriseValue / ebitda : 0);
+  const sdeMultiple = (sde > 0 ? enterpriseValue / sde : 0);
 
   const html = `
 <!DOCTYPE html>
@@ -365,11 +365,11 @@ export function generateComprehensivePDF(data: ComprehensiveValuationData) {
                     </td>
                 </tr>
                 <tr>
-                    <td class="metric">EBITDA Margin</td>
-                    <td>${ebitdaMargin.toFixed(1)}%</td>
+                    <td class="metric">SDE Margin</td>
+                    <td>${sdeMargin.toFixed(1)}%</td>
                     <td>15% - 25%</td>
-                    <td class="performance ${ebitdaMargin > 25 ? 'excellent' : ebitdaMargin > 15 ? 'above-average' : 'average'}">
-                        ${ebitdaMargin > 25 ? 'Excellent' : ebitdaMargin > 15 ? 'Above Average' : 'Average'}
+                    <td class="performance ${sdeMargin > 25 ? 'excellent' : sdeMargin > 15 ? 'above-average' : 'average'}">
+                        ${sdeMargin > 25 ? 'Excellent' : sdeMargin > 15 ? 'Above Average' : 'Average'}
                     </td>
                 </tr>
                 ${data.customerRetentionRate ? `
@@ -433,18 +433,18 @@ export function generateComprehensivePDF(data: ComprehensiveValuationData) {
                 <strong>Key Assumptions:</strong>
                 <div class="assumptions">
                     • Industry SDE multiples: ${(sdeMultiple * 0.8).toFixed(1)}x - ${(sdeMultiple * 1.2).toFixed(1)}x<br>
-                    • Applied multiple: ${sdeMultiple.toFixed(1)}x (${ebitdaMargin > 20 ? 'reflects strong profitability' : 'mid-range multiple'})<br>
+                    • Applied multiple: ${sdeMultiple.toFixed(1)}x (${sdeMargin > 20 ? 'reflects strong profitability' : 'mid-range multiple'})<br>
                     • Reflects owner-operated business cash flow
                 </div>
             </div>
 
             <div style="text-align: center; margin: 15px 0;">
-                <strong>SDE: $${ebitda.toLocaleString()}</strong><br>
+                <strong>SDE: $${sde.toLocaleString()}</strong><br>
                 <strong>SDE Multiple: ${sdeMultiple.toFixed(1)}x</strong>
             </div>
 
             <div class="method-result">
-                Enterprise Value = $${(ebitda * sdeMultiple).toLocaleString()}
+                Enterprise Value = $${(sde * sdeMultiple).toLocaleString()}
             </div>
         </div>
     </div>
@@ -471,9 +471,9 @@ export function generateComprehensivePDF(data: ComprehensiveValuationData) {
                 </tr>
                 <tr>
                     <td>SDE Multiple</td>
-                    <td>$${(ebitda * sdeMultiple).toLocaleString()}</td>
+                    <td>$${(sde * sdeMultiple).toLocaleString()}</td>
                     <td>50%</td>
-                    <td>$${((ebitda * sdeMultiple) * 0.5).toLocaleString()}</td>
+                    <td>$${((sde * sdeMultiple) * 0.5).toLocaleString()}</td>
                 </tr>
                 <tr class="final-value">
                     <td><strong>FINAL ENTERPRISE VALUE</strong></td>

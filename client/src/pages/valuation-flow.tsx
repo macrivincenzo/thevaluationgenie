@@ -29,8 +29,10 @@ export interface ValuationData {
   annualRevenue: number | number[]; // Can be single value or array for compatibility
   recurringRevenuePct?: number;
   oneTimeRevenuePct?: number;
-  ebitda?: number;
-  ebitdaMargin?: number;
+  sde: number; // Required for halal-compliant valuations
+  sdeMargin?: number;
+  grossMargin?: number;
+  netProfitMargin?: number;
   ownerSalary?: number;
   addBacks?: number;
   
@@ -246,10 +248,10 @@ export default function ValuationFlow() {
     if (!valuationData.foundedYear) required.push("Year Founded");
     if (valuationData.employeeCount === undefined) required.push("Number of Employees");
     
-    // Critical financial data - check for SDE or EBITDA
+    // Critical financial data - SDE only (halal-compliant)
     if (!valuationData.annualRevenue || valuationData.annualRevenue === 0) required.push("Annual Revenue");
-    if ((!valuationData.sde || valuationData.sde === 0) && (!valuationData.ebitda || valuationData.ebitda === 0)) {
-      required.push("SDE or EBITDA");
+    if (!valuationData.sde || valuationData.sde === 0) {
+      required.push("SDE (Seller's Discretionary Earnings)");
     }
     
     // Operational details
@@ -311,12 +313,13 @@ export default function ValuationFlow() {
       case 1:
         return true; // Always can proceed from intro step
       case 2:
-        // Comprehensive questions - validate core data
+        // Comprehensive questions - validate core data (SDE only, halal-compliant)
         return valuationData.businessName && 
                valuationData.industry && 
                ((typeof valuationData.annualRevenue === 'number' && valuationData.annualRevenue > 0) ||
                 (Array.isArray(valuationData.annualRevenue) && valuationData.annualRevenue.some(rev => rev > 0))) &&
-               valuationData.ebitda !== undefined &&
+               valuationData.sde !== undefined &&
+               valuationData.sde > 0 &&
                valuationData.ownerInvolvement;
       case 3:
         return valuationData.businessName && 

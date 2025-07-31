@@ -723,8 +723,8 @@ export default function ComprehensiveQuestions({ data, onChange, onNext, onPrevi
       // Calculate years in business from founded year
       const yearsInBusiness = new Date().getFullYear() - (data.foundedYear || new Date().getFullYear());
       
-      // Set SDE from EBITDA for compatibility
-      const sde = data.ebitda || 0;
+      // Use SDE directly (halal-compliant methodology)
+      const sde = data.sde || 0;
       
       // Set compatibility fields
       onChange({
