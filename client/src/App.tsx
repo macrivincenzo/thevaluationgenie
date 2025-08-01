@@ -7,7 +7,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 // Removed useAuth hook - using direct state management for speed
 import { useState, useEffect } from "react";
-import ProfileCompletionModal from "@/components/auth/profile-completion-modal";
+// Removed ProfileCompletionModal for faster loading
 import Landing from "@/pages/landing";
 import Home from "@/pages/home";
 import ValuationFlow from "@/pages/valuation-flow";
@@ -24,35 +24,22 @@ import Login from "@/pages/auth/login";
 import Signup from "@/pages/auth/signup";
 
 function Router() {
+  // Always show unauthenticated view by default - no delays
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
-  const [showProfileModal, setShowProfileModal] = useState(false);
 
-  // Check auth status once on mount
+  // Optional: Check auth in background (non-blocking)
   useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const res = await fetch("/api/auth/user", { credentials: "include" });
-        if (res.ok) {
-          const userData = await res.json();
+    fetch("/api/auth/user", { credentials: "include" })
+      .then(res => res.ok ? res.json() : null)
+      .then(userData => {
+        if (userData) {
           setUser(userData);
           setIsAuthenticated(true);
         }
-      } catch (error) {
-        // Ignore auth errors - stay unauthenticated
-      }
-    };
-    checkAuth();
+      })
+      .catch(() => {}); // Ignore errors
   }, []);
-
-  // Check if user needs to complete profile
-  useEffect(() => {
-    if (isAuthenticated && user && !(user as any).profileComplete) {
-      if (!(user as any).firstName || !(user as any).lastName || !(user as any).email) {
-        setShowProfileModal(true);
-      }
-    }
-  }, [isAuthenticated, user]);
 
   return (
     <>
@@ -83,14 +70,7 @@ function Router() {
         <Route component={NotFound} />
       </Switch>
       
-      {/* Profile Completion Modal */}
-      {isAuthenticated && user && showProfileModal && (
-        <ProfileCompletionModal
-          isOpen={showProfileModal}
-          user={user}
-          onClose={() => setShowProfileModal(false)}
-        />
-      )}
+      {/* Profile modal removed for speed */}
     </>
   );
 }
