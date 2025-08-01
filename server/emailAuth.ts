@@ -81,47 +81,29 @@ export async function setupEmailAuth(app: Express) {
         return res.status(400).json({ message: 'Email already registered' });
       }
 
-      // Hash password with optimized rounds for development
-      const saltRounds = 6; // Further reduced for faster development signup
+      // Hash password with minimal rounds for fast development
+      const saltRounds = 4; // Minimal rounds for fastest signup
       const passwordHash = await bcrypt.hash(validatedData.password, saltRounds);
 
-      // Create user with minimal required fields
+      // Create user with minimal required fields only
       const newUser = await storage.createEmailUser({
         email: validatedData.email,
         passwordHash,
         firstName: validatedData.firstName,
         lastName: validatedData.lastName,
-        company: validatedData.company || null,
-        businessType: validatedData.businessType,
         authMethod: 'email',
         emailVerified: false,
         profileComplete: true,
-        lastLoginAt: new Date(),
       });
 
-      // Create customer profile in background (don't await to speed up response)
-      storage.createCustomerProfile({
-        userId: newUser.id,
-        currentBusinessOwner: validatedData.businessType === 'owner',
-        preferredContactMethod: 'email',
-      }).catch(err => console.error('Failed to create customer profile:', err));
+      // Skip customer profile creation for faster signup
+      // It will be created when needed
 
-      // Auto-login the user after signup
-      req.logIn(newUser, (err) => {
-        if (err) {
-          return res.status(500).json({ message: 'Login failed after signup' });
-        }
-        res.json({ 
-          success: true, 
-          message: 'Account created successfully',
-          user: {
-            id: newUser.id,
-            email: newUser.email,
-            firstName: newUser.firstName,
-            lastName: newUser.lastName,
-            profileComplete: newUser.profileComplete
-          }
-        });
+      // Skip auto-login for fastest response
+      res.json({ 
+        success: true, 
+        message: 'Account created successfully. Please sign in.',
+        redirect: '/login'
       });
 
     } catch (error: any) {

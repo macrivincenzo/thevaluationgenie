@@ -80,9 +80,10 @@ export default function Signup() {
     onSuccess: (data) => {
       toast({
         title: "Account Created!",
-        description: "Welcome to ValuationGenie. You're now logged in.",
+        description: "Welcome to ValuationGenie! Please sign in to continue.",
       });
-      queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+      // Redirect to login page immediately
+      window.location.href = '/login';
       setLocation("/");
     },
     onError: (error: Error) => {
