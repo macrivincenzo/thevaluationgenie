@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLocation } from "wouter";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -28,6 +29,7 @@ import {
 
 export default function Landing() {
   const [email, setEmail] = useState("");
+  const [, setLocation] = useLocation();
   const { toast } = useToast();
 
   const subscribeMutation = useMutation({
@@ -98,7 +100,7 @@ export default function Landing() {
                   size="lg" 
                   variant="outline"
                   className="text-lg px-8 py-4"
-                  onClick={() => window.location.href = "/login"}
+                  onClick={() => setLocation("/login")}
                 >
                   Sign In
                 </Button>
