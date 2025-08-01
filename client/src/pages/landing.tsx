@@ -77,21 +77,21 @@ export default function Landing() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl lg:text-6xl font-bold text-slate-900 mb-6">
-              Instant Business Valuation<br />
-              <span className="text-primary">for Buyers & Sellers</span>
+              Professional Business Valuation<br />
+              <span className="text-primary">for Every Need</span>
             </h1>
             <p className="text-xl text-slate-600 mb-8 max-w-3xl mx-auto">
-              Get a credible, data-driven business valuation in minutes—whether you're buying or selling. 
-              Professional-grade valuations without the wait or high cost.
+              Get credible, data-driven business valuations in minutes. Professional-grade reports 
+              at a fraction of traditional appraisal costs—starting at just $39.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <Button 
                 size="lg" 
-                className="text-lg px-8 py-4 bg-green-600 hover:bg-green-700"
+                className="text-lg px-8 py-4 bg-blue-600 hover:bg-blue-700"
                 onClick={handleGetStarted}
               >
                 <Calculator className="w-5 h-5 mr-2" />
-                Get Your First Report FREE
+                Start Your Valuation
               </Button>
               <Button 
                 variant="outline" 
@@ -103,13 +103,13 @@ export default function Landing() {
               </Button>
             </div>
             
-            {/* Free First Report Highlight */}
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4 max-w-2xl mx-auto mb-8">
-              <p className="text-green-800 text-center font-medium">
-                🎁 <strong>First Report Always FREE</strong> - No credit card required
+            {/* Value Proposition Highlight */}
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 max-w-2xl mx-auto mb-8">
+              <p className="text-blue-800 text-center font-medium">
+                ⚡ <strong>Save $3,000+ vs. traditional appraisers</strong>
               </p>
-              <p className="text-green-700 text-center text-sm mt-1">
-                Complete professional valuation with no watermarks or limitations
+              <p className="text-blue-700 text-center text-sm mt-1">
+                Professional reports with 7-day money-back guarantee
               </p>
             </div>
             
