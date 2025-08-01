@@ -5,7 +5,7 @@ import { Elements } from '@stripe/react-stripe-js';
 import { stripePromise } from "@/lib/stripe";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { useAuth } from "@/hooks/useAuth";
+// Removed useAuth hook - using direct state management for speed
 import { useState, useEffect } from "react";
 import ProfileCompletionModal from "@/components/auth/profile-completion-modal";
 import Landing from "@/pages/landing";
@@ -24,20 +24,35 @@ import Login from "@/pages/auth/login";
 import Signup from "@/pages/auth/signup";
 
 function Router() {
-  const { isAuthenticated, isLoading, user } = useAuth();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState(null);
   const [showProfileModal, setShowProfileModal] = useState(false);
+
+  // Check auth status once on mount
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const res = await fetch("/api/auth/user", { credentials: "include" });
+        if (res.ok) {
+          const userData = await res.json();
+          setUser(userData);
+          setIsAuthenticated(true);
+        }
+      } catch (error) {
+        // Ignore auth errors - stay unauthenticated
+      }
+    };
+    checkAuth();
+  }, []);
 
   // Check if user needs to complete profile
   useEffect(() => {
     if (isAuthenticated && user && !(user as any).profileComplete) {
-      // Show profile completion modal if user hasn't completed required info
       if (!(user as any).firstName || !(user as any).lastName || !(user as any).email) {
         setShowProfileModal(true);
       }
     }
   }, [isAuthenticated, user]);
-
-  // Skip loading screen - show content immediately
 
   return (
     <>

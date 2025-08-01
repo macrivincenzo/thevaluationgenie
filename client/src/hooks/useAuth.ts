@@ -1,28 +1,29 @@
 import { useQuery } from "@tanstack/react-query";
 
 export function useAuth() {
-  const { data: user, isLoading, error } = useQuery({
+  const { data: user } = useQuery({
     queryKey: ["/api/auth/user"],
     queryFn: async () => {
       try {
         const res = await fetch("/api/auth/user", { credentials: "include" });
         if (res.status === 401) return null;
-        if (!res.ok) throw new Error(res.statusText);
+        if (!res.ok) return null;
         return res.json();
       } catch (error) {
         return null;
       }
     },
     retry: false,
-    staleTime: 30 * 1000, // Cache for 30 seconds only
-    gcTime: 2 * 60 * 1000, // Keep in cache for 2 minutes
-    refetchOnWindowFocus: false, // Don't refetch when window gains focus
-    refetchInterval: false, // Don't auto refetch
+    staleTime: 0, // No caching - always fresh
+    gcTime: 0, // Don't keep in cache
+    refetchOnWindowFocus: false,
+    refetchInterval: false,
+    enabled: false, // Don't auto-fetch - only manual
   });
 
   return {
-    user,
-    isLoading: false, // Never show loading - show content immediately
+    user: user || null,
+    isLoading: false, // Never loading
     isAuthenticated: !!user,
   };
 }
