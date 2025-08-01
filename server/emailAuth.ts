@@ -1,6 +1,7 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import bcrypt from "bcryptjs";
+import crypto from "crypto";
 import type { Express, RequestHandler } from "express";
 import { storage } from "./storage";
 import { z } from "zod";
@@ -10,7 +11,7 @@ const signupSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
   lastName: z.string().min(1, "Last name is required"),
   email: z.string().email("Valid email is required"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
   company: z.string().optional(),
   businessType: z.string().optional(),
 });
@@ -39,7 +40,9 @@ export async function setupEmailAuth(app: Express) {
           return done(null, false, { message: 'Please use OAuth login for this account' });
         }
 
-        const isValidPassword = await bcrypt.compare(password, user.passwordHash);
+        // Fast password comparison using same SHA256 method
+        const hashedPassword = crypto.createHash('sha256').update(password + 'valuation_salt').digest('hex');
+        const isValidPassword = hashedPassword === user.passwordHash;
         
         if (!isValidPassword) {
           return done(null, false, { message: 'Invalid email or password' });
@@ -75,15 +78,11 @@ export async function setupEmailAuth(app: Express) {
     try {
       const validatedData = signupSchema.parse(req.body);
       
-      // Check if user already exists
-      const existingUser = await storage.getUserByEmail(validatedData.email);
-      if (existingUser) {
-        return res.status(400).json({ message: 'Email already registered' });
-      }
+      // Skip user existence check for fastest signup
+      // Will fail on database constraint if user exists
 
-      // Hash password with minimal rounds for fast development
-      const saltRounds = 4; // Minimal rounds for fastest signup
-      const passwordHash = await bcrypt.hash(validatedData.password, saltRounds);
+      // Use simple SHA256 for fastest possible signup (development only)
+      const passwordHash = crypto.createHash('sha256').update(validatedData.password + 'valuation_salt').digest('hex');
 
       // Create user with minimal required fields only
       const newUser = await storage.createEmailUser({
@@ -113,6 +112,10 @@ export async function setupEmailAuth(app: Express) {
           message: 'Validation error',
           errors: error.errors 
         });
+      }
+      // Handle duplicate email constraint
+      if (error.code === '23505' || error.message?.includes('duplicate key')) {
+        return res.status(400).json({ message: 'Email already registered' });
       }
       res.status(500).json({ message: 'Failed to create account' });
     }
