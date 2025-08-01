@@ -51,6 +51,7 @@ export const valuations = pgTable("valuations", {
   businessName: varchar("business_name").notNull(),
   industry: varchar("industry").notNull(),
   location: varchar("location").notNull(),
+  foundedYear: integer("founded_year"),
   yearsInBusiness: integer("years_in_business").notNull(),
   annualRevenue: decimal("annual_revenue").notNull(),
   sde: decimal("sde").notNull(),

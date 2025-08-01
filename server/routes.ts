@@ -177,6 +177,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         businessName: rawData.businessName || 'Business Name Not Provided',
         industry: rawData.industry || 'other',
         location: rawData.location || 'Not Specified',
+        foundedYear: rawData.foundedYear || null,
         yearsInBusiness: rawData.yearsInBusiness || 1,
         buyerOrSeller: rawData.buyerOrSeller || 'selling',
         annualRevenue: annualRevenueValue,
