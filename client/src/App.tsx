@@ -75,9 +75,10 @@ function Router() {
         <Route component={NotFound} />
       </Switch>
       
-      {showProfileModal && (
+      {showProfileModal && user && (
         <ProfileCompletionModal 
           isOpen={showProfileModal}
+          user={user}
           onClose={() => setShowProfileModal(false)}
         />
       )}
