@@ -37,10 +37,19 @@ function Router() {
     }
   }, [isAuthenticated, user]);
 
+  // Show loading state immediately without delay
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" />
+      </div>
+    );
+  }
+
   return (
     <>
       <Switch>
-        {isLoading || !isAuthenticated ? (
+        {!isAuthenticated ? (
           <>
             <Route path="/" component={Landing} />
             <Route path="/login" component={Login} />

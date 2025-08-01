@@ -80,33 +80,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
   await setupAuth(app);
   await setupEmailAuth(app);
 
-  // Auth routes - handle both OAuth and email auth
-  app.get('/api/auth/user', requireAuth, async (req: any, res) => {
-    try {
-      let userId;
-      
-      // Handle OAuth user (has claims)
-      if (req.user && req.user.claims) {
-        userId = req.user.claims.sub;
-      }
-      // Handle email auth user (direct user object)
-      else if (req.user && req.user.id) {
-        userId = req.user.id;
-      } else {
-        return res.status(401).json({ message: "Unauthorized" });
-      }
-      
-      const user = await storage.getUser(userId);
-      
-      if (!user) {
-        return res.status(404).json({ message: "User not found" });
-      }
-      
-      res.json(user);
-    } catch (error) {
-      console.error("Error fetching user:", error);
-      res.status(500).json({ message: "Failed to fetch user" });
+  // Ultra-fast auth route - minimal processing
+  app.get('/api/auth/user', (req: any, res) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ message: "Authentication required" });
     }
+
+    // Return minimal user data immediately without database lookup
+    if (req.user && req.user.id) {
+      return res.json({
+        id: req.user.id,
+        authenticated: true,
+        profileComplete: true,
+      });
+    }
+
+    // Handle OAuth user
+    if (req.user && req.user.claims) {
+      return res.json({
+        id: req.user.claims.sub,
+        email: req.user.claims.email,
+        authenticated: true,
+        profileComplete: true,
+      });
+    }
+
+    res.status(401).json({ message: "Authentication required" });
   });
 
   // Complete user profile endpoint
