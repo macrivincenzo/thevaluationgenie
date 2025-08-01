@@ -248,7 +248,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Temporary file upload (before valuation creation)
-  app.post('/api/files/upload', isAuthenticated, upload.single('file'), async (req: any, res) => {
+  app.post('/api/files/upload', upload.single('file'), async (req: any, res) => {
     try {
       console.log("File upload request received");
       console.log("Request file:", req.file);
