@@ -92,7 +92,7 @@ export default function Landing() {
                   onClick={handleGetStarted}
                 >
                   <Calculator className="w-5 h-5 mr-2" />
-                  Get Started Free
+                  Sign Up For Free
                 </Button>
                 <Button 
                   size="lg" 
