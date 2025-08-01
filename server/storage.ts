@@ -113,6 +113,7 @@ export class DatabaseStorage implements IStorage {
         businessName: valuationData.businessName,
         industry: valuationData.industry,
         location: valuationData.location,
+        foundedYear: valuationData.foundedYear,
         yearsInBusiness: valuationData.yearsInBusiness,
         annualRevenue: valuationData.annualRevenue,
         sde: valuationData.sde,
