@@ -37,14 +37,7 @@ function Router() {
     }
   }, [isAuthenticated, user]);
 
-  // Show loading state immediately without delay
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" />
-      </div>
-    );
-  }
+  // Skip loading screen - show content immediately
 
   return (
     <>
