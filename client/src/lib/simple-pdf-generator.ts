@@ -3,13 +3,13 @@ interface ValuationData {
   businessName: string;
   industry: string;
   location: string;
-  foundedYear: number;
-  annualRevenue: number | number[];
-  sde: number;
+  foundedYear?: number;
+  annualRevenue: number | number[] | string;
+  sde: number | string;
   sdeMargin?: number;
-  valuationLow: number;
-  valuationHigh: number;
-  industryMultiple: number;
+  valuationLow: number | string;
+  valuationHigh: number | string;
+  industryMultiple: number | string;
   recurringRevenuePct?: number;
   revenueGrowthRate?: number;
   customerRetentionRate?: number;
@@ -24,15 +24,29 @@ export function generateSimplePDF(data: ValuationData) {
   try {
     console.log('Starting PDF generation with data:', data);
     
-    // Safe data processing
-    const revenue = typeof data.annualRevenue === 'number' ? data.annualRevenue : (data.annualRevenue?.[0] || 0);
-    const sde = data.sde || 0;
+    // Safe data processing - convert strings to numbers properly
+    const revenue = typeof data.annualRevenue === 'string' ? parseFloat(data.annualRevenue) : 
+                   typeof data.annualRevenue === 'number' ? data.annualRevenue : 
+                   Array.isArray(data.annualRevenue) ? (data.annualRevenue[0] || 0) : 0;
+    const sde = typeof data.sde === 'string' ? parseFloat(data.sde) : (data.sde || 0);
+    const valuationLow = typeof data.valuationLow === 'string' ? parseFloat(data.valuationLow) : (data.valuationLow || 0);
+    const valuationHigh = typeof data.valuationHigh === 'string' ? parseFloat(data.valuationHigh) : (data.valuationHigh || 0);
+    const industryMultiple = typeof data.industryMultiple === 'string' ? parseFloat(data.industryMultiple) : (data.industryMultiple || 3.8);
+    
     const sdeMargin = data.sdeMargin || (revenue > 0 ? (sde / revenue) * 100 : 0);
-    const enterpriseValue = (data.valuationLow + data.valuationHigh) / 2;
-    const industryMultiple = data.industryMultiple || 3.8;
+    const enterpriseValue = (valuationLow + valuationHigh) / 2;
     const sdeBasedValuation = sde * industryMultiple;
     
-    console.log('Calculated values:', { revenue, sde, sdeMargin, enterpriseValue, sdeBasedValuation });
+    console.log('Calculated values:', { 
+      revenue, 
+      sde, 
+      sdeMargin, 
+      enterpriseValue, 
+      sdeBasedValuation,
+      valuationLow,
+      valuationHigh,
+      industryMultiple
+    });
 
     const currentDate = new Date().toLocaleDateString('en-US', { 
       year: 'numeric', 
@@ -246,7 +260,7 @@ export function generateSimplePDF(data: ValuationData) {
     <div class="highlight-box">
         <div class="highlight-title">Enterprise Valuation</div>
         <div class="highlight-value">$${enterpriseValue.toLocaleString()}</div>
-        <div class="highlight-range">Valuation Range: $${data.valuationLow.toLocaleString()} - $${data.valuationHigh.toLocaleString()}</div>
+        <div class="highlight-range">Valuation Range: $${valuationLow.toLocaleString()} - $${valuationHigh.toLocaleString()}</div>
     </div>
 
     <div class="section">
@@ -269,7 +283,7 @@ export function generateSimplePDF(data: ValuationData) {
             <div>
                 <div class="overview-item">
                     <span class="overview-label">Founded:</span>
-                    <span class="overview-value">${data.foundedYear}</span>
+                    <span class="overview-value">${data.foundedYear || 'Not specified'}</span>
                 </div>
                 <div class="overview-item">
                     <span class="overview-label">Annual Revenue:</span>
@@ -330,7 +344,7 @@ export function generateSimplePDF(data: ValuationData) {
         <p><strong>SDE Multiple Approach:</strong> Using industry-standard SDE multiples for ${data.industry} businesses.</p>
         <p><strong>Applied Multiple:</strong> ${industryMultiple}x (industry standard)</p>
         <p><strong>Calculation:</strong> SDE ($${sde.toLocaleString()}) × Multiple (${industryMultiple}x) = $${sdeBasedValuation.toLocaleString()}</p>
-        <p><strong>Final Valuation Range:</strong> $${data.valuationLow.toLocaleString()} - $${data.valuationHigh.toLocaleString()}</p>
+        <p><strong>Final Valuation Range:</strong> $${valuationLow.toLocaleString()} - $${valuationHigh.toLocaleString()}</p>
     </div>
 
     <div class="risk-grid">
