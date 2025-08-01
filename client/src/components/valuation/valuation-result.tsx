@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
-import { generateBeautifulPDF } from "@/lib/beautiful-pdf-generator";
+import { generateTemplatePDF } from "@/lib/template-pdf-generator";
 import { 
   CheckCircle, 
   DollarSign, 
@@ -177,7 +177,7 @@ export default function ValuationResult({ valuation, onPaymentComplete, onPrevio
                 className="flex-1 py-3 text-lg font-semibold bg-green-600 hover:bg-green-700"
                 onClick={() => {
                   try {
-                    generateBeautifulPDF(valuation);
+                    generateTemplatePDF(valuation);
                     toast({
                       title: "PDF Generated",
                       description: "Your professional valuation report is opening in a new window. Use your browser's print function to save as PDF.",
