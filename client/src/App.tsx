@@ -8,7 +8,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 // Removed useAuth hook - using direct state management for speed
 import { useState, useEffect } from "react";
 // Removed ProfileCompletionModal for faster loading
-import Landing from "@/pages/landing";
+import FastLanding from "@/pages/fast-landing";
 import Home from "@/pages/home";
 import ValuationFlow from "@/pages/valuation-flow";
 import CheckoutNew from "@/pages/checkout-new";
@@ -46,7 +46,7 @@ function Router() {
       <Switch>
         {!isAuthenticated ? (
           <>
-            <Route path="/" component={Landing} />
+            <Route path="/" component={FastLanding} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
             <Route path="/terms" component={Terms} />
