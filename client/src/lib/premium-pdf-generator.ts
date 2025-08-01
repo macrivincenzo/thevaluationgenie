@@ -36,7 +36,19 @@ export function generatePremiumPDF(data: ComprehensiveValuationData) {
   const sdeMargin = data.sdeMargin || (revenue > 0 ? (sde / revenue) * 100 : 0);
   const enterpriseValue = (data.valuationLow + data.valuationHigh) / 2;
   const revenueMultiple = revenue > 0 ? enterpriseValue / revenue : 0;
-  const sdeMultiple = sde > 0 ? enterpriseValue / sde : 0;
+  const sdeMultiple = sde > 0 ? enterpriseValue / sde : data.industryMultiple || 0;
+  
+  // Ensure we have valid numbers for calculations
+  const safeRevenue = revenue || 0;
+  const safeSDE = sde || 0;
+  const safeEnterpriseValue = enterpriseValue || 0;
+  const safeRevenueMultiple = isNaN(revenueMultiple) ? 0 : revenueMultiple;
+  const safeSdeMultiple = isNaN(sdeMultiple) ? (data.industryMultiple || 0) : sdeMultiple;
+  
+  // Calculate valuation estimates
+  const revenueBasedValuation = safeRevenue * safeRevenueMultiple;
+  const sdeBasedValuation = safeSDE * safeSdeMultiple;
+  const finalEnterpriseValue = safeEnterpriseValue || ((revenueBasedValuation + sdeBasedValuation) / 2);
   
   const currentDate = new Date().toLocaleDateString('en-US', { 
     year: 'numeric', 
@@ -580,12 +592,12 @@ export function generatePremiumPDF(data: ComprehensiveValuationData) {
 
             <div class="executive-summary">
                 <h2>Executive Summary</h2>
-                <p>${data.businessName} is ${data.revenueGrowthRate && data.revenueGrowthRate > 15 ? 'a rapidly growing' : 'an established'} ${data.industry} business ${data.revenueGrowthRate && data.revenueGrowthRate > 15 ? 'demonstrating exceptional growth potential and strong market positioning' : 'with solid operational fundamentals and stable market presence'}. The company generates annual revenue of $${revenue.toLocaleString()} with a Seller's Discretionary Earnings (SDE) of $${sde.toLocaleString()}, resulting in an impressive SDE margin of ${sdeMargin.toFixed(1)}%. ${data.customerRetentionRate ? `With a ${data.customerRetentionRate}% customer retention rate, ` : ''}the business shows ${sdeMargin > 25 ? 'exceptional' : sdeMargin > 15 ? 'strong' : 'stable'} profitability and ${data.ownerInvolvement === 'semi-absentee' ? 'operates efficiently with minimal owner involvement' : 'benefits from hands-on management oversight'}.</p>
+                <p>${data.businessName} is ${data.revenueGrowthRate && data.revenueGrowthRate > 15 ? 'a rapidly growing' : 'an established'} ${data.industry} business ${data.revenueGrowthRate && data.revenueGrowthRate > 15 ? 'demonstrating exceptional growth potential and strong market positioning' : 'with solid operational fundamentals and stable market presence'}. The company generates annual revenue of $${safeRevenue.toLocaleString()} with a Seller's Discretionary Earnings (SDE) of $${safeSDE.toLocaleString()}, resulting in an impressive SDE margin of ${sdeMargin.toFixed(1)}%. ${data.customerRetentionRate ? `With a ${data.customerRetentionRate}% customer retention rate, ` : ''}the business shows ${sdeMargin > 25 ? 'exceptional' : sdeMargin > 15 ? 'strong' : 'stable'} profitability and ${data.ownerInvolvement === 'semi-absentee' ? 'operates efficiently with minimal owner involvement' : 'benefits from hands-on management oversight'}.</p>
             </div>
 
             <div class="highlight-box">
                 <div class="highlight-title">Enterprise Valuation</div>
-                <div class="highlight-value">$${enterpriseValue.toLocaleString()}</div>
+                <div class="highlight-value">$${finalEnterpriseValue.toLocaleString()}</div>
                 <div class="highlight-range">Valuation Range: $${data.valuationLow.toLocaleString()} - $${data.valuationHigh.toLocaleString()}</div>
             </div>
 
@@ -602,22 +614,22 @@ export function generatePremiumPDF(data: ComprehensiveValuationData) {
                 <tbody>
                     <tr>
                         <td><strong>Annual Revenue</strong></td>
-                        <td>$${revenue.toLocaleString()}</td>
+                        <td>$${safeRevenue.toLocaleString()}</td>
                         <td>-</td>
                         <td class="${data.revenueGrowthRate && data.revenueGrowthRate > 15 ? 'performance-excellent' : 'performance-good'}">${data.revenueGrowthRate && data.revenueGrowthRate > 15 ? 'Strong Growth' : 'Stable Performance'}</td>
                     </tr>
                     ${data.recurringRevenuePct ? `
                     <tr>
                         <td><strong>Recurring Revenue</strong></td>
-                        <td>$${Math.round(revenue * (data.recurringRevenuePct / 100)).toLocaleString()}</td>
+                        <td>$${Math.round(safeRevenue * (data.recurringRevenuePct / 100)).toLocaleString()}</td>
                         <td>40-60% of Total</td>
                         <td class="performance-excellent">${data.recurringRevenuePct}% of Revenue</td>
                     </tr>
                     ` : ''}
                     <tr>
                         <td><strong>Seller's Discretionary Earnings (SDE)</strong></td>
-                        <td>$${sde.toLocaleString()}</td>
-                        <td>$${Math.round(revenue * 0.15).toLocaleString()} - $${Math.round(revenue * 0.25).toLocaleString()}</td>
+                        <td>$${safeSDE.toLocaleString()}</td>
+                        <td>$${Math.round(safeRevenue * 0.15).toLocaleString()} - $${Math.round(safeRevenue * 0.25).toLocaleString()}</td>
                         <td class="${sdeMargin > 25 ? 'performance-excellent' : sdeMargin > 15 ? 'performance-good' : 'performance-average'}">${sdeMargin > 25 ? 'Excellent' : sdeMargin > 15 ? 'Above Average' : 'Average'}</td>
                     </tr>
                     <tr>
@@ -646,15 +658,15 @@ export function generatePremiumPDF(data: ComprehensiveValuationData) {
                 
                 <div class="assumptions-box">
                     <div class="assumptions-title">Key Assumptions:</div>
-                    <div class="assumption-item">Industry revenue multiples: ${(revenueMultiple * 0.8).toFixed(1)}x - ${(revenueMultiple * 1.2).toFixed(1)}x</div>
-                    <div class="assumption-item">Applied multiple: ${revenueMultiple.toFixed(1)}x (based on performance metrics)</div>
+                    <div class="assumption-item">Industry revenue multiples: ${(safeRevenueMultiple * 0.8).toFixed(1)}x - ${(safeRevenueMultiple * 1.2).toFixed(1)}x</div>
+                    <div class="assumption-item">Applied multiple: ${safeRevenueMultiple.toFixed(1)}x (based on performance metrics)</div>
                     <div class="assumption-item">Premium applied for ${sdeMargin > 20 ? 'superior' : 'solid'} operational efficiency and profitability</div>
                 </div>
 
                 <div class="calculation-highlight">
                     <div class="calc-formula">Annual Revenue × Revenue Multiple</div>
-                    <div class="calc-formula">$${revenue.toLocaleString()} × ${revenueMultiple.toFixed(1)}x</div>
-                    <div class="calc-result">Enterprise Value = $${(revenue * revenueMultiple).toLocaleString()}</div>
+                    <div class="calc-formula">$${safeRevenue.toLocaleString()} × ${safeRevenueMultiple.toFixed(1)}x</div>
+                    <div class="calc-result">Enterprise Value = $${revenueBasedValuation.toLocaleString()}</div>
                 </div>
             </div>
 
@@ -665,15 +677,15 @@ export function generatePremiumPDF(data: ComprehensiveValuationData) {
                 
                 <div class="assumptions-box">
                     <div class="assumptions-title">Key Assumptions:</div>
-                    <div class="assumption-item">SDE multiples range: ${(sdeMultiple * 0.8).toFixed(1)}x - ${(sdeMultiple * 1.2).toFixed(1)}x</div>
-                    <div class="assumption-item">Applied multiple: ${sdeMultiple.toFixed(1)}x (industry standard)</div>
+                    <div class="assumption-item">SDE multiples range: ${(safeSdeMultiple * 0.8).toFixed(1)}x - ${(safeSdeMultiple * 1.2).toFixed(1)}x</div>
+                    <div class="assumption-item">Applied multiple: ${safeSdeMultiple.toFixed(1)}x (industry standard)</div>
                     <div class="assumption-item">Reflects strong cash flow generation and owner benefit optimization</div>
                 </div>
 
                 <div class="calculation-highlight">
                     <div class="calc-formula">Seller's Discretionary Earnings × SDE Multiple</div>
-                    <div class="calc-formula">$${sde.toLocaleString()} × ${sdeMultiple.toFixed(1)}x</div>
-                    <div class="calc-result">Enterprise Value = $${(sde * sdeMultiple).toLocaleString()}</div>
+                    <div class="calc-formula">$${safeSDE.toLocaleString()} × ${safeSdeMultiple.toFixed(1)}x</div>
+                    <div class="calc-result">Enterprise Value = $${sdeBasedValuation.toLocaleString()}</div>
                 </div>
             </div>
 
@@ -690,21 +702,21 @@ export function generatePremiumPDF(data: ComprehensiveValuationData) {
                 <tbody>
                     <tr>
                         <td>Revenue Multiple Approach</td>
-                        <td>$${(revenue * revenueMultiple).toLocaleString()}</td>
+                        <td>$${revenueBasedValuation.toLocaleString()}</td>
                         <td>50%</td>
-                        <td>$${((revenue * revenueMultiple) * 0.5).toLocaleString()}</td>
+                        <td>$${(revenueBasedValuation * 0.5).toLocaleString()}</td>
                     </tr>
                     <tr>
                         <td>SDE Multiple Approach</td>
-                        <td>$${(sde * sdeMultiple).toLocaleString()}</td>
+                        <td>$${sdeBasedValuation.toLocaleString()}</td>
                         <td>50%</td>
-                        <td>$${((sde * sdeMultiple) * 0.5).toLocaleString()}</td>
+                        <td>$${(sdeBasedValuation * 0.5).toLocaleString()}</td>
                     </tr>
                     <tr class="summary-final">
                         <td><strong>FINAL ENTERPRISE VALUE</strong></td>
-                        <td><strong>$${enterpriseValue.toLocaleString()}</strong></td>
+                        <td><strong>$${finalEnterpriseValue.toLocaleString()}</strong></td>
                         <td><strong>100%</strong></td>
-                        <td><strong>$${enterpriseValue.toLocaleString()}</strong></td>
+                        <td><strong>$${finalEnterpriseValue.toLocaleString()}</strong></td>
                     </tr>
                 </tbody>
             </table>
