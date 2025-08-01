@@ -179,8 +179,8 @@ export default function ValuationResult({ valuation, onPaymentComplete, onPrevio
                   try {
                     generatePremiumPDF(valuation);
                     toast({
-                      title: "PDF Generated",
-                      description: "Your professional valuation report is opening in a new window. Use your browser's print function to save as PDF.",
+                      title: "Report Downloaded",
+                      description: "Your professional valuation report has been downloaded. Open the HTML file and use your browser's print function to save as PDF.",
                     });
                   } catch (error) {
                     console.error('PDF generation error:', error);

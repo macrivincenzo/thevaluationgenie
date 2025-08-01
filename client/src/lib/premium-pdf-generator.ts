@@ -26,10 +26,8 @@ interface ComprehensiveValuationData {
 }
 
 export function generatePremiumPDF(data: ComprehensiveValuationData) {
-  const pdfWindow = window.open('', '_blank');
-  if (!pdfWindow) {
-    throw new Error('Unable to open PDF window. Please allow popups.');
-  }
+  // Create PDF content without popup window
+  try {
 
   const revenue = typeof data.annualRevenue === 'number' ? data.annualRevenue : (data.annualRevenue?.[0] || 0);
   const sde = data.sde || 0;
@@ -789,8 +787,24 @@ export function generatePremiumPDF(data: ComprehensiveValuationData) {
 </html>
   `;
 
-  pdfWindow.document.write(html);
-  pdfWindow.document.close();
-  
-  return Promise.resolve();
+    // Create a blob and download link instead of popup
+    const blob = new Blob([html], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    
+    // Create temporary link and trigger download
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${data.businessName.replace(/[^a-zA-Z0-9]/g, '_')}_Valuation_Report.html`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    // Clean up
+    setTimeout(() => URL.revokeObjectURL(url), 100);
+    
+    return Promise.resolve();
+  } catch (error) {
+    console.error('PDF Generation Error:', error);
+    throw new Error('Unable to generate PDF. Please try again.');
+  }
 }
