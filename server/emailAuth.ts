@@ -45,8 +45,10 @@ export async function setupEmailAuth(app: Express) {
           return done(null, false, { message: 'Invalid email or password' });
         }
 
-        // Update last login
-        await storage.updateUserProfile(user.id, { lastLoginAt: new Date() });
+        // Update last login in background
+        storage.updateUserProfile(user.id, { lastLoginAt: new Date() }).catch(err => 
+          console.error('Failed to update last login:', err)
+        );
         
         return done(null, user);
       } catch (error) {
@@ -79,29 +81,30 @@ export async function setupEmailAuth(app: Express) {
         return res.status(400).json({ message: 'Email already registered' });
       }
 
-      // Hash password
-      const saltRounds = 12;
+      // Hash password with optimized rounds for development
+      const saltRounds = 6; // Further reduced for faster development signup
       const passwordHash = await bcrypt.hash(validatedData.password, saltRounds);
 
-      // Create user
+      // Create user with minimal required fields
       const newUser = await storage.createEmailUser({
         email: validatedData.email,
         passwordHash,
         firstName: validatedData.firstName,
         lastName: validatedData.lastName,
-        company: validatedData.company,
+        company: validatedData.company || null,
         businessType: validatedData.businessType,
         authMethod: 'email',
         emailVerified: false,
-        profileComplete: true, // Consider complete if they provided required info
+        profileComplete: true,
+        lastLoginAt: new Date(),
       });
 
-      // Create customer profile
-      await storage.createCustomerProfile({
+      // Create customer profile in background (don't await to speed up response)
+      storage.createCustomerProfile({
         userId: newUser.id,
         currentBusinessOwner: validatedData.businessType === 'owner',
         preferredContactMethod: 'email',
-      });
+      }).catch(err => console.error('Failed to create customer profile:', err));
 
       // Auto-login the user after signup
       req.logIn(newUser, (err) => {

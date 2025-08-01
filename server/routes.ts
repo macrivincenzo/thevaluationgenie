@@ -90,15 +90,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
   await setupAuth(app);
   await setupEmailAuth(app);
 
-  // Auth routes
-  app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
+  // Auth routes - handle both OAuth and email auth
+  app.get('/api/auth/user', requireAuth, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      let userId;
+      
+      // Handle OAuth user (has claims)
+      if (req.user && req.user.claims) {
+        userId = req.user.claims.sub;
+      }
+      // Handle email auth user (direct user object)
+      else if (req.user && req.user.id) {
+        userId = req.user.id;
+      } else {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+      
       const user = await storage.getUser(userId);
       
-      // Update last login
-      if (user) {
-        await storage.updateUserProfile(userId, { lastLoginAt: new Date() });
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
       }
       
       res.json(user);
@@ -109,9 +120,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Complete user profile endpoint
-  app.post('/api/auth/complete-profile', isAuthenticated, async (req: any, res) => {
+  app.post('/api/auth/complete-profile', requireAuth, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      let userId;
+      if (req.user && req.user.claims) {
+        userId = req.user.claims.sub;
+      } else if (req.user && req.user.id) {
+        userId = req.user.id;
+      } else {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
       const profileData = req.body;
       
       // Update user profile
