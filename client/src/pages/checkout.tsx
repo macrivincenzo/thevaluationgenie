@@ -213,7 +213,7 @@ export default function Checkout() {
                     className="w-full py-3 text-lg font-semibold"
                     disabled={!stripe || !elements || isProcessing}
                   >
-                    {isProcessing ? "Processing..." : "Complete Payment - $99"}
+                    {isProcessing ? "Processing..." : "Complete Payment - $39"}
                   </Button>
                 </form>
               </CardContent>

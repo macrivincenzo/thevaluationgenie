@@ -238,7 +238,7 @@ export class DatabaseStorage implements IStorage {
     return {
       total: Number(totalResult.count),
       paid: Number(paidResult.count),
-      totalRevenue: Number(paidResult.count) * 99, // $99 per report
+      totalRevenue: Number(paidResult.count) * 39, // $39 per report
     };
   }
 

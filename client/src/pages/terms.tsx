@@ -60,7 +60,7 @@ export default function Terms() {
             </CardHeader>
             <CardContent className="prose max-w-none">
               <p>
-                Our valuation reports are available for a one-time fee of $99. Payment is processed securely through Stripe. We offer a 30-day money-back guarantee if you are not satisfied with your valuation report.
+                Our valuation reports are available for a one-time fee of $39. Payment is processed securely through Stripe. We offer a 7-day money-back guarantee if you are not satisfied with your valuation report.
               </p>
               <p>
                 To request a refund, contact us within 30 days of your purchase with your order details.

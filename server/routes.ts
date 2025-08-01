@@ -357,7 +357,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       const paymentIntent = await stripe.paymentIntents.create({
-        amount: 9900, // $99.00 in cents
+        amount: 3900, // $39.00 in cents
         currency: "usd",
         metadata: {
           valuationId,

@@ -72,7 +72,7 @@ function CheckoutForm({ valuation, onSuccess }: { valuation: any, onSuccess: () 
         className="w-full py-3 text-lg font-semibold"
         disabled={!stripe || !elements || isProcessing}
       >
-        {isProcessing ? "Processing..." : "Complete Payment - $99"}
+        {isProcessing ? "Processing..." : "Complete Payment - $39"}
       </Button>
     </form>
   );
@@ -306,10 +306,10 @@ export default function CheckoutNew() {
                   <span>Total:</span>
                   <div className="flex items-center">
                     <DollarSign className="w-5 h-5" />
-                    <span>99.00</span>
+                    <span>39.00</span>
                   </div>
                 </div>
-                <p className="text-sm text-slate-500 mt-2">One-time payment • 30-day money-back guarantee</p>
+                <p className="text-sm text-slate-500 mt-2">One-time payment • 7-day money-back guarantee</p>
               </CardContent>
             </Card>
 

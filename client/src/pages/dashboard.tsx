@@ -296,7 +296,7 @@ export default function Dashboard() {
                           ) : (
                             <Link href={`/checkout/${valuation.id}`}>
                               <Button size="sm">
-                                Pay & Download - $99
+                                Pay & Download - $39
                               </Button>
                             </Link>
                           )}

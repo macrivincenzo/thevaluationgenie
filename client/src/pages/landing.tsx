@@ -262,113 +262,125 @@ export default function Landing() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {/* Free First Report */}
-            <Card className="shadow-lg border-2 border-green-500 relative">
-              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                <Badge className="bg-green-500 text-white px-4 py-1">ALWAYS FREE</Badge>
-              </div>
-              <CardHeader className="text-center pt-8">
-                <h3 className="text-2xl font-bold text-slate-900">🎁 First Report FREE</h3>
-                <div className="text-4xl font-bold text-green-600 my-4">$0</div>
-                <p className="text-slate-600">No credit card required</p>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-3 mb-6">
-                  <li className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
-                    <span>Complete PDF valuation report</span>
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
-                    <span>Detailed financial analysis</span>
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
-                    <span>Industry benchmarks & comparisons</span>
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
-                    <span>Basic risk assessment</span>
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
-                    <span>No watermarks or limitations</span>
-                  </li>
-                </ul>
-                <Button className="w-full bg-green-600 hover:bg-green-700" onClick={handleGetStarted}>
-                  Get Your Free Report
-                </Button>
-                <p className="text-center text-sm text-slate-500 mt-3">
-                  Experience our full quality risk-free
-                </p>
-              </CardContent>
-            </Card>
-
-            {/* Additional Reports */}
+            {/* Professional Report */}
             <Card className="shadow-lg border-2 border-blue-200">
               <CardHeader className="text-center">
-                <h3 className="text-2xl font-bold text-slate-900">📊 Additional Reports</h3>
-                <div className="text-4xl font-bold text-blue-600 my-4">
-                  <span className="line-through text-2xl text-slate-400">$39</span> $29
-                </div>
-                <p className="text-slate-600">Limited time pricing</p>
+                <h3 className="text-2xl font-bold text-slate-900">📊 Professional Report</h3>
+                <div className="text-4xl font-bold text-blue-600 my-4">$39</div>
+                <p className="text-slate-600">Complete business valuation</p>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-3 mb-6">
                   <li className="flex items-center">
                     <CheckCircle className="w-5 h-5 text-blue-500 mr-3" />
-                    <span>Complete PDF valuation report</span>
+                    <span>Professional PDF valuation report</span>
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="w-5 h-5 text-blue-500 mr-3" />
-                    <span>Detailed financial analysis</span>
+                    <span>Enterprise valuation with confidence range</span>
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="w-5 h-5 text-blue-500 mr-3" />
-                    <span>Industry benchmarks & comparisons</span>
+                    <span>Company overview & financial metrics</span>
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="w-5 h-5 text-blue-500 mr-3" />
-                    <span>Basic risk assessment</span>
+                    <span>SDE multiple methodology analysis</span>
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="w-5 h-5 text-blue-500 mr-3" />
-                    <span>30-day money-back guarantee</span>
+                    <span>Positive value drivers assessment</span>
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-blue-500 mr-3" />
+                    <span>Key risk factors evaluation</span>
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-blue-500 mr-3" />
+                    <span>Professional presentation format</span>
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-blue-500 mr-3" />
+                    <span>7-day money-back guarantee</span>
                   </li>
                 </ul>
                 <Button className="w-full" onClick={handleGetStarted}>
-                  Get Additional Report
+                  Get Your Report
                 </Button>
                 <p className="text-center text-sm text-slate-500 mt-3">
-                  95% less than traditional costs
+                  Save $3,000+ vs. professional appraisers
                 </p>
               </CardContent>
             </Card>
 
-            {/* Pro Monthly */}
+            {/* Business Package - Most Popular */}
+            <Card className="shadow-lg border-2 border-green-200 relative">
+              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                <Badge className="bg-green-600 text-white px-4 py-1">Most Popular</Badge>
+              </div>
+              <CardHeader className="text-center pt-6">
+                <h3 className="text-2xl font-bold text-slate-900">⚡ Business Package</h3>
+                <div className="text-4xl font-bold text-green-600 my-4">
+                  $99 <span className="text-2xl text-slate-400 line-through">$117</span>
+                </div>
+                <p className="text-slate-600">Save $18</p>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-3 mb-6">
+                  <li className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
+                    <span>3 Professional Reports</span>
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
+                    <span>Valid for 6 months</span>
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
+                    <span>Compare multiple businesses</span>
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
+                    <span>Priority email support</span>
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
+                    <span>Bulk discount savings</span>
+                  </li>
+                </ul>
+                <Button className="w-full bg-green-600 hover:bg-green-700" onClick={handleGetStarted}>
+                  Get Business Package
+                </Button>
+                <p className="text-center text-sm text-slate-500 mt-3">
+                  Perfect for buyers comparing options
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* Professional Plan */}
             <Card className="shadow-lg border-2 border-purple-200">
               <CardHeader className="text-center">
-                <h3 className="text-2xl font-bold text-slate-900">⚡ Pro Monthly</h3>
-                <div className="text-4xl font-bold text-purple-600 my-4">$79<span className="text-lg">/month</span></div>
-                <p className="text-slate-600">For professionals</p>
+                <h3 className="text-2xl font-bold text-slate-900">🏢 Professional Plan</h3>
+                <div className="text-4xl font-bold text-purple-600 my-4">$199<span className="text-lg">/quarter</span></div>
+                <p className="text-slate-600">For brokers, investors & consultants</p>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-3 mb-6">
                   <li className="flex items-center">
                     <CheckCircle className="w-5 h-5 text-purple-500 mr-3" />
-                    <span>3 Additional Reports per month</span>
+                    <span>12 reports per quarter</span>
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="w-5 h-5 text-purple-500 mr-3" />
-                    <span>Priority customer support</span>
+                    <span>Advanced dashboard access</span>
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="w-5 h-5 text-purple-500 mr-3" />
-                    <span>Bulk report generation</span>
+                    <span>Priority phone support</span>
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="w-5 h-5 text-purple-500 mr-3" />
-                    <span>Advanced analytics dashboard</span>
+                    <span>White-label option available</span>
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="w-5 h-5 text-purple-500 mr-3" />
@@ -376,10 +388,10 @@ export default function Landing() {
                   </li>
                 </ul>
                 <Button className="w-full bg-purple-600 hover:bg-purple-700" onClick={handleGetStarted}>
-                  Start Pro Subscription
+                  Start Professional Plan
                 </Button>
                 <p className="text-center text-sm text-slate-500 mt-3">
-                  $26/report vs $39 individually
+                  Just $16.58 per report
                 </p>
               </CardContent>
             </Card>
@@ -397,7 +409,7 @@ export default function Landing() {
                 </CardHeader>
                 <CardContent>
                   <ul className="space-y-2 text-sm">
-                    <li className="flex items-center"><TrendingUp className="w-4 h-4 text-green-500 mr-2" /><strong>98% cost savings</strong> - Our reports at $29 vs $5,000 average</li>
+                    <li className="flex items-center"><TrendingUp className="w-4 h-4 text-green-500 mr-2" /><strong>99% cost savings</strong> - Our reports at $39 vs $5,000 average</li>
                     <li className="flex items-center"><Clock className="w-4 h-4 text-green-500 mr-2" /><strong>Instant delivery</strong> - Hours vs weeks/months</li>
                     <li className="flex items-center"><Users className="w-4 h-4 text-green-500 mr-2" /><strong>Self-service</strong> - No appointments needed</li>
                     <li className="flex items-center"><DollarSign className="w-4 h-4 text-green-500 mr-2" /><strong>Transparent pricing</strong> - No hidden fees</li>
