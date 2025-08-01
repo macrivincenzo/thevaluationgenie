@@ -60,7 +60,7 @@ export default function Landing() {
   };
 
   const handleGetStarted = () => {
-    window.location.href = "/signup";
+    setLocation("/signup");
   };
 
   const scrollToHowItWorks = () => {

@@ -57,6 +57,7 @@ function Router() {
             <Route path="/terms" component={Terms} />
             <Route path="/privacy" component={Privacy} />
             <Route path="/contact" component={Contact} />
+            <Route component={NotFound} />
           </>
         ) : (
           <>
@@ -70,9 +71,9 @@ function Router() {
             <Route path="/terms" component={Terms} />
             <Route path="/privacy" component={Privacy} />
             <Route path="/contact" component={Contact} />
+            <Route component={NotFound} />
           </>
         )}
-        <Route component={NotFound} />
       </Switch>
       
       {showProfileModal && user && (
