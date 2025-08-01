@@ -77,12 +77,12 @@ export default function Landing() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl lg:text-6xl font-bold text-slate-900 mb-6">
-              Professional Business Valuation<br />
-              <span className="text-primary">for Every Need</span>
+              Get Your Business Valued<br />
+              <span className="text-primary">in Minutes, Not Months</span>
             </h1>
             <p className="text-xl text-slate-600 mb-8 max-w-3xl mx-auto">
-              Get credible, data-driven business valuations in minutes. Professional-grade reports 
-              at a fraction of traditional appraisal costs—starting at just $39.
+              Professional business valuations that would cost $3,000+ from traditional appraisers. 
+              Get comprehensive SDE-based reports with confidence ranges—starting at just $39.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <Button 
@@ -106,10 +106,10 @@ export default function Landing() {
             {/* Value Proposition Highlight */}
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 max-w-2xl mx-auto mb-8">
               <p className="text-blue-800 text-center font-medium">
-                ⚡ <strong>Save $3,000+ vs. traditional appraisers</strong>
+                💼 <strong>Used by buyers, sellers, and business brokers nationwide</strong>
               </p>
               <p className="text-blue-700 text-center text-sm mt-1">
-                Professional reports with 7-day money-back guarantee
+                Industry-standard SDE methodology with 7-day money-back guarantee
               </p>
             </div>
             
