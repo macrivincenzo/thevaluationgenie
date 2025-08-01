@@ -427,7 +427,7 @@ export default function Landing() {
                     <li className="flex items-center"><TrendingUp className="w-4 h-4 text-blue-500 mr-2" /><strong>Better value</strong> - More comprehensive at lower prices</li>
                     <li className="flex items-center"><FileText className="w-4 h-4 text-blue-500 mr-2" /><strong>Professional quality</strong> - Investment-grade insights</li>
                     <li className="flex items-center"><Users className="w-4 h-4 text-blue-500 mr-2" /><strong>Human support</strong> - Real assistance when needed</li>
-                    <li className="flex items-center"><Shield className="w-4 h-4 text-blue-500 mr-2" /><strong>Risk-free trial</strong> - Free report to test quality</li>
+                    <li className="flex items-center"><Shield className="w-4 h-4 text-blue-500 mr-2" /><strong>Risk-free guarantee</strong> - 7-day money-back guarantee</li>
                   </ul>
                 </CardContent>
               </Card>
@@ -455,8 +455,8 @@ export default function Landing() {
               <p className="text-slate-600 leading-relaxed">
                 We believe every business owner deserves access to professional-grade valuation insights, regardless of their budget. 
                 Traditional valuations cost $2,000-$15,000 and take weeks to complete. We're democratizing business valuation by making 
-                professional analysis accessible, affordable, and instant. Our free first report removes all barriers, allowing you to 
-                experience our quality risk-free.
+                professional analysis accessible, affordable, and instant. Our $39 Professional Report provides exceptional value 
+                with our 7-day money-back guarantee.
               </p>
             </div>
           </div>

@@ -130,76 +130,102 @@ export default function ValuationResult({ valuation, onPaymentComplete, onPrevio
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            <p className="text-slate-600">
-              Your valuation summary is complete! Click below to download your FREE professional PDF report with detailed analysis, 
-              industry comparisons, and professional formatting.
-            </p>
+            {valuation.paid ? (
+              <>
+                <p className="text-slate-600">
+                  Payment confirmed! Click below to download your professional PDF report with detailed analysis, 
+                  industry comparisons, and professional formatting.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Button 
+                    className="flex-1 py-3 text-lg font-semibold bg-green-600 hover:bg-green-700"
+                    onClick={() => {
+                      try {
+                        generateSimplePDF(valuation);
+                        toast({
+                          title: "Report Downloaded",
+                          description: "Your professional valuation report has been downloaded. Open the HTML file and use your browser's print function to save as PDF.",
+                        });
+                      } catch (error) {
+                        console.error('PDF generation error:', error);
+                        toast({
+                          title: "PDF Error",
+                          description: "Unable to generate PDF. Please check if popups are enabled.",
+                          variant: "destructive",
+                        });
+                      }
+                    }}
+                  >
+                    <FileText className="w-5 h-5 mr-2" />
+                    Download PDF Report
+                  </Button>
+                  <Button variant="outline" onClick={() => onPaymentComplete(valuation.id)}>
+                    <TrendingUp className="w-4 h-4 mr-2" />
+                    Go to Dashboard
+                  </Button>
+                </div>
+              </>
+            ) : (
+              <>
+                <p className="text-slate-600">
+                  Your valuation summary is complete! To download your professional PDF report with detailed analysis, 
+                  industry comparisons, and professional formatting, upgrade to our Professional Report.
+                </p>
 
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <h4 className="font-semibold text-blue-900 mb-2">Your PDF Report Includes:</h4>
-              <ul className="text-sm text-blue-800 space-y-1">
-                <li className="flex items-center">
-                  <CheckCircle className="w-4 h-4 mr-2 flex-shrink-0" />
-                  Complete valuation methodology and calculations
-                </li>
-                <li className="flex items-center">
-                  <CheckCircle className="w-4 h-4 mr-2 flex-shrink-0" />
-                  Industry benchmarking and market analysis
-                </li>
-                <li className="flex items-center">
-                  <CheckCircle className="w-4 h-4 mr-2 flex-shrink-0" />
-                  Key financial ratios and performance metrics
-                </li>
-                <li className="flex items-center">
-                  <CheckCircle className="w-4 h-4 mr-2 flex-shrink-0" />
-                  Risk assessment and value drivers analysis
-                </li>
-                <li className="flex items-center">
-                  <CheckCircle className="w-4 h-4 mr-2 flex-shrink-0" />
-                  Professional disclaimers and legal notices
-                </li>
-              </ul>
-            </div>
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <h4 className="font-semibold text-blue-900 mb-2">Professional PDF Report Includes:</h4>
+                  <ul className="text-sm text-blue-800 space-y-1">
+                    <li className="flex items-center">
+                      <CheckCircle className="w-4 h-4 mr-2 flex-shrink-0" />
+                      Complete SDE-based valuation methodology
+                    </li>
+                    <li className="flex items-center">
+                      <CheckCircle className="w-4 h-4 mr-2 flex-shrink-0" />
+                      Industry benchmarking and market analysis
+                    </li>
+                    <li className="flex items-center">
+                      <CheckCircle className="w-4 h-4 mr-2 flex-shrink-0" />
+                      Risk assessment and value drivers analysis
+                    </li>
+                    <li className="flex items-center">
+                      <CheckCircle className="w-4 h-4 mr-2 flex-shrink-0" />
+                      Professional formatting suitable for buyers/lenders
+                    </li>
+                    <li className="flex items-center">
+                      <CheckCircle className="w-4 h-4 mr-2 flex-shrink-0" />
+                      7-day money-back guarantee
+                    </li>
+                  </ul>
+                </div>
 
-            <div className="flex items-center justify-between p-4 bg-green-50 rounded-lg border border-green-200">
-              <div>
-                <p className="font-semibold text-green-900">Your FREE Professional PDF Report</p>
-                <p className="text-sm text-green-700">No payment required • Instant download</p>
-              </div>
-              <div className="text-right">
-                <div className="text-2xl font-bold text-green-600">FREE</div>
-                <p className="text-sm text-green-600">First report always free</p>
-              </div>
-            </div>
+                <div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg border border-blue-200">
+                  <div>
+                    <p className="font-semibold text-blue-900">Professional Report</p>
+                    <p className="text-sm text-blue-700">Save $3,000+ vs traditional appraisers</p>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-2xl font-bold text-blue-600">$39</div>
+                    <p className="text-sm text-blue-600">One-time payment</p>
+                  </div>
+                </div>
 
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button 
-                className="flex-1 py-3 text-lg font-semibold bg-green-600 hover:bg-green-700"
-                onClick={() => {
-                  try {
-                    generateSimplePDF(valuation);
-                    toast({
-                      title: "Report Downloaded",
-                      description: "Your professional valuation report has been downloaded. Open the HTML file and use your browser's print function to save as PDF.",
-                    });
-                  } catch (error) {
-                    console.error('PDF generation error:', error);
-                    toast({
-                      title: "PDF Error",
-                      description: "Unable to generate PDF. Please check if popups are enabled.",
-                      variant: "destructive",
-                    });
-                  }
-                }}
-              >
-                <FileText className="w-5 h-5 mr-2" />
-                Download PDF Report
-              </Button>
-              <Button variant="outline" onClick={() => onPaymentComplete(valuation.id)}>
-                <TrendingUp className="w-4 h-4 mr-2" />
-                Go to Dashboard
-              </Button>
-            </div>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Button 
+                    className="flex-1 py-3 text-lg font-semibold bg-blue-600 hover:bg-blue-700"
+                    onClick={() => {
+                      window.location.href = `/checkout/${valuation.id}`;
+                    }}
+                  >
+                    <DollarSign className="w-5 h-5 mr-2" />
+                    Get Professional Report - $39
+                  </Button>
+                  <Button variant="outline" onClick={() => onPaymentComplete(valuation.id)}>
+                    <TrendingUp className="w-4 h-4 mr-2" />
+                    Go to Dashboard
+                  </Button>
+                </div>
+              </>
+            )}
           </div>
         </CardContent>
       </Card>

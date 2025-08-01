@@ -248,7 +248,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Temporary file upload (before valuation creation)
-  app.post('/api/files/upload', upload.single('file'), async (req: any, res) => {
+  app.post('/api/files/upload', isAuthenticated, upload.single('file'), async (req: any, res) => {
     try {
       console.log("File upload request received");
       console.log("Request file:", req.file);
@@ -397,16 +397,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.json({ received: true });
   });
 
-  // PDF download (development version - public access for testing)
-  app.get('/api/valuations/:id/pdf', async (req: any, res) => {
+  // PDF download (requires payment)
+  app.get('/api/valuations/:id/pdf', isAuthenticated, async (req: any, res) => {
     try {
       console.log('PDF download request for ID:', req.params.id);
+      const userId = req.user.claims.sub;
       
       const valuation = await storage.getValuation(req.params.id);
       
-      if (!valuation) {
-        console.error('Valuation not found:', req.params.id);
+      if (!valuation || valuation.userId !== userId) {
+        console.error('Valuation not found or unauthorized:', req.params.id);
         return res.status(404).json({ message: 'Valuation not found' });
+      }
+      
+      if (!valuation.paid) {
+        return res.status(402).json({ message: 'Payment required. Please purchase the Professional Report for $39 to download the PDF.' });
       }
       
       console.log('Generating PDF for valuation:', valuation.id);
