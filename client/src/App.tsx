@@ -5,10 +5,10 @@ import { Elements } from '@stripe/react-stripe-js';
 import { stripePromise } from "@/lib/stripe";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-// Removed useAuth hook - using direct state management for speed
+import { useAuth } from "@/hooks/useAuth";
 import { useState, useEffect } from "react";
-// Removed ProfileCompletionModal for faster loading
-import FastLanding from "@/pages/fast-landing";
+import ProfileCompletionModal from "@/components/auth/profile-completion-modal";
+import Landing from "@/pages/landing";
 import Home from "@/pages/home";
 import ValuationFlow from "@/pages/valuation-flow";
 import CheckoutNew from "@/pages/checkout-new";
@@ -24,29 +24,34 @@ import Login from "@/pages/auth/login";
 import Signup from "@/pages/auth/signup";
 
 function Router() {
-  // Always show unauthenticated view by default - no delays
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(null);
+  const { isAuthenticated, isLoading, user } = useAuth();
+  const [showProfileModal, setShowProfileModal] = useState(false);
 
-  // Optional: Check auth in background (non-blocking)
+  // Check if user needs to complete profile
   useEffect(() => {
-    fetch("/api/auth/user", { credentials: "include" })
-      .then(res => res.ok ? res.json() : null)
-      .then(userData => {
-        if (userData) {
-          setUser(userData);
-          setIsAuthenticated(true);
-        }
-      })
-      .catch(() => {}); // Ignore errors
-  }, []);
+    if (isAuthenticated && user && !(user as any).profileComplete) {
+      // Show profile completion modal if user hasn't completed required info
+      if (!(user as any).firstName || !(user as any).lastName || !(user as any).email) {
+        setShowProfileModal(true);
+      }
+    }
+  }, [isAuthenticated, user]);
+
+  // Show loading state briefly
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" />
+      </div>
+    );
+  }
 
   return (
     <>
       <Switch>
         {!isAuthenticated ? (
           <>
-            <Route path="/" component={FastLanding} />
+            <Route path="/" component={Landing} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
             <Route path="/terms" component={Terms} />
@@ -70,7 +75,12 @@ function Router() {
         <Route component={NotFound} />
       </Switch>
       
-      {/* Profile modal removed for speed */}
+      {showProfileModal && (
+        <ProfileCompletionModal 
+          isOpen={showProfileModal}
+          onClose={() => setShowProfileModal(false)}
+        />
+      )}
     </>
   );
 }
