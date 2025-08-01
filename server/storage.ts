@@ -4,6 +4,7 @@ import {
   valuations,
   fileUploads,
   adminUsers,
+  customerProfiles,
   type User,
   type UpsertUser,
   type EmailSubscription,
@@ -14,6 +15,8 @@ import {
   type InsertFileUpload,
   type AdminUser,
   type InsertAdminUser,
+  type CustomerProfile,
+  type UpsertCustomerProfile,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, sql } from "drizzle-orm";
@@ -23,7 +26,13 @@ export interface IStorage {
   // User operations (mandatory for Replit Auth)
   getUser(id: string): Promise<User | undefined>;
   upsertUser(user: UpsertUser): Promise<User>;
+  updateUserProfile(id: string, profileData: Partial<UpsertUser>): Promise<User>;
   updateStripeCustomerId(userId: string, customerId: string): Promise<User>;
+  
+  // Customer profile operations
+  createCustomerProfile(profile: UpsertCustomerProfile): Promise<CustomerProfile>;
+  getCustomerProfile(userId: string): Promise<CustomerProfile | undefined>;
+  updateCustomerProfile(userId: string, profile: Partial<UpsertCustomerProfile>): Promise<CustomerProfile>;
   
   // Email subscriptions
   createEmailSubscription(subscription: InsertEmailSubscription): Promise<EmailSubscription>;
@@ -72,6 +81,15 @@ export class DatabaseStorage implements IStorage {
     return user;
   }
 
+  async updateUserProfile(id: string, profileData: Partial<UpsertUser>): Promise<User> {
+    const [user] = await db
+      .update(users)
+      .set({ ...profileData, updatedAt: new Date() })
+      .where(eq(users.id, id))
+      .returning();
+    return user;
+  }
+
   async updateStripeCustomerId(userId: string, customerId: string): Promise<User> {
     const [user] = await db
       .update(users)
@@ -79,6 +97,32 @@ export class DatabaseStorage implements IStorage {
       .where(eq(users.id, userId))
       .returning();
     return user;
+  }
+
+  // Customer profile operations
+  async createCustomerProfile(profile: UpsertCustomerProfile): Promise<CustomerProfile> {
+    const [customerProfile] = await db
+      .insert(customerProfiles)
+      .values(profile)
+      .returning();
+    return customerProfile;
+  }
+
+  async getCustomerProfile(userId: string): Promise<CustomerProfile | undefined> {
+    const [profile] = await db
+      .select()
+      .from(customerProfiles)
+      .where(eq(customerProfiles.userId, userId));
+    return profile;
+  }
+
+  async updateCustomerProfile(userId: string, profile: Partial<UpsertCustomerProfile>): Promise<CustomerProfile> {
+    const [customerProfile] = await db
+      .update(customerProfiles)
+      .set({ ...profile, updatedAt: new Date() })
+      .where(eq(customerProfiles.userId, userId))
+      .returning();
+    return customerProfile;
   }
 
   // Email subscriptions

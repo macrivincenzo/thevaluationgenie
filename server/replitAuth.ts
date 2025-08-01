@@ -59,10 +59,12 @@ async function upsertUser(
 ) {
   await storage.upsertUser({
     id: claims["sub"],
-    email: claims["email"],
-    firstName: claims["first_name"],
-    lastName: claims["last_name"],
+    email: claims["email"] || 'user@example.com',
+    firstName: claims["first_name"] || 'First',
+    lastName: claims["last_name"] || 'Last',
     profileImageUrl: claims["profile_image_url"],
+    profileComplete: false,
+    lastLoginAt: new Date(),
   });
 }
 

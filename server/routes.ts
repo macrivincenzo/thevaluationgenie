@@ -64,10 +64,52 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const userId = req.user.claims.sub;
       const user = await storage.getUser(userId);
+      
+      // Update last login
+      if (user) {
+        await storage.updateUserProfile(userId, { lastLoginAt: new Date() });
+      }
+      
       res.json(user);
     } catch (error) {
       console.error("Error fetching user:", error);
       res.status(500).json({ message: "Failed to fetch user" });
+    }
+  });
+
+  // Complete user profile endpoint
+  app.post('/api/auth/complete-profile', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const profileData = req.body;
+      
+      // Update user profile
+      const updatedUser = await storage.updateUserProfile(userId, {
+        ...profileData,
+        profileComplete: true,
+        updatedAt: new Date()
+      });
+      
+      // Create or update customer profile
+      const existingProfile = await storage.getCustomerProfile(userId);
+      if (existingProfile) {
+        await storage.updateCustomerProfile(userId, {
+          purposeForValuation: profileData.purposeForValuation,
+          updatedAt: new Date()
+        });
+      } else {
+        await storage.createCustomerProfile({
+          userId,
+          purposeForValuation: profileData.purposeForValuation,
+          currentBusinessOwner: profileData.businessType === 'owner',
+          preferredContactMethod: 'email',
+        });
+      }
+      
+      res.json(updatedUser);
+    } catch (error) {
+      console.error("Error updating user profile:", error);
+      res.status(500).json({ message: "Failed to update profile" });
     }
   });
 

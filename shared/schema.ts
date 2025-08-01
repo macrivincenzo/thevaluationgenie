@@ -24,14 +24,33 @@ export const sessions = pgTable(
   (table) => [index("IDX_session_expire").on(table.expire)],
 );
 
-// User storage table for Replit Auth
+// User storage table for Replit Auth with comprehensive customer data
 export const users = pgTable("users", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  email: varchar("email").unique(),
-  firstName: varchar("first_name"),
-  lastName: varchar("last_name"),
+  email: varchar("email").unique().notNull(),
+  firstName: varchar("first_name").notNull(),
+  lastName: varchar("last_name").notNull(),
   profileImageUrl: varchar("profile_image_url"),
   stripeCustomerId: varchar("stripe_customer_id"),
+  // Business/Professional Information
+  company: varchar("company"),
+  jobTitle: varchar("job_title"),
+  phoneNumber: varchar("phone_number"),
+  // Address Information
+  address: varchar("address"),
+  city: varchar("city"),
+  state: varchar("state"),
+  zipCode: varchar("zip_code"),
+  country: varchar("country").default("United States"),
+  // Professional Context
+  businessType: varchar("business_type"), // buyer, seller, broker, investor, consultant
+  industryExperience: varchar("industry_experience"),
+  // Preferences & Settings
+  emailNotifications: boolean("email_notifications").default(true),
+  marketingEmails: boolean("marketing_emails").default(true),
+  // Profile Completion
+  profileComplete: boolean("profile_complete").default(false),
+  lastLoginAt: timestamp("last_login_at"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
@@ -115,8 +134,33 @@ export const insertAdminUserSchema = createInsertSchema(adminUsers).omit({
 });
 
 // Types
+// Customer data collection table for additional information
+export const customerProfiles = pgTable("customer_profiles", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").references(() => users.id).notNull(),
+  // Business Context
+  currentBusinessOwner: boolean("current_business_owner").default(false),
+  businessesOwned: integer("businesses_owned").default(0),
+  investmentBudget: decimal("investment_budget"),
+  // Usage Intent
+  purposeForValuation: varchar("purpose_for_valuation"), // buying, selling, curiosity, investment, advisory
+  timelineForTransaction: varchar("timeline_for_transaction"),
+  // Communication Preferences
+  preferredContactMethod: varchar("preferred_contact_method").default("email"),
+  referralSource: varchar("referral_source"),
+  // Tracking
+  totalReportsPurchased: integer("total_reports_purchased").default(0),
+  totalAmountSpent: decimal("total_amount_spent").default("0"),
+  lastPurchaseAt: timestamp("last_purchase_at"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
 export type UpsertUser = typeof users.$inferInsert;
 export type User = typeof users.$inferSelect;
+export type InsertUser = typeof users.$inferInsert;
+export type CustomerProfile = typeof customerProfiles.$inferSelect;
+export type UpsertCustomerProfile = typeof customerProfiles.$inferInsert;
 export type EmailSubscription = typeof emailSubscriptions.$inferSelect;
 export type InsertEmailSubscription = z.infer<typeof insertEmailSubscriptionSchema>;
 export type Valuation = typeof valuations.$inferSelect;
