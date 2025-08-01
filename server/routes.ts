@@ -7,6 +7,10 @@ import path from "path";
 import fs from "fs";
 import { storage } from "./storage";
 import { setupAuth, isAuthenticated } from "./replitAuth";
+import { setupEmailAuth, requireAuth } from "./emailAuth";
+import session from "express-session";
+import passport from "passport";
+import connectPg from "connect-pg-simple";
 import { 
   insertEmailSubscriptionSchema, 
   insertValuationSchema,
@@ -56,8 +60,35 @@ const upload = multer({
 });
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Auth middleware
+  // Session setup for both OAuth and email auth
+  const sessionTtl = 7 * 24 * 60 * 60 * 1000; // 1 week
+  const pgStore = connectPg(session);
+  const sessionStore = new pgStore({
+    conString: process.env.DATABASE_URL,
+    createTableIfMissing: false,
+    ttl: sessionTtl,
+    tableName: "sessions",
+  });
+
+  app.set("trust proxy", 1);
+  app.use(session({
+    secret: process.env.SESSION_SECRET!,
+    store: sessionStore,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      secure: true,
+      maxAge: sessionTtl,
+    },
+  }));
+
+  app.use(passport.initialize());
+  app.use(passport.session());
+
+  // Setup both OAuth and email authentication
   await setupAuth(app);
+  await setupEmailAuth(app);
 
   // Auth routes
   app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {

@@ -24,14 +24,20 @@ export const sessions = pgTable(
   (table) => [index("IDX_session_expire").on(table.expire)],
 );
 
-// User storage table for Replit Auth with comprehensive customer data
+// User storage table with email/password authentication
 export const users = pgTable("users", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   email: varchar("email").unique().notNull(),
+  passwordHash: varchar("password_hash"), // For email/password auth
   firstName: varchar("first_name").notNull(),
   lastName: varchar("last_name").notNull(),
   profileImageUrl: varchar("profile_image_url"),
   stripeCustomerId: varchar("stripe_customer_id"),
+  // Authentication method tracking
+  authMethod: varchar("auth_method").notNull().default("email"), // "email" or "oauth"
+  emailVerified: boolean("email_verified").default(false),
+  resetPasswordToken: varchar("reset_password_token"),
+  resetPasswordExpires: timestamp("reset_password_expires"),
   // Business/Professional Information
   company: varchar("company"),
   jobTitle: varchar("job_title"),

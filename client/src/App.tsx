@@ -20,6 +20,8 @@ import Terms from "@/pages/terms";
 import Privacy from "@/pages/privacy";
 import Contact from "@/pages/contact";
 import NotFound from "@/pages/not-found";
+import Login from "@/pages/auth/login";
+import Signup from "@/pages/auth/signup";
 
 function Router() {
   const { isAuthenticated, isLoading, user } = useAuth();
@@ -41,6 +43,8 @@ function Router() {
         {isLoading || !isAuthenticated ? (
           <>
             <Route path="/" component={Landing} />
+            <Route path="/login" component={Login} />
+            <Route path="/signup" component={Signup} />
             <Route path="/terms" component={Terms} />
             <Route path="/privacy" component={Privacy} />
             <Route path="/contact" component={Contact} />

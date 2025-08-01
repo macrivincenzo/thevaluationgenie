@@ -58,7 +58,7 @@ export default function Landing() {
   };
 
   const handleGetStarted = () => {
-    window.location.href = "/api/login";
+    window.location.href = "/signup";
   };
 
   const scrollToHowItWorks = () => {
@@ -85,14 +85,24 @@ export default function Landing() {
               Get comprehensive SDE-based reports with confidence ranges—starting at just $39.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <Button 
-                size="lg" 
-                className="text-lg px-8 py-4 bg-blue-600 hover:bg-blue-700"
-                onClick={handleGetStarted}
-              >
-                <Calculator className="w-5 h-5 mr-2" />
-                Start Your Valuation
-              </Button>
+              <div className="flex gap-3 justify-center">
+                <Button 
+                  size="lg" 
+                  className="text-lg px-8 py-4 bg-blue-600 hover:bg-blue-700"
+                  onClick={handleGetStarted}
+                >
+                  <Calculator className="w-5 h-5 mr-2" />
+                  Get Started Free
+                </Button>
+                <Button 
+                  size="lg" 
+                  variant="outline"
+                  className="text-lg px-8 py-4"
+                  onClick={() => window.location.href = "/login"}
+                >
+                  Sign In
+                </Button>
+              </div>
               <Button 
                 variant="outline" 
                 size="lg" 
