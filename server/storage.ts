@@ -246,11 +246,16 @@ export class DatabaseStorage implements IStorage {
     try {
       console.log(`Deleting all data for user: ${userId}`);
       
+      // First, get all user's valuations to delete associated files
+      const userValuations = await db.select({ id: valuations.id }).from(valuations).where(eq(valuations.userId, userId));
+      
+      // Delete user's file uploads for each valuation
+      for (const valuation of userValuations) {
+        await db.delete(fileUploads).where(eq(fileUploads.valuationId, valuation.id));
+      }
+      
       // Delete user's valuations
       await db.delete(valuations).where(eq(valuations.userId, userId));
-      
-      // Delete user's file uploads
-      await db.delete(fileUploads).where(eq(fileUploads.userId, userId));
       
       // Delete user's email subscriptions (if any)
       const user = await this.getUser(userId);
