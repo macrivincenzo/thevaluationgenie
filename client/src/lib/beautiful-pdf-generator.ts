@@ -1,4 +1,29 @@
-import type { ComprehensiveValuationData } from './comprehensive-pdf-generator';
+// Define the type here since it's the main data structure
+interface ComprehensiveValuationData {
+  businessName: string;
+  industry: string;
+  businessDescription?: string;
+  foundedYear: number;
+  location: string;
+  employeeCount?: number;
+  annualRevenue: number | number[];
+  sde: number;
+  sdeMargin?: number;
+  valuationLow: number;
+  valuationHigh: number;
+  industryMultiple: number;
+  recurringRevenuePct?: number;
+  revenueGrowthRate?: number;
+  customerRetentionRate?: number;
+  competitiveAdvantages?: string[];
+  majorRiskFactors?: string[];
+  growthOpportunities?: string[];
+  ownerInvolvement?: string;
+  managementTeam?: string;
+  top5CustomersPct?: number;
+  customerAcquisitionCost?: number;
+  majorRisks?: string;
+}
 
 export function generateBeautifulPDF(data: ComprehensiveValuationData) {
   // Create a new window with the PDF content
@@ -32,30 +57,30 @@ export function generateBeautifulPDF(data: ComprehensiveValuationData) {
     <style>
         @page {
             size: A4;
-            margin: 0.75in;
+            margin: 0.8in;
         }
         
         body {
-            font-family: Arial, sans-serif;
-            font-size: 11px;
-            line-height: 1.4;
+            font-family: 'Times New Roman', serif;
+            font-size: 12px;
+            line-height: 1.5;
             color: #000;
             margin: 0;
             padding: 0;
+            max-width: 8.5in;
         }
         
         .header {
             text-align: center;
-            margin-bottom: 40px;
-            padding-bottom: 20px;
+            margin-bottom: 60px;
         }
         
         .main-title {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            letter-spacing: 8px;
             text-transform: uppercase;
-            letter-spacing: 2px;
         }
         
         .company-name {
@@ -66,214 +91,225 @@ export function generateBeautifulPDF(data: ComprehensiveValuationData) {
         
         .valuation-date {
             font-size: 12px;
-            color: #666;
-            margin-bottom: 30px;
+            margin-bottom: 60px;
         }
         
         h2 {
             font-size: 14px;
             font-weight: bold;
-            margin: 30px 0 16px 0;
+            margin: 40px 0 20px 0;
             color: #000;
-            border-bottom: 1px solid #ccc;
-            padding-bottom: 5px;
         }
         
         .company-overview {
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
         
-        .overview-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            margin-top: 15px;
+        .overview-table {
+            width: 100%;
+            margin-top: 20px;
         }
         
-        .overview-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            padding: 2px 0;
+        .overview-row {
+            display: table-row;
+        }
+        
+        .overview-cell {
+            display: table-cell;
+            padding: 8px 20px 8px 0;
+            vertical-align: top;
+            width: 50%;
         }
         
         .overview-label {
             font-weight: bold;
-            min-width: 120px;
+            display: inline-block;
+            width: 140px;
         }
         
         .executive-summary {
-            margin: 25px 0;
+            margin: 40px 0;
             line-height: 1.6;
             text-align: justify;
         }
         
         .valuation-highlight {
             text-align: center;
-            margin: 40px 0;
-            padding: 30px 20px;
-            background-color: #f8f9fa;
-            border: 2px solid #e9ecef;
+            margin: 60px 0;
         }
         
         .valuation-section-title {
             font-size: 14px;
             font-weight: bold;
             margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
         }
         
         .valuation-amount {
-            font-size: 36px;
+            font-size: 24px;
             font-weight: bold;
             margin-bottom: 8px;
-            color: #2c3e50;
+            color: #000;
         }
         
         .valuation-range {
-            font-size: 14px;
-            color: #666;
+            font-size: 12px;
+            color: #000;
         }
         
         .metrics-table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
-            font-size: 10px;
+            margin: 30px 0;
+            font-size: 11px;
         }
         
         .metrics-table th {
-            background-color: #f8f9fa;
-            border: 1px solid #dee2e6;
-            padding: 8px;
+            background-color: #fff;
+            border: none;
+            border-bottom: 1px solid #000;
+            padding: 8px 20px 8px 0;
             text-align: left;
             font-weight: bold;
         }
         
         .metrics-table td {
-            border: 1px solid #dee2e6;
-            padding: 8px;
+            border: none;
+            border-bottom: 1px solid #ccc;
+            padding: 8px 20px 8px 0;
             text-align: left;
         }
         
-        .metrics-table tr:nth-child(even) {
-            background-color: #f8f9fa;
+        .metrics-table .first-col {
+            width: 35%;
         }
         
-        .performance {
-            font-weight: bold;
+        .metrics-table .second-col {
+            width: 25%;
+            text-align: center;
         }
         
-        .performance.excellent {
-            color: #28a745;
+        .metrics-table .third-col {
+            width: 25%;
+            text-align: center;
         }
         
-        .performance.above-average {
-            color: #17a2b8;
-        }
-        
-        .performance.average {
-            color: #6c757d;
+        .metrics-table .fourth-col {
+            width: 15%;
+            text-align: right;
         }
         
         .methodology-section {
-            margin: 30px 0;
+            margin: 40px 0;
             page-break-inside: avoid;
         }
         
         .method-title {
             font-size: 12px;
             font-weight: bold;
-            margin-bottom: 10px;
-            color: #2c3e50;
+            margin-bottom: 15px;
+            margin-left: 20px;
         }
         
         .method-description {
             margin-bottom: 15px;
             font-style: italic;
+            margin-left: 20px;
         }
         
         .key-assumptions {
             font-weight: bold;
-            margin: 15px 0 5px 0;
+            margin: 20px 0 10px 40px;
         }
         
         .assumption-list {
-            margin-left: 20px;
-            margin-bottom: 15px;
-            line-height: 1.5;
+            margin-left: 60px;
+            margin-bottom: 20px;
+            line-height: 1.6;
         }
         
         .center-values {
             text-align: center;
-            margin: 15px 0;
+            margin: 20px 0;
             padding: 10px;
-            background-color: #f8f9fa;
+            font-weight: bold;
         }
         
         .method-result {
             text-align: center;
             font-size: 14px;
             font-weight: bold;
-            margin: 15px 0;
-            padding: 10px;
-            background-color: #e7f3ff;
-            border: 1px solid #b3d9ff;
+            margin: 20px 0;
+            padding: 5px;
         }
         
         .summary-table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
+            margin: 30px 0;
             font-size: 11px;
         }
         
         .summary-table th {
-            background-color: #2c3e50;
-            color: white;
-            border: 1px solid #2c3e50;
-            padding: 10px;
-            text-align: center;
+            background-color: #fff;
+            border: none;
+            border-bottom: 1px solid #000;
+            padding: 8px 20px 8px 0;
+            text-align: left;
             font-weight: bold;
         }
         
         .summary-table td {
-            border: 1px solid #dee2e6;
-            padding: 10px;
+            border: none;
+            border-bottom: 1px solid #ccc;
+            padding: 8px 20px 8px 0;
+            text-align: left;
+        }
+        
+        .summary-table .center {
             text-align: center;
         }
         
-        .final-value {
-            background-color: #e7f3ff;
+        .summary-table .right {
+            text-align: right;
+        }
+        
+        .final-value td {
             font-weight: bold;
+            border-bottom: 2px solid #000;
         }
         
         .risk-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin: 20px 0;
+            display: table;
+            width: 100%;
+            margin: 30px 0;
+        }
+        
+        .risk-column {
+            display: table-cell;
+            width: 50%;
+            vertical-align: top;
+            padding-right: 40px;
         }
         
         .risk-column h4 {
             font-size: 12px;
             font-weight: bold;
-            margin-bottom: 10px;
-            color: #2c3e50;
+            margin-bottom: 15px;
+            text-align: center;
         }
         
         .risk-item {
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             padding-left: 15px;
             position: relative;
+            line-height: 1.4;
         }
         
         .risk-item:before {
             content: "•";
             position: absolute;
             left: 0;
-            color: #2c3e50;
         }
         
         .recommendations {
@@ -288,12 +324,17 @@ export function generateBeautifulPDF(data: ComprehensiveValuationData) {
         }
         
         .disclaimer {
-            margin-top: 40px;
-            padding: 15px;
-            background-color: #f8f9fa;
-            border: 1px solid #dee2e6;
-            font-size: 9px;
+            margin-top: 60px;
+            padding: 0;
+            font-size: 10px;
             line-height: 1.4;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 10px;
+            font-weight: bold;
         }
         
         .page-break {
@@ -311,31 +352,33 @@ export function generateBeautifulPDF(data: ComprehensiveValuationData) {
 
     <!-- Company Overview -->
     <h2>Company Overview</h2>
-    <div class="overview-grid">
-        <div>
-            <div class="overview-item">
+    <div class="overview-table">
+        <div class="overview-row">
+            <div class="overview-cell">
                 <span class="overview-label">Company:</span>
                 <span>${data.businessName}</span>
             </div>
-            <div class="overview-item">
-                <span class="overview-label">Industry:</span>
-                <span>${data.industry}</span>
-            </div>
-            <div class="overview-item">
-                <span class="overview-label">Business:</span>
-                <span>${data.businessDescription || 'Service Business'}</span>
-            </div>
-        </div>
-        <div>
-            <div class="overview-item">
+            <div class="overview-cell">
                 <span class="overview-label">Founded:</span>
                 <span>${data.foundedYear}</span>
             </div>
-            <div class="overview-item">
+        </div>
+        <div class="overview-row">
+            <div class="overview-cell">
+                <span class="overview-label">Industry:</span>
+                <span>${data.industry}</span>
+            </div>
+            <div class="overview-cell">
                 <span class="overview-label">Location:</span>
                 <span>${data.location}</span>
             </div>
-            <div class="overview-item">
+        </div>
+        <div class="overview-row">
+            <div class="overview-cell">
+                <span class="overview-label">Business:</span>
+                <span>${data.businessDescription || 'Service Business'}</span>
+            </div>
+            <div class="overview-cell">
                 <span class="overview-label">Employees:</span>
                 <span>${data.employeeCount || 'Not specified'}</span>
             </div>
@@ -363,53 +406,45 @@ export function generateBeautifulPDF(data: ComprehensiveValuationData) {
     <table class="metrics-table">
         <thead>
             <tr>
-                <th>Key Metric</th>
-                <th>Current Year</th>
-                <th>Industry Benchmark</th>
-                <th>Performance Rating</th>
+                <th class="first-col">Key Metric</th>
+                <th class="second-col">Current Year</th>
+                <th class="third-col">Industry Benchmark</th>
+                <th class="fourth-col">Performance Rating</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>Annual Revenue</td>
-                <td>$${revenue.toLocaleString()}</td>
-                <td>-</td>
-                <td class="performance ${data.revenueGrowthRate && data.revenueGrowthRate > 15 ? 'excellent' : 'average'}">
-                    ${data.revenueGrowthRate && data.revenueGrowthRate > 15 ? 'Strong Growth' : 'Stable Performance'}
-                </td>
+                <td class="first-col">Annual Revenue</td>
+                <td class="second-col">$${revenue.toLocaleString()}</td>
+                <td class="third-col">-</td>
+                <td class="fourth-col">${data.revenueGrowthRate && data.revenueGrowthRate > 15 ? 'Strong Growth' : 'Stable Performance'}</td>
             </tr>
             ${data.recurringRevenuePct ? `
             <tr>
-                <td>Annual Recurring Revenue</td>
-                <td>$${Math.round(revenue * (data.recurringRevenuePct / 100)).toLocaleString()}</td>
-                <td>-</td>
-                <td class="performance excellent">${data.recurringRevenuePct}% of Total Revenue</td>
+                <td class="first-col">Annual Recurring Revenue</td>
+                <td class="second-col">$${Math.round(revenue * (data.recurringRevenuePct / 100)).toLocaleString()}</td>
+                <td class="third-col">-</td>
+                <td class="fourth-col">${data.recurringRevenuePct}% of Total Revenue</td>
             </tr>
             ` : ''}
             <tr>
-                <td>SDE</td>
-                <td>$${sde.toLocaleString()}</td>
-                <td>$${Math.round(revenue * 0.15).toLocaleString()} - $${Math.round(revenue * 0.25).toLocaleString()}</td>
-                <td class="performance ${sdeMargin > 25 ? 'excellent' : sdeMargin > 15 ? 'above-average' : 'average'}">
-                    ${sdeMargin > 25 ? 'Excellent' : sdeMargin > 15 ? 'Above Average' : 'Average'}
-                </td>
+                <td class="first-col">SDE</td>
+                <td class="second-col">$${sde.toLocaleString()}</td>
+                <td class="third-col">$${Math.round(revenue * 0.15).toLocaleString()} - $${Math.round(revenue * 0.25).toLocaleString()}</td>
+                <td class="fourth-col">${sdeMargin > 25 ? 'Excellent' : sdeMargin > 15 ? 'Above Average' : 'Average'}</td>
             </tr>
             <tr>
-                <td>SDE Margin</td>
-                <td>${sdeMargin.toFixed(1)}%</td>
-                <td>15% - 25%</td>
-                <td class="performance ${sdeMargin > 25 ? 'excellent' : sdeMargin > 15 ? 'above-average' : 'average'}">
-                    ${sdeMargin > 25 ? 'Excellent' : sdeMargin > 15 ? 'Above Average' : 'Average'}
-                </td>
+                <td class="first-col">SDE Margin</td>
+                <td class="second-col">${sdeMargin.toFixed(1)}%</td>
+                <td class="third-col">15% - 25%</td>
+                <td class="fourth-col">${sdeMargin > 25 ? 'Excellent' : sdeMargin > 15 ? 'Above Average' : 'Average'}</td>
             </tr>
             ${data.customerRetentionRate ? `
             <tr>
-                <td>Customer Retention</td>
-                <td>${data.customerRetentionRate}%</td>
-                <td>85% - 90%</td>
-                <td class="performance ${data.customerRetentionRate > 90 ? 'excellent' : 'above-average'}">
-                    ${data.customerRetentionRate > 90 ? 'Best-in-Class' : 'Above Average'}
-                </td>
+                <td class="first-col">Customer Retention</td>
+                <td class="second-col">${data.customerRetentionRate}%</td>
+                <td class="third-col">85% - 90%</td>
+                <td class="fourth-col">${data.customerRetentionRate > 90 ? 'Best-in-Class' : 'Above Average'}</td>
             </tr>
             ` : ''}
         </tbody>
@@ -469,30 +504,30 @@ export function generateBeautifulPDF(data: ComprehensiveValuationData) {
     <table class="summary-table">
         <thead>
             <tr>
-                <th>Valuation Method</th>
-                <th>Enterprise Value</th>
-                <th>Weight</th>
-                <th>Weighted Value</th>
+                <th style="width: 40%;">Valuation Method</th>
+                <th style="width: 25%; text-align: center;">Enterprise Value</th>
+                <th style="width: 15%; text-align: center;">Weight</th>
+                <th style="width: 20%; text-align: right;">Weighted Value</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td>Revenue Multiple</td>
-                <td>$${(revenue * revenueMultiple).toLocaleString()}</td>
-                <td>50%</td>
-                <td>$${((revenue * revenueMultiple) * 0.5).toLocaleString()}</td>
+                <td class="center">$${(revenue * revenueMultiple).toLocaleString()}</td>
+                <td class="center">50%</td>
+                <td class="right">$${((revenue * revenueMultiple) * 0.5).toLocaleString()}</td>
             </tr>
             <tr>
                 <td>SDE Multiple</td>
-                <td>$${(sde * sdeMultiple).toLocaleString()}</td>
-                <td>50%</td>
-                <td>$${((sde * sdeMultiple) * 0.5).toLocaleString()}</td>
+                <td class="center">$${(sde * sdeMultiple).toLocaleString()}</td>
+                <td class="center">50%</td>
+                <td class="right">$${((sde * sdeMultiple) * 0.5).toLocaleString()}</td>
             </tr>
             <tr class="final-value">
                 <td><strong>FINAL ENTERPRISE VALUE</strong></td>
-                <td><strong>$${enterpriseValue.toLocaleString()}</strong></td>
-                <td><strong>100%</strong></td>
-                <td><strong>$${enterpriseValue.toLocaleString()}</strong></td>
+                <td class="center"><strong>$${enterpriseValue.toLocaleString()}</strong></td>
+                <td class="center"><strong>100%</strong></td>
+                <td class="right"><strong>$${enterpriseValue.toLocaleString()}</strong></td>
             </tr>
         </tbody>
     </table>
@@ -509,7 +544,7 @@ export function generateBeautifulPDF(data: ComprehensiveValuationData) {
               data.recurringRevenuePct && data.recurringRevenuePct > 50 ? 'Predictable recurring revenue model' : null,
               data.managementTeam === 'strong' ? 'Proven management team' : null,
               'Established market presence'
-            ].filter((item): item is string => item !== null)).slice(0, 6).map(item => `<div class="risk-item">${item}</div>`).join('')}
+            ].filter((item): item is string => item !== null)).slice(0, 6).map((item: string) => `<div class="risk-item">${item}</div>`).join('')}
         </div>
         
         <div>
@@ -521,30 +556,33 @@ export function generateBeautifulPDF(data: ComprehensiveValuationData) {
               'Economic downturn sensitivity',
               'Technology disruption threat',
               'Regulatory compliance risk'
-            ].filter((item): item is string => item !== null)).slice(0, 6).map(item => `<div class="risk-item">${item}</div>`).join('')}
+            ].filter((item): item is string => item !== null)).slice(0, 6).map((item: string) => `<div class="risk-item">${item}</div>`).join('')}
         </div>
     </div>
 
     <!-- Strategic Recommendations -->
     <h2>Strategic Recommendations</h2>
     <div class="recommendations">
-        <p>${data.businessName} is positioned for ${data.revenueGrowthRate && data.revenueGrowthRate > 15 ? 'continued growth' : 'stable operations'} with ${sdeMargin > 20 ? 'strong' : 'solid'} fundamentals:</p>
+        <p>${data.businessName} is positioned for ${data.revenueGrowthRate && data.revenueGrowthRate > 15 ? 'continued success with strong fundamentals and market opportunity' : 'stable operations with solid market positioning'}:</p>
         
         <div class="growth-strategy">
             <h4>Growth Strategy</h4>
-            ${(data.growthOpportunities || []).concat([
+            ${[
+              'Product Innovation: Invest in service improvements and technology',
+              'Market Expansion: Target new customer segments and geographies', 
+              'Customer Success: Maintain industry-leading retention',
               'Operational Excellence: Scale efficiently while preserving margins',
-              'Customer Success: Maintain strong customer relationships',
-              'Market Expansion: Explore new customer segments',
-              'Product Innovation: Invest in service improvements'
-            ]).slice(0, 4).map(item => `<div class="risk-item">${item}</div>`).join('')}
+              'Strategic Partnerships: Accelerate market penetration'
+            ].slice(0, 5).map((item: string) => `<div class="risk-item">${item}</div>`).join('')}
         </div>
     </div>
 
     <div class="disclaimer">
-        <strong>Important Disclaimer:</strong> This business valuation report is prepared for informational purposes only. It should not be considered as investment advice, and actual valuations may vary significantly based on market conditions, transaction specifics, and due diligence findings.
-        <br><br>
-        <strong>${data.businessName} | Business Valuation Report | ${currentDate}</strong>
+        <strong>Important Disclaimer:</strong> This business valuation report is prepared for educational and illustrative purposes only. It should not be considered as investment advice, and actual valuations may vary significantly based on market conditions, transaction specifics, and due diligence findings.
+    </div>
+
+    <div class="footer">
+        ${data.businessName} | Business Valuation Report | ${currentDate}
     </div>
 </body>
 </html>
