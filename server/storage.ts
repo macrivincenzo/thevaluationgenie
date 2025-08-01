@@ -241,6 +241,29 @@ export class DatabaseStorage implements IStorage {
       totalRevenue: Number(paidResult.count) * 99, // $99 per report
     };
   }
+
+  async deleteAllUserData(userId: string): Promise<void> {
+    try {
+      console.log(`Deleting all data for user: ${userId}`);
+      
+      // Delete user's valuations
+      await db.delete(valuations).where(eq(valuations.userId, userId));
+      
+      // Delete user's file uploads
+      await db.delete(fileUploads).where(eq(fileUploads.userId, userId));
+      
+      // Delete user's email subscriptions (if any)
+      const user = await this.getUser(userId);
+      if (user?.email) {
+        await db.delete(emailSubscriptions).where(eq(emailSubscriptions.email, user.email));
+      }
+      
+      console.log(`Successfully deleted all data for user: ${userId}`);
+    } catch (error: any) {
+      console.error('Error deleting user data:', error);
+      throw new Error(`Failed to delete user data: ${error.message}`);
+    }
+  }
 }
 
 export const storage = new DatabaseStorage();

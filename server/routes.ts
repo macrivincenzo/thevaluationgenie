@@ -486,6 +486,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // User data management
+  app.delete('/api/user/delete-all-data', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      await storage.deleteAllUserData(userId);
+      res.json({ message: 'All user data deleted successfully' });
+    } catch (error: any) {
+      console.error('Error deleting user data:', error);
+      res.status(500).json({ message: 'Failed to delete user data: ' + error.message });
+    }
+  });
+
   // Admin routes
   app.get('/api/admin/users', isAuthenticated, async (req: any, res) => {
     try {

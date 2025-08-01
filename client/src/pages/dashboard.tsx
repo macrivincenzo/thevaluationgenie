@@ -120,6 +120,37 @@ export default function Dashboard() {
     },
   });
 
+  const deleteAllDataMutation = useMutation({
+    mutationFn: async () => {
+      await apiRequest("DELETE", "/api/user/delete-all-data");
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/valuations"] });
+      toast({
+        title: "All Data Deleted",
+        description: "All your valuations and data have been permanently deleted.",
+      });
+    },
+    onError: (error: Error) => {
+      if (isUnauthorizedError(error)) {
+        toast({
+          title: "Unauthorized",
+          description: "You are logged out. Logging in again...",
+          variant: "destructive",
+        });
+        setTimeout(() => {
+          window.location.href = "/api/login";
+        }, 500);
+        return;
+      }
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
   if (isLoading || valuationsLoading) {
     return (
       <div className="min-h-screen bg-white">
@@ -336,8 +367,12 @@ export default function Dashboard() {
                   </AlertDialogHeader>
                   <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction className="bg-destructive hover:bg-destructive/90">
-                      Delete Everything
+                    <AlertDialogAction 
+                      onClick={() => deleteAllDataMutation.mutate()}
+                      className="bg-destructive hover:bg-destructive/90"
+                      disabled={deleteAllDataMutation.isPending}
+                    >
+                      {deleteAllDataMutation.isPending ? "Deleting..." : "Delete Everything"}
                     </AlertDialogAction>
                   </AlertDialogFooter>
                 </AlertDialogContent>
