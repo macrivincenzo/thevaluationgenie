@@ -6,11 +6,8 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 import { storage } from "./storage";
-import { setupAuth, isAuthenticated } from "./replitAuth";
-import { setupEmailAuth, requireAuth } from "./emailAuth";
-import session from "express-session";
-import passport from "passport";
-import connectPg from "connect-pg-simple";
+import { setupSimpleAuth, requireSimpleAuth } from "./simpleAuth";
+import cookieParser from "cookie-parser";
 import { 
   insertEmailSubscriptionSchema, 
   insertValuationSchema,
@@ -60,65 +57,18 @@ const upload = multer({
 });
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Fast in-memory session for development
-  app.set("trust proxy", 1);
-  app.use(session({
-    secret: process.env.SESSION_SECRET!,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      httpOnly: true,
-      secure: true,
-      maxAge: 24 * 60 * 60 * 1000, // 1 day
-    },
-  }));
+  // Ultra-fast cookie-based auth
+  app.use(cookieParser());
+  
+  // Setup simple authentication
+  setupSimpleAuth(app);
 
-  app.use(passport.initialize());
-  app.use(passport.session());
+  // Auth route is now handled in simpleAuth.ts
 
-  // Setup both OAuth and email authentication
-  await setupAuth(app);
-  await setupEmailAuth(app);
-
-  // Ultra-fast auth route - minimal processing
-  app.get('/api/auth/user', (req: any, res) => {
-    if (!req.isAuthenticated()) {
-      return res.status(401).json({ message: "Authentication required" });
-    }
-
-    // Return minimal user data immediately without database lookup
-    if (req.user && req.user.id) {
-      return res.json({
-        id: req.user.id,
-        authenticated: true,
-        profileComplete: true,
-      });
-    }
-
-    // Handle OAuth user
-    if (req.user && req.user.claims) {
-      return res.json({
-        id: req.user.claims.sub,
-        email: req.user.claims.email,
-        authenticated: true,
-        profileComplete: true,
-      });
-    }
-
-    res.status(401).json({ message: "Authentication required" });
-  });
-
-  // Complete user profile endpoint
-  app.post('/api/auth/complete-profile', requireAuth, async (req: any, res) => {
+  // Complete user profile endpoint  
+  app.post('/api/auth/complete-profile', requireSimpleAuth, async (req: any, res) => {
     try {
-      let userId;
-      if (req.user && req.user.claims) {
-        userId = req.user.claims.sub;
-      } else if (req.user && req.user.id) {
-        userId = req.user.id;
-      } else {
-        return res.status(401).json({ message: "Unauthorized" });
-      }
+      const userId = req.user.id;
       const profileData = req.body;
       
       // Update user profile
@@ -181,9 +131,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Valuation routes
-  app.post('/api/valuations', isAuthenticated, async (req: any, res) => {
+  app.post('/api/valuations', requireSimpleAuth, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       const rawData = req.body;
       
       console.log('Received valuation data:', JSON.stringify(rawData, null, 2));
@@ -286,9 +236,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/valuations', isAuthenticated, async (req: any, res) => {
+  app.get('/api/valuations', requireSimpleAuth, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       const valuations = await storage.getUserValuations(userId);
       res.json(valuations);
     } catch (error: any) {
@@ -296,9 +246,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/valuations/:id', isAuthenticated, async (req: any, res) => {
+  app.get('/api/valuations/:id', requireSimpleAuth, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       const valuation = await storage.getValuation(req.params.id);
       
       if (!valuation || valuation.userId !== userId) {
@@ -311,9 +261,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.delete('/api/valuations/:id', isAuthenticated, async (req: any, res) => {
+  app.delete('/api/valuations/:id', requireSimpleAuth, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       const valuation = await storage.getValuation(req.params.id);
       
       if (!valuation || valuation.userId !== userId) {
@@ -328,7 +278,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Temporary file upload (before valuation creation)
-  app.post('/api/files/upload', isAuthenticated, upload.single('file'), async (req: any, res) => {
+  app.post('/api/files/upload', requireSimpleAuth, upload.single('file'), async (req: any, res) => {
     try {
       console.log("File upload request received");
       console.log("Request file:", req.file);
@@ -364,9 +314,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // File upload for existing valuations
-  app.post('/api/valuations/:id/files', isAuthenticated, upload.single('file'), async (req: any, res) => {
+  app.post('/api/valuations/:id/files', requireSimpleAuth, upload.single('file'), async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       const valuation = await storage.getValuation(req.params.id);
       
       if (!valuation || valuation.userId !== userId) {
@@ -392,7 +342,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Test Stripe connection
-  app.post("/api/test-stripe", isAuthenticated, async (req: any, res) => {
+  app.post("/api/test-stripe", requireSimpleAuth, async (req: any, res) => {
     try {
       if (!stripe) {
         return res.status(500).json({ message: "Stripe not initialized. Check your STRIPE_SECRET_KEY." });
@@ -421,10 +371,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Stripe payment
-  app.post("/api/create-payment-intent", isAuthenticated, async (req: any, res) => {
+  app.post("/api/create-payment-intent", requireSimpleAuth, async (req: any, res) => {
     try {
       const { valuationId } = req.body;
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       
       const valuation = await storage.getValuation(valuationId);
       if (!valuation || valuation.userId !== userId) {
@@ -478,10 +428,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // PDF download (requires payment)
-  app.get('/api/valuations/:id/pdf', isAuthenticated, async (req: any, res) => {
+  app.get('/api/valuations/:id/pdf', requireSimpleAuth, async (req: any, res) => {
     try {
       console.log('PDF download request for ID:', req.params.id);
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       
       const valuation = await storage.getValuation(req.params.id);
       
@@ -572,9 +522,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // User data management
-  app.delete('/api/user/delete-all-data', isAuthenticated, async (req: any, res) => {
+  app.delete('/api/user/delete-all-data', requireSimpleAuth, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       await storage.deleteAllUserData(userId);
       res.json({ message: 'All user data deleted successfully' });
     } catch (error: any) {
@@ -584,9 +534,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Admin routes
-  app.get('/api/admin/users', isAuthenticated, async (req: any, res) => {
+  app.get('/api/admin/users', requireSimpleAuth, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       const isAdmin = await storage.isAdmin(userId);
       
       if (!isAdmin) {
@@ -600,9 +550,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/admin/stats', isAuthenticated, async (req: any, res) => {
+  app.get('/api/admin/stats', requireSimpleAuth, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       const isAdmin = await storage.isAdmin(userId);
       
       if (!isAdmin) {

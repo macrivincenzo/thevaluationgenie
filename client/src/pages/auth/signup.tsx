@@ -79,7 +79,9 @@ export default function Signup() {
         description: "Welcome to ValuationGenie! Please sign in to continue.",
       });
       // Redirect to login page immediately
-      window.location.href = '/login';
+      setTimeout(() => {
+        window.location.href = '/login';
+      }, 500);
       setLocation("/");
     },
     onError: (error: Error) => {
