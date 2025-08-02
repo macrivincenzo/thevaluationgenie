@@ -96,17 +96,16 @@ export default function Header() {
                   </DropdownMenuItem>
 
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem 
-                    onSelect={(e) => {
-                      e.preventDefault();
-                      console.log("Logout clicked!");
-                      window.location.href = "/";
+                  <button
+                    onClick={() => {
+                      console.log("Logout button clicked!");
+                      window.location.replace("/");
                     }}
-                    className="w-full flex items-center cursor-pointer"
+                    className="w-full flex items-center px-2 py-1.5 text-sm cursor-pointer hover:bg-accent hover:text-accent-foreground rounded-sm"
                   >
                     <LogOut className="mr-2 h-4 w-4" />
                     Log out
-                  </DropdownMenuItem>
+                  </button>
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
