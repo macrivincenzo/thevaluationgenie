@@ -97,19 +97,11 @@ export default function Header() {
 
                   <DropdownMenuSeparator />
                   <DropdownMenuItem 
-                    onClick={async () => {
-                      try {
-                        // Call logout endpoint and handle response properly
-                        await fetch('/api/auth/logout', {
-                          method: 'GET',
-                          credentials: 'include',
-                          redirect: 'manual' // Handle redirect manually
-                        });
-                      } catch (e) {
-                        // Ignore fetch errors - logout still works
-                      }
-                      // Always redirect to homepage after logout attempt
-                      window.location.href = '/';
+                    onClick={() => {
+                      // Fire-and-forget logout - no waiting, no errors
+                      fetch('/api/auth/logout', { method: 'GET', credentials: 'include' }).catch(() => {});
+                      // Instant redirect - zero delay
+                      window.location.replace('/');
                     }}
                     className="w-full flex items-center cursor-pointer"
                   >

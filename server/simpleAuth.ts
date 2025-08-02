@@ -167,21 +167,14 @@ export function setupSimpleAuth(app: Express) {
     });
   });
 
-  // Logout GET route - instant redirect to homepage
+  // Logout GET route - ultra-fast processing
   app.get('/api/auth/logout', (req, res) => {
     const sessionId = req.cookies.session;
-    console.log('GET logout request, sessionId:', sessionId);
     if (sessionId) {
       sessions.delete(sessionId);
-      res.clearCookie('session', { 
-        path: '/',
-        httpOnly: true,
-        secure: false,
-        maxAge: 0
-      });
     }
-    // Return success JSON - client will handle redirect
-    res.json({ success: true, message: "Logged out successfully" });
+    res.clearCookie('session', { path: '/' });
+    res.status(200).end(); // Fastest possible response
   });
 
   // Logout POST for API calls
