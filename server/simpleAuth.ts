@@ -167,7 +167,19 @@ export function setupSimpleAuth(app: Express) {
     });
   });
 
-  // Logout
+  // Logout GET route for direct browser navigation
+  app.get('/api/auth/logout', (req, res) => {
+    const sessionId = req.cookies.session;
+    console.log('GET logout request, sessionId:', sessionId);
+    if (sessionId) {
+      sessions.delete(sessionId);
+      res.clearCookie('session');
+    }
+    // Redirect to landing page
+    res.redirect('/');
+  });
+
+  // Logout POST for API calls
   app.post('/api/auth/logout', (req, res) => {
     const sessionId = req.cookies.session;
     if (sessionId) {
@@ -175,17 +187,6 @@ export function setupSimpleAuth(app: Express) {
       res.clearCookie('session');
     }
     res.json({ success: true });
-  });
-
-  // Logout GET route for direct browser navigation
-  app.get('/api/logout', (req, res) => {
-    const sessionId = req.cookies.session;
-    if (sessionId) {
-      sessions.delete(sessionId);
-      res.clearCookie('session');
-    }
-    // Redirect to landing page
-    res.redirect('/');
   });
 }
 

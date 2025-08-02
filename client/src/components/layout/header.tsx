@@ -97,18 +97,13 @@ export default function Header() {
 
                   <DropdownMenuSeparator />
                   <DropdownMenuItem asChild>
-                    <button
-                      onClick={() => {
-                        // Clear authentication immediately
-                        document.cookie = "connect.sid=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
-                        // Redirect immediately
-                        window.location.href = "/";
-                      }}
+                    <a 
+                      href="/api/auth/logout"
                       className="w-full flex items-center"
                     >
                       <LogOut className="mr-2 h-4 w-4" />
                       Log out
-                    </button>
+                    </a>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
