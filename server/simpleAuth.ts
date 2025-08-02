@@ -1,6 +1,7 @@
 import type { Express, RequestHandler } from "express";
 import crypto from "crypto";
 import { z } from "zod";
+import { emailService } from "./emailService";
 
 // In-memory user storage for maximum speed
 const users = new Map<string, {
@@ -49,6 +50,11 @@ export function setupSimpleAuth(app: Express) {
         passwordHash,
         firstName: data.firstName,
         lastName: data.lastName,
+      });
+      
+      // Send welcome email (async, don't wait for it)
+      emailService.sendWelcomeEmail(data.email, data.firstName).catch(err => {
+        console.log('Welcome email failed (non-blocking):', err.message);
       });
       
       res.json({ success: true, message: 'Account created successfully' });

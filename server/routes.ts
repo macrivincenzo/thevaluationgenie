@@ -7,6 +7,7 @@ import path from "path";
 import fs from "fs";
 import { storage } from "./storage";
 import { setupSimpleAuth, requireSimpleAuth } from "./simpleAuth";
+import { emailService } from "./emailService";
 import cookieParser from "cookie-parser";
 import { 
   insertEmailSubscriptionSchema, 
