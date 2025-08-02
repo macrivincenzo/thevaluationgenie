@@ -180,8 +180,8 @@ export function setupSimpleAuth(app: Express) {
         maxAge: 0
       });
     }
-    // Instant redirect to homepage - fastest logout possible
-    res.redirect('/');
+    // Return success JSON - client will handle redirect
+    res.json({ success: true, message: "Logged out successfully" });
   });
 
   // Logout POST for API calls
