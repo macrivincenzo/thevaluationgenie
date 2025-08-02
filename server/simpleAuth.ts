@@ -14,13 +14,16 @@ const users = new Map<string, {
 
 // Create a default test user for development
 const testUserId = "test-user-id";
+const testPasswordHash = crypto.createHash('md5').update("test").digest('hex');
+console.log('Creating test user with hash:', testPasswordHash);
 users.set(testUserId, {
   id: testUserId,
   email: "test@test.com",
-  passwordHash: crypto.createHash('md5').update("test").digest('hex'),
+  passwordHash: testPasswordHash,
   firstName: "Test",
   lastName: "User",
 });
+console.log('Test user created. Available users:', Array.from(users.keys()));
 
 // In-memory session storage
 const sessions = new Map<string, string>(); // sessionId -> userId
@@ -77,6 +80,8 @@ export function setupSimpleAuth(app: Express) {
   app.post('/api/auth/login', (req, res) => {
     try {
       const data = loginSchema.parse(req.body);
+      console.log('Login attempt for:', data.email);
+      console.log('Available users:', Array.from(users.values()).map(u => u.email));
       
       // Find user
       let user = null;
@@ -88,12 +93,17 @@ export function setupSimpleAuth(app: Express) {
       }
       
       if (!user) {
+        console.log('User not found:', data.email);
         return res.status(401).json({ message: 'Invalid credentials' });
       }
       
       // Check password
       const passwordHash = crypto.createHash('md5').update(data.password).digest('hex');
+      console.log('Password hash attempt:', passwordHash);
+      console.log('Stored hash:', user.passwordHash);
+      
       if (passwordHash !== user.passwordHash) {
+        console.log('Password mismatch for user:', data.email);
         return res.status(401).json({ message: 'Invalid credentials' });
       }
       
