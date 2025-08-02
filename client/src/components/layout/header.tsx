@@ -1,5 +1,6 @@
 import { Link } from "wouter";
 import { useAuth } from "@/hooks/useAuth";
+import { useLogout } from "@/hooks/useLogout";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -14,6 +15,7 @@ import type { User as UserType } from "@shared/schema";
 
 export default function Header() {
   const { user, isAuthenticated, isLoading } = useAuth();
+  const logout = useLogout();
   const typedUser = user as UserType | undefined;
 
   return (
@@ -92,11 +94,12 @@ export default function Header() {
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem asChild>
-                    <a href="/api/logout" className="w-full flex items-center">
-                      <LogOut className="mr-2 h-4 w-4" />
-                      Log out
-                    </a>
+                  <DropdownMenuItem 
+                    onClick={() => logout.mutate()}
+                    className="w-full flex items-center cursor-pointer"
+                  >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Log out
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

@@ -145,6 +145,17 @@ export function setupSimpleAuth(app: Express) {
     }
     res.json({ success: true });
   });
+
+  // Logout GET route for direct browser navigation
+  app.get('/api/logout', (req, res) => {
+    const sessionId = req.cookies.session;
+    if (sessionId) {
+      sessions.delete(sessionId);
+      res.clearCookie('session');
+    }
+    // Redirect to landing page
+    res.redirect('/');
+  });
 }
 
 // Simple auth middleware
