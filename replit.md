@@ -2,7 +2,7 @@
 
 ## Overview
 
-ValuationGenie is a web application that provides instant business valuations for buyers and sellers of small service-based businesses in the US. The application uses industry-standard methodologies and multiples to generate automated business valuation reports in PDF format.
+ValuationGenie is a web application providing instant business valuations for small service-based businesses in the US. It generates automated, professional PDF valuation reports using industry-standard methodologies, focusing on the Seller's Discretionary Earnings (SDE) multiplier approach. The project aims to offer a cost-effective alternative to traditional appraisers, targeting business buyers, sellers, brokers, and consultants.
 
 ## User Preferences
 
@@ -10,233 +10,37 @@ Preferred communication style: Simple, everyday language.
 
 ## System Architecture
 
-### Frontend Architecture
+### Frontend
 - **Framework**: React with TypeScript
-- **Routing**: Wouter for client-side routing
-- **UI Components**: Radix UI with shadcn/ui component library
-- **Styling**: Tailwind CSS with CSS variables for theming
-- **State Management**: TanStack Query (React Query) for server state management
-- **Forms**: React Hook Form with Zod validation
-- **Build Tool**: Vite for development and production builds
+- **UI**: Radix UI, shadcn/ui, Tailwind CSS
+- **State Management**: TanStack Query (React Query)
+- **Forms**: React Hook Form with Zod
+- **Build Tool**: Vite
 
-### Backend Architecture
-- **Runtime**: Node.js with Express.js framework
-- **Language**: TypeScript with ES modules
-- **API Pattern**: RESTful API design
+### Backend
+- **Runtime**: Node.js with Express.js
+- **Language**: TypeScript
+- **API**: RESTful
 - **Session Management**: Express sessions with PostgreSQL store
-- **File Handling**: Multer for file uploads (PDF/CSV documents)
-- **PDF Generation**: jsPDF for creating valuation reports
+- **PDF Generation**: Browser print-to-PDF approach
 
-### Authentication System
-- **Provider**: Replit Auth (OpenID Connect)
-- **Session Storage**: PostgreSQL-backed sessions using connect-pg-simple
-- **User Management**: Custom user storage with Replit user data integration
+### Database
+- **ORM**: Drizzle ORM
+- **Database**: PostgreSQL (Neon)
+- **Schema**: Shared TypeScript definitions for users, valuations, sessions, etc.
 
-## Key Components
-
-### Database Layer
-- **ORM**: Drizzle ORM with PostgreSQL dialect
-- **Database Provider**: Neon serverless PostgreSQL
-- **Schema**: Shared TypeScript schema definitions
-- **Tables**:
-  - Users (authentication and profile data)
-  - Email subscriptions (marketing list)
-  - Valuations (business data and calculations)
-  - File uploads (supporting documents)
-  - Sessions (authentication state)
-  - Admin users (role management)
-
-### Payment Processing
-- **Provider**: Stripe for payment processing
-- **Integration**: Stripe Elements for secure payment forms
-- **Model**: Three-tier pricing structure:
-  - Professional Report: $39 (single report)
-  - Business Package: $99 (3 reports, 6 months validity)
-  - Professional Plan: $199/quarter (12 reports)
-- **Security**: Server-side payment intent creation and verification
-
-### Valuation Engine
-- **Method**: SDE (Seller's Discretionary Earnings) multiplier approach
-- **Industry Multiples**: Hardcoded industry-specific multipliers
-- **Supported Industries**: Consulting, marketing, accounting, landscaping, cleaning, IT services, healthcare, legal, fitness, food service
-- **Output**: Valuation range with comprehensive PDF report
-
-### File Management
-- **Storage**: Local filesystem for uploaded documents
-- **Types**: PDF and CSV files (P&L statements, balance sheets)
-- **Processing**: Files stored but not parsed in current implementation
-- **Limits**: 10MB file size limit
-
-## Data Flow
-
-1. **User Registration**: Replit Auth handles OAuth flow and user creation
-2. **Valuation Creation**: Multi-step form collects business data
-3. **Calculation**: Server applies industry multiple to SDE
-4. **Report Generation**: PDF created with business details and valuation range
-5. **Payment Processing**: Stripe checkout for report access
-6. **Report Delivery**: PDF download after successful payment
+### Core Features
+- **Valuation Engine**: Uses SDE multiplier method with industry-specific multiples. Supports various industries including consulting, marketing, IT services, etc. Output is a comprehensive PDF report.
+- **Payment Processing**: Stripe integration with a three-tier pricing model: Professional Report ($39), Business Package ($99), Professional Plan ($199/quarter). Secure payment forms using Stripe Elements.
+- **Authentication**: Replit Auth (OpenID Connect) for user authentication, with custom user storage.
+- **File Management**: Local filesystem storage for PDF and CSV uploads (not parsed).
+- **Email System**: Nodemailer for welcome emails and notifications.
+- **Valuation Questionnaire**: A streamlined, universal questionnaire for all users (buyers and sellers) focused on SDE-relevant financial data and business specifics. Includes auto-calculations for key metrics.
+- **PDF Report Generation**: Clean, minimal, professional PDF format for valuation reports, optimized for print-to-PDF.
 
 ## External Dependencies
 
-### Authentication
-- **Replit Auth**: OAuth provider for user authentication
-- **OpenID Connect**: Standard protocol for identity verification
-
-### Payments
-- **Stripe**: Payment processing and subscription management
-- **Stripe Elements**: Secure payment form components
-
-### Database
-- **Neon**: Serverless PostgreSQL hosting
-- **Connection**: WebSocket-based connection pooling
-
-### Development Tools
-- **Replit**: Development environment and deployment platform
-- **Vite Plugins**: Runtime error overlay and cartographer for debugging
-
-## Deployment Strategy
-
-### Development Environment
-- **Platform**: Replit development environment
-- **Hot Reload**: Vite development server with HMR
-- **Database**: Neon development database
-- **Environment Variables**: Managed through Replit secrets
-
-### Production Build
-- **Frontend**: Vite production build with static asset optimization
-- **Backend**: esbuild compilation to ESM modules
-- **Assets**: Static files served from dist/public directory
-- **Process**: Single Node.js process serving both API and static files
-
-### Environment Configuration
-- **Required Variables**:
-  - `DATABASE_URL`: PostgreSQL connection string
-  - `STRIPE_SECRET_KEY`: Stripe API key
-  - `SESSION_SECRET`: Session encryption key
-  - `REPL_ID`: Replit environment identifier
-  - `ISSUER_URL`: OAuth issuer URL (defaults to Replit)
-
-### Security Considerations
-- **Data Protection**: User data deletion capabilities
-- **Session Security**: HTTP-only cookies with secure flags
-- **Payment Security**: Stripe handles all payment data
-- **File Security**: Upload restrictions and size limits
-- **Legal Compliance**: Terms of Service and Privacy Policy included
-
-The application follows a typical full-stack TypeScript pattern with strong type safety across the entire codebase, shared schemas between client and server, and a focus on user experience with comprehensive error handling and loading states.
-
-## Recent Changes: Latest modifications with dates
-
-### January 29, 2025
-- **MAJOR ENHANCEMENT**: Integrated comprehensive valuation questionnaire structure
-- **Industry Expansion**: Added 37 industry types with specific SDE multipliers (2.0x - 6.0x range)
-- **Schema Update**: Enhanced database schema to support detailed buyer/seller questionnaires
-- **Questionnaire Features**: 
-  - Separate question flows for buyers vs sellers
-  - 3-year financial data collection (revenue, SDE, growth rates)
-  - Business dependency assessment (owner involvement, key employees)
-  - Customer concentration and retention metrics
-  - Due diligence priorities and deal structure preferences
-- **Technical Implementation**: 
-  - Fixed buyer-seller selection dropdown with reliable HTML select element
-  - Updated industry multipliers library with comprehensive business types
-  - Enhanced database schema with JSONB fields for multi-year data
-- **User Preference**: User confirmed dropdown selection works correctly with proper state management
-
-**STRIPE INTEGRATION COMPLETE**:
-- **PDF Download System**: Replaced problematic jsPDF with reliable browser print-to-PDF approach
-- **Payment Processing**: Connected user's actual Stripe account with live API keys
-- **Checkout Flow**: Created new checkout page (checkout-new.tsx) with proper Stripe Elements configuration
-- **Payment Security**: $99 per report with secure Stripe processing and webhook support
-- **Error Resolution**: Fixed Stripe Elements clientSecret requirement and TypeScript errors
-
-### January 30, 2025
-- **SIMPLIFIED QUESTIONNAIRE**: Removed buyer/seller distinction per user request
-- **Universal Questions**: Same questionnaire for all users (buyers and sellers)
-- **Streamlined UI**: Replaced buyer/seller selection with single professional valuation introduction
-- **Future Flexibility**: Framework in place for easy question modification later
-
-### January 31, 2025
-- **SDE-FOCUSED QUESTIONNAIRE**: Replaced EBITDA with SDE (Seller's Discretionary Earnings) questions
-- **Question 2.3**: Added SDE input field with clear explanation (Net profit + Owner's salary + One-time expenses + Personal expenses)
-- **Question 2.4**: Added SDE margin percentage with auto-calculation (SDE/Revenue×100)
-- **AUTO-CALCULATIONS IMPLEMENTED**:
-  - SDE Margin = (SDE / Revenue) × 100
-  - LTV/CAC Ratio = Customer Lifetime Value / Customer Acquisition Cost
-  - Recurring Revenue % with auto-calculated One-time Revenue %
-  - Customer Concentration Risk Score (Low/Medium/High based on top 5 customers %)
-- **BACKEND UPDATES**: Updated valuation calculation to require accurate SDE input instead of EBITDA fallback
-- **ACCURACY FOCUS**: All calculations now use precise SDE methodology for more accurate business valuations
-- **PROFESSIONAL PDF FORMAT**: Created new professional PDF generator matching user's template specification
-  - Clean, minimal design with proper corporate formatting
-  - Structured sections: Company Overview, Executive Summary, Enterprise Valuation, Financial Analysis
-  - Professional valuation methodologies with detailed assumptions
-  - Risk assessment and strategic recommendations sections
-  - Proper disclaimers and legal notices
-  - Optimized for print-to-PDF functionality
-
-### February 1, 2025
-- **EMAIL CONFIRMATION SYSTEM IMPLEMENTED**: Integrated professional welcome email system using Nodemailer
-  - Created comprehensive email service with Gmail integration (alternative to SendGrid)
-  - Professional welcome email template with ValuationGenie branding and call-to-action
-  - Non-blocking email delivery - signup succeeds even if email fails
-  - Setup requires only Gmail app password (GMAIL_USER and GMAIL_APP_PASSWORD environment variables)
-  - Sends personalized welcome message with direct link to start first valuation
-  - Easy configuration for other email providers (Outlook, Yahoo, custom SMTP)
-  - **USER REQUEST**: User preferred third-party alternative to SendGrid due to setup issues
-
-### February 1, 2025 (continued)
-- **MAJOR PRICING RESTRUCTURE COMPLETED**: Completely overhauled pricing model with three-tier structure
-  - 📊 Professional Report: $39 - Complete business valuation with professional PDF, 7-day money-back guarantee
-  - ⚡ Business Package: $99 (save $18 from $117) - 3 Professional Reports, valid for 6 months, perfect for buyers comparing options
-  - 🏢 Professional Plan: $199/quarter - 12 reports per quarter for brokers/investors/consultants, just $16.58 per report
-- **COMPREHENSIVE SYSTEM UPDATE**: Updated all pricing references across the entire application
-  - Landing page: New competitive positioning showing 99% cost savings vs traditional appraisers ($39 vs $5,000)
-  - Backend: Stripe payment intents updated to $39 (3900 cents)
-  - Dashboard: Updated payment buttons and admin revenue calculations
-  - Checkout: All checkout flows now reflect $39 pricing
-  - Terms: Updated guarantee period from 30-day to 7-day money-back guarantee
-- **MARKETING POSITIONING**: Positioned against traditional firms ($2K-$15K), online competitors ($99-$499), and software tools ($50-$200/month)
-- **USER PREFERENCE**: User confirmed the new pricing structure aligns with market positioning and business strategy
-- **COMPREHENSIVE CUSTOMER DATA COLLECTION SYSTEM**: Enhanced user registration and data collection
-  - Extended user schema with professional information (company, job title, phone, address, business type)
-  - Created customer profiles table for detailed tracking (investment budget, transaction timeline, usage tracking)
-  - Implemented profile completion modal requiring name and email for access
-  - Added comprehensive data collection for business context and preferences
-  - Enhanced authentication flow to capture complete customer information
-  - All customer data properly stored and accessible through dedicated customer data page
-- **CRITICAL ROUTING FIX**: Resolved Sign In button 404 error issue
-  - Fixed landing page navigation using proper wouter routing instead of window.location
-  - Restructured route placement in App.tsx for better routing logic
-  - Updated all navigation buttons to use setLocation() for consistent routing
-  - **USER CONFIRMATION**: User confirmed "it works great" after routing fixes
-
-### February 1, 2025 (Evening)
-- **CRITICAL PERFORMANCE FIX**: Resolved persistent slow logout issue through comprehensive optimization
-  - **Problem**: Logout process taking 10+ seconds causing poor user experience
-  - **Root Cause**: Browser caching, delayed redirects, and React Query state issues
-  - **Solution Applied**: 
-    - Server-side cache prevention headers (no-cache, no-store, must-revalidate)
-    - Optimized cookie clearing with explicit httpOnly and secure flags
-    - Changed from anchor tag to onClick handler to eliminate dropdown delays
-    - HTTP 302 redirect with query parameter to force fresh page load
-  - **Performance Result**: Logout now processes in 2ms on server with immediate redirect
-  - **USER CONFIRMATION**: User confirmed logout "starts much faster" after optimization
-- **STREAMLINED CORE FUNCTIONALITY**: Removed comparison tools feature per user request
-  - Deleted all comparison-related code, routes, and UI components
-  - Focused application on core workflow: Home → Get Valuation → Dashboard
-  - User preferred simplified, focused functionality over feature complexity
-- **USER-FRIENDLY LOGIN ERROR HANDLING**: Enhanced unregistered email experience
-  - When users try to login with unregistered email, show welcome message instead of error
-  - Automatic redirect to signup page after 1.5 seconds with friendly messaging
-  - "Welcome to ValuationGenie! This email isn't registered yet. Let's create your free account."
-  - Still shows proper errors for wrong passwords on existing accounts
-  - **USER CONFIRMATION**: User tested and confirmed "great job" on improved user experience
-
-### January 31, 2025 (continued)
-- **100% HALAL COMPLIANCE ACHIEVED**: Completely removed all EBITDA references for full Islamic finance compliance
-- **SDE-ONLY METHODOLOGY**: System now exclusively uses SDE (Seller's Discretionary Earnings) calculations
-- **Required Field Validation**: Added comprehensive validation ensuring all essential fields completed for accurate valuations
-- **PDF Reports Updated**: Professional PDF generator now uses only SDE metrics, no EBITDA references
-- **Critical Fields Required**: Business basics, annual revenue, SDE, and owner involvement now mandatory
-- **Backend Validation Fixed**: SDE calculation error resolved, system accepts proper SDE values with fallback calculations
+- **Replit Auth**: OAuth provider for user authentication.
+- **Stripe**: Payment processing and subscription management, including Stripe Elements for secure forms.
+- **Neon**: Serverless PostgreSQL hosting.
+- **Nodemailer**: For sending transactional emails.
