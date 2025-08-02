@@ -4,23 +4,18 @@ import { useLocation } from "wouter";
 
 export function useLogout() {
   const queryClient = useQueryClient();
-  const [, setLocation] = useLocation();
 
-  return useMutation({
-    mutationFn: async () => {
-      await apiRequest("POST", "/api/auth/logout");
-    },
-    onSuccess: () => {
-      // Clear all cached data
+  return {
+    mutate: () => {
+      // Clear cache immediately
       queryClient.clear();
-      // Immediate redirect without waiting
+      
+      // Make logout request in background (don't wait for it)
+      apiRequest("POST", "/api/auth/logout").catch(console.error);
+      
+      // Redirect immediately
       window.location.replace("/");
     },
-    onError: (error) => {
-      console.error("Logout error:", error);
-      // Even if logout fails, clear cache and redirect immediately
-      queryClient.clear();
-      window.location.replace("/");
-    },
-  });
+    isPending: false // Always false since we don't wait
+  };
 }
