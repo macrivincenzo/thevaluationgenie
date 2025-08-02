@@ -1,6 +1,40 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import { db } from "./db";
+import { users } from "@shared/schema";
+import { eq } from "drizzle-orm";
+
+// Initialize users in database to match in-memory auth system
+async function initializeUsers() {
+  try {
+    // Check if test user exists
+    const testUser = await db.select().from(users).where(eq(users.id, "test-user-id"));
+    if (testUser.length === 0) {
+      await db.insert(users).values({
+        id: "test-user-id",
+        email: "test@test.com",
+        firstName: "Test",
+        lastName: "User"
+      });
+      console.log('Created test user in database');
+    }
+
+    // Check if your user exists  
+    const mainUser = await db.select().from(users).where(eq(users.id, "your-user-id"));
+    if (mainUser.length === 0) {
+      await db.insert(users).values({
+        id: "your-user-id", 
+        email: "macrivincenzo@hotmail.com",
+        firstName: "Marco",
+        lastName: "Vincenzo"
+      });
+      console.log('Created main user in database');
+    }
+  } catch (error) {
+    console.error('Error initializing database users:', error);
+  }
+}
 
 const app = express();
 app.use(express.json());
@@ -37,6 +71,9 @@ app.use((req, res, next) => {
 });
 
 (async () => {
+  // Initialize database users before starting server
+  await initializeUsers();
+  
   const server = await registerRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
