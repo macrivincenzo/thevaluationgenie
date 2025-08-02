@@ -61,25 +61,24 @@ export default function Login() {
     },
     onError: (error: Error) => {
       const isNewUser = error.message.includes("No account found");
-      toast({
-        title: "Login Failed",
-        description: error.message,
-        variant: "destructive",
-      });
       
-      // If it's a new user, show signup suggestion
       if (isNewUser) {
+        // Don't show error - guide them to sign up instead
+        toast({
+          title: "Welcome to ValuationGenie!",
+          description: "This email isn't registered yet. Let's create your free account.",
+          variant: "default",
+        });
         setTimeout(() => {
-          toast({
-            title: "Need an account?",
-            description: "Click here to create your free account",
-            action: (
-              <Link href="/signup" className="text-sm font-medium text-blue-600 hover:text-blue-700">
-                Sign Up
-              </Link>
-            ),
-          });
-        }, 2000);
+          setLocation("/signup");
+        }, 1500);
+      } else {
+        // Show error for wrong password or other issues
+        toast({
+          title: "Login Failed",
+          description: error.message,
+          variant: "destructive",
+        });
       }
     },
   });
