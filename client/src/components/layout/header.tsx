@@ -98,10 +98,8 @@ export default function Header() {
                   <DropdownMenuSeparator />
                   <DropdownMenuItem 
                     onClick={() => {
-                      // Fire-and-forget logout - no waiting, no errors
-                      fetch('/api/auth/logout', { method: 'GET', credentials: 'include' }).catch(() => {});
-                      // Instant redirect - zero delay
-                      window.location.replace('/');
+                      // NUCLEAR LOGOUT - bypass everything for speed
+                      window.location.href = '/api/auth/logout';
                     }}
                     className="w-full flex items-center cursor-pointer"
                   >
