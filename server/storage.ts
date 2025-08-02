@@ -351,6 +351,103 @@ export class DatabaseStorage implements IStorage {
       throw new Error(`Failed to delete user data: ${error.message}`);
     }
   }
+
+  // Comparison operations
+  async createComparison(comparison: InsertComparison): Promise<Comparison> {
+    const [result] = await db.insert(comparisons).values(comparison).returning();
+    return result;
+  }
+
+  async getUserComparisons(userId: string): Promise<Comparison[]> {
+    return await db
+      .select()
+      .from(comparisons)
+      .where(eq(comparisons.userId, userId))
+      .orderBy(desc(comparisons.createdAt));
+  }
+
+  async getComparison(id: string): Promise<Comparison | undefined> {
+    const [result] = await db.select().from(comparisons).where(eq(comparisons.id, id));
+    return result;
+  }
+
+  async updateComparison(id: string, updates: Partial<InsertComparison>): Promise<Comparison> {
+    const [result] = await db
+      .update(comparisons)
+      .set({ ...updates, updatedAt: new Date() })
+      .where(eq(comparisons.id, id))
+      .returning();
+    return result;
+  }
+
+  async deleteComparison(id: string): Promise<void> {
+    // Delete comparison items first (cascade should handle this, but being explicit)
+    await db.delete(comparisonItems).where(eq(comparisonItems.comparisonId, id));
+    // Delete the comparison
+    await db.delete(comparisons).where(eq(comparisons.id, id));
+  }
+
+  // Comparison items operations
+  async addComparisonItem(item: InsertComparisonItem): Promise<ComparisonItem> {
+    const [result] = await db.insert(comparisonItems).values(item).returning();
+    return result;
+  }
+
+  async getComparisonItems(comparisonId: string): Promise<(ComparisonItem & { valuation: Valuation })[]> {
+    return await db
+      .select({
+        id: comparisonItems.id,
+        comparisonId: comparisonItems.comparisonId,
+        valuationId: comparisonItems.valuationId,
+        notes: comparisonItems.notes,
+        addedAt: comparisonItems.addedAt,
+        valuation: {
+          id: valuations.id,
+          userId: valuations.userId,
+          businessName: valuations.businessName,
+          industry: valuations.industry,
+          location: valuations.location,
+          foundedYear: valuations.foundedYear,
+          yearsInBusiness: valuations.yearsInBusiness,
+          annualRevenue: valuations.annualRevenue,
+          sde: valuations.sde,
+          addBacks: valuations.addBacks,
+          ownerInvolvement: valuations.ownerInvolvement,
+          growthTrend: valuations.growthTrend,
+          majorRisks: valuations.majorRisks,
+          buyerOrSeller: valuations.buyerOrSeller,
+          valuationLow: valuations.valuationLow,
+          valuationHigh: valuations.valuationHigh,
+          industryMultiple: valuations.industryMultiple,
+          pdfPath: valuations.pdfPath,
+          stripePaymentIntentId: valuations.stripePaymentIntentId,
+          paid: valuations.paid,
+          createdAt: valuations.createdAt,
+          updatedAt: valuations.updatedAt,
+        }
+      })
+      .from(comparisonItems)
+      .innerJoin(valuations, eq(comparisonItems.valuationId, valuations.id))
+      .where(eq(comparisonItems.comparisonId, comparisonId))
+      .orderBy(comparisonItems.addedAt) as any;
+  }
+
+  async removeComparisonItem(comparisonId: string, valuationId: string): Promise<void> {
+    await db
+      .delete(comparisonItems)
+      .where(
+        sql`${comparisonItems.comparisonId} = ${comparisonId} AND ${comparisonItems.valuationId} = ${valuationId}`
+      );
+  }
+
+  async updateComparisonItemNotes(id: string, notes: string): Promise<ComparisonItem> {
+    const [result] = await db
+      .update(comparisonItems)
+      .set({ notes })
+      .where(eq(comparisonItems.id, id))
+      .returning();
+    return result;
+  }
 }
 
 export const storage = new DatabaseStorage();
