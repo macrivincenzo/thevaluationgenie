@@ -98,9 +98,8 @@ export default function Header() {
                   <DropdownMenuSeparator />
                   <DropdownMenuItem 
                     onClick={() => {
-                      // Simple working logout - clear session and go to homepage
-                      document.cookie = 'session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-                      window.location.href = '/';
+                      // Direct server logout - let server handle everything
+                      window.location.href = '/api/auth/logout';
                     }}
                     className="w-full flex items-center cursor-pointer"
                   >
