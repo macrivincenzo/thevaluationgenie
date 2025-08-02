@@ -13,14 +13,14 @@ export function useLogout() {
     onSuccess: () => {
       // Clear all cached data
       queryClient.clear();
-      // Force a page reload to ensure clean state
-      window.location.href = "/";
+      // Immediate redirect without waiting
+      window.location.replace("/");
     },
     onError: (error) => {
       console.error("Logout error:", error);
-      // Even if logout fails, clear cache and redirect
+      // Even if logout fails, clear cache and redirect immediately
       queryClient.clear();
-      window.location.href = "/";
+      window.location.replace("/");
     },
   });
 }

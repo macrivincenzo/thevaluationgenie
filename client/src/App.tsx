@@ -16,7 +16,7 @@ import Dashboard from "@/pages/dashboard";
 import Admin from "@/pages/admin";
 import CustomerData from "@/pages/customer-data";
 import StripeTest from "@/pages/stripe-test";
-import Comparisons from "@/pages/comparisons";
+
 import Terms from "@/pages/terms";
 import Privacy from "@/pages/privacy";
 import Contact from "@/pages/contact";
@@ -65,7 +65,7 @@ function Router() {
             <Route path="/valuation" component={ValuationFlow} />
             <Route path="/checkout/:id" component={CheckoutNew} />
             <Route path="/dashboard" component={Dashboard} />
-            <Route path="/comparisons" component={Comparisons} />
+
             <Route path="/admin" component={Admin} />
             <Route path="/customer-data" component={CustomerData} />
             <Route path="/stripe-test" component={StripeTest} />

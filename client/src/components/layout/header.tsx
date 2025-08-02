@@ -41,9 +41,7 @@ export default function Header() {
                 <Link href="/dashboard" className="text-slate-600 hover:text-slate-900 transition-colors">
                   Dashboard
                 </Link>
-                <Link href="/comparisons" className="text-slate-600 hover:text-slate-900 transition-colors">
-                  Compare
-                </Link>
+
               </>
             ) : (
               <Link href="/login" className="text-slate-600 hover:text-slate-900 transition-colors">
@@ -96,12 +94,7 @@ export default function Header() {
                       New Valuation
                     </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link href="/comparisons" className="w-full flex items-center">
-                      <BarChart3 className="mr-2 h-4 w-4" />
-                      Compare Businesses
-                    </Link>
-                  </DropdownMenuItem>
+
                   <DropdownMenuSeparator />
                   <DropdownMenuItem 
                     onClick={() => logout.mutate()}
