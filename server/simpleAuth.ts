@@ -12,10 +12,9 @@ const users = new Map<string, {
   lastName: string;
 }>();
 
-// Create a default test user for development
+// Create default users for development
 const testUserId = "test-user-id";
 const testPasswordHash = crypto.createHash('md5').update("test").digest('hex');
-console.log('Creating test user with hash:', testPasswordHash);
 users.set(testUserId, {
   id: testUserId,
   email: "test@test.com",
@@ -23,7 +22,19 @@ users.set(testUserId, {
   firstName: "Test",
   lastName: "User",
 });
-console.log('Test user created. Available users:', Array.from(users.keys()));
+
+// Create your user account
+const yourUserId = "your-user-id";
+const yourPasswordHash = crypto.createHash('md5').update("123").digest('hex');
+users.set(yourUserId, {
+  id: yourUserId,
+  email: "macrivincenzo@hotmail.com",
+  passwordHash: yourPasswordHash,
+  firstName: "Marco",
+  lastName: "Vincenzo",
+});
+
+console.log('Users created:', Array.from(users.values()).map(u => u.email));
 
 // In-memory session storage
 const sessions = new Map<string, string>(); // sessionId -> userId
