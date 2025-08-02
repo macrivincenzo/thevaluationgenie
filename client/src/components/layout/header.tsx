@@ -96,16 +96,20 @@ export default function Header() {
                   </DropdownMenuItem>
 
                   <DropdownMenuSeparator />
-                  <button
-                    onClick={() => {
-                      console.log("Logout button clicked!");
-                      window.location.replace("/");
-                    }}
-                    className="w-full flex items-center px-2 py-1.5 text-sm cursor-pointer hover:bg-accent hover:text-accent-foreground rounded-sm"
-                  >
-                    <LogOut className="mr-2 h-4 w-4" />
-                    Log out
-                  </button>
+                  <DropdownMenuItem asChild>
+                    <button
+                      onClick={() => {
+                        // Clear authentication immediately
+                        document.cookie = "connect.sid=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+                        // Redirect immediately
+                        window.location.href = "/";
+                      }}
+                      className="w-full flex items-center"
+                    >
+                      <LogOut className="mr-2 h-4 w-4" />
+                      Log out
+                    </button>
+                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
