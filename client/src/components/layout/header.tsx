@@ -96,14 +96,15 @@ export default function Header() {
                   </DropdownMenuItem>
 
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem asChild>
-                    <a 
-                      href="/api/auth/logout"
-                      className="w-full flex items-center"
-                    >
-                      <LogOut className="mr-2 h-4 w-4" />
-                      Log out
-                    </a>
+                  <DropdownMenuItem 
+                    onClick={() => {
+                      // Immediate navigation without any delays
+                      window.location.href = "/api/auth/logout";
+                    }}
+                    className="w-full flex items-center cursor-pointer"
+                  >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Log out
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

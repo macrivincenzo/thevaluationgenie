@@ -173,10 +173,20 @@ export function setupSimpleAuth(app: Express) {
     console.log('GET logout request, sessionId:', sessionId);
     if (sessionId) {
       sessions.delete(sessionId);
-      res.clearCookie('session', { path: '/' });
+      res.clearCookie('session', { 
+        path: '/',
+        httpOnly: true,
+        secure: false
+      });
     }
-    // Immediate redirect without any HTML rendering
-    res.redirect(302, '/');
+    // Set cache headers to prevent caching
+    res.set({
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+      'Pragma': 'no-cache',
+      'Expires': '0'
+    });
+    // Immediate redirect 
+    res.redirect(302, '/?logged_out=true');
   });
 
   // Logout POST for API calls
