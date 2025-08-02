@@ -176,17 +176,19 @@ export function setupSimpleAuth(app: Express) {
       res.clearCookie('session', { 
         path: '/',
         httpOnly: true,
-        secure: false
+        secure: false,
+        maxAge: 0 // Force immediate expiration
       });
     }
-    // Set cache headers to prevent caching
+    // Ultra-fast HTML response with immediate redirect
     res.set({
       'Cache-Control': 'no-cache, no-store, must-revalidate',
       'Pragma': 'no-cache',
-      'Expires': '0'
+      'Expires': '0',
+      'Content-Type': 'text/html'
     });
-    // Immediate redirect 
-    res.redirect(302, '/?logged_out=true');
+    // Return minimal HTML with instant redirect
+    res.send(`<!DOCTYPE html><html><head><meta http-equiv="refresh" content="0;url=/"></head><body><script>window.location.replace('/');</script></body></html>`);
   });
 
   // Logout POST for API calls

@@ -98,8 +98,8 @@ export default function Header() {
                   <DropdownMenuSeparator />
                   <DropdownMenuItem 
                     onClick={() => {
-                      // Immediate navigation without any delays
-                      window.location.href = "/api/auth/logout";
+                      // Ultra-fast logout with immediate redirect
+                      window.location.replace("/api/auth/logout");
                     }}
                     className="w-full flex items-center cursor-pointer"
                   >
