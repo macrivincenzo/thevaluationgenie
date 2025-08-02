@@ -5,6 +5,8 @@ import {
   fileUploads,
   adminUsers,
   customerProfiles,
+  comparisons,
+  comparisonItems,
   type User,
   type UpsertUser,
   type EmailSubscription,
@@ -17,6 +19,10 @@ import {
   type InsertAdminUser,
   type CustomerProfile,
   type UpsertCustomerProfile,
+  type Comparison,
+  type InsertComparison,
+  type ComparisonItem,
+  type InsertComparisonItem,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, sql } from "drizzle-orm";
@@ -59,6 +65,19 @@ export interface IStorage {
   getAllUsers(): Promise<User[]>;
   getUserCount(): Promise<number>;
   getValuationStats(): Promise<{ total: number; paid: number; totalRevenue: number }>;
+
+  // Comparison operations
+  createComparison(comparison: InsertComparison): Promise<Comparison>;
+  getUserComparisons(userId: string): Promise<Comparison[]>;
+  getComparison(id: string): Promise<Comparison | undefined>;
+  updateComparison(id: string, updates: Partial<InsertComparison>): Promise<Comparison>;
+  deleteComparison(id: string): Promise<void>;
+  
+  // Comparison items operations
+  addComparisonItem(item: InsertComparisonItem): Promise<ComparisonItem>;
+  getComparisonItems(comparisonId: string): Promise<(ComparisonItem & { valuation: Valuation })[]>;
+  removeComparisonItem(comparisonId: string, valuationId: string): Promise<void>;
+  updateComparisonItemNotes(id: string, notes: string): Promise<ComparisonItem>;
 }
 
 export class DatabaseStorage implements IStorage {

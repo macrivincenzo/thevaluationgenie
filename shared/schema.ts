@@ -175,3 +175,37 @@ export type FileUpload = typeof fileUploads.$inferSelect;
 export type InsertFileUpload = z.infer<typeof insertFileUploadSchema>;
 export type AdminUser = typeof adminUsers.$inferSelect;
 export type InsertAdminUser = z.infer<typeof insertAdminUserSchema>;
+
+// Comparison tables for comparing multiple valuations
+export const comparisons = pgTable("comparisons", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  name: varchar("name").notNull(), // "Q1 2025 Acquisitions" or "Restaurant Options"
+  description: varchar("description"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const comparisonItems = pgTable("comparison_items", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  comparisonId: varchar("comparison_id").notNull().references(() => comparisons.id, { onDelete: "cascade" }),
+  valuationId: varchar("valuation_id").notNull().references(() => valuations.id, { onDelete: "cascade" }),
+  notes: text("notes"),
+  addedAt: timestamp("added_at").defaultNow(),
+});
+
+export const insertComparisonSchema = createInsertSchema(comparisons).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertComparisonItemSchema = createInsertSchema(comparisonItems).omit({
+  id: true,
+  addedAt: true,
+});
+
+export type InsertComparison = z.infer<typeof insertComparisonSchema>;
+export type Comparison = typeof comparisons.$inferSelect;
+export type InsertComparisonItem = z.infer<typeof insertComparisonItemSchema>;
+export type ComparisonItem = typeof comparisonItems.$inferSelect;
