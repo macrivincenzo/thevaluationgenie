@@ -175,18 +175,8 @@ export function setupSimpleAuth(app: Express) {
       sessions.delete(sessionId);
       res.clearCookie('session', { path: '/' });
     }
-    // Force a complete page reload to landing page
-    res.send(`
-      <html>
-        <head><title>Logging out...</title></head>
-        <body>
-          <script>
-            window.location.replace('/');
-          </script>
-          <p>Logging out...</p>
-        </body>
-      </html>
-    `);
+    // Immediate redirect without any HTML rendering
+    res.redirect(302, '/');
   });
 
   // Logout POST for API calls
