@@ -5,14 +5,14 @@ export function useLogout() {
   const queryClient = useQueryClient();
 
   const logout = () => {
-    // Clear cache immediately
-    queryClient.clear();
+    // Redirect immediately without any delay
+    window.location.href = "/";
     
-    // Make logout request in background (don't wait for it)
-    apiRequest("POST", "/api/auth/logout").catch(console.error);
-    
-    // Redirect immediately
-    window.location.replace("/");
+    // Clear cache and make logout request after redirect starts
+    setTimeout(() => {
+      queryClient.clear();
+      apiRequest("POST", "/api/auth/logout").catch(console.error);
+    }, 0);
   };
 
   return { mutate: logout, isPending: false };
