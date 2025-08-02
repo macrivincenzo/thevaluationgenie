@@ -97,10 +97,9 @@ export default function Header() {
 
                   <DropdownMenuSeparator />
                   <DropdownMenuItem 
-                    onClick={(e) => {
+                    onSelect={(e) => {
                       e.preventDefault();
-                      e.stopPropagation();
-                      // Immediate redirect
+                      console.log("Logout clicked!");
                       window.location.href = "/";
                     }}
                     className="w-full flex items-center cursor-pointer"
