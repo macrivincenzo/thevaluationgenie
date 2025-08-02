@@ -41,9 +41,9 @@ export default function Header() {
                 </Link>
               </>
             ) : (
-              <a href="/api/login" className="text-slate-600 hover:text-slate-900 transition-colors">
+              <Link href="/login" className="text-slate-600 hover:text-slate-900 transition-colors">
                 Get Valuation
-              </a>
+              </Link>
             )}
           </nav>
 
@@ -102,7 +102,7 @@ export default function Header() {
               </DropdownMenu>
             ) : (
               <Button asChild>
-                <a href="/api/login">Sign In</a>
+                <Link href="/login">Sign In</Link>
               </Button>
             )}
           </div>
