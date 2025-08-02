@@ -167,7 +167,7 @@ export function setupSimpleAuth(app: Express) {
     });
   });
 
-  // Logout GET route for direct browser navigation
+  // Logout GET route - optimized for fastest processing
   app.get('/api/auth/logout', (req, res) => {
     const sessionId = req.cookies.session;
     console.log('GET logout request, sessionId:', sessionId);
@@ -177,18 +177,11 @@ export function setupSimpleAuth(app: Express) {
         path: '/',
         httpOnly: true,
         secure: false,
-        maxAge: 0 // Force immediate expiration
+        maxAge: 0
       });
     }
-    // Ultra-fast HTML response with immediate redirect
-    res.set({
-      'Cache-Control': 'no-cache, no-store, must-revalidate',
-      'Pragma': 'no-cache',
-      'Expires': '0',
-      'Content-Type': 'text/html'
-    });
-    // Return minimal HTML with instant redirect
-    res.send(`<!DOCTYPE html><html><head><meta http-equiv="refresh" content="0;url=/"></head><body><script>window.location.replace('/');</script></body></html>`);
+    // Instant JSON response - no HTML processing
+    res.json({ success: true, message: "Logged out" });
   });
 
   // Logout POST for API calls
