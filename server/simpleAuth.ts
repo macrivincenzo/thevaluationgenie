@@ -12,6 +12,16 @@ const users = new Map<string, {
   lastName: string;
 }>();
 
+// Create a default test user for development
+const testUserId = "test-user-id";
+users.set(testUserId, {
+  id: testUserId,
+  email: "test@test.com",
+  passwordHash: crypto.createHash('md5').update("test").digest('hex'),
+  firstName: "Test",
+  lastName: "User",
+});
+
 // In-memory session storage
 const sessions = new Map<string, string>(); // sessionId -> userId
 
