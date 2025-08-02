@@ -97,7 +97,12 @@ export default function Header() {
 
                   <DropdownMenuSeparator />
                   <DropdownMenuItem 
-                    onClick={() => logout.mutate()}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      // Immediate redirect
+                      window.location.href = "/";
+                    }}
                     className="w-full flex items-center cursor-pointer"
                   >
                     <LogOut className="mr-2 h-4 w-4" />
