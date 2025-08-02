@@ -91,10 +91,10 @@ export function setupSimpleAuth(app: Express) {
       const sessionId = crypto.randomUUID();
       sessions.set(sessionId, user.id);
       
-      // Set cookie
+      // Set cookie - temporarily disable secure for debugging
       res.cookie('session', sessionId, { 
         httpOnly: true, 
-        secure: true, 
+        secure: false, // Changed from true to false for local development
         maxAge: 24 * 60 * 60 * 1000 
       });
       
