@@ -226,6 +226,12 @@ The application follows a typical full-stack TypeScript pattern with strong type
   - Deleted all comparison-related code, routes, and UI components
   - Focused application on core workflow: Home → Get Valuation → Dashboard
   - User preferred simplified, focused functionality over feature complexity
+- **USER-FRIENDLY LOGIN ERROR HANDLING**: Enhanced unregistered email experience
+  - When users try to login with unregistered email, show welcome message instead of error
+  - Automatic redirect to signup page after 1.5 seconds with friendly messaging
+  - "Welcome to ValuationGenie! This email isn't registered yet. Let's create your free account."
+  - Still shows proper errors for wrong passwords on existing accounts
+  - **USER CONFIRMATION**: User tested and confirmed "great job" on improved user experience
 
 ### January 31, 2025 (continued)
 - **100% HALAL COMPLIANCE ACHIEVED**: Completely removed all EBITDA references for full Islamic finance compliance
