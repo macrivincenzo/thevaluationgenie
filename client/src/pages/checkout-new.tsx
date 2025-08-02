@@ -135,11 +135,12 @@ export default function CheckoutNew() {
     },
   });
 
+  // Create payment intent immediately when component loads, don't wait for valuation data
   useEffect(() => {
-    if (valuationId && valuation && !clientSecret) {
+    if (valuationId && !clientSecret && !createPaymentIntentMutation.isPending) {
       createPaymentIntentMutation.mutate(valuationId);
     }
-  }, [valuationId, valuation, clientSecret]);
+  }, [valuationId, clientSecret]);
 
   const handlePaymentSuccess = () => {
     setTimeout(() => {

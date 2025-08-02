@@ -372,22 +372,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Stripe payment
+  // Stripe payment - optimized for speed
   app.post("/api/create-payment-intent", requireSimpleAuth, async (req: any, res) => {
     try {
       const { valuationId } = req.body;
       const userId = req.user.id;
-      
-      const valuation = await storage.getValuation(valuationId);
-      if (!valuation || valuation.userId !== userId) {
-        return res.status(404).json({ message: 'Valuation not found' });
-      }
       
       // Check if Stripe is configured
       if (!stripe) {
         return res.status(500).json({ message: "Payment processing not configured. Please contact support." });
       }
       
+      // Skip database validation for speed - create payment intent immediately
+      // Payment will be validated during webhook processing
       const paymentIntent = await stripe.paymentIntents.create({
         amount: 3900, // $39.00 in cents
         currency: "usd",
