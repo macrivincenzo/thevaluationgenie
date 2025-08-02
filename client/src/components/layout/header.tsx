@@ -97,17 +97,9 @@ export default function Header() {
 
                   <DropdownMenuSeparator />
                   <DropdownMenuItem 
-                    onClick={async () => {
-                      // Instant client-side logout
-                      try {
-                        // Fire logout request but don't wait for response
-                        fetch("/api/auth/logout", { method: "GET" }).catch(() => {});
-                        // Immediate redirect without waiting
-                        window.location.replace("/");
-                      } catch {
-                        // Fallback - direct navigation
-                        window.location.replace("/");
-                      }
+                    onClick={() => {
+                      // INSTANT logout - no server calls, no waiting
+                      window.location.replace("/");
                     }}
                     className="w-full flex items-center cursor-pointer"
                   >
