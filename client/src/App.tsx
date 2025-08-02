@@ -49,9 +49,9 @@ function Router() {
   return (
     <>
       <Switch>
-        <Route path="/" component={!isAuthenticated ? Landing : Home} />
         {!isAuthenticated ? (
           <>
+            <Route path="/" component={Landing} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
             <Route path="/terms" component={Terms} />
@@ -60,6 +60,7 @@ function Router() {
           </>
         ) : (
           <>
+            <Route path="/" component={Home} />
             <Route path="/valuation" component={ValuationFlow} />
             <Route path="/checkout/:id" component={CheckoutNew} />
             <Route path="/dashboard" component={Dashboard} />
