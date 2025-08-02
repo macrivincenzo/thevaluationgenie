@@ -105,7 +105,7 @@ export function setupSimpleAuth(app: Express) {
       
       if (!user) {
         console.log('User not found:', data.email);
-        return res.status(401).json({ message: 'Invalid credentials' });
+        return res.status(401).json({ message: 'No account found with this email. Please sign up to create an account.' });
       }
       
       // Check password
@@ -115,7 +115,7 @@ export function setupSimpleAuth(app: Express) {
       
       if (passwordHash !== user.passwordHash) {
         console.log('Password mismatch for user:', data.email);
-        return res.status(401).json({ message: 'Invalid credentials' });
+        return res.status(401).json({ message: 'Incorrect password. Please check your password and try again.' });
       }
       
       // Create session

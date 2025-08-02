@@ -60,11 +60,27 @@ export default function Login() {
       setLocation("/");
     },
     onError: (error: Error) => {
+      const isNewUser = error.message.includes("No account found");
       toast({
         title: "Login Failed",
         description: error.message,
         variant: "destructive",
       });
+      
+      // If it's a new user, show signup suggestion
+      if (isNewUser) {
+        setTimeout(() => {
+          toast({
+            title: "Need an account?",
+            description: "Click here to create your free account",
+            action: (
+              <Link href="/signup" className="text-sm font-medium text-blue-600 hover:text-blue-700">
+                Sign Up
+              </Link>
+            ),
+          });
+        }, 2000);
+      }
     },
   });
 
