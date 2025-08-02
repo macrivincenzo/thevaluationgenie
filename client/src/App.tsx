@@ -37,7 +37,7 @@ function Router() {
     }
   }, [isAuthenticated, user]);
 
-  // Show loading state briefly
+  // Show loading state briefly - prevent 404 flash during auth check
   if (isLoading) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
