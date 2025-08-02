@@ -170,9 +170,14 @@ export function setupSimpleAuth(app: Express) {
   // Logout GET route - instant redirect
   app.get('/api/auth/logout', (req, res) => {
     const sessionId = req.cookies.session;
-    if (sessionId) sessions.delete(sessionId);
-    res.clearCookie('session', { path: '/' });
-    res.redirect(302, '/'); // Direct browser redirect - fastest possible
+    console.log('Logout request, clearing session:', sessionId);
+    if (sessionId) {
+      sessions.delete(sessionId);
+      console.log('Session deleted from memory');
+    }
+    res.clearCookie('session', { path: '/', httpOnly: true, secure: false });
+    console.log('Cookie cleared, redirecting to homepage');
+    res.redirect('/'); // Direct browser redirect
   });
 
   // Logout POST for API calls
