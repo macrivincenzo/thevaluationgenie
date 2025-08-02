@@ -98,8 +98,21 @@ export default function Header() {
                   <DropdownMenuSeparator />
                   <DropdownMenuItem 
                     onClick={() => {
-                      // INSTANT logout - no server calls, no waiting
-                      window.location.replace("/");
+                      // Multi-method instant logout approach
+                      try {
+                        // 1. Clear all storage
+                        localStorage.clear();
+                        sessionStorage.clear();
+                        
+                        // 2. Clear auth cookies manually
+                        document.cookie = 'session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+                        
+                        // 3. Force page reload to landing (fastest method)
+                        window.location.href = window.location.origin + '/';
+                      } catch (e) {
+                        // Absolute fallback
+                        window.location.reload();
+                      }
                     }}
                     className="w-full flex items-center cursor-pointer"
                   >

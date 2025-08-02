@@ -14,8 +14,8 @@ export function useAuth() {
       }
     },
     retry: false,
-    staleTime: 1 * 60 * 1000, // Cache for 1 minute only
-    gcTime: 2 * 60 * 1000, // Keep in cache for 2 minutes
+    staleTime: 0, // Always fresh data
+    gcTime: 0, // No caching
     refetchOnWindowFocus: false, // Don't refetch when window gains focus
     refetchInterval: false, // Don't auto refetch
   });
