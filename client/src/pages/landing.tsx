@@ -471,7 +471,7 @@ export default function Landing() {
                     <li className="flex items-center"><TrendingUp className="w-4 h-4 text-blue-500 mr-2" /><strong>Better value</strong> - More comprehensive at lower prices</li>
                     <li className="flex items-center"><FileText className="w-4 h-4 text-blue-500 mr-2" /><strong>Professional quality</strong> - Investment-grade insights</li>
                     <li className="flex items-center"><Users className="w-4 h-4 text-blue-500 mr-2" /><strong>Human support</strong> - Real assistance when needed</li>
-                    <li className="flex items-center"><Shield className="w-4 h-4 text-blue-500 mr-2" /><strong>Risk-free guarantee</strong> - 7-day money-back guarantee</li>
+                    <li className="flex items-center"><Shield className="w-4 h-4 text-blue-500 mr-2" /><strong>Risk-free guarantee</strong> - 7 days money back guarantee</li>
                   </ul>
                 </CardContent>
               </Card>
@@ -500,7 +500,7 @@ export default function Landing() {
                 We believe every business owner deserves access to professional-grade valuation insights. 
                 Traditional valuations cost $2,000-$15,000 and take weeks to complete. We're democratizing business valuation by making 
                 professional analysis accessible, affordable, and instant. Our single $39 Professional Report provides exceptional value 
-                with our 7-day money-back guarantee.
+                with our 7 days money back guarantee.
               </p>
             </div>
           </div>
@@ -587,7 +587,7 @@ export default function Landing() {
                 Can I get a refund if I'm not satisfied?
               </AccordionTrigger>
               <AccordionContent className="text-slate-600">
-                Yes, we offer a 30-day money-back guarantee. If you're not satisfied with your valuation report, contact us for a full refund.
+                Yes, we offer a 7 days money back guarantee. If you're not satisfied with your valuation report, contact us for a full refund.
               </AccordionContent>
             </AccordionItem>
           </Accordion>

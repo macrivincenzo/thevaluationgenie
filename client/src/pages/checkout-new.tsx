@@ -310,7 +310,7 @@ export default function CheckoutNew() {
                     <span>39.00</span>
                   </div>
                 </div>
-                <p className="text-sm text-slate-500 mt-2">One-time payment • 7-day money-back guarantee</p>
+                <p className="text-sm text-slate-500 mt-2">One-time payment • 7 days money back guarantee</p>
               </CardContent>
             </Card>
 
