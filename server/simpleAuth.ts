@@ -30,8 +30,8 @@ users.set(yourUserId, {
   id: yourUserId,
   email: "macrivincenzo@hotmail.com",
   passwordHash: yourPasswordHash,
-  firstName: "Marco",
-  lastName: "Vincenzo",
+  firstName: "",
+  lastName: "",
 });
 
 console.log('Users created:', Array.from(users.values()).map(u => u.email));
