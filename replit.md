@@ -7,6 +7,7 @@ ValuationGenie is a web application providing instant business valuations for sm
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
+SEO Priority: Landing page heavily optimized for Google ranking with SME business valuation keywords and halal compliance focus.
 
 ## System Architecture
 
@@ -30,13 +31,14 @@ Preferred communication style: Simple, everyday language.
 - **Schema**: Shared TypeScript definitions for users, valuations, sessions, etc.
 
 ### Core Features
-- **Valuation Engine**: Uses SDE multiplier method with industry-specific multiples. Supports various industries including consulting, marketing, IT services, etc. Output is a comprehensive PDF report.
+- **Valuation Engine**: Uses SDE multiplier method with industry-specific multiples. Supports various industries including consulting, marketing, IT services, etc. Output is a comprehensive PDF report. 100% halal compliant with no interest-based calculations and absolutely no EBITDA usage.
 - **Payment Processing**: Stripe integration with simplified single-tier pricing: Professional Report ($39). Secure payment forms using Stripe Elements.
 - **Authentication**: Replit Auth (OpenID Connect) for user authentication, with custom user storage.
 - **File Management**: Local filesystem storage for PDF and CSV uploads (not parsed).
 - **Email System**: Nodemailer for welcome emails and notifications.
 - **Valuation Questionnaire**: A streamlined, universal questionnaire for all users (buyers and sellers) focused on SDE-relevant financial data and business specifics. Includes auto-calculations for key metrics.
 - **PDF Report Generation**: Clean, minimal, professional PDF format for valuation reports, optimized for print-to-PDF.
+- **SEO Landing Page**: Extensively optimized for Google ranking targeting "SME Business Valuation" keywords with structured sections including competitive positioning, benefits showcase, and strategic CTA placement.
 
 ## External Dependencies
 
