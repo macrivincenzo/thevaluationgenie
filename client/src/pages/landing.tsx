@@ -123,7 +123,7 @@ export default function Landing() {
                 💼 <strong>Used by buyers, sellers, and business brokers nationwide</strong>
               </p>
               <p className="text-blue-700 text-center text-sm mt-1">
-                AI-driven SDE methodology • 100% halal compliant • 7-day money-back guarantee
+                AI-driven SDE methodology • 100% halal compliant • 7 days money-back guarantee
               </p>
             </div>
             
