@@ -79,13 +79,14 @@ export default function Landing() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl lg:text-6xl font-bold text-slate-900 mb-6">
-              Instant SME (Small - Medium - Enterprise) Business Valuation – Just $39
+              Instant SME Business Valuation<br />
+              <span className="text-primary">Just $39</span>
             </h1>
             <h2 className="text-2xl lg:text-3xl font-semibold text-slate-700 mb-6">
               Fast, Affordable, AI-Powered Business Valuation Software for Small and Medium Enterprises
             </h2>
-            <p className="text-xl text-slate-600 mb-8 max-w-4xl mx-auto">
-              Running a small or medium-sized business is tough. Why pay thousands for slow, complex valuations? ValuationGenie delivers professional SME (Small - Medium - Enterprise) business valuation reports in minutes for only $39. Our AI-driven small business valuation software uses Seller's Discretionary Earnings (SDE), 100% halal compliant, to help you sell, secure funding, or grow with confidence while aligning with your values.
+            <p className="text-xl text-slate-600 mb-8 max-w-3xl mx-auto">
+              Running a small or medium-sized business is tough. Why pay thousands for slow, complex valuations? ValuationGenie delivers professional SME business valuation reports in minutes for only $39.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <div className="flex gap-3 justify-center">
@@ -122,12 +123,12 @@ export default function Landing() {
                 💼 <strong>Used by buyers, sellers, and business brokers nationwide</strong>
               </p>
               <p className="text-blue-700 text-center text-sm mt-1">
-                Industry-standard SDE methodology with 7-day money-back guarantee
+                AI-driven SDE methodology • 100% halal compliant • 7-day money-back guarantee
               </p>
             </div>
             
             {/* Trust Indicators */}
-            <div className="flex flex-wrap items-center justify-center gap-8 text-slate-500 text-sm mb-8">
+            <div className="flex flex-wrap items-center justify-center gap-8 text-slate-500 text-sm">
               <div className="flex items-center">
                 <Shield className="w-4 h-4 text-secondary mr-2" />
                 <span>Secure & Confidential</span>
@@ -140,36 +141,6 @@ export default function Landing() {
                 <FileText className="w-4 h-4 text-secondary mr-2" />
                 <span>Professional PDF Report</span>
               </div>
-            </div>
-
-            {/* Second Set of CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <div className="flex gap-3 justify-center">
-                <Button 
-                  size="lg" 
-                  className="text-lg px-8 py-4 bg-blue-600 hover:bg-blue-700"
-                  onClick={handleGetStarted}
-                >
-                  <Calculator className="w-5 h-5 mr-2" />
-                  Sign Up For Free
-                </Button>
-                <Button 
-                  size="lg" 
-                  variant="outline"
-                  className="text-lg px-8 py-4"
-                  onClick={() => setLocation("/login")}
-                >
-                  Sign In
-                </Button>
-              </div>
-              <Button 
-                variant="outline" 
-                size="lg" 
-                className="text-lg px-8 py-4"
-                onClick={scrollToHowItWorks}
-              >
-                Learn More
-              </Button>
             </div>
           </div>
         </div>
@@ -203,8 +174,119 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Valuation Flow Demo */}
+      {/* Why Choose Our SME Business Valuation Software */}
       <section className="py-20 bg-slate-50">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">Why Choose Our SME Business Valuation Software?</h2>
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+              Our affordable business valuation tool is built for small and medium enterprises like yours
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+            <Card className="shadow-lg">
+              <CardContent className="p-6 text-center">
+                <DollarSign className="w-12 h-12 text-green-500 mx-auto mb-4" />
+                <h3 className="text-xl font-semibold text-slate-900 mb-3">Save Thousands</h3>
+                <p className="text-slate-600">
+                  Avoid $3,000+ appraisals with reliable SME valuation reports at a fraction of the cost.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="shadow-lg">
+              <CardContent className="p-6 text-center">
+                <Clock className="w-12 h-12 text-blue-500 mx-auto mb-4" />
+                <h3 className="text-xl font-semibold text-slate-900 mb-3">Instant Insights</h3>
+                <p className="text-slate-600">
+                  Get SDE-based (100% halal compliant) business valuation reports in minutes, not months, with our AI-powered platform.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="shadow-lg">
+              <CardContent className="p-6 text-center">
+                <Building className="w-12 h-12 text-purple-500 mx-auto mb-4" />
+                <h3 className="text-xl font-semibold text-slate-900 mb-3">Tailored for Small Businesses</h3>
+                <p className="text-slate-600">
+                  From retail to services, our small business valuation software delivers clear, industry-specific, Sharia-compliant insights.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="shadow-lg">
+              <CardContent className="p-6 text-center">
+                <TrendingUp className="w-12 h-12 text-green-500 mx-auto mb-4" />
+                <h3 className="text-xl font-semibold text-slate-900 mb-3">Trusted Accuracy</h3>
+                <p className="text-slate-600">
+                  Powered by advanced AI and industry benchmarks, our halal business valuation supports confident decisions for sales, loans, or growth.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="shadow-lg">
+              <CardContent className="p-6 text-center">
+                <Shield className="w-12 h-12 text-blue-500 mx-auto mb-4" />
+                <h3 className="text-xl font-semibold text-slate-900 mb-3">Secure and Easy</h3>
+                <p className="text-slate-600">
+                  Upload financials securely, receive your business valuation report, and move forward with peace of mind.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="shadow-lg">
+              <CardContent className="p-6 text-center">
+                <Users className="w-12 h-12 text-purple-500 mx-auto mb-4" />
+                <h3 className="text-xl font-semibold text-slate-900 mb-3">Perfect for SME Goals</h3>
+                <p className="text-slate-600">
+                  Sell with confidence, secure Sharia-compliant funding, or grow smarter with our halal business appraisal tools.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* CTA Section */}
+          <div className="text-center">
+            <h3 className="text-2xl font-bold text-slate-900 mb-4">Start Saving Time and Money Today</h3>
+            <p className="text-lg text-slate-600 mb-8 max-w-2xl mx-auto">
+              Don't let high costs or delays hold your business back. ValuationGenie offers fast, affordable, and reliable SME business valuations, fully compliant with Islamic finance principles.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <div className="flex gap-3 justify-center">
+                <Button 
+                  size="lg" 
+                  className="text-lg px-8 py-4 bg-blue-600 hover:bg-blue-700"
+                  onClick={handleGetStarted}
+                >
+                  <Calculator className="w-5 h-5 mr-2" />
+                  Sign Up For Free
+                </Button>
+                <Button 
+                  size="lg" 
+                  variant="outline"
+                  className="text-lg px-8 py-4"
+                  onClick={() => setLocation("/login")}
+                >
+                  Sign In
+                </Button>
+              </div>
+              <Button 
+                variant="outline" 
+                size="lg" 
+                className="text-lg px-8 py-4"
+                onClick={scrollToHowItWorks}
+              >
+                Learn More
+              </Button>
+            </div>
+            <p className="text-sm text-slate-500 mt-4">Starting at $39—no subscriptions, no hidden fees.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Valuation Flow Demo */}
+      <section className="py-20 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">Valuation Process</h2>
