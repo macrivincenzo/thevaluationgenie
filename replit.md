@@ -31,7 +31,7 @@ Preferred communication style: Simple, everyday language.
 
 ### Core Features
 - **Valuation Engine**: Uses SDE multiplier method with industry-specific multiples. Supports various industries including consulting, marketing, IT services, etc. Output is a comprehensive PDF report.
-- **Payment Processing**: Stripe integration with a three-tier pricing model: Professional Report ($39), Business Package ($99), Professional Plan ($199/quarter). Secure payment forms using Stripe Elements.
+- **Payment Processing**: Stripe integration with simplified single-tier pricing: Professional Report ($39). Secure payment forms using Stripe Elements.
 - **Authentication**: Replit Auth (OpenID Connect) for user authentication, with custom user storage.
 - **File Management**: Local filesystem storage for PDF and CSV uploads (not parsed).
 - **Email System**: Nodemailer for welcome emails and notifications.

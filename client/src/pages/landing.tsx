@@ -269,11 +269,11 @@ export default function Landing() {
       <section className="py-20 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">💰 Our Pricing Structure</h2>
-            <p className="text-xl text-slate-600">Professional business valuations for every need</p>
+            <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">💰 Simple Pricing</h2>
+            <p className="text-xl text-slate-600">One professional report option, no complexity</p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="max-w-md mx-auto">
             {/* Professional Report */}
             <Card className="shadow-lg border-2 border-blue-200">
               <CardHeader className="text-center">
@@ -325,88 +325,7 @@ export default function Landing() {
               </CardContent>
             </Card>
 
-            {/* Business Package - Most Popular */}
-            <Card className="shadow-lg border-2 border-green-200 relative">
-              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                <Badge className="bg-green-600 text-white px-4 py-1">Most Popular</Badge>
-              </div>
-              <CardHeader className="text-center pt-6">
-                <h3 className="text-2xl font-bold text-slate-900">⚡ Business Package</h3>
-                <div className="text-4xl font-bold text-green-600 my-4">
-                  $99 <span className="text-2xl text-slate-400 line-through">$117</span>
-                </div>
-                <p className="text-slate-600">Save $18</p>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-3 mb-6">
-                  <li className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
-                    <span>3 Professional Reports</span>
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
-                    <span>Valid for 6 months</span>
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
-                    <span>Compare multiple businesses</span>
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
-                    <span>Priority email support</span>
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
-                    <span>Bulk discount savings</span>
-                  </li>
-                </ul>
-                <Button className="w-full bg-green-600 hover:bg-green-700" onClick={handleGetStarted}>
-                  Get Business Package
-                </Button>
-                <p className="text-center text-sm text-slate-500 mt-3">
-                  Perfect for buyers comparing options
-                </p>
-              </CardContent>
-            </Card>
 
-            {/* Professional Plan */}
-            <Card className="shadow-lg border-2 border-purple-200">
-              <CardHeader className="text-center">
-                <h3 className="text-2xl font-bold text-slate-900">🏢 Professional Plan</h3>
-                <div className="text-4xl font-bold text-purple-600 my-4">$199<span className="text-lg">/quarter</span></div>
-                <p className="text-slate-600">For brokers, investors & consultants</p>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-3 mb-6">
-                  <li className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-purple-500 mr-3" />
-                    <span>12 reports per quarter</span>
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-purple-500 mr-3" />
-                    <span>Advanced dashboard access</span>
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-purple-500 mr-3" />
-                    <span>Priority phone support</span>
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-purple-500 mr-3" />
-                    <span>White-label option available</span>
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-purple-500 mr-3" />
-                    <span>Export to multiple formats</span>
-                  </li>
-                </ul>
-                <Button className="w-full bg-purple-600 hover:bg-purple-700" onClick={handleGetStarted}>
-                  Start Professional Plan
-                </Button>
-                <p className="text-center text-sm text-slate-500 mt-3">
-                  Just $16.58 per report
-                </p>
-              </CardContent>
-            </Card>
           </div>
 
           {/* Competitive Positioning */}
@@ -463,11 +382,11 @@ export default function Landing() {
 
           <div className="text-center mt-12">
             <div className="bg-slate-50 rounded-lg p-6 max-w-4xl mx-auto">
-              <h4 className="text-lg font-semibold text-slate-900 mb-4">🎯 Why We Offer These Options</h4>
+              <h4 className="text-lg font-semibold text-slate-900 mb-4">🎯 Why We Chose Simple Pricing</h4>
               <p className="text-slate-600 leading-relaxed">
-                We believe every business owner deserves access to professional-grade valuation insights, regardless of their budget. 
+                We believe every business owner deserves access to professional-grade valuation insights. 
                 Traditional valuations cost $2,000-$15,000 and take weeks to complete. We're democratizing business valuation by making 
-                professional analysis accessible, affordable, and instant. Our $39 Professional Report provides exceptional value 
+                professional analysis accessible, affordable, and instant. Our single $39 Professional Report provides exceptional value 
                 with our 7-day money-back guarantee.
               </p>
             </div>
