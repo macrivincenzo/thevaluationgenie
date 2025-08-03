@@ -79,12 +79,13 @@ export default function Landing() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl lg:text-6xl font-bold text-slate-900 mb-6">
-              Get Your Business Valued<br />
-              <span className="text-primary">in Minutes, Not Months</span>
+              Instant SME (Small - Medium - Enterprise) Business Valuation – Just $39
             </h1>
-            <p className="text-xl text-slate-600 mb-8 max-w-3xl mx-auto">
-              Professional business valuations that would cost $3,000+ from traditional appraisers. 
-              Get comprehensive SDE-based reports with confidence ranges—starting at just $39.
+            <h2 className="text-2xl lg:text-3xl font-semibold text-slate-700 mb-6">
+              Fast, Affordable, AI-Powered Business Valuation Software for Small and Medium Enterprises
+            </h2>
+            <p className="text-xl text-slate-600 mb-8 max-w-4xl mx-auto">
+              Running a small or medium-sized business is tough. Why pay thousands for slow, complex valuations? ValuationGenie delivers professional SME (Small - Medium - Enterprise) business valuation reports in minutes for only $39. Our AI-driven small business valuation software uses Seller's Discretionary Earnings (SDE), 100% halal compliant, to help you sell, secure funding, or grow with confidence while aligning with your values.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <div className="flex gap-3 justify-center">
@@ -126,7 +127,7 @@ export default function Landing() {
             </div>
             
             {/* Trust Indicators */}
-            <div className="flex flex-wrap items-center justify-center gap-8 text-slate-500 text-sm">
+            <div className="flex flex-wrap items-center justify-center gap-8 text-slate-500 text-sm mb-8">
               <div className="flex items-center">
                 <Shield className="w-4 h-4 text-secondary mr-2" />
                 <span>Secure & Confidential</span>
@@ -139,6 +140,36 @@ export default function Landing() {
                 <FileText className="w-4 h-4 text-secondary mr-2" />
                 <span>Professional PDF Report</span>
               </div>
+            </div>
+
+            {/* Second Set of CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <div className="flex gap-3 justify-center">
+                <Button 
+                  size="lg" 
+                  className="text-lg px-8 py-4 bg-blue-600 hover:bg-blue-700"
+                  onClick={handleGetStarted}
+                >
+                  <Calculator className="w-5 h-5 mr-2" />
+                  Sign Up For Free
+                </Button>
+                <Button 
+                  size="lg" 
+                  variant="outline"
+                  className="text-lg px-8 py-4"
+                  onClick={() => setLocation("/login")}
+                >
+                  Sign In
+                </Button>
+              </div>
+              <Button 
+                variant="outline" 
+                size="lg" 
+                className="text-lg px-8 py-4"
+                onClick={scrollToHowItWorks}
+              >
+                Learn More
+              </Button>
             </div>
           </div>
         </div>
