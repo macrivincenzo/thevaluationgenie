@@ -24,7 +24,7 @@ export default function Home() {
         {/* Welcome Section */}
         <div className="mb-12">
           <h1 className="text-4xl font-bold text-slate-900 mb-4">
-            Welcome back, {user?.firstName || 'User'}!
+            Welcome back!
           </h1>
           <p className="text-xl text-slate-600 mb-8">
             Ready to create a new business valuation or review your previous reports?
