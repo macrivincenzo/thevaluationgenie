@@ -26,8 +26,8 @@ async function initializeUsers() {
       await db.insert(users).values({
         id: "your-user-id", 
         email: "macrivincenzo@hotmail.com",
-        firstName: "Marco",
-        lastName: "Vincenzo"
+        firstName: "",
+        lastName: ""
       });
       console.log('Created main user in database');
     }
