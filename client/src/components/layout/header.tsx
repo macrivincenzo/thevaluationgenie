@@ -98,8 +98,13 @@ export default function Header() {
                   <DropdownMenuSeparator />
                   <DropdownMenuItem 
                     onClick={() => {
-                      // NUCLEAR LOGOUT - bypass everything for speed
-                      window.location.href = '/api/auth/logout';
+                      // Create hidden form for instant POST logout
+                      const form = document.createElement('form');
+                      form.method = 'POST';
+                      form.action = '/api/auth/logout';
+                      form.style.display = 'none';
+                      document.body.appendChild(form);
+                      form.submit();
                     }}
                     className="w-full flex items-center cursor-pointer"
                   >
