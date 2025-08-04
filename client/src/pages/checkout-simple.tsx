@@ -31,6 +31,18 @@ function CheckoutForm({ valuationId, clientSecret }: { valuationId: string, clie
       return;
     }
 
+    // Check if elements are ready and the payment element is complete
+    const { error: submitError } = await elements.submit();
+    if (submitError) {
+      console.error("Elements submit error:", submitError);
+      toast({
+        title: "Payment Error",
+        description: submitError.message || "Please complete all payment details.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsProcessing(true);
 
     try {
