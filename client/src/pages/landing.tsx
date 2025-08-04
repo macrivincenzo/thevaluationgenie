@@ -80,7 +80,8 @@ export default function Landing() {
           <div className="text-center">
             <h1 className="text-4xl lg:text-6xl font-bold text-slate-900 mb-6">
               Instant SME Business Valuation<br />
-              <span className="text-primary">Just $39</span>
+              <span className="text-slate-500 text-2xl lg:text-3xl line-through">Ordinary price $89</span><br />
+              <span className="text-primary">Launch price just $39</span>
             </h1>
             <h2 className="text-2xl lg:text-3xl font-semibold text-slate-700 mb-6">
               Fast, Affordable, AI-Powered Business Valuation Software for Small and Medium Enterprises
