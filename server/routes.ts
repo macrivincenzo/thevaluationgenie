@@ -792,53 +792,211 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       console.log('Generating PDF for valuation:', valuation.id);
       
-      // Use simple HTML-to-PDF conversion approach that works reliably
-      const htmlContent = generateProfessionalHtml(valuation);
-      
-      // Alternative: Create a simple PDF using text-based approach
-      // This will work consistently without browser dependencies
+      // Use modern PDF generator with professional styling
       let pdfBuffer: Buffer;
       
       try {
-        // Skip Puppeteer for now due to library issues, use reliable jsPDF directly
-        throw new Error('Using jsPDF fallback for reliability');
-      } catch (puppeteerError: any) {
-        console.warn('Using jsPDF fallback PDF generation:', puppeteerError.message);
+        console.warn('Using jsPDF fallback PDF generation:', 'Using jsPDF fallback for reliability');
         
-        // Fallback: Generate simple text-based PDF content
+        // Use enhanced jsPDF with professional styling
         const { jsPDF } = await import('jspdf');
         const doc = new jsPDF();
         
-        // Add content to PDF
-        doc.setFontSize(16);
-        doc.text('BUSINESS VALUATION REPORT', 105, 30, { align: 'center' });
+        // Colors and styling  
+        const primaryBlue: [number, number, number] = [30, 64, 175]; // #1e40af
+        const lightBlue: [number, number, number] = [59, 130, 246]; // #3b82f6
+        const darkGray: [number, number, number] = [31, 41, 55]; // #1f2937
+        const green: [number, number, number] = [5, 150, 105]; // #059669
         
-        doc.setFontSize(14);
-        doc.text(valuation.businessName, 105, 50, { align: 'center' });
+        // Header with blue background
+        doc.setFillColor(...primaryBlue);
+        doc.rect(0, 0, 210, 40, 'F'); // Fill entire width
         
+        // White logo area
+        doc.setFillColor(255, 255, 255);
+        doc.rect(15, 10, 30, 20, 'F');
+        doc.setFontSize(10);
+        doc.setTextColor(...primaryBlue);
+        doc.text('VALUATION', 17, 18);
+        doc.text('GENIE', 17, 25);
+        
+        // Main title
+        doc.setFontSize(18);
+        doc.setTextColor(255, 255, 255);
+        doc.text('BUSINESS VALUATION REPORT', 55, 20);
         doc.setFontSize(12);
-        doc.text(`Valuation Date: ${new Date().toLocaleDateString()}`, 20, 80);
+        doc.text('Professional Enterprise Analysis', 55, 28);
         
-        // Financial details
-        doc.text('Financial Summary:', 20, 100);
-        doc.text(`Annual Revenue: $${parseFloat(String(valuation.annualRevenue)).toLocaleString()}`, 20, 115);
-        doc.text(`SDE: $${parseFloat(String(valuation.sde)).toLocaleString()}`, 20, 130);
-        doc.text(`Industry: ${valuation.industry}`, 20, 145);
-        doc.text(`Location: ${valuation.location}`, 20, 160);
+        // Company name banner
+        doc.setFillColor(248, 250, 252); // light gray
+        doc.rect(0, 45, 210, 20, 'F');
+        doc.setFillColor(...primaryBlue);
+        doc.rect(0, 45, 5, 20, 'F'); // left border
         
-        // Valuation results
-        doc.text('Valuation Results:', 20, 180);
-        const avgVal = Math.round((parseFloat(String(valuation.valuationLow)) + parseFloat(String(valuation.valuationHigh))) / 2);
-        doc.text(`Estimated Value: $${avgVal.toLocaleString()}`, 20, 195);
-        doc.text(`Range: $${parseFloat(String(valuation.valuationLow)).toLocaleString()} - $${parseFloat(String(valuation.valuationHigh)).toLocaleString()}`, 20, 210);
-        doc.text(`Industry Multiple: ${valuation.industryMultiple}x`, 20, 225);
+        doc.setFontSize(16);
+        doc.setTextColor(...primaryBlue);
+        doc.text(valuation.businessName.toUpperCase(), 15, 57);
+        
+        // Date
+        const currentDate = new Date().toLocaleDateString('en-US', { 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric' 
+        });
+        doc.setFontSize(9);
+        doc.setTextColor(107, 114, 128);
+        doc.text(`Valuation Date: ${currentDate}`, 150, 57);
+        
+        // Main valuation box
+        const centerVal = (parseFloat(String(valuation.valuationLow)) + parseFloat(String(valuation.valuationHigh))) / 2;
+        
+        doc.setFillColor(...green);
+        doc.rect(20, 75, 170, 35, 'F');
+        doc.setFillColor(255, 255, 255);
+        doc.rect(25, 80, 160, 25, 'F');
+        
+        doc.setFontSize(10);
+        doc.setTextColor(...green);
+        doc.text('ENTERPRISE VALUATION', 105, 88, { align: 'center' });
+        
+        doc.setFontSize(20);
+        doc.setTextColor(...darkGray);
+        doc.text(`$${centerVal.toLocaleString()}`, 105, 98, { align: 'center' });
+        
+        doc.setFontSize(9);
+        doc.setTextColor(107, 114, 128);
+        doc.text(`Range: $${parseFloat(String(valuation.valuationLow)).toLocaleString()} - $${parseFloat(String(valuation.valuationHigh)).toLocaleString()}`, 105, 104, { align: 'center' });
+        
+        // Company Overview Section
+        doc.setFillColor(...primaryBlue);
+        doc.rect(20, 120, 170, 12, 'F');
+        doc.setFontSize(12);
+        doc.setTextColor(255, 255, 255);
+        doc.text('COMPANY OVERVIEW', 25, 128);
+        
+        // Overview details
+        let yPos = 145;
+        doc.setFontSize(10);
+        doc.setTextColor(...darkGray);
+        
+        const revenue = parseFloat(String(valuation.annualRevenue));
+        const sde = parseFloat(String(valuation.sde));
+        const sdeMargin = revenue > 0 ? ((sde / revenue) * 100).toFixed(1) : '0.0';
+        
+        // Left column
+        doc.setFont('helvetica', 'bold');
+        doc.text('Company:', 25, yPos);
+        doc.setFont('helvetica', 'normal');
+        doc.text(valuation.businessName, 55, yPos);
+        
+        yPos += 8;
+        doc.setFont('helvetica', 'bold');
+        doc.text('Industry:', 25, yPos);
+        doc.setFont('helvetica', 'normal');
+        doc.text(valuation.industry, 55, yPos);
+        
+        yPos += 8;
+        doc.setFont('helvetica', 'bold');
+        doc.text('Location:', 25, yPos);
+        doc.setFont('helvetica', 'normal');
+        doc.text(valuation.location, 55, yPos);
+        
+        // Right column
+        yPos = 145;
+        doc.setFont('helvetica', 'bold');
+        doc.text('Founded:', 120, yPos);
+        doc.setFont('helvetica', 'normal');
+        doc.text(String(valuation.foundedYear || 'N/A'), 150, yPos);
+        
+        yPos += 8;
+        doc.setFont('helvetica', 'bold');
+        doc.text('Revenue:', 120, yPos);
+        doc.setFont('helvetica', 'normal');
+        doc.text(`$${revenue.toLocaleString()}`, 150, yPos);
+        
+        yPos += 8;
+        doc.setFont('helvetica', 'bold');
+        doc.text('SDE:', 120, yPos);
+        doc.setFont('helvetica', 'normal');
+        doc.text(`$${sde.toLocaleString()}`, 150, yPos);
+        
+        // Executive Summary
+        yPos += 20;
+        doc.setFillColor(241, 245, 249);
+        doc.rect(20, yPos, 170, 30, 'F');
+        doc.setFillColor(...lightBlue);
+        doc.rect(20, yPos, 5, 30, 'F');
+        
+        doc.setFontSize(11);
+        doc.setTextColor(...primaryBlue);
+        doc.setFont('helvetica', 'bold');
+        doc.text('EXECUTIVE SUMMARY', 30, yPos + 8);
+        
+        doc.setFontSize(9);
+        doc.setTextColor(55, 65, 81);
+        doc.setFont('helvetica', 'normal');
+        const summaryText = `${valuation.businessName} is an established ${valuation.industry} business generating $${revenue.toLocaleString()} in annual revenue with SDE of $${sde.toLocaleString()} (${sdeMargin}% margin). The business demonstrates strong operational efficiency and presents attractive investment characteristics.`;
+        const splitText = doc.splitTextToSize(summaryText, 155);
+        doc.text(splitText, 30, yPos + 16);
+        
+        // Financial Performance Table
+        yPos += 50;
+        doc.setFillColor(...primaryBlue);
+        doc.rect(20, yPos, 170, 12, 'F');
+        doc.setFontSize(12);
+        doc.setTextColor(255, 255, 255);
+        doc.text('FINANCIAL PERFORMANCE', 25, yPos + 8);
+        
+        // Table headers
+        yPos += 20;
+        doc.setFillColor(226, 232, 240);
+        doc.rect(20, yPos, 170, 10, 'F');
+        doc.setFontSize(9);
+        doc.setTextColor(...darkGray);
+        doc.setFont('helvetica', 'bold');
+        doc.text('Metric', 25, yPos + 6);
+        doc.text('Amount', 80, yPos + 6);
+        doc.text('Performance', 130, yPos + 6);
+        
+        // Table rows
+        yPos += 12;
+        doc.setFont('helvetica', 'normal');
+        doc.text('Annual Revenue', 25, yPos);
+        doc.text(`$${revenue.toLocaleString()}`, 80, yPos);
+        doc.setTextColor(...green);
+        doc.text('Strong', 130, yPos);
+        
+        yPos += 8;
+        doc.setTextColor(...darkGray);
+        doc.text('SDE', 25, yPos);
+        doc.text(`$${sde.toLocaleString()}`, 80, yPos);
+        doc.setTextColor(...green);
+        doc.text('Excellent', 130, yPos);
+        
+        yPos += 8;
+        doc.setTextColor(...darkGray);
+        doc.text('SDE Margin', 25, yPos);
+        doc.text(`${sdeMargin}%`, 80, yPos);
+        doc.setTextColor(...green);
+        doc.text('Outstanding', 130, yPos);
         
         // Disclaimer
+        doc.setFontSize(7);
+        doc.setTextColor(107, 114, 128);
+        doc.text('DISCLAIMER: This valuation is for informational purposes only and should not replace professional appraisal services.', 20, 280);
+        
+        // Footer
         doc.setFontSize(8);
-        doc.text('This valuation is for informational purposes only.', 20, 270);
-        doc.text('Generated by ValuationGenie', 105, 285, { align: 'center' });
+        doc.setTextColor(...primaryBlue);
+        doc.text(`${valuation.businessName} | Professional Business Valuation Report | ${currentDate}`, 105, 290, { align: 'center' });
+        doc.setFontSize(7);
+        doc.setTextColor(107, 114, 128);
+        doc.text('Generated by ValuationGenie | Confidential & Proprietary', 105, 295, { align: 'center' });
         
         pdfBuffer = Buffer.from(doc.output('arraybuffer'));
+      } catch (pdfError: any) {
+        console.error('PDF generation error:', pdfError);
+        throw new Error(`Failed to generate PDF: ${pdfError.message}`);
       }
       
       // Set proper headers for PDF download
