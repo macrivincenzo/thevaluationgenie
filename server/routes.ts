@@ -517,24 +517,68 @@ export async function registerRoutes(app: Express): Promise<Server> {
         </html>
       `;
       
-      // Use puppeteer to generate PDF from HTML
-      const puppeteer = await import('puppeteer');
-      const browser = await puppeteer.default.launch({
-        headless: true,
-        args: [
-          '--no-sandbox', 
-          '--disable-setuid-sandbox',
-          '--disable-dev-shm-usage',
-          '--disable-gpu'
-        ]
+      // Use jsPDF to generate PDF (simpler, no Chrome dependencies)
+      const jsPDF = await import('jspdf');
+      const doc = new jsPDF.jsPDF();
+      
+      // Add title
+      doc.setFontSize(20);
+      doc.setFont('helvetica', 'bold');
+      doc.text('ValuationGenie Business Valuation Report', 20, 30);
+      
+      // Add business info
+      doc.setFontSize(16);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Business Information', 20, 60);
+      
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'normal');
+      doc.text(`Business Name: ${valuation.businessName}`, 20, 75);
+      doc.text(`Industry: ${valuation.industry}`, 20, 85);
+      doc.text(`Location: ${valuation.location}`, 20, 95);
+      doc.text(`Years in Business: ${valuation.yearsInBusiness}`, 20, 105);
+      doc.text(`Report Date: ${new Date().toLocaleDateString()}`, 20, 115);
+      
+      // Add valuation summary
+      doc.setFontSize(16);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Valuation Summary', 20, 140);
+      
+      doc.setFontSize(14);
+      doc.setFont('helvetica', 'bold');
+      const lowVal = parseInt(String(valuation.valuationLow) || '0').toLocaleString();
+      const highVal = parseInt(String(valuation.valuationHigh) || '0').toLocaleString();
+      doc.text(`Estimated Value Range: $${lowVal} - $${highVal}`, 20, 155);
+      
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'normal');
+      doc.text(`Industry Multiple: ${valuation.industryMultiple}x`, 20, 170);
+      doc.text(`Annual Revenue: $${parseInt(String(valuation.annualRevenue) || '0').toLocaleString()}`, 20, 180);
+      doc.text(`SDE: $${parseInt(String(valuation.sde) || '0').toLocaleString()}`, 20, 190);
+      
+      // Add methodology
+      doc.setFontSize(16);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Valuation Methodology', 20, 215);
+      
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'normal');
+      const methodText = [
+        'This valuation uses the Seller\'s Discretionary Earnings (SDE) multiplier approach,',
+        'which is the industry standard for small business valuations. The SDE multiple',
+        'is based on industry benchmarks and business characteristics.'
+      ];
+      methodText.forEach((line, index) => {
+        doc.text(line, 20, 230 + (index * 10));
       });
-      const page = await browser.newPage();
-      await page.setContent(htmlContent);
-      const pdfBuffer = await page.pdf({ 
-        format: 'A4',
-        margin: { top: '20px', bottom: '20px', left: '20px', right: '20px' }
-      });
-      await browser.close();
+      
+      // Add disclaimer
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'italic');
+      doc.text('This valuation is for informational purposes only and does not constitute professional financial advice.', 20, 270);
+      doc.text('© ValuationGenie - Confidential Business Valuation Report', 20, 280);
+      
+      const pdfBuffer = Buffer.from(doc.output('arraybuffer'));
       
       console.log('PDF generated successfully, buffer size:', pdfBuffer.length);
       
