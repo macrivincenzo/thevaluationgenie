@@ -60,24 +60,32 @@ export default function Login() {
       setLocation("/");
     },
     onError: (error: Error) => {
-      const isNewUser = error.message.includes("No account found");
+      const isNewUser = error.message.includes("Welcome! It looks like you're new here");
+      const isWrongPassword = error.message.includes("double-check your password");
       
       if (isNewUser) {
-        // Don't show error - guide them to sign up instead
+        // Welcoming message for new users
         toast({
-          title: "Welcome to ValuationGenie!",
-          description: "This email isn't registered yet. Let's create your free account.",
+          title: "Welcome to ValuationGenie! 👋",
+          description: "Let's create your account to get started with your professional business valuation.",
           variant: "default",
         });
         setTimeout(() => {
           setLocation("/signup");
-        }, 1500);
-      } else {
-        // Show error for wrong password or other issues
+        }, 2000);
+      } else if (isWrongPassword) {
+        // Friendly message for wrong password
         toast({
-          title: "Login Failed",
+          title: "Almost there! 🔐",
           description: error.message,
-          variant: "destructive",
+          variant: "default",
+        });
+      } else {
+        // Fallback for any other issues
+        toast({
+          title: "Having trouble signing in?",
+          description: "Please check your details or contact our support team for assistance.",
+          variant: "default",
         });
       }
     },

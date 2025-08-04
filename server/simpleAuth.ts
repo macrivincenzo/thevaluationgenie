@@ -105,7 +105,7 @@ export function setupSimpleAuth(app: Express) {
       
       if (!user) {
         console.log('User not found:', data.email);
-        return res.status(401).json({ message: 'No account found with this email. Please sign up to create an account.' });
+        return res.status(401).json({ message: 'Welcome! It looks like you\'re new here. Please create an account to get started with your professional business valuation.' });
       }
       
       // Check password
@@ -115,7 +115,7 @@ export function setupSimpleAuth(app: Express) {
       
       if (passwordHash !== user.passwordHash) {
         console.log('Password mismatch for user:', data.email);
-        return res.status(401).json({ message: 'Incorrect password. Please check your password and try again.' });
+        return res.status(401).json({ message: 'Please double-check your password. If you forgot it, no worries - we\'re here to help you get back in.' });
       }
       
       // Create session
