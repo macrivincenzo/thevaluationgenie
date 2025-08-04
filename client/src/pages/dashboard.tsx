@@ -256,59 +256,142 @@ export default function Dashboard() {
                         </div>
                         <div className="flex items-center space-x-3">
                           {valuation.paid ? (
-                            <Button 
-                              variant="outline" 
-                              size="sm"
-                              onClick={async () => {
-                                console.log('=== DOWNLOAD BUTTON CLICKED ===');
-                                console.log('Valuation ID:', valuation.id);
-                                console.log('Business Name:', valuation.businessName);
-                                
-                                try {
-                                  // Direct download approach
-                                  const response = await fetch(`/api/valuations/${valuation.id}/pdf`, {
-                                    method: 'GET',
-                                    credentials: 'include',
-                                    headers: {
-                                      'Accept': 'application/pdf'
+                            <div className="flex space-x-2">
+                              <Button 
+                                variant="outline" 
+                                size="sm"
+                                onClick={async () => {
+                                  console.log('=== DOWNLOAD BUTTON CLICKED ===');
+                                  console.log('Valuation ID:', valuation.id);
+                                  console.log('Business Name:', valuation.businessName);
+                                  
+                                  try {
+                                    // Direct download approach
+                                    const response = await fetch(`/api/valuations/${valuation.id}/pdf`, {
+                                      method: 'GET',
+                                      credentials: 'include',
+                                      headers: {
+                                        'Accept': 'application/pdf'
+                                      }
+                                    });
+                                    
+                                    console.log('Response received:', response.status, response.statusText);
+                                    
+                                    if (!response.ok) {
+                                      const errorText = await response.text();
+                                      console.error('Download failed:', errorText);
+                                      return;
                                     }
-                                  });
-                                  
-                                  console.log('Response received:', response.status, response.statusText);
-                                  
-                                  if (!response.ok) {
-                                    const errorText = await response.text();
-                                    console.error('Download failed:', errorText);
-                                    return;
+                                    
+                                    const blob = await response.blob();
+                                    console.log('Blob created:', blob.size, 'bytes, type:', blob.type);
+                                    
+                                    // Try direct window.open approach first
+                                    const url = URL.createObjectURL(blob);
+                                    const fileName = `${valuation.businessName.replace(/[^a-zA-Z0-9]/g, '-')}-valuation-report.pdf`;
+                                    
+                                    console.log('Attempting window.open approach...');
+                                    try {
+                                      // Try to open in new window first
+                                      const newWindow = window.open(url, '_blank');
+                                      if (newWindow) {
+                                        console.log('PDF opened in new window successfully');
+                                        // Clean up after a delay
+                                        setTimeout(() => URL.revokeObjectURL(url), 3000);
+                                        return;
+                                      }
+                                    } catch (windowError) {
+                                      console.log('Window.open failed, trying download link...', windowError);
+                                    }
+                                    
+                                    // Fallback to download link approach
+                                    console.log('Using download link approach...');
+                                    const link = document.createElement('a');
+                                    link.href = url;
+                                    link.download = fileName;
+                                    link.target = '_blank';
+                                    link.rel = 'noopener noreferrer';
+                                    
+                                    // Make link visible but off-screen
+                                    link.style.position = 'fixed';
+                                    link.style.top = '-1000px';
+                                    link.style.left = '-1000px';
+                                    link.style.width = '1px';
+                                    link.style.height = '1px';
+                                    
+                                    document.body.appendChild(link);
+                                    
+                                    // Force focus and click
+                                    link.focus();
+                                    
+                                    // Try multiple click approaches
+                                    const clickEvent = new MouseEvent('click', {
+                                      bubbles: true,
+                                      cancelable: true,
+                                      view: window
+                                    });
+                                    
+                                    console.log('Dispatching click event...');
+                                    const clickResult = link.dispatchEvent(clickEvent);
+                                    console.log('Click event result:', clickResult);
+                                    
+                                    // Also try direct click
+                                    setTimeout(() => {
+                                      console.log('Trying direct click...');
+                                      link.click();
+                                    }, 50);
+                                    
+                                    // Clean up
+                                    setTimeout(() => {
+                                      if (document.body.contains(link)) {
+                                        document.body.removeChild(link);
+                                      }
+                                      URL.revokeObjectURL(url);
+                                      console.log('Cleanup completed');
+                                    }, 2000);
+                                    
+                                    console.log('Download attempts completed');
+                                    
+                                    // Show user feedback
+                                    setTimeout(() => {
+                                      toast({
+                                        title: "Download Initiated",
+                                        description: "If the PDF doesn't download automatically, check your browser's download settings or popup blocker.",
+                                      });
+                                    }, 1000);
+                                  } catch (error) {
+                                    console.error('Download error:', error);
+                                    toast({
+                                      title: "Download Error",
+                                      description: "Failed to download PDF. Please try again or contact support.",
+                                      variant: "destructive",
+                                    });
                                   }
-                                  
-                                  const blob = await response.blob();
-                                  console.log('Blob created:', blob.size, 'bytes, type:', blob.type);
-                                  
-                                  // Force download
-                                  const url = URL.createObjectURL(blob);
-                                  const link = document.createElement('a');
-                                  link.href = url;
-                                  link.download = `${valuation.businessName}-valuation-report.pdf`;
-                                  link.style.display = 'none';
-                                  
-                                  document.body.appendChild(link);
-                                  console.log('Triggering download...');
-                                  link.click();
-                                  document.body.removeChild(link);
-                                  
-                                  setTimeout(() => URL.revokeObjectURL(url), 100);
-                                  
-                                  console.log('Download triggered successfully');
-                                } catch (error) {
-                                  console.error('Download error:', error);
-                                }
-                              }}
-                              disabled={valuationsLoading}
-                            >
-                              <Download className="w-4 h-4 mr-1" />
-                              Download PDF
-                            </Button>
+                                }}
+                                disabled={valuationsLoading}
+                              >
+                                <Download className="w-4 h-4 mr-1" />
+                                Download PDF
+                              </Button>
+                              <Button 
+                                variant="ghost" 
+                                size="sm"
+                                asChild
+                              >
+                                <a 
+                                  href={`/api/valuations/${valuation.id}/pdf`} 
+                                  target="_blank" 
+                                  rel="noopener noreferrer"
+                                  className="flex items-center"
+                                  onClick={(e) => {
+                                    console.log('Direct link clicked for valuation:', valuation.id);
+                                  }}
+                                >
+                                  <FileText className="w-4 h-4 mr-1" />
+                                  View PDF
+                                </a>
+                              </Button>
+                            </div>
                           ) : (
                             <Link href={`/checkout/${valuation.id}`}>
                               <Button size="sm">
