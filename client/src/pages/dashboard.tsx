@@ -89,16 +89,39 @@ export default function Dashboard() {
 
   const downloadPdfMutation = useMutation({
     mutationFn: async (id: string) => {
-      const response = await apiRequest("GET", `/api/valuations/${id}/pdf`);
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `valuation-${id}.pdf`;
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
+      try {
+        const response = await apiRequest("GET", `/api/valuations/${id}/pdf`);
+        
+        // Check if response is successful
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(`PDF generation failed: ${errorText}`);
+        }
+        
+        const blob = await response.blob();
+        
+        // Check if we got a valid PDF blob
+        if (blob.size === 0) {
+          throw new Error('Received empty PDF file');
+        }
+        
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `valuation-${id}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+        
+        toast({
+          title: "Download Started",
+          description: "Your PDF report is downloading now.",
+        });
+      } catch (error: any) {
+        console.error('PDF download error:', error);
+        throw error;
+      }
     },
     onError: (error: Error) => {
       if (isUnauthorizedError(error)) {
