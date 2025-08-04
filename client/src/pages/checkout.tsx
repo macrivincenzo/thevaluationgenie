@@ -43,7 +43,7 @@ export default function Checkout() {
     queryKey: ["/api/valuations", valuationId],
     enabled: !!valuationId,
     retry: false,
-  });
+  }) as { data: any, isLoading: boolean };
 
   const createPaymentIntentMutation = useMutation({
     mutationFn: async (valuationId: string) => {
@@ -219,7 +219,7 @@ export default function Checkout() {
     );
   }
 
-  if (valuation.paid) {
+  if (valuation?.paid) {
     return (
       <div className="min-h-screen bg-white">
         <Header />
@@ -281,7 +281,22 @@ export default function Checkout() {
                   <Button 
                     type="submit" 
                     className="w-full py-3 text-lg font-semibold"
-                    disabled={!stripe || !elements || isProcessing}
+                    disabled={!stripe || !elements || isProcessing || !clientSecret}
+                    onClick={(e) => {
+                      console.log("Payment button clicked");
+                      console.log("Stripe ready:", !!stripe);
+                      console.log("Elements ready:", !!elements);
+                      console.log("Client secret:", !!clientSecret);
+                      if (!stripe || !elements || !clientSecret) {
+                        e.preventDefault();
+                        toast({
+                          title: "Payment Error",
+                          description: "Payment system not ready. Please refresh the page and try again.",
+                          variant: "destructive",
+                        });
+                        return false;
+                      }
+                    }}
                   >
                     {isProcessing ? "Processing..." : "Complete Payment - $39"}
                   </Button>
@@ -299,14 +314,14 @@ export default function Checkout() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <h3 className="font-semibold text-slate-900">{valuation.businessName}</h3>
-                  <p className="text-sm text-slate-600">{valuation.industry}</p>
+                  <h3 className="font-semibold text-slate-900">{valuation?.businessName}</h3>
+                  <p className="text-sm text-slate-600">{valuation?.industry}</p>
                 </div>
                 
                 <div className="flex items-center justify-between py-2">
                   <span className="text-slate-600">Estimated Value:</span>
                   <Badge variant="secondary" className="text-lg font-semibold">
-                    ${parseInt(valuation.valuationLow).toLocaleString()} - ${parseInt(valuation.valuationHigh).toLocaleString()}
+                    ${parseInt(valuation?.valuationLow || '0').toLocaleString()} - ${parseInt(valuation?.valuationHigh || '0').toLocaleString()}
                   </Badge>
                 </div>
                 
@@ -315,15 +330,15 @@ export default function Checkout() {
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
                     <span>Annual Revenue:</span>
-                    <span>${parseInt(valuation.annualRevenue).toLocaleString()}</span>
+                    <span>${parseInt(valuation?.annualRevenue || '0').toLocaleString()}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>SDE:</span>
-                    <span>${parseInt(valuation.sde).toLocaleString()}</span>
+                    <span>${parseInt(valuation?.sde || '0').toLocaleString()}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Industry Multiple:</span>
-                    <span>{parseFloat(valuation.industryMultiple).toFixed(1)}x</span>
+                    <span>{parseFloat(valuation?.industryMultiple || '0').toFixed(1)}x</span>
                   </div>
                 </div>
               </CardContent>
