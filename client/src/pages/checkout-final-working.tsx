@@ -78,38 +78,33 @@ export default function CheckoutFinalWorking() {
     setIsProcessing(true);
 
     try {
-      // Load Stripe dynamically
-      const script = document.createElement('script');
-      script.src = 'https://js.stripe.com/v3/';
-      document.head.appendChild(script);
-      
-      await new Promise((resolve) => {
-        script.onload = resolve;
-      });
-
-      const stripe = (window as any).Stripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
-      
-      // Create a payment method first
-      const { error: pmError, paymentMethod } = await stripe.createPaymentMethod({
-        type: 'card',
-        card: {
-          number: cardNumber.replace(/\s/g, ''),
-          exp_month: parseInt(expiry.split('/')[0]),
-          exp_year: parseInt('20' + expiry.split('/')[1]),
-          cvc: cvc,
-        },
-        billing_details: {
-          name: name,
-        },
-      });
-
-      if (pmError) {
-        throw new Error(pmError.message);
+      // Initialize Stripe if not already loaded
+      let stripe;
+      if (!(window as any).Stripe) {
+        const script = document.createElement('script');
+        script.src = 'https://js.stripe.com/v3/';
+        document.head.appendChild(script);
+        
+        await new Promise((resolve) => {
+          script.onload = resolve;
+        });
       }
 
-      // Confirm payment with the payment method
+      stripe = (window as any).Stripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
+      
+      // Simple payment confirmation with inline card details
       const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: paymentMethod.id
+        payment_method: {
+          card: {
+            number: cardNumber.replace(/\s/g, ''),
+            exp_month: parseInt(expiry.split('/')[0]),
+            exp_year: parseInt('20' + expiry.split('/')[1]),
+            cvc: cvc,
+          },
+          billing_details: {
+            name: name,
+          },
+        }
       });
 
       if (error) {
