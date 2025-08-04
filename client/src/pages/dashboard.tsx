@@ -337,13 +337,55 @@ export default function Dashboard() {
                             <Button 
                               variant="outline" 
                               size="sm"
-                              onClick={() => {
-                                console.log('Download button clicked for valuation:', valuation.id);
-                                downloadPdfMutation.mutate(valuation.id);
+                              onClick={async () => {
+                                console.log('=== DOWNLOAD BUTTON CLICKED ===');
+                                console.log('Valuation ID:', valuation.id);
+                                console.log('Business Name:', valuation.businessName);
+                                
+                                try {
+                                  // Direct download approach
+                                  const response = await fetch(`/api/valuations/${valuation.id}/pdf`, {
+                                    method: 'GET',
+                                    credentials: 'include',
+                                    headers: {
+                                      'Accept': 'application/pdf'
+                                    }
+                                  });
+                                  
+                                  console.log('Response received:', response.status, response.statusText);
+                                  
+                                  if (!response.ok) {
+                                    const errorText = await response.text();
+                                    console.error('Download failed:', errorText);
+                                    return;
+                                  }
+                                  
+                                  const blob = await response.blob();
+                                  console.log('Blob created:', blob.size, 'bytes, type:', blob.type);
+                                  
+                                  // Force download
+                                  const url = URL.createObjectURL(blob);
+                                  const link = document.createElement('a');
+                                  link.href = url;
+                                  link.download = `${valuation.businessName}-valuation-report.pdf`;
+                                  link.style.display = 'none';
+                                  
+                                  document.body.appendChild(link);
+                                  console.log('Triggering download...');
+                                  link.click();
+                                  document.body.removeChild(link);
+                                  
+                                  setTimeout(() => URL.revokeObjectURL(url), 100);
+                                  
+                                  console.log('Download triggered successfully');
+                                } catch (error) {
+                                  console.error('Download error:', error);
+                                }
                               }}
+                              disabled={downloadPdfMutation.isPending}
                             >
                               <Download className="w-4 h-4 mr-1" />
-                              {downloadPdfMutation.isPending ? "..." : "Download"}
+                              {downloadPdfMutation.isPending ? "Downloading..." : "Download PDF"}
                             </Button>
                           ) : (
                             <Link href={`/checkout/${valuation.id}`}>
