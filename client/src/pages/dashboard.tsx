@@ -315,7 +315,10 @@ export default function Dashboard() {
                             <Button 
                               variant="outline" 
                               size="sm"
-                              onClick={() => downloadPdfMutation.mutate(valuation.id)}
+                              onClick={() => {
+                                console.log('Download button clicked for valuation:', valuation.id);
+                                downloadPdfMutation.mutate(valuation.id);
+                              }}
                               disabled={downloadPdfMutation.isPending}
                             >
                               <Download className="w-4 h-4 mr-1" />
