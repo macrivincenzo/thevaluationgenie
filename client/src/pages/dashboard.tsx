@@ -4,6 +4,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import { isUnauthorizedError } from "@/lib/authUtils";
 import { useEffect } from "react";
+import { Valuation } from "@shared/schema";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
@@ -51,13 +52,15 @@ export default function Dashboard() {
     }
   }, [isAuthenticated, isLoading, toast]);
 
-  const { data: valuations = [], isLoading: valuationsLoading } = useQuery({
+  const { data: valuations = [], isLoading: valuationsLoading } = useQuery<Valuation[]>({
     queryKey: ["/api/valuations"],
     retry: false,
   });
 
-  // Type-safe valuations array
-  const typedValuations = (valuations as any[]) || [];
+  // Calculate average value
+  const averageValue = valuations.length > 0 
+    ? valuations.reduce((sum, v) => sum + parseFloat(v.valuationHigh), 0) / valuations.length 
+    : 0;
 
   const deleteValuationMutation = useMutation({
     mutationFn: async (id: string) => {
@@ -204,10 +207,7 @@ export default function Dashboard() {
     );
   }
 
-  const paidValuations = typedValuations.filter((v: any) => v.paid);
-  const averageValue = typedValuations.length > 0 
-    ? typedValuations.reduce((sum: number, v: any) => sum + parseFloat(v.valuationHigh), 0) / typedValuations.length
-    : 0;
+  const paidValuations = valuations.filter((v) => v.paid);
 
   return (
     <div className="min-h-screen bg-white">
@@ -236,7 +236,7 @@ export default function Dashboard() {
               <BarChart3 className="h-4 w-4 text-blue-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-blue-900">{typedValuations.length}</div>
+              <div className="text-2xl font-bold text-blue-900">{valuations.length}</div>
             </CardContent>
           </Card>
           
@@ -260,7 +260,7 @@ export default function Dashboard() {
             <CardContent>
               <div className="text-2xl font-bold text-purple-900">
                 {valuations.length > 0 
-                  ? new Date(valuations[0].createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+                  ? new Date(valuations[0].createdAt!).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
                   : 'None'
                 }
               </div>
@@ -292,7 +292,7 @@ export default function Dashboard() {
               </div>
             ) : (
               <div className="space-y-4">
-                {valuations.map((valuation: any) => (
+                {valuations.map((valuation) => (
                   <Card key={valuation.id} className="border-slate-200">
                     <CardContent className="p-4">
                       <div className="flex items-center justify-between">
@@ -305,7 +305,7 @@ export default function Dashboard() {
                             </span>
                             <span>
                               <Calendar className="w-4 h-4 inline mr-1" />
-                              {new Date(valuation.createdAt).toLocaleDateString()}
+                              {new Date(valuation.createdAt!).toLocaleDateString()}
                             </span>
                             <span>
                               <DollarSign className="w-4 h-4 inline mr-1" />
