@@ -107,46 +107,12 @@ export default function Home() {
                         </div>
                       </div>
                       <div className="flex items-center space-x-2">
-                        {valuation.paid && (
-                          <Button 
-                            variant="outline" 
-                            size="sm"
-                            onClick={async () => {
-                              try {
-                                const response = await fetch(`/api/valuations/${valuation.id}/pdf`, {
-                                  method: 'GET',
-                                  credentials: 'include',
-                                  headers: { 'Accept': 'application/pdf' }
-                                });
-                                
-                                if (!response.ok) return;
-                                
-                                const blob = await response.blob();
-                                const url = URL.createObjectURL(blob);
-                                const link = document.createElement('a');
-                                link.href = url;
-                                link.download = `${valuation.businessName}-valuation-report.pdf`;
-                                link.style.display = 'none';
-                                
-                                document.body.appendChild(link);
-                                link.click();
-                                document.body.removeChild(link);
-                                setTimeout(() => URL.revokeObjectURL(url), 100);
-                              } catch (error) {
-                                console.error('Download error:', error);
-                              }
-                            }}
-                          >
-                            Download PDF
+                        <Link href="/dashboard">
+                          <Button variant="outline" size="sm">
+                            <FileText className="w-4 h-4 mr-2" />
+                            View Dashboard
                           </Button>
-                        )}
-                        {!valuation.paid && (
-                          <Link href={`/checkout/${valuation.id}`}>
-                            <Button size="sm">
-                              Pay & Download - $39
-                            </Button>
-                          </Link>
-                        )}
+                        </Link>
                       </div>
                     </div>
                   </CardContent>
