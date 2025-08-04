@@ -519,44 +519,75 @@ export async function registerRoutes(app: Express): Promise<Server> {
         </html>
       `;
       
-      // Use jsPDF to generate PDF (simpler, no Chrome dependencies)
+      // Use jsPDF to generate PDF (enhanced beautiful version)
       const jsPDF = await import('jspdf');
       const doc = new jsPDF.jsPDF();
       
-      // Add title
-      doc.setFontSize(20);
-      doc.setFont('helvetica', 'bold');
-      doc.text('ValuationGenie Business Valuation Report', 20, 30);
+      // Add header with logo area and branding
+      doc.setFillColor(41, 128, 185); // Professional blue
+      doc.rect(0, 0, 210, 25, 'F');
       
-      // Add business info
-      doc.setFontSize(16);
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(24);
       doc.setFont('helvetica', 'bold');
-      doc.text('Business Information', 20, 60);
+      doc.text('ValuationGenie', 20, 17);
       
       doc.setFontSize(12);
       doc.setFont('helvetica', 'normal');
-      doc.text(`Business Name: ${valuation.businessName}`, 20, 75);
-      doc.text(`Industry: ${valuation.industry}`, 20, 85);
-      doc.text(`Location: ${valuation.location}`, 20, 95);
-      doc.text(`Years in Business: ${valuation.yearsInBusiness}`, 20, 105);
-      doc.text(`Report Date: ${new Date().toLocaleDateString()}`, 20, 115);
+      doc.text('Professional Business Valuation Report', 20, 22);
       
-      // Add valuation summary
+      // Reset text color
+      doc.setTextColor(0, 0, 0);
+      
+      // Business name as title
+      doc.setFontSize(22);
+      doc.setFont('helvetica', 'bold');
+      doc.text(`${valuation.businessName} - Business Valuation`, 20, 45);
+      
+      // Add decorative line
+      doc.setDrawColor(41, 128, 185);
+      doc.setLineWidth(2);
+      doc.line(20, 50, 190, 50);
+      
+      // Business Information Section
       doc.setFontSize(16);
       doc.setFont('helvetica', 'bold');
-      doc.text('Valuation Summary', 20, 140);
+      doc.setTextColor(41, 128, 185);
+      doc.text('Business Information', 20, 70);
+      doc.setTextColor(0, 0, 0);
+      
+      doc.setFontSize(11);
+      doc.setFont('helvetica', 'normal');
+      doc.text(`Business Name: ${valuation.businessName}`, 25, 85);
+      doc.text(`Industry: ${valuation.industry}`, 25, 95);
+      doc.text(`Location: ${valuation.location}`, 25, 105);
+      doc.text(`Years in Business: ${valuation.yearsInBusiness}`, 25, 115);
+      doc.text(`Report Date: ${new Date().toLocaleDateString()}`, 25, 125);
+      
+      // Valuation Summary Section with highlight box
+      doc.setFontSize(16);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(41, 128, 185);
+      doc.text('Valuation Summary', 20, 145);
+      doc.setTextColor(0, 0, 0);
+      
+      // Highlight box for valuation range
+      doc.setFillColor(240, 248, 255); // Light blue background
+      doc.setDrawColor(41, 128, 185);
+      doc.setLineWidth(1);
+      doc.rect(20, 155, 170, 20, 'FD');
       
       doc.setFontSize(14);
       doc.setFont('helvetica', 'bold');
       const lowVal = parseInt(String(valuation.valuationLow) || '0').toLocaleString();
       const highVal = parseInt(String(valuation.valuationHigh) || '0').toLocaleString();
-      doc.text(`Estimated Value Range: $${lowVal} - $${highVal}`, 20, 155);
+      doc.text(`Estimated Value Range: $${lowVal} - $${highVal}`, 25, 168);
       
-      doc.setFontSize(12);
+      doc.setFontSize(11);
       doc.setFont('helvetica', 'normal');
-      doc.text(`Industry Multiple: ${valuation.industryMultiple}x`, 20, 170);
-      doc.text(`Annual Revenue: $${parseInt(String(valuation.annualRevenue) || '0').toLocaleString()}`, 20, 180);
-      doc.text(`SDE: $${parseInt(String(valuation.sde) || '0').toLocaleString()}`, 20, 190);
+      doc.text(`Industry Multiple: ${valuation.industryMultiple}x SDE`, 25, 185);
+      doc.text(`Annual Revenue: $${parseInt(String(valuation.annualRevenue) || '0').toLocaleString()}`, 25, 195);
+      doc.text(`Seller's Discretionary Earnings (SDE): $${parseInt(String(valuation.sde) || '0').toLocaleString()}`, 25, 205);
       
       // Add methodology
       doc.setFontSize(16);
