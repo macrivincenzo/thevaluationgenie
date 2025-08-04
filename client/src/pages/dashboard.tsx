@@ -52,9 +52,11 @@ export default function Dashboard() {
     }
   }, [isAuthenticated, isLoading, toast]);
 
-  const { data: valuations = [], isLoading: valuationsLoading } = useQuery<Valuation[]>({
+  const { data: valuations = [], isLoading: valuationsLoading, isError } = useQuery<Valuation[]>({
     queryKey: ["/api/valuations"],
     retry: false,
+    staleTime: 0, // Always refetch to ensure fresh data
+    refetchOnWindowFocus: true,
   });
 
   // Calculate average value
@@ -382,7 +384,7 @@ export default function Dashboard() {
                                   console.error('Download error:', error);
                                 }
                               }}
-                              disabled={downloadPdfMutation.isPending}
+                              disabled={downloadPdfMutation.isPending || valuationsLoading}
                             >
                               <Download className="w-4 h-4 mr-1" />
                               {downloadPdfMutation.isPending ? "Downloading..." : "Download PDF"}
