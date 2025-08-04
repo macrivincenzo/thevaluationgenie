@@ -83,49 +83,99 @@ export default function Checkout() {
     e.preventDefault();
 
     if (!stripe || !elements || !clientSecret) {
+      console.error("Missing required payment components:", { stripe: !!stripe, elements: !!elements, clientSecret: !!clientSecret });
+      toast({
+        title: "Payment Error",
+        description: "Payment system not ready. Please refresh the page.",
+        variant: "destructive",
+      });
       return;
     }
 
     setIsProcessing(true);
 
-    const { error, paymentIntent } = await stripe.confirmPayment({
-      elements,
-      confirmParams: {
-        return_url: `${window.location.origin}/dashboard`,
-      },
-      redirect: 'if_required',
-    });
-
-    if (error) {
-      console.error("Payment error:", error);
-      toast({
-        title: "Payment Failed",
-        description: error.message || "Payment processing failed. Please try again.",
-        variant: "destructive",
+    try {
+      console.log("Starting payment confirmation...");
+      
+      const { error, paymentIntent } = await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+          return_url: `${window.location.origin}/dashboard`,
+        },
+        redirect: 'if_required',
       });
-    } else if (paymentIntent && paymentIntent.status === 'succeeded') {
-      // Update valuation as paid immediately (don't wait for webhook)
-      try {
-        await apiRequest("POST", `/api/valuations/${valuationId}/mark-paid`, {
-          paymentIntentId: paymentIntent.id
-        });
-        
+
+      console.log("Payment confirmation result:", { error, paymentIntent });
+
+      if (error) {
+        console.error("Payment error details:", error);
         toast({
-          title: "Payment Successful",
-          description: "Thank you for your purchase! Your PDF report is now available.",
+          title: "Payment Failed",
+          description: `${error.message || "Payment processing failed. Please try again."}`,
+          variant: "destructive",
         });
+      } else if (paymentIntent) {
+        console.log("Payment intent status:", paymentIntent.status);
         
-        // Redirect to dashboard after a short delay
-        setTimeout(() => {
-          window.location.href = "/dashboard";
-        }, 2000);
-      } catch (updateError) {
-        console.error("Failed to update valuation:", updateError);
+        if (paymentIntent.status === 'succeeded') {
+          console.log("Payment succeeded, updating valuation...");
+          // Update valuation as paid immediately
+          try {
+            const response = await apiRequest("POST", `/api/valuations/${valuationId}/mark-paid`, {
+              paymentIntentId: paymentIntent.id
+            });
+            console.log("Valuation update response:", response);
+            
+            toast({
+              title: "Payment Successful",
+              description: "Thank you for your purchase! Your PDF report is now available.",
+            });
+            
+            // Redirect to dashboard after a short delay
+            setTimeout(() => {
+              window.location.href = "/dashboard";
+            }, 2000);
+          } catch (updateError) {
+            console.error("Failed to update valuation:", updateError);
+            toast({
+              title: "Payment Successful",
+              description: "Payment completed! Please check your dashboard for the PDF report.",
+            });
+            // Still redirect even if update failed
+            setTimeout(() => {
+              window.location.href = "/dashboard";
+            }, 3000);
+          }
+        } else if (paymentIntent.status === 'requires_action') {
+          console.log("Payment requires additional action");
+          toast({
+            title: "Additional Authentication Required",
+            description: "Please complete the additional authentication steps.",
+            variant: "default",
+          });
+        } else {
+          console.log("Payment in unexpected status:", paymentIntent.status);
+          toast({
+            title: "Payment Processing",
+            description: `Payment status: ${paymentIntent.status}. Please check your dashboard.`,
+            variant: "default",
+          });
+        }
+      } else {
+        console.error("No payment intent returned and no error");
         toast({
-          title: "Payment Successful",
-          description: "Payment completed! Please check your dashboard for the PDF report.",
+          title: "Payment Error",
+          description: "Unexpected payment response. Please try again.",
+          variant: "destructive",
         });
       }
+    } catch (unexpectedError) {
+      console.error("Unexpected error during payment:", unexpectedError);
+      toast({
+        title: "Payment Error",
+        description: "An unexpected error occurred. Please try again.",
+        variant: "destructive",
+      });
     }
 
     setIsProcessing(false);
