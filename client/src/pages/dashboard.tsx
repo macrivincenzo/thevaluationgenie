@@ -317,6 +317,8 @@ export default function Dashboard() {
                               size="sm"
                               onClick={() => {
                                 console.log('Download button clicked for valuation:', valuation.id);
+                                console.log('Download mutation status:', downloadPdfMutation.status);
+                                console.log('Download mutation isPending:', downloadPdfMutation.isPending);
                                 downloadPdfMutation.mutate(valuation.id);
                               }}
                               disabled={downloadPdfMutation.isPending}
