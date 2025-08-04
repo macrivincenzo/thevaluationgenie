@@ -30,11 +30,7 @@ export default function Footer() {
                   Services
                 </Link>
               </li>
-              <li>
-                <Link href="/valuation" className="hover:text-white transition-colors">
-                  Business Valuation
-                </Link>
-              </li>
+
               <li>
                 <Link href="/login" className="hover:text-white transition-colors">
                   Valuation Dashboard
