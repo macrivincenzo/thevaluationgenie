@@ -21,6 +21,8 @@ import StripeTest from "@/pages/stripe-test";
 import Terms from "@/pages/terms";
 import Privacy from "@/pages/privacy";
 import Contact from "@/pages/contact";
+import Services from "@/pages/services";
+import IndustryAnalysis from "@/pages/industry-analysis";
 import NotFound from "@/pages/not-found";
 import Login from "@/pages/auth/login";
 import Signup from "@/pages/auth/signup";
@@ -56,6 +58,8 @@ function Router() {
             <Route path="/" component={Landing} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
+            <Route path="/services" component={Services} />
+            <Route path="/industry-analysis" component={IndustryAnalysis} />
             <Route path="/terms" component={Terms} />
             <Route path="/privacy" component={Privacy} />
             <Route path="/contact" component={Contact} />
@@ -66,6 +70,8 @@ function Router() {
             <Route path="/valuation" component={ValuationFlow} />
             <Route path="/checkout/:id" component={CheckoutWorking} />
             <Route path="/dashboard" component={Dashboard} />
+            <Route path="/services" component={Services} />
+            <Route path="/industry-analysis" component={IndustryAnalysis} />
 
             <Route path="/admin" component={Admin} />
             <Route path="/customer-data" component={CustomerData} />

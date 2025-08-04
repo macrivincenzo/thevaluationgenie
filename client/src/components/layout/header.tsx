@@ -33,6 +33,9 @@ export default function Header() {
             <Link href="/" className="text-slate-600 hover:text-slate-900 transition-colors">
               Home
             </Link>
+            <Link href="/services" className="text-slate-600 hover:text-slate-900 transition-colors">
+              Services
+            </Link>
             {isAuthenticated ? (
               <>
                 <Link href="/valuation" className="text-slate-600 hover:text-slate-900 transition-colors">

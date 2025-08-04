@@ -26,19 +26,24 @@ export default function Footer() {
             <h3 className="font-semibold mb-4">Services</h3>
             <ul className="space-y-2 text-slate-300">
               <li>
-                <a href="/api/login" className="hover:text-white transition-colors">
+                <Link href="/services" className="hover:text-white transition-colors">
+                  Services
+                </Link>
+              </li>
+              <li>
+                <Link href="/valuation" className="hover:text-white transition-colors">
                   Business Valuation
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/api/login" className="hover:text-white transition-colors">
+                <Link href="/dashboard" className="hover:text-white transition-colors">
                   Valuation Dashboard
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/api/login" className="hover:text-white transition-colors">
+                <Link href="/industry-analysis" className="hover:text-white transition-colors">
                   Industry Analysis
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
