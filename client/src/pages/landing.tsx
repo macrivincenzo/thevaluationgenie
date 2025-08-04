@@ -79,10 +79,25 @@ export default function Landing() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl lg:text-6xl font-bold text-slate-900 mb-6">
-              Instant SME Business Valuation<br />
-              <span className="text-slate-500 text-2xl lg:text-3xl line-through">Ordinary price $89</span><br />
-              <span className="text-primary">Launch price just $39</span>
+              Instant SME Business Valuation
             </h1>
+            
+            {/* Pricing Highlight */}
+            <div className="flex items-center justify-center gap-4 mb-6">
+              <div className="bg-red-100 border border-red-200 rounded-lg px-4 py-2">
+                <span className="text-red-500 text-lg lg:text-xl font-semibold line-through">Ordinary price $89</span>
+              </div>
+              <div className="text-2xl lg:text-3xl font-bold text-slate-400">→</div>
+              <div className="bg-green-100 border border-green-200 rounded-lg px-6 py-3">
+                <span className="text-green-700 text-2xl lg:text-3xl font-bold">Launch price just $39</span>
+              </div>
+            </div>
+            
+            <div className="text-center mb-2">
+              <span className="bg-orange-100 text-orange-800 text-sm font-semibold px-3 py-1 rounded-full">
+                🔥 Save $50 (56% OFF) - Limited Time
+              </span>
+            </div>
             <h2 className="text-2xl lg:text-3xl font-semibold text-slate-700 mb-6">
               Fast, Affordable, AI-Powered Business Valuation Software for Small and Medium Enterprises
             </h2>
