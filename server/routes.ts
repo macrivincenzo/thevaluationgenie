@@ -521,7 +521,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const puppeteer = await import('puppeteer');
       const browser = await puppeteer.default.launch({
         headless: true,
-        args: ['--no-sandbox', '--disable-setuid-sandbox']
+        args: [
+          '--no-sandbox', 
+          '--disable-setuid-sandbox',
+          '--disable-dev-shm-usage',
+          '--disable-gpu'
+        ]
       });
       const page = await browser.newPage();
       await page.setContent(htmlContent);
