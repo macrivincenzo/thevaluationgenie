@@ -16,6 +16,7 @@ import {
 
 } from "@shared/schema";
 import { z } from "zod";
+import type { Valuation } from "@shared/schema";
 
 // Stripe setup - only initialize if key is available
 let stripe: Stripe | null = null;
@@ -57,6 +58,327 @@ const upload = multer({
     cb(null, isAllowed);
   }
 });
+
+// Professional HTML generator for PDF
+function generateProfessionalHtml(valuation: Valuation): string {
+  const currentDate = new Date().toLocaleDateString('en-US', { 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric' 
+  });
+
+  const revenue = parseFloat(String(valuation.annualRevenue)) || 0;
+  const sde = parseFloat(String(valuation.sde)) || 0;
+  const valuationLow = parseFloat(String(valuation.valuationLow)) || 0;
+  const valuationHigh = parseFloat(String(valuation.valuationHigh)) || 0;
+  const industryMultiple = parseFloat(String(valuation.industryMultiple)) || 0;
+  const sdeMargin = revenue > 0 ? (sde / revenue) * 100 : 0;
+  const averageValuation = (valuationLow + valuationHigh) / 2;
+
+  return `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Business Valuation Report - ${valuation.businessName}</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 0.75in;
+        }
+        
+        body {
+            font-family: 'Times New Roman', serif;
+            font-size: 12px;
+            line-height: 1.5;
+            color: #000;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #2563eb;
+        }
+        
+        .report-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2563eb;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .company-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .report-date {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        h2 {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 40px 0 20px 0;
+            color: #2563eb;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 8px;
+        }
+        
+        .overview-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 25px 0;
+        }
+        
+        .overview-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding: 8px 0;
+            border-bottom: 1px dotted #ccc;
+        }
+        
+        .overview-label {
+            font-weight: bold;
+            color: #374151;
+        }
+        
+        .overview-value {
+            text-align: right;
+            color: #111827;
+        }
+        
+        .valuation-highlight {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border: 2px solid #2563eb;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .valuation-range {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2563eb;
+            margin-bottom: 15px;
+        }
+        
+        .valuation-details {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .detail-box {
+            text-align: center;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .detail-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 5px;
+        }
+        
+        .detail-label {
+            font-size: 11px;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .executive-summary {
+            margin: 30px 0;
+            padding: 25px;
+            background: #f9fafb;
+            border-left: 5px solid #2563eb;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .methodology-section {
+            margin: 30px 0;
+        }
+        
+        .methodology-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-top: 20px;
+        }
+        
+        .method-box {
+            padding: 20px;
+            background: #fafafa;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .method-title {
+            font-weight: bold;
+            color: #2563eb;
+            margin-bottom: 10px;
+        }
+        
+        .disclaimer {
+            margin-top: 50px;
+            padding: 25px;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 8px;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+        
+        .footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 10px;
+            color: #6b7280;
+            border-top: 1px solid #e5e7eb;
+            padding-top: 20px;
+        }
+        
+        ul {
+            margin: 15px 0;
+            padding-left: 25px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="report-title">Business Valuation Report</div>
+        <div class="company-name">${valuation.businessName}</div>
+        <div class="report-date">Prepared on ${currentDate}</div>
+    </div>
+    
+    <h2>Company Overview</h2>
+    <div class="overview-grid">
+        <div>
+            <div class="overview-item">
+                <span class="overview-label">Business Name:</span>
+                <span class="overview-value">${valuation.businessName}</span>
+            </div>
+            <div class="overview-item">
+                <span class="overview-label">Industry:</span>
+                <span class="overview-value">${valuation.industry}</span>
+            </div>
+            <div class="overview-item">
+                <span class="overview-label">Location:</span>
+                <span class="overview-value">${valuation.location}</span>
+            </div>
+        </div>
+        <div>
+            <div class="overview-item">
+                <span class="overview-label">Years in Business:</span>
+                <span class="overview-value">${valuation.yearsInBusiness} years</span>
+            </div>
+            <div class="overview-item">
+                <span class="overview-label">Owner Involvement:</span>
+                <span class="overview-value">${valuation.ownerInvolvement}</span>
+            </div>
+            <div class="overview-item">
+                <span class="overview-label">Growth Trend:</span>
+                <span class="overview-value">${valuation.growthTrend}</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="valuation-highlight">
+        <div class="valuation-range">
+            $${valuationLow.toLocaleString()} - $${valuationHigh.toLocaleString()}
+        </div>
+        <p style="margin: 0; color: #6b7280; font-size: 14px;">Estimated Business Value Range</p>
+        
+        <div class="valuation-details">
+            <div class="detail-box">
+                <div class="detail-value">$${revenue.toLocaleString()}</div>
+                <div class="detail-label">Annual Revenue</div>
+            </div>
+            <div class="detail-box">
+                <div class="detail-value">$${sde.toLocaleString()}</div>
+                <div class="detail-label">Seller's Discretionary Earnings</div>
+            </div>
+            <div class="detail-box">
+                <div class="detail-value">${industryMultiple.toFixed(1)}x</div>
+                <div class="detail-label">Industry Multiple</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="executive-summary">
+        <h3 style="margin-top: 0; color: #2563eb;">Executive Summary</h3>
+        <p>${valuation.businessName} is a ${valuation.industry.toLowerCase()} business operating in ${valuation.location} with ${valuation.yearsInBusiness} years of established operations. Based on our comprehensive analysis using the Seller's Discretionary Earnings (SDE) methodology, we estimate the business value to range between $${valuationLow.toLocaleString()} and $${valuationHigh.toLocaleString()}.</p>
+        
+        <p>The business demonstrates ${valuation.growthTrend.toLowerCase()} performance trends with an SDE margin of ${sdeMargin.toFixed(1)}%. The valuation reflects industry-standard multiples for ${valuation.industry.toLowerCase()} businesses, taking into account operational efficiency, market position, and risk factors.</p>
+    </div>
+    
+    <h2>Financial Analysis</h2>
+    <div class="methodology-grid">
+        <div class="method-box">
+            <div class="method-title">Revenue Analysis</div>
+            <ul>
+                <li>Annual Revenue: $${revenue.toLocaleString()}</li>
+                <li>SDE: $${sde.toLocaleString()}</li>
+                <li>SDE Margin: ${sdeMargin.toFixed(1)}%</li>
+                <li>Growth Trend: ${valuation.growthTrend}</li>
+            </ul>
+        </div>
+        <div class="method-box">
+            <div class="method-title">Valuation Methodology</div>
+            <ul>
+                <li>Primary Method: SDE Multiple</li>
+                <li>Industry Multiple: ${industryMultiple.toFixed(1)}x</li>
+                <li>Calculated Value: $${(sde * industryMultiple).toLocaleString()}</li>
+                <li>Adjustment Factors: Applied</li>
+            </ul>
+        </div>
+    </div>
+    
+    <h2>Risk Assessment</h2>
+    <div class="methodology-section">
+        <p><strong>Owner Dependency:</strong> ${valuation.ownerInvolvement}</p>
+        ${valuation.majorRisks ? `<p><strong>Major Risk Factors:</strong> ${valuation.majorRisks}</p>` : ''}
+        <p><strong>Market Position:</strong> The business operates in the ${valuation.industry.toLowerCase()} sector with established market presence and operational history.</p>
+    </div>
+    
+    <div class="disclaimer">
+        <h3 style="margin-top: 0; color: #dc2626;">Important Disclaimer</h3>
+        <p><strong>This valuation report is prepared for informational purposes only and should not be considered as professional financial, legal, or investment advice.</strong></p>
+        
+        <p>The valuation is based on information provided and industry-standard methodologies. Actual transaction values may vary significantly based on market conditions, buyer motivations, due diligence findings, and negotiation outcomes.</p>
+        
+        <p>This report is confidential and prepared exclusively for the named recipient. Any distribution or reproduction requires written permission from ValuationGenie.</p>
+        
+        <p><strong>Halal Compliance:</strong> This valuation methodology strictly adheres to Islamic financial principles, avoiding interest-based calculations and focusing on asset-based and earnings-based approaches.</p>
+    </div>
+    
+    <div class="footer">
+        <p><strong>ValuationGenie</strong> - Professional Business Valuation Services</p>
+        <p>© ${new Date().getFullYear()} ValuationGenie. All rights reserved. Confidential and Proprietary.</p>
+        <p>Report ID: ${valuation.id} | Generated: ${currentDate}</p>
+    </div>
+</body>
+</html>`;
+}
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Ultra-fast cookie-based auth
@@ -449,7 +771,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.json({ received: true });
   });
 
-  // PDF download (requires payment)
+  // PDF download (requires payment) - Using Puppeteer for professional PDF generation
   app.get('/api/valuations/:id/pdf', requireSimpleAuth, async (req: any, res) => {
     try {
       console.log('=== PDF DOWNLOAD REQUEST ===');
@@ -469,306 +791,81 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       console.log('Generating PDF for valuation:', valuation.id);
-      console.log('Valuation data:', JSON.stringify(valuation, null, 2));
       
-      // Generate HTML content for PDF conversion
-      const htmlContent = `
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <style>
-            body { font-family: Arial, sans-serif; margin: 40px; }
-            .header { color: #2563eb; border-bottom: 2px solid #2563eb; padding-bottom: 10px; }
-            .title { font-size: 24px; font-weight: bold; margin-bottom: 20px; }
-            .section { margin: 20px 0; }
-            .value-range { background: #f0f9ff; padding: 15px; border-left: 4px solid #2563eb; }
-            .footer { margin-top: 50px; font-size: 12px; color: #666; }
-          </style>
-        </head>
-        <body>
-          <div class="header">
-            <div class="title">ValuationGenie Business Valuation Report</div>
-          </div>
-          
-          <div class="section">
-            <h3>Business Information</h3>
-            <p><strong>Business Name:</strong> ${valuation.businessName}</p>
-            <p><strong>Industry:</strong> ${valuation.industry}</p>
-            <p><strong>Location:</strong> ${valuation.location}</p>
-            <p><strong>Years in Business:</strong> ${valuation.yearsInBusiness}</p>
-            <p><strong>Report Date:</strong> ${new Date().toLocaleDateString()}</p>
-          </div>
-          
-          <div class="section value-range">
-            <h3>Valuation Summary</h3>
-            <p><strong>Estimated Value Range:</strong> $${parseInt(String(valuation.valuationLow) || '0').toLocaleString()} - $${parseInt(String(valuation.valuationHigh) || '0').toLocaleString()}</p>
-            <p><strong>Industry Multiple:</strong> ${valuation.industryMultiple}x</p>
-            <p><strong>Annual Revenue:</strong> $${parseInt(String(valuation.annualRevenue) || '0').toLocaleString()}</p>
-            <p><strong>SDE:</strong> $${parseInt(String(valuation.sde) || '0').toLocaleString()}</p>
-          </div>
-          
-          <div class="section">
-            <h3>Disclaimer</h3>
-            <p>This valuation is based on industry-standard methodologies and should be used for informational purposes only. It does not constitute professional financial advice.</p>
-          </div>
-          
-          <div class="footer">
-            <p>© ValuationGenie - Confidential Business Valuation Report</p>
-          </div>
-        </body>
-        </html>
-      `;
+      // Import Puppeteer for server-side PDF generation
+      const puppeteer = await import('puppeteer');
       
-      // Use jsPDF to generate beautiful PDF matching the provided design
-      const jsPDF = await import('jspdf');
-      const doc = new jsPDF.jsPDF();
+      // Generate comprehensive HTML content for professional PDF
+      const htmlContent = generateProfessionalHtml(valuation);
       
-      // Header with date and title
-      doc.setFontSize(10);
-      doc.setFont('helvetica', 'normal');
-      doc.text(`${new Date().toLocaleDateString()}`, 20, 15);
-      doc.text(`Business Valuation Report - ${valuation.businessName}`, 100, 15);
-      
-      // Main title
-      doc.setFontSize(18);
-      doc.setFont('helvetica', 'bold');
-      doc.text('BUSINESS VALUATION REPORT', 105, 35, { align: 'center' });
-      
-      doc.setFontSize(16);
-      doc.text(`${valuation.businessName}`, 105, 50, { align: 'center' });
-      
-      doc.setFontSize(11);
-      doc.setFont('helvetica', 'normal');
-      doc.text(`Valuation Date: ${new Date().toLocaleDateString()}`, 105, 60, { align: 'center' });
-      
-      // Enterprise Valuation section
-      doc.setFontSize(14);
-      doc.setFont('helvetica', 'bold');
-      doc.text('ENTERPRISE VALUATION', 105, 80, { align: 'center' });
-      
-      const avgVal = Math.round((parseInt(String(valuation.valuationLow)) + parseInt(String(valuation.valuationHigh))) / 2);
-      doc.setFontSize(24);
-      doc.text(`$${avgVal.toLocaleString()}`, 105, 95, { align: 'center' });
-      
-      doc.setFontSize(12);
-      doc.setFont('helvetica', 'normal');
-      const lowVal = parseInt(String(valuation.valuationLow) || '0').toLocaleString();
-      const highVal = parseInt(String(valuation.valuationHigh) || '0').toLocaleString();
-      doc.text(`Valuation Range: $${lowVal} - $${highVal}`, 105, 105, { align: 'center' });
-      
-      // Company Overview section
-      doc.setFontSize(14);
-      doc.setFont('helvetica', 'bold');
-      doc.text('Company Overview', 20, 125);
-      
-      // Create table-like layout for company info
-      doc.setFontSize(10);
-      doc.setFont('helvetica', 'normal');
-      
-      // Left column
-      doc.text('Company:', 20, 140);
-      doc.text('Industry:', 20, 150);
-      doc.text('Location:', 20, 160);
-      
-      // Left values
-      doc.text(`${valuation.businessName}`, 50, 140);
-      doc.text(`${valuation.industry}`, 50, 150);
-      doc.text(`${valuation.location}`, 50, 160);
-      
-      // Right column
-      doc.text('Founded:', 110, 140);
-      doc.text('Annual Revenue:', 110, 150);
-      doc.text('SDE:', 110, 160);
-      
-      // Right values
-      doc.text(`${valuation.foundedYear}`, 140, 140);
-      doc.text(`$${parseInt(String(valuation.annualRevenue)).toLocaleString()}`, 140, 150);
-      doc.text(`$${parseInt(String(valuation.sde)).toLocaleString()}`, 140, 160);
-      
-      // Executive Summary
-      doc.setFontSize(14);
-      doc.setFont('helvetica', 'bold');
-      doc.text('Executive Summary', 20, 180);
-      
-      doc.setFontSize(10);
-      doc.setFont('helvetica', 'normal');
-      const sdeMargin = ((parseFloat(String(valuation.sde)) / parseFloat(String(valuation.annualRevenue))) * 100).toFixed(1);
-      const summaryText = [
-        `${valuation.businessName} is an established ${valuation.industry} business. The company generates`,
-        `annual revenue of $${parseInt(String(valuation.annualRevenue)).toLocaleString()} with Seller's Discretionary Earnings (SDE) of $${parseInt(String(valuation.sde)).toLocaleString()},`,
-        `resulting in an SDE margin of ${sdeMargin}%. The business shows exceptional profitability`,
-        `and operates efficiently with minimal owner involvement.`
-      ];
-      
-      summaryText.forEach((line, index) => {
-        doc.text(line, 20, 195 + (index * 8));
+      // Launch Puppeteer and generate PDF
+      const browser = await puppeteer.launch({
+        headless: true,
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
       });
       
-      // Add new page for Financial Performance and rest
-      doc.addPage();
+      const page = await browser.newPage();
+      await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
       
-      // Financial Performance section
-      doc.setFontSize(14);
-      doc.setFont('helvetica', 'bold');
-      doc.text('Financial Performance', 20, 30);
-      
-      // Create table header
-      doc.setFillColor(240, 240, 240);
-      doc.rect(20, 40, 170, 10, 'F');
-      
-      doc.setFontSize(10);
-      doc.setFont('helvetica', 'bold');
-      doc.text('Metric', 25, 47);
-      doc.text('Current Year', 90, 47);
-      doc.text('Performance', 140, 47);
-      
-      // Table rows
-      doc.setFont('helvetica', 'normal');
-      doc.text('Annual Revenue', 25, 57);
-      doc.text(`$${parseInt(String(valuation.annualRevenue)).toLocaleString()}`, 90, 57);
-      doc.text('Stable', 140, 57);
-      
-      doc.text('SDE', 25, 67);
-      doc.text(`$${parseInt(String(valuation.sde)).toLocaleString()}`, 90, 67);
-      doc.text('Excellent', 140, 67);
-      
-      doc.text('SDE Margin', 25, 77);
-      doc.text(`${sdeMargin}%`, 90, 77);
-      doc.text('Outstanding', 140, 77);
-      
-      // Add table borders
-      doc.setDrawColor(0, 0, 0);
-      doc.setLineWidth(0.5);
-      doc.rect(20, 40, 170, 37);
-      doc.line(85, 40, 85, 77);
-      doc.line(135, 40, 135, 77);
-      doc.line(20, 50, 190, 50);
-      doc.line(20, 60, 190, 60);
-      doc.line(20, 70, 190, 70);
-      
-      // Valuation Methodology
-      doc.setFontSize(14);
-      doc.setFont('helvetica', 'bold');
-      doc.text('Valuation Methodology', 20, 100);
-      
-      doc.setFontSize(10);
-      doc.setFont('helvetica', 'normal');
-      doc.text(`SDE Multiple Approach: Using industry-standard SDE multiples for ${valuation.industry}`, 20, 115);
-      doc.text('businesses.', 20, 125);
-      doc.text(`Applied Multiple: ${valuation.industryMultiple}x (industry standard)`, 20, 140);
-      doc.text(`Calculation: SDE ($${parseInt(String(valuation.sde)).toLocaleString()}) × Multiple (${valuation.industryMultiple}x) = $${avgVal.toLocaleString()}`, 20, 155);
-      doc.text(`Final Valuation Range: $${lowVal} - $${highVal}`, 20, 170);
-      
-      // Two-column layout for positives and risks
-      doc.setFontSize(12);
-      doc.setFont('helvetica', 'bold');
-      doc.text('Positive Value Drivers', 20, 190);
-      doc.text('Key Risk Factors', 110, 190);
-      
-      doc.setFontSize(10);
-      doc.setFont('helvetica', 'normal');
-      // Positive drivers (left column)
-      doc.text(`✓ Strong SDE margins (${sdeMargin}%)`, 20, 205);
-      doc.text('✓ Established market presence', 20, 215);
-      doc.text('✓ Proven business model', 20, 225);
-      
-      // Risk factors (right column)
-      doc.text('⚠ Market competition', 110, 205);
-      doc.text('⚠ Economic sensitivity', 110, 215);
-      doc.text('⚠ Regulatory compliance', 110, 225);
-      doc.text('⚠ Technology changes', 110, 235);
-      
-      // Important Disclaimer
-      doc.setFontSize(12);
-      doc.setFont('helvetica', 'bold');
-      doc.text('Important Disclaimer', 20, 255);
-      
-      doc.setFontSize(8);
-      doc.setFont('helvetica', 'normal');
-      const disclaimerText = [
-        'This business valuation report is prepared for informational purposes only and should not be considered as',
-        'formal investment advice or professional business appraisal. The valuation estimates are based on industry',
-        'standards and comparable analysis but may vary significantly based on specific market conditions, transaction',
-        'circumstances, detailed due diligence findings, and individual business factors. For official valuations intended for',
-        'legal, tax, or transaction purposes, please consult with a certified business appraiser or qualified financial',
-        'professional.'
-      ];
-      
-      disclaimerText.forEach((line, index) => {
-        doc.text(line, 20, 268 + (index * 6));
+      // Generate PDF with professional formatting
+      const pdfBuffer = await page.pdf({
+        format: 'A4',
+        printBackground: true,
+        margin: {
+          top: '0.5in',
+          right: '0.5in',
+          bottom: '0.5in',
+          left: '0.5in'
+        }
       });
       
-      // Footer
-      doc.setFontSize(10);
-      doc.setFont('helvetica', 'normal');
-      doc.text(`${valuation.businessName} | Professional Business Valuation Report | ${new Date().toLocaleDateString()}`, 105, 290, { align: 'center' });
-      doc.text('Generated by ValuationGenie | Confidential & Proprietary', 105, 298, { align: 'center' });
+      await browser.close();
       
-      const pdfBuffer = Buffer.from(doc.output('arraybuffer'));
-      
-      console.log('PDF generated successfully, buffer size:', pdfBuffer.length);
-      
+      // Set proper headers for PDF download
       res.setHeader('Content-Type', 'application/pdf');
-      res.setHeader('Content-Disposition', `attachment; filename="${valuation.businessName.replace(/[^a-zA-Z0-9]/g, '_')}-valuation.pdf"`);
-      res.setHeader('Content-Length', pdfBuffer.length.toString());
+      res.setHeader('Content-Disposition', `attachment; filename="valuation-report-${valuation.businessName.replace(/[^a-zA-Z0-9]/g, '-')}.pdf"`);
+      res.setHeader('Content-Length', pdfBuffer.length);
+      
+      console.log('PDF generated successfully, size:', pdfBuffer.length, 'bytes');
       res.send(pdfBuffer);
+      
     } catch (error: any) {
       console.error('PDF generation error:', error);
-      res.status(500).json({ message: 'Error generating PDF: ' + error.message });
+      res.status(500).json({ 
+        message: 'Failed to generate PDF',
+        error: error.message 
+      });
     }
   });
 
-  // User data management
-  app.delete('/api/user/delete-all-data', requireSimpleAuth, async (req: any, res) => {
+  // Test Stripe connection
+  app.post("/api/test-stripe", requireSimpleAuth, async (req: any, res) => {
     try {
-      const userId = req.user.id;
-      await storage.deleteAllUserData(userId);
-      res.json({ message: 'All user data deleted successfully' });
-    } catch (error: any) {
-      console.error('Error deleting user data:', error);
-      res.status(500).json({ message: 'Failed to delete user data: ' + error.message });
-    }
-  });
-
-  // Admin routes
-  app.get('/api/admin/users', requireSimpleAuth, async (req: any, res) => {
-    try {
-      const userId = req.user.id;
-      const isAdmin = await storage.isAdmin(userId);
-      
-      if (!isAdmin) {
-        return res.status(403).json({ message: 'Admin access required' });
+      if (!stripe) {
+        return res.status(500).json({ message: "Stripe not initialized. Check your STRIPE_SECRET_KEY." });
       }
       
-      const users = await storage.getAllUsers();
-      res.json(users);
-    } catch (error: any) {
-      res.status(500).json({ message: error.message });
-    }
-  });
-
-  app.get('/api/admin/stats', requireSimpleAuth, async (req: any, res) => {
-    try {
-      const userId = req.user.id;
-      const isAdmin = await storage.isAdmin(userId);
+      // Simple test - just try to create a test payment intent
+      const testIntent = await stripe.paymentIntents.create({
+        amount: 100, // $1.00 test
+        currency: "usd",
+        payment_method_types: ['card'],
+        metadata: { test: 'true' }
+      });
       
-      if (!isAdmin) {
-        return res.status(403).json({ message: 'Admin access required' });
-      }
-      
-      const userCount = await storage.getUserCount();
-      const valuationStats = await storage.getValuationStats();
-      
-      res.json({
-        userCount,
-        ...valuationStats
+      res.json({ 
+        success: true, 
+        message: "Stripe connection successful",
+        testId: testIntent.id 
       });
     } catch (error: any) {
-      res.status(500).json({ message: error.message });
+      res.status(500).json({ 
+        message: "Stripe connection failed", 
+        error: error.message 
+      });
     }
   });
 
-
-  const httpServer = createServer(app);
-  return httpServer;
+  const server = createServer(app);
+  return server;
 }
