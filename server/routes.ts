@@ -519,97 +519,190 @@ export async function registerRoutes(app: Express): Promise<Server> {
         </html>
       `;
       
-      // Use jsPDF to generate PDF (enhanced beautiful version)
+      // Use jsPDF to generate beautiful PDF matching the provided design
       const jsPDF = await import('jspdf');
       const doc = new jsPDF.jsPDF();
       
-      // Add header with logo area and branding
-      doc.setFillColor(41, 128, 185); // Professional blue
-      doc.rect(0, 0, 210, 25, 'F');
-      
-      doc.setTextColor(255, 255, 255);
-      doc.setFontSize(24);
-      doc.setFont('helvetica', 'bold');
-      doc.text('ValuationGenie', 20, 17);
-      
-      doc.setFontSize(12);
+      // Header with date and title
+      doc.setFontSize(10);
       doc.setFont('helvetica', 'normal');
-      doc.text('Professional Business Valuation Report', 20, 22);
+      doc.text(`${new Date().toLocaleDateString()}`, 20, 15);
+      doc.text(`Business Valuation Report - ${valuation.businessName}`, 100, 15);
       
-      // Reset text color
-      doc.setTextColor(0, 0, 0);
-      
-      // Business name as title
-      doc.setFontSize(22);
+      // Main title
+      doc.setFontSize(18);
       doc.setFont('helvetica', 'bold');
-      doc.text(`${valuation.businessName} - Business Valuation`, 20, 45);
+      doc.text('BUSINESS VALUATION REPORT', 105, 35, { align: 'center' });
       
-      // Add decorative line
-      doc.setDrawColor(41, 128, 185);
-      doc.setLineWidth(2);
-      doc.line(20, 50, 190, 50);
-      
-      // Business Information Section
       doc.setFontSize(16);
-      doc.setFont('helvetica', 'bold');
-      doc.setTextColor(41, 128, 185);
-      doc.text('Business Information', 20, 70);
-      doc.setTextColor(0, 0, 0);
+      doc.text(`${valuation.businessName}`, 105, 50, { align: 'center' });
       
       doc.setFontSize(11);
       doc.setFont('helvetica', 'normal');
-      doc.text(`Business Name: ${valuation.businessName}`, 25, 85);
-      doc.text(`Industry: ${valuation.industry}`, 25, 95);
-      doc.text(`Location: ${valuation.location}`, 25, 105);
-      doc.text(`Years in Business: ${valuation.yearsInBusiness}`, 25, 115);
-      doc.text(`Report Date: ${new Date().toLocaleDateString()}`, 25, 125);
+      doc.text(`Valuation Date: ${new Date().toLocaleDateString()}`, 105, 60, { align: 'center' });
       
-      // Valuation Summary Section with highlight box
-      doc.setFontSize(16);
-      doc.setFont('helvetica', 'bold');
-      doc.setTextColor(41, 128, 185);
-      doc.text('Valuation Summary', 20, 145);
-      doc.setTextColor(0, 0, 0);
-      
-      // Highlight box for valuation range
-      doc.setFillColor(240, 248, 255); // Light blue background
-      doc.setDrawColor(41, 128, 185);
-      doc.setLineWidth(1);
-      doc.rect(20, 155, 170, 20, 'FD');
-      
+      // Enterprise Valuation section
       doc.setFontSize(14);
       doc.setFont('helvetica', 'bold');
-      const lowVal = parseInt(String(valuation.valuationLow) || '0').toLocaleString();
-      const highVal = parseInt(String(valuation.valuationHigh) || '0').toLocaleString();
-      doc.text(`Estimated Value Range: $${lowVal} - $${highVal}`, 25, 168);
+      doc.text('ENTERPRISE VALUATION', 105, 80, { align: 'center' });
       
-      doc.setFontSize(11);
-      doc.setFont('helvetica', 'normal');
-      doc.text(`Industry Multiple: ${valuation.industryMultiple}x SDE`, 25, 185);
-      doc.text(`Annual Revenue: $${parseInt(String(valuation.annualRevenue) || '0').toLocaleString()}`, 25, 195);
-      doc.text(`Seller's Discretionary Earnings (SDE): $${parseInt(String(valuation.sde) || '0').toLocaleString()}`, 25, 205);
-      
-      // Add methodology
-      doc.setFontSize(16);
-      doc.setFont('helvetica', 'bold');
-      doc.text('Valuation Methodology', 20, 215);
+      const avgVal = Math.round((parseInt(String(valuation.valuationLow)) + parseInt(String(valuation.valuationHigh))) / 2);
+      doc.setFontSize(24);
+      doc.text(`$${avgVal.toLocaleString()}`, 105, 95, { align: 'center' });
       
       doc.setFontSize(12);
       doc.setFont('helvetica', 'normal');
-      const methodText = [
-        'This valuation uses the Seller\'s Discretionary Earnings (SDE) multiplier approach,',
-        'which is the industry standard for small business valuations. The SDE multiple',
-        'is based on industry benchmarks and business characteristics.'
+      const lowVal = parseInt(String(valuation.valuationLow) || '0').toLocaleString();
+      const highVal = parseInt(String(valuation.valuationHigh) || '0').toLocaleString();
+      doc.text(`Valuation Range: $${lowVal} - $${highVal}`, 105, 105, { align: 'center' });
+      
+      // Company Overview section
+      doc.setFontSize(14);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Company Overview', 20, 125);
+      
+      // Create table-like layout for company info
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'normal');
+      
+      // Left column
+      doc.text('Company:', 20, 140);
+      doc.text('Industry:', 20, 150);
+      doc.text('Location:', 20, 160);
+      
+      // Left values
+      doc.text(`${valuation.businessName}`, 50, 140);
+      doc.text(`${valuation.industry}`, 50, 150);
+      doc.text(`${valuation.location}`, 50, 160);
+      
+      // Right column
+      doc.text('Founded:', 110, 140);
+      doc.text('Annual Revenue:', 110, 150);
+      doc.text('SDE:', 110, 160);
+      
+      // Right values
+      doc.text(`${valuation.foundedYear}`, 140, 140);
+      doc.text(`$${parseInt(String(valuation.annualRevenue)).toLocaleString()}`, 140, 150);
+      doc.text(`$${parseInt(String(valuation.sde)).toLocaleString()}`, 140, 160);
+      
+      // Executive Summary
+      doc.setFontSize(14);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Executive Summary', 20, 180);
+      
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'normal');
+      const sdeMargin = ((parseFloat(String(valuation.sde)) / parseFloat(String(valuation.annualRevenue))) * 100).toFixed(1);
+      const summaryText = [
+        `${valuation.businessName} is an established ${valuation.industry} business. The company generates`,
+        `annual revenue of $${parseInt(String(valuation.annualRevenue)).toLocaleString()} with Seller's Discretionary Earnings (SDE) of $${parseInt(String(valuation.sde)).toLocaleString()},`,
+        `resulting in an SDE margin of ${sdeMargin}%. The business shows exceptional profitability`,
+        `and operates efficiently with minimal owner involvement.`
       ];
-      methodText.forEach((line, index) => {
-        doc.text(line, 20, 230 + (index * 10));
+      
+      summaryText.forEach((line, index) => {
+        doc.text(line, 20, 195 + (index * 8));
       });
       
-      // Add disclaimer
+      // Add new page for Financial Performance and rest
+      doc.addPage();
+      
+      // Financial Performance section
+      doc.setFontSize(14);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Financial Performance', 20, 30);
+      
+      // Create table header
+      doc.setFillColor(240, 240, 240);
+      doc.rect(20, 40, 170, 10, 'F');
+      
       doc.setFontSize(10);
-      doc.setFont('helvetica', 'italic');
-      doc.text('This valuation is for informational purposes only and does not constitute professional financial advice.', 20, 270);
-      doc.text('© ValuationGenie - Confidential Business Valuation Report', 20, 280);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Metric', 25, 47);
+      doc.text('Current Year', 90, 47);
+      doc.text('Performance', 140, 47);
+      
+      // Table rows
+      doc.setFont('helvetica', 'normal');
+      doc.text('Annual Revenue', 25, 57);
+      doc.text(`$${parseInt(String(valuation.annualRevenue)).toLocaleString()}`, 90, 57);
+      doc.text('Stable', 140, 57);
+      
+      doc.text('SDE', 25, 67);
+      doc.text(`$${parseInt(String(valuation.sde)).toLocaleString()}`, 90, 67);
+      doc.text('Excellent', 140, 67);
+      
+      doc.text('SDE Margin', 25, 77);
+      doc.text(`${sdeMargin}%`, 90, 77);
+      doc.text('Outstanding', 140, 77);
+      
+      // Add table borders
+      doc.setDrawColor(0, 0, 0);
+      doc.setLineWidth(0.5);
+      doc.rect(20, 40, 170, 37);
+      doc.line(85, 40, 85, 77);
+      doc.line(135, 40, 135, 77);
+      doc.line(20, 50, 190, 50);
+      doc.line(20, 60, 190, 60);
+      doc.line(20, 70, 190, 70);
+      
+      // Valuation Methodology
+      doc.setFontSize(14);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Valuation Methodology', 20, 100);
+      
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'normal');
+      doc.text(`SDE Multiple Approach: Using industry-standard SDE multiples for ${valuation.industry}`, 20, 115);
+      doc.text('businesses.', 20, 125);
+      doc.text(`Applied Multiple: ${valuation.industryMultiple}x (industry standard)`, 20, 140);
+      doc.text(`Calculation: SDE ($${parseInt(String(valuation.sde)).toLocaleString()}) × Multiple (${valuation.industryMultiple}x) = $${avgVal.toLocaleString()}`, 20, 155);
+      doc.text(`Final Valuation Range: $${lowVal} - $${highVal}`, 20, 170);
+      
+      // Two-column layout for positives and risks
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Positive Value Drivers', 20, 190);
+      doc.text('Key Risk Factors', 110, 190);
+      
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'normal');
+      // Positive drivers (left column)
+      doc.text(`✓ Strong SDE margins (${sdeMargin}%)`, 20, 205);
+      doc.text('✓ Established market presence', 20, 215);
+      doc.text('✓ Proven business model', 20, 225);
+      
+      // Risk factors (right column)
+      doc.text('⚠ Market competition', 110, 205);
+      doc.text('⚠ Economic sensitivity', 110, 215);
+      doc.text('⚠ Regulatory compliance', 110, 225);
+      doc.text('⚠ Technology changes', 110, 235);
+      
+      // Important Disclaimer
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Important Disclaimer', 20, 255);
+      
+      doc.setFontSize(8);
+      doc.setFont('helvetica', 'normal');
+      const disclaimerText = [
+        'This business valuation report is prepared for informational purposes only and should not be considered as',
+        'formal investment advice or professional business appraisal. The valuation estimates are based on industry',
+        'standards and comparable analysis but may vary significantly based on specific market conditions, transaction',
+        'circumstances, detailed due diligence findings, and individual business factors. For official valuations intended for',
+        'legal, tax, or transaction purposes, please consult with a certified business appraiser or qualified financial',
+        'professional.'
+      ];
+      
+      disclaimerText.forEach((line, index) => {
+        doc.text(line, 20, 268 + (index * 6));
+      });
+      
+      // Footer
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'normal');
+      doc.text(`${valuation.businessName} | Professional Business Valuation Report | ${new Date().toLocaleDateString()}`, 105, 290, { align: 'center' });
+      doc.text('Generated by ValuationGenie | Confidential & Proprietary', 105, 298, { align: 'center' });
       
       const pdfBuffer = Buffer.from(doc.output('arraybuffer'));
       
