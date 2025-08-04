@@ -318,31 +318,9 @@ export default function Dashboard() {
                             <Button 
                               variant="outline" 
                               size="sm"
-                              onClick={async () => {
-                                console.log('Direct download button clicked for valuation:', valuation.id);
-                                try {
-                                  const response = await fetch(`/api/valuations/${valuation.id}/pdf`, {
-                                    credentials: 'include'
-                                  });
-                                  console.log('Direct fetch response:', response.status, response.statusText);
-                                  
-                                  if (response.ok) {
-                                    const blob = await response.blob();
-                                    const url = window.URL.createObjectURL(blob);
-                                    const a = document.createElement('a');
-                                    a.href = url;
-                                    a.download = `${valuation.businessName}-valuation.pdf`;
-                                    document.body.appendChild(a);
-                                    a.click();
-                                    window.URL.revokeObjectURL(url);
-                                    document.body.removeChild(a);
-                                    console.log('Download initiated successfully');
-                                  } else {
-                                    console.error('Download failed:', response.status, response.statusText);
-                                  }
-                                } catch (error) {
-                                  console.error('Download error:', error);
-                                }
+                              onClick={() => {
+                                console.log('Download button clicked for valuation:', valuation.id);
+                                downloadPdfMutation.mutate(valuation.id);
                               }}
                             >
                               <Download className="w-4 h-4 mr-1" />
