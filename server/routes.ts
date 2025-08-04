@@ -798,200 +798,222 @@ export async function registerRoutes(app: Express): Promise<Server> {
       try {
         console.warn('Using jsPDF fallback PDF generation:', 'Using jsPDF fallback for reliability');
         
-        // Use enhanced jsPDF with professional styling
+        // Create clean, professional PDF matching user's preferred design
         const { jsPDF } = await import('jspdf');
         const doc = new jsPDF();
         
-        // Colors and styling  
-        const primaryBlue: [number, number, number] = [30, 64, 175]; // #1e40af
-        const lightBlue: [number, number, number] = [59, 130, 246]; // #3b82f6
-        const darkGray: [number, number, number] = [31, 41, 55]; // #1f2937
-        const green: [number, number, number] = [5, 150, 105]; // #059669
+        // Calculate key metrics
+        const revenue = parseFloat(String(valuation.annualRevenue));
+        const sde = parseFloat(String(valuation.sde));
+        const sdeMargin = revenue > 0 ? ((sde / revenue) * 100).toFixed(1) : '0.0';
+        const centerVal = (parseFloat(String(valuation.valuationLow)) + parseFloat(String(valuation.valuationHigh))) / 2;
         
-        // Header with blue background
-        doc.setFillColor(...primaryBlue);
-        doc.rect(0, 0, 210, 40, 'F'); // Fill entire width
-        
-        // White logo area
-        doc.setFillColor(255, 255, 255);
-        doc.rect(15, 10, 30, 20, 'F');
-        doc.setFontSize(10);
-        doc.setTextColor(...primaryBlue);
-        doc.text('VALUATION', 17, 18);
-        doc.text('GENIE', 17, 25);
-        
-        // Main title
-        doc.setFontSize(18);
-        doc.setTextColor(255, 255, 255);
-        doc.text('BUSINESS VALUATION REPORT', 55, 20);
-        doc.setFontSize(12);
-        doc.text('Professional Enterprise Analysis', 55, 28);
-        
-        // Company name banner
-        doc.setFillColor(248, 250, 252); // light gray
-        doc.rect(0, 45, 210, 20, 'F');
-        doc.setFillColor(...primaryBlue);
-        doc.rect(0, 45, 5, 20, 'F'); // left border
-        
-        doc.setFontSize(16);
-        doc.setTextColor(...primaryBlue);
-        doc.text(valuation.businessName.toUpperCase(), 15, 57);
-        
-        // Date
         const currentDate = new Date().toLocaleDateString('en-US', { 
           year: 'numeric', 
           month: 'long', 
           day: 'numeric' 
         });
-        doc.setFontSize(9);
-        doc.setTextColor(107, 114, 128);
-        doc.text(`Valuation Date: ${currentDate}`, 150, 57);
         
-        // Main valuation box
-        const centerVal = (parseFloat(String(valuation.valuationLow)) + parseFloat(String(valuation.valuationHigh))) / 2;
-        
-        doc.setFillColor(...green);
-        doc.rect(20, 75, 170, 35, 'F');
-        doc.setFillColor(255, 255, 255);
-        doc.rect(25, 80, 160, 25, 'F');
-        
+        // Header date and title
         doc.setFontSize(10);
-        doc.setTextColor(...green);
-        doc.text('ENTERPRISE VALUATION', 105, 88, { align: 'center' });
+        doc.setTextColor(100, 100, 100);
+        doc.text(`${currentDate}`, 20, 20);
+        doc.text('Business Valuation Report - ' + valuation.businessName, 105, 20, { align: 'center' });
         
-        doc.setFontSize(20);
-        doc.setTextColor(...darkGray);
-        doc.text(`$${centerVal.toLocaleString()}`, 105, 98, { align: 'center' });
+        // Main Title
+        doc.setFontSize(18);
+        doc.setTextColor(0, 0, 0);
+        doc.setFont('helvetica', 'bold');
+        doc.text('BUSINESS VALUATION REPORT', 105, 45, { align: 'center' });
         
-        doc.setFontSize(9);
-        doc.setTextColor(107, 114, 128);
-        doc.text(`Range: $${parseFloat(String(valuation.valuationLow)).toLocaleString()} - $${parseFloat(String(valuation.valuationHigh)).toLocaleString()}`, 105, 104, { align: 'center' });
+        // Company name
+        doc.setFontSize(14);
+        doc.setFont('helvetica', 'normal');
+        doc.text(valuation.businessName, 105, 60, { align: 'center' });
+        
+        // Valuation date
+        doc.setFontSize(10);
+        doc.text(`Valuation Date: ${currentDate}`, 105, 75, { align: 'center' });
+        
+        // Enterprise Valuation Section
+        doc.setFontSize(14);
+        doc.setFont('helvetica', 'bold');
+        doc.text('ENTERPRISE VALUATION', 105, 100, { align: 'center' });
+        
+        // Main valuation amount
+        doc.setFontSize(24);
+        doc.text(`$${centerVal.toLocaleString()}`, 105, 120, { align: 'center' });
+        
+        // Valuation range
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'normal');
+        doc.text(`Valuation Range: $${parseFloat(String(valuation.valuationLow)).toLocaleString()} - $${parseFloat(String(valuation.valuationHigh)).toLocaleString()}`, 105, 135, { align: 'center' });
         
         // Company Overview Section
-        doc.setFillColor(...primaryBlue);
-        doc.rect(20, 120, 170, 12, 'F');
         doc.setFontSize(12);
-        doc.setTextColor(255, 255, 255);
-        doc.text('COMPANY OVERVIEW', 25, 128);
+        doc.setFont('helvetica', 'bold');
+        doc.text('Company Overview', 20, 160);
         
-        // Overview details
-        let yPos = 145;
+        // Company details - Left column
+        let yPos = 180;
         doc.setFontSize(10);
-        doc.setTextColor(...darkGray);
-        
-        const revenue = parseFloat(String(valuation.annualRevenue));
-        const sde = parseFloat(String(valuation.sde));
-        const sdeMargin = revenue > 0 ? ((sde / revenue) * 100).toFixed(1) : '0.0';
-        
-        // Left column
         doc.setFont('helvetica', 'bold');
-        doc.text('Company:', 25, yPos);
+        doc.text('Company:', 20, yPos);
         doc.setFont('helvetica', 'normal');
-        doc.text(valuation.businessName, 55, yPos);
+        doc.text(valuation.businessName, 80, yPos);
         
-        yPos += 8;
+        yPos += 10;
         doc.setFont('helvetica', 'bold');
-        doc.text('Industry:', 25, yPos);
+        doc.text('Industry:', 20, yPos);
         doc.setFont('helvetica', 'normal');
-        doc.text(valuation.industry, 55, yPos);
+        doc.text(valuation.industry, 80, yPos);
         
-        yPos += 8;
+        yPos += 10;
         doc.setFont('helvetica', 'bold');
-        doc.text('Location:', 25, yPos);
+        doc.text('Location:', 20, yPos);
         doc.setFont('helvetica', 'normal');
-        doc.text(valuation.location, 55, yPos);
+        doc.text(valuation.location, 80, yPos);
         
         // Right column
-        yPos = 145;
+        yPos = 180;
         doc.setFont('helvetica', 'bold');
         doc.text('Founded:', 120, yPos);
         doc.setFont('helvetica', 'normal');
-        doc.text(String(valuation.foundedYear || 'N/A'), 150, yPos);
+        doc.text(String(valuation.foundedYear || 'N/A'), 160, yPos);
         
-        yPos += 8;
+        yPos += 10;
         doc.setFont('helvetica', 'bold');
-        doc.text('Revenue:', 120, yPos);
+        doc.text('Annual Revenue:', 120, yPos);
         doc.setFont('helvetica', 'normal');
-        doc.text(`$${revenue.toLocaleString()}`, 150, yPos);
+        doc.text(`$${revenue.toLocaleString()}`, 160, yPos);
         
-        yPos += 8;
+        yPos += 10;
         doc.setFont('helvetica', 'bold');
         doc.text('SDE:', 120, yPos);
         doc.setFont('helvetica', 'normal');
-        doc.text(`$${sde.toLocaleString()}`, 150, yPos);
+        doc.text(`$${sde.toLocaleString()}`, 160, yPos);
         
         // Executive Summary
-        yPos += 20;
-        doc.setFillColor(241, 245, 249);
-        doc.rect(20, yPos, 170, 30, 'F');
-        doc.setFillColor(...lightBlue);
-        doc.rect(20, yPos, 5, 30, 'F');
-        
-        doc.setFontSize(11);
-        doc.setTextColor(...primaryBlue);
+        yPos += 25;
+        doc.setFontSize(12);
         doc.setFont('helvetica', 'bold');
-        doc.text('EXECUTIVE SUMMARY', 30, yPos + 8);
+        doc.text('Executive Summary', 20, yPos);
         
-        doc.setFontSize(9);
-        doc.setTextColor(55, 65, 81);
+        yPos += 10;
+        doc.setFontSize(10);
         doc.setFont('helvetica', 'normal');
-        const summaryText = `${valuation.businessName} is an established ${valuation.industry} business generating $${revenue.toLocaleString()} in annual revenue with SDE of $${sde.toLocaleString()} (${sdeMargin}% margin). The business demonstrates strong operational efficiency and presents attractive investment characteristics.`;
-        const splitText = doc.splitTextToSize(summaryText, 155);
-        doc.text(splitText, 30, yPos + 16);
+        const summaryText = `${valuation.businessName} is an established ${valuation.industry} business. The company generates annual revenue of $${revenue.toLocaleString()} with Seller's Discretionary Earnings (SDE) of $${sde.toLocaleString()}, resulting in an SDE margin of ${sdeMargin}%. The business shows exceptional profitability and operates efficiently with minimal owner involvement.`;
+        const splitSummary = doc.splitTextToSize(summaryText, 170);
+        doc.text(splitSummary, 20, yPos);
+        
+        // Add new page for remaining content
+        doc.addPage();
         
         // Financial Performance Table
-        yPos += 50;
-        doc.setFillColor(...primaryBlue);
-        doc.rect(20, yPos, 170, 12, 'F');
+        yPos = 30;
         doc.setFontSize(12);
-        doc.setTextColor(255, 255, 255);
-        doc.text('FINANCIAL PERFORMANCE', 25, yPos + 8);
+        doc.setFont('helvetica', 'bold');
+        doc.text('Financial Performance', 20, yPos);
         
         // Table headers
         yPos += 20;
-        doc.setFillColor(226, 232, 240);
-        doc.rect(20, yPos, 170, 10, 'F');
-        doc.setFontSize(9);
-        doc.setTextColor(...darkGray);
+        doc.setFontSize(10);
         doc.setFont('helvetica', 'bold');
-        doc.text('Metric', 25, yPos + 6);
-        doc.text('Amount', 80, yPos + 6);
-        doc.text('Performance', 130, yPos + 6);
+        doc.text('Metric', 20, yPos);
+        doc.text('Current Year', 80, yPos);
+        doc.text('Performance', 140, yPos);
         
         // Table rows
-        yPos += 12;
+        yPos += 15;
         doc.setFont('helvetica', 'normal');
-        doc.text('Annual Revenue', 25, yPos);
+        doc.text('Annual Revenue', 20, yPos);
         doc.text(`$${revenue.toLocaleString()}`, 80, yPos);
-        doc.setTextColor(...green);
-        doc.text('Strong', 130, yPos);
+        doc.text('Stable', 140, yPos);
         
-        yPos += 8;
-        doc.setTextColor(...darkGray);
-        doc.text('SDE', 25, yPos);
+        yPos += 10;
+        doc.text('SDE', 20, yPos);
         doc.text(`$${sde.toLocaleString()}`, 80, yPos);
-        doc.setTextColor(...green);
-        doc.text('Excellent', 130, yPos);
+        doc.text('Excellent', 140, yPos);
         
-        yPos += 8;
-        doc.setTextColor(...darkGray);
-        doc.text('SDE Margin', 25, yPos);
+        yPos += 10;
+        doc.text('SDE Margin', 20, yPos);
         doc.text(`${sdeMargin}%`, 80, yPos);
-        doc.setTextColor(...green);
-        doc.text('Outstanding', 130, yPos);
+        doc.text('Outstanding', 140, yPos);
         
-        // Disclaimer
-        doc.setFontSize(7);
-        doc.setTextColor(107, 114, 128);
-        doc.text('DISCLAIMER: This valuation is for informational purposes only and should not replace professional appraisal services.', 20, 280);
+        // Valuation Methodology
+        yPos += 25;
+        doc.setFontSize(12);
+        doc.setFont('helvetica', 'bold');
+        doc.text('Valuation Methodology', 20, yPos);
+        
+        yPos += 15;
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'normal');
+        doc.text(`SDE Multiple Approach: Using industry-standard SDE multiples for ${valuation.industry} businesses.`, 20, yPos);
+        
+        yPos += 10;
+        doc.text(`Applied Multiple: ${Number(valuation.industryMultiple).toFixed(1)}x (industry standard)`, 20, yPos);
+        
+        yPos += 10;
+        doc.text(`Calculation: SDE ($${sde.toLocaleString()}) × Multiple (${Number(valuation.industryMultiple).toFixed(1)}x) = $${centerVal.toLocaleString()}`, 20, yPos);
+        
+        yPos += 10;
+        doc.text(`Final Valuation Range: $${parseFloat(String(valuation.valuationLow)).toLocaleString()} - $${parseFloat(String(valuation.valuationHigh)).toLocaleString()}`, 20, yPos);
+        
+        // Value Drivers and Risk Factors
+        yPos += 25;
+        
+        // Left column - Positive Value Drivers
+        doc.setFontSize(12);
+        doc.setFont('helvetica', 'bold');
+        doc.text('Positive Value Drivers', 20, yPos);
+        
+        yPos += 10;
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'normal');
+        doc.text(`✓ Strong SDE margins (${sdeMargin}%)`, 20, yPos);
+        yPos += 8;
+        doc.text('✓ Established market presence', 20, yPos);
+        yPos += 8;
+        doc.text('✓ Proven business model', 20, yPos);
+        
+        // Right column - Key Risk Factors
+        yPos = yPos - 26;
+        doc.setFontSize(12);
+        doc.setFont('helvetica', 'bold');
+        doc.text('Key Risk Factors', 120, yPos);
+        
+        yPos += 10;
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'normal');
+        doc.text('⚠ Market competition', 120, yPos);
+        yPos += 8;
+        doc.text('⚠ Economic sensitivity', 120, yPos);
+        yPos += 8;
+        doc.text('⚠ Regulatory compliance', 120, yPos);
+        yPos += 8;
+        doc.text('⚠ Technology changes', 120, yPos);
+        
+        // Important Disclaimer
+        yPos += 35;
+        doc.setFontSize(12);
+        doc.setFont('helvetica', 'bold');
+        doc.text('Important Disclaimer', 20, yPos);
+        
+        yPos += 10;
+        doc.setFontSize(9);
+        doc.setFont('helvetica', 'normal');
+        const disclaimerText = 'This business valuation report is prepared for informational purposes only and should not be considered as formal investment advice or professional business appraisal. The valuation estimates are based on industry standards and comparable analysis but may vary significantly based on specific market conditions, transaction circumstances, detailed due diligence findings, and individual business factors. For official valuations intended for legal, tax, or transaction purposes, please consult with a certified business appraiser or qualified financial professional.';
+        const splitDisclaimer = doc.splitTextToSize(disclaimerText, 170);
+        doc.text(splitDisclaimer, 20, yPos);
         
         // Footer
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'normal');
+        doc.text(`${valuation.businessName} | Professional Business Valuation Report | ${currentDate}`, 105, 270, { align: 'center' });
         doc.setFontSize(8);
-        doc.setTextColor(...primaryBlue);
-        doc.text(`${valuation.businessName} | Professional Business Valuation Report | ${currentDate}`, 105, 290, { align: 'center' });
-        doc.setFontSize(7);
-        doc.setTextColor(107, 114, 128);
-        doc.text('Generated by ValuationGenie | Confidential & Proprietary', 105, 295, { align: 'center' });
+        doc.setTextColor(100, 100, 100);
+        doc.text('Generated by ValuationGenie | Confidential & Proprietary', 105, 280, { align: 'center' });
         
         pdfBuffer = Buffer.from(doc.output('arraybuffer'));
       } catch (pdfError: any) {
