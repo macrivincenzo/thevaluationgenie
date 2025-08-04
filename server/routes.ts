@@ -452,7 +452,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // PDF download (requires payment)
   app.get('/api/valuations/:id/pdf', requireSimpleAuth, async (req: any, res) => {
     try {
-      console.log('PDF download request for ID:', req.params.id);
+      console.log('=== PDF DOWNLOAD REQUEST ===');
+      console.log('Valuation ID:', req.params.id);
+      console.log('User ID:', req.user?.id);
       const userId = req.user.id;
       
       const valuation = await storage.getValuation(req.params.id);

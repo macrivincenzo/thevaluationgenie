@@ -90,11 +90,16 @@ export default function Dashboard() {
   const downloadPdfMutation = useMutation({
     mutationFn: async (id: string) => {
       try {
+        console.log('Starting PDF download for ID:', id);
         const response = await apiRequest("GET", `/api/valuations/${id}/pdf`);
+        
+        console.log('Response status:', response.status, response.statusText);
+        console.log('Response headers:', Object.fromEntries(response.headers.entries()));
         
         // Check if response is successful
         if (!response.ok) {
           const errorText = await response.text();
+          console.error('PDF download failed:', errorText);
           throw new Error(`PDF generation failed: ${errorText}`);
         }
         
