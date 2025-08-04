@@ -56,6 +56,9 @@ export default function Dashboard() {
     retry: false,
   });
 
+  // Type-safe valuations array
+  const typedValuations = (valuations as any[]) || [];
+
   const deleteValuationMutation = useMutation({
     mutationFn: async (id: string) => {
       await apiRequest("DELETE", `/api/valuations/${id}`);
@@ -201,9 +204,9 @@ export default function Dashboard() {
     );
   }
 
-  const paidValuations = valuations.filter((v: any) => v.paid);
-  const averageValue = valuations.length > 0 
-    ? valuations.reduce((sum: number, v: any) => sum + parseFloat(v.valuationHigh), 0) / valuations.length
+  const paidValuations = typedValuations.filter((v: any) => v.paid);
+  const averageValue = typedValuations.length > 0 
+    ? typedValuations.reduce((sum: number, v: any) => sum + parseFloat(v.valuationHigh), 0) / typedValuations.length
     : 0;
 
   return (
@@ -233,7 +236,7 @@ export default function Dashboard() {
               <BarChart3 className="h-4 w-4 text-blue-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-blue-900">{valuations.length}</div>
+              <div className="text-2xl font-bold text-blue-900">{typedValuations.length}</div>
             </CardContent>
           </Card>
           
@@ -315,13 +318,32 @@ export default function Dashboard() {
                             <Button 
                               variant="outline" 
                               size="sm"
-                              onClick={() => {
-                                console.log('Download button clicked for valuation:', valuation.id);
-                                console.log('Download mutation status:', downloadPdfMutation.status);
-                                console.log('Download mutation isPending:', downloadPdfMutation.isPending);
-                                downloadPdfMutation.mutate(valuation.id);
+                              onClick={async () => {
+                                console.log('Direct download button clicked for valuation:', valuation.id);
+                                try {
+                                  const response = await fetch(`/api/valuations/${valuation.id}/pdf`, {
+                                    credentials: 'include'
+                                  });
+                                  console.log('Direct fetch response:', response.status, response.statusText);
+                                  
+                                  if (response.ok) {
+                                    const blob = await response.blob();
+                                    const url = window.URL.createObjectURL(blob);
+                                    const a = document.createElement('a');
+                                    a.href = url;
+                                    a.download = `${valuation.businessName}-valuation.pdf`;
+                                    document.body.appendChild(a);
+                                    a.click();
+                                    window.URL.revokeObjectURL(url);
+                                    document.body.removeChild(a);
+                                    console.log('Download initiated successfully');
+                                  } else {
+                                    console.error('Download failed:', response.status, response.statusText);
+                                  }
+                                } catch (error) {
+                                  console.error('Download error:', error);
+                                }
                               }}
-                              disabled={downloadPdfMutation.isPending}
                             >
                               <Download className="w-4 h-4 mr-1" />
                               {downloadPdfMutation.isPending ? "..." : "Download"}
