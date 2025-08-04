@@ -37,7 +37,7 @@ SEO Priority: Landing page heavily optimized for Google ranking with SME busines
 - **File Management**: Local filesystem storage for PDF and CSV uploads (not parsed).
 - **Email System**: Nodemailer for welcome emails and notifications.
 - **Valuation Questionnaire**: A streamlined, universal questionnaire for all users (buyers and sellers) focused on SDE-relevant financial data and business specifics. Includes auto-calculations for key metrics.
-- **PDF Report Generation**: Clean, minimal, professional PDF format for valuation reports, optimized for print-to-PDF.
+- **PDF Report Generation**: Ultra-modern, premium PDF design with sophisticated color palette (deep slate, indigo, gold, teal), geometric patterns, gradient headers, and professional card layouts creating a "WOW" factor that justifies the $39 price point.
 - **SEO Landing Page**: Extensively optimized for Google ranking targeting "SME Business Valuation" keywords with structured sections including competitive positioning, benefits showcase, and strategic CTA placement.
 
 ## External Dependencies
