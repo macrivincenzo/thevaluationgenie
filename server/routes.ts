@@ -400,6 +400,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Mark valuation as paid (immediate confirmation)
+  app.post('/api/valuations/:id/mark-paid', requireSimpleAuth, async (req: any, res) => {
+    try {
+      const valuationId = req.params.id;
+      const userId = req.user.id;
+      const { paymentIntentId } = req.body;
+
+      // Verify valuation belongs to user
+      const valuation = await storage.getValuation(valuationId);
+      if (!valuation || valuation.userId !== userId) {
+        return res.status(404).json({ message: 'Valuation not found' });
+      }
+
+      // Mark as paid
+      await storage.updateValuationPayment(valuationId, paymentIntentId, `/pdfs/${valuationId}.pdf`);
+      
+      res.json({ success: true });
+    } catch (error: any) {
+      console.error('Error marking valuation as paid:', error);
+      res.status(500).json({ message: 'Failed to update payment status' });
+    }
+  });
+
   // Webhook for Stripe payment confirmation
   app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async (req, res) => {
     const sig = req.headers['stripe-signature'];

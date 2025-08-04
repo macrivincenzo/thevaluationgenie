@@ -88,24 +88,44 @@ export default function Checkout() {
 
     setIsProcessing(true);
 
-    const { error } = await stripe.confirmPayment({
+    const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
       confirmParams: {
         return_url: `${window.location.origin}/dashboard`,
       },
+      redirect: 'if_required',
     });
 
     if (error) {
+      console.error("Payment error:", error);
       toast({
         title: "Payment Failed",
-        description: error.message,
+        description: error.message || "Payment processing failed. Please try again.",
         variant: "destructive",
       });
-    } else {
-      toast({
-        title: "Payment Successful",
-        description: "Thank you for your purchase! Your PDF report is now available.",
-      });
+    } else if (paymentIntent && paymentIntent.status === 'succeeded') {
+      // Update valuation as paid immediately (don't wait for webhook)
+      try {
+        await apiRequest("POST", `/api/valuations/${valuationId}/mark-paid`, {
+          paymentIntentId: paymentIntent.id
+        });
+        
+        toast({
+          title: "Payment Successful",
+          description: "Thank you for your purchase! Your PDF report is now available.",
+        });
+        
+        // Redirect to dashboard after a short delay
+        setTimeout(() => {
+          window.location.href = "/dashboard";
+        }, 2000);
+      } catch (updateError) {
+        console.error("Failed to update valuation:", updateError);
+        toast({
+          title: "Payment Successful",
+          description: "Payment completed! Please check your dashboard for the PDF report.",
+        });
+      }
     }
 
     setIsProcessing(false);
