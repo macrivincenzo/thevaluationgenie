@@ -24,11 +24,14 @@ export async function generateValuationPDF({ valuation, industryData }: Valuatio
   const doc = new jsPDFConstructor();
   let yPosition = 20;
   
-  // Brand colors
-  const primaryBlue = [30, 58, 138]; // Navy blue
-  const accentBlue = [59, 130, 246]; // Light blue
+  // Modern brand colors - sophisticated palette
+  const primaryBlue = [15, 23, 42]; // Deep slate
+  const accentBlue = [99, 102, 241]; // Modern indigo
+  const premiumGold = [245, 158, 11]; // Premium gold accent
+  const modernTeal = [20, 184, 166]; // Contemporary teal
   const lightGray = [248, 250, 252]; // Background gray
   const darkGray = [30, 41, 59]; // Text gray
+  const ultraLight = [250, 251, 252]; // Ultra light background
   
   // Enhanced helper functions
   const addText = (text: string, x: number, y: number, fontSize: number = 12, maxWidth: number = 170, color: number[] = darkGray) => {
@@ -45,31 +48,49 @@ export async function generateValuationPDF({ valuation, industryData }: Valuatio
     doc.rect(x, y, width, height, 'F');
   };
   
-  // Add a professional section header with background
+  // Add a modern gradient-style section header
   const addSectionHeader = (title: string, y: number) => {
-    // Background rectangle
-    addBackground(15, y - 5, 180, 12, primaryBlue);
-    // White text on blue background
+    // Modern gradient effect with multiple layers
+    addBackground(15, y - 5, 180, 16, primaryBlue);
+    addBackground(16, y - 4, 178, 14, accentBlue);
+    
+    // Add subtle accent line
+    doc.setDrawColor(premiumGold[0], premiumGold[1], premiumGold[2]);
+    doc.setLineWidth(2);
+    doc.line(20, y + 12, 190, y + 12);
+    
+    // White text with better positioning
     doc.setFont('helvetica', 'bold');
-    addText(title, 20, y + 3, 14, 170, [255, 255, 255]);
-    return y + 15;
+    addText(title, 22, y + 4, 13, 170, [255, 255, 255]);
+    return y + 20;
   };
   
-  // Add a data box with label and value
-  const addDataBox = (label: string, value: string, x: number, y: number, width: number = 80) => {
-    // Light background
-    addBackground(x, y - 3, width, 16, lightGray);
-    // Border
-    doc.setDrawColor(200, 200, 200);
-    doc.rect(x, y - 3, width, 16);
+  // Add a modern data box with sophisticated styling
+  const addDataBox = (label: string, value: string, x: number, y: number, width: number = 80, accent: boolean = false) => {
+    // Modern card design with shadow effect
+    const bgColor = accent ? [237, 233, 254] : ultraLight;
+    const borderColor = accent ? accentBlue : [226, 232, 240];
     
-    // Label (bold, smaller)
+    addBackground(x, y - 3, width, 18, bgColor);
+    
+    // Modern border with rounded corner effect
+    doc.setDrawColor(borderColor[0], borderColor[1], borderColor[2]);
+    doc.setLineWidth(1);
+    doc.rect(x, y - 3, width, 18);
+    
+    // Accent strip for premium look
+    if (accent) {
+      addBackground(x, y - 3, 4, 18, premiumGold);
+    }
+    
+    // Label with modern typography
     doc.setFont('helvetica', 'bold');
-    addText(label, x + 3, y + 2, 9, width - 6, darkGray);
+    addText(label, x + (accent ? 8 : 4), y + 1, 8, width - 8, [100, 116, 139]);
     
-    // Value (normal, larger)
-    doc.setFont('helvetica', 'normal');
-    return addText(value, x + 3, y + 8, 11, width - 6, primaryBlue);
+    // Value with emphasis
+    doc.setFont('helvetica', 'bold');
+    const valueColor = accent ? accentBlue : primaryBlue;
+    return addText(value, x + (accent ? 8 : 4), y + 9, 12, width - 8, valueColor);
   };
   
   // Helper function for new page with header
@@ -92,52 +113,91 @@ export async function generateValuationPDF({ valuation, industryData }: Valuatio
     yPosition = 25;
   };
   
-  // Professional Cover Page with gradient effect
-  // Main title with large font
-  doc.setFont('helvetica', 'bold');
-  yPosition = addText('ValuationGenie', 20, 35, 32, 170, primaryBlue);
+  // Ultra-Modern Cover Page Design - Premium & Sophisticated
   
-  // Subtitle with accent color
+  // Modern geometric background pattern
+  for (let i = 0; i < 8; i++) {
+    const opacity = 0.05 + (i * 0.01);
+    const shade = Math.floor(240 + (i * 2));
+    addBackground(15 + i, 20 + i, 180 - (i * 2), 260 - (i * 2), [shade, shade + 5, shade + 10]);
+  }
+  
+  // Premium header with gradient effect
+  addBackground(15, 25, 180, 60, primaryBlue);
+  addBackground(16, 26, 178, 58, [25, 35, 65]);
+  
+  // Logo area with geometric accent
+  addBackground(20, 30, 8, 50, premiumGold);
+  addBackground(32, 30, 2, 50, modernTeal);
+  
+  // Modern title design
+  doc.setFont('helvetica', 'bold');
+  addText('VALUATION', 40, 45, 36, 150, [255, 255, 255]);
+  addText('GENIE', 40, 65, 36, 150, premiumGold);
+  
+  // Sophisticated subtitle
   doc.setFont('helvetica', 'normal');
-  yPosition = addText('Professional Business Valuation Report', 20, yPosition + 5, 18, 170, accentBlue);
+  addText('PROFESSIONAL BUSINESS VALUATION REPORT', 40, 75, 12, 150, [200, 200, 220]);
   
-  // Business name in large, prominent text
-  addBackground(15, yPosition + 5, 180, 20, lightGray);
-  doc.setFont('helvetica', 'bold');
-  yPosition = addText(valuation.businessName || 'Business Name', 20, yPosition + 15, 20, 170, primaryBlue);
-  
-  // Professional details section
-  yPosition += 25;
-  addBackground(15, yPosition, 180, 35, [245, 247, 250]);
-  doc.setDrawColor(200, 200, 200);
-  doc.rect(15, yPosition, 180, 35);
+  // Business name with modern styling
+  yPosition = 110;
+  addBackground(15, yPosition, 180, 35, ultraLight);
+  addBackground(15, yPosition, 6, 35, modernTeal);
   
   doc.setFont('helvetica', 'bold');
-  addText('Report Details', 20, yPosition + 8, 12, 170, darkGray);
+  addText(valuation.businessName || 'Business Name', 25, yPosition + 12, 24, 165, primaryBlue);
+  addText('CONFIDENTIAL VALUATION ANALYSIS', 25, yPosition + 28, 10, 165, [100, 116, 139]);
   
-  doc.setFont('helvetica', 'normal');
-  addText(`Industry: ${valuation.industry || 'N/A'}`, 20, yPosition + 18, 11, 80, darkGray);
-  addText(`Report Date: ${new Date().toLocaleDateString()}`, 110, yPosition + 18, 11, 80, darkGray);
-  addText(`Valuation Purpose: ${valuation.buyerOrSeller === 'buying' ? 'Acquisition Analysis' : 'Sale Preparation'}`, 20, yPosition + 28, 11, 170, darkGray);
-  
-  // Confidentiality notice with red accent
+  // Modern metrics display
   yPosition += 50;
-  addBackground(15, yPosition, 180, 25, [254, 242, 242]);
-  doc.setDrawColor(239, 68, 68);
-  doc.rect(15, yPosition, 180, 25);
+  const valuationRange = `$${parseInt(valuation.valuationLow || 0).toLocaleString()} - $${parseInt(valuation.valuationHigh || 0).toLocaleString()}`;
+  
+  // Featured valuation with premium styling
+  addBackground(15, yPosition, 180, 45, [15, 23, 42]);
+  addBackground(16, yPosition + 1, 178, 43, [25, 35, 65]);
+  
+  // Gold accent line
+  addBackground(20, yPosition + 5, 160, 3, premiumGold);
   
   doc.setFont('helvetica', 'bold');
-  addText('CONFIDENTIAL DOCUMENT', 20, yPosition + 8, 12, 170, [220, 38, 38]);
-  doc.setFont('helvetica', 'normal');
-  addText('This valuation report is confidential and intended solely for the recipient.', 20, yPosition + 18, 10, 170, [127, 29, 29]);
+  addText('ESTIMATED BUSINESS VALUE', 25, yPosition + 18, 12, 155, [200, 200, 220]);
+  addText(valuationRange, 25, yPosition + 35, 20, 155, [255, 255, 255]);
+  
+  // Professional details in modern card format
+  yPosition += 60;
+  const detailsData = [
+    ['Industry Sector', valuation.industry || 'N/A'],
+    ['Report Date', new Date().toLocaleDateString()],
+    ['Analysis Type', valuation.buyerOrSeller === 'buying' ? 'Acquisition Due Diligence' : 'Market Valuation Analysis'],
+    ['Report ID', `VG-${Date.now().toString().slice(-6)}`]
+  ];
+  
+  detailsData.forEach(([label, value], index) => {
+    const x = 20 + (index % 2) * 85;
+    const y = yPosition + Math.floor(index / 2) * 25;
+    addDataBox(label, value, x, y, 80, index === 0);
+  });
+  
+  // Premium confidentiality notice
+  yPosition += 70;
+  addBackground(15, yPosition, 180, 30, [239, 68, 68]);
+  addBackground(16, yPosition + 1, 178, 28, [220, 38, 38]);
+  
+  // Warning icon effect
+  addBackground(25, yPosition + 8, 12, 12, [255, 255, 255]);
+  doc.setFont('helvetica', 'bold');
+  addText('!', 30, yPosition + 16, 14, 10, [220, 38, 38]);
+  
+  addText('CONFIDENTIAL & PROPRIETARY', 45, yPosition + 12, 12, 135, [255, 255, 255]);
+  addText('This report contains confidential business information and is intended solely for authorized recipients.', 45, yPosition + 22, 9, 135, [255, 200, 200]);
   
   // Start new page for content
   doc.addPage();
   yPosition = 20;
   addPageHeader();
   
-  // 1. Executive Summary with professional styling
-  yPosition = addSectionHeader('1. EXECUTIVE SUMMARY', yPosition);
+  // 1. Executive Summary with ultra-modern design
+  yPosition = addSectionHeader('📊 EXECUTIVE SUMMARY', yPosition);
   yPosition += 5;
   
   // Key metrics in data boxes
@@ -145,51 +205,66 @@ export async function generateValuationPDF({ valuation, industryData }: Valuatio
   const valuationHigh = parseInt(valuation.valuationHigh || 0);
   const sdeValue = parseInt(valuation.sde || 0);
   
-  // Top row of key metrics
-  addDataBox('Business Value Range', `$${valuationLow.toLocaleString()} - $${valuationHigh.toLocaleString()}`, 20, yPosition, 85);
-  addDataBox('Annual SDE', `$${sdeValue.toLocaleString()}`, 110, yPosition, 75);
+  // Hero valuation showcase with premium styling
+  addBackground(15, yPosition, 180, 35, primaryBlue);
+  addBackground(16, yPosition + 1, 178, 33, [25, 35, 65]);
+  
+  // Gold accent strip
+  addBackground(20, yPosition + 5, 170, 2, premiumGold);
+  
+  doc.setFont('helvetica', 'bold');
+  addText('ESTIMATED BUSINESS VALUE', 25, yPosition + 15, 12, 150, [200, 200, 220]);
+  addText(`$${valuationLow.toLocaleString()} - $${valuationHigh.toLocaleString()}`, 25, yPosition + 28, 18, 150, [255, 255, 255]);
+  yPosition += 45;
+  
+  // Modern metrics grid
+  addDataBox('Annual SDE', `$${sdeValue.toLocaleString()}`, 20, yPosition, 85, true);
+  addDataBox('ROI Multiple', `${valuation.industryMultiplier}x`, 110, yPosition, 75, true);
   yPosition += 25;
   
-  // Second row
-  addDataBox('Industry', valuation.industry || 'N/A', 20, yPosition, 85);
+  addDataBox('Industry Sector', valuation.industry || 'N/A', 20, yPosition, 85);
   addDataBox('Years Operating', `${valuation.yearsInBusiness || 'N/A'} years`, 110, yPosition, 75);
   yPosition += 25;
   
-  // Executive summary text with background
-  addBackground(15, yPosition, 180, 45, [249, 250, 251]);
-  doc.setDrawColor(200, 200, 200);
-  doc.rect(15, yPosition, 180, 45);
+  // Investment highlights with sophisticated modern design
+  addBackground(15, yPosition, 180, 50, ultraLight);
+  addBackground(15, yPosition, 6, 50, modernTeal);
+  
+  // Modern accent elements
+  addBackground(25, yPosition + 5, 160, 1, premiumGold);
   
   doc.setFont('helvetica', 'bold');
-  addText('Investment Highlights', 20, yPosition + 8, 12, 170, primaryBlue);
+  addText('💎 INVESTMENT HIGHLIGHTS', 25, yPosition + 12, 12, 155, primaryBlue);
   
   doc.setFont('helvetica', 'normal');
-  const highlights = `This ${valuation.industry} business presents a compelling investment opportunity with consistent cash flow generation. The business demonstrates ${valuation.yearsInBusiness || 'several'} years of operational experience and has established a solid market position in ${valuation.location || 'its local market'}.`;
-  yPosition = addText(highlights, 20, yPosition + 18, 11, 170, darkGray);
+  const highlights = `This ${valuation.industry || 'service-based'} business represents a compelling investment opportunity with proven cash flow generation. With ${valuation.yearsInBusiness || 'several'} years of market presence, the company has established strong operational foundations and customer relationships in ${valuation.location || 'its target market'}.`;
+  yPosition = addText(highlights, 25, yPosition + 22, 10, 155, darkGray);
   
-  const valuationSummary = `Based on industry-standard SDE multiples, the business valuation ranges from $${valuationLow.toLocaleString()} to $${valuationHigh.toLocaleString()}, reflecting current market conditions and business fundamentals.`;
-  addText(valuationSummary, 20, yPosition + 3, 11, 170, darkGray);
+  const valuationSummary = `Our comprehensive analysis using industry-standard SDE methodology indicates a fair market valuation between $${valuationLow.toLocaleString()} and $${valuationHigh.toLocaleString()}, reflecting current market dynamics and intrinsic business value.`;
+  addText(valuationSummary, 25, yPosition + 3, 10, 155, darkGray);
   
   yPosition += 35;
   
   checkNewPage(60);
   
-  // 2. Business Overview with structured layout
-  yPosition = addSectionHeader('2. BUSINESS OVERVIEW', yPosition);
+  // 2. Business Overview with ultra-modern layout
+  yPosition = addSectionHeader('🏢 BUSINESS OVERVIEW', yPosition);
   yPosition += 5;
   
-  // Business description in styled box
-  addBackground(15, yPosition, 180, 30, [240, 249, 255]);
-  doc.setDrawColor(147, 197, 253);
-  doc.rect(15, yPosition, 180, 30);
+  // Modern business description card
+  addBackground(15, yPosition, 180, 35, [237, 233, 254]);
+  addBackground(15, yPosition, 8, 35, accentBlue);
+  
+  // Premium accent line
+  addBackground(27, yPosition + 8, 160, 2, premiumGold);
   
   doc.setFont('helvetica', 'bold');
-  addText('Business Description', 20, yPosition + 8, 11, 170, accentBlue);
+  addText('COMPANY PROFILE', 27, yPosition + 15, 11, 160, primaryBlue);
   
   doc.setFont('helvetica', 'normal');
-  const businessDesc = `${valuation.businessName} is a ${valuation.industry} business that has been serving customers for ${valuation.yearsInBusiness || 'several'} years. The company operates in ${valuation.location || 'the local market'} and has built a reputation for quality service and reliability.`;
-  addText(businessDesc, 20, yPosition + 18, 10, 170, darkGray);
-  yPosition += 40;
+  const businessDesc = `${valuation.businessName || 'The Company'} is a distinguished ${valuation.industry || 'service-based'} enterprise with ${valuation.yearsInBusiness || 'proven'} years of market expertise. Operating primarily in ${valuation.location || 'strategic markets'}, the organization has cultivated strong customer relationships and established sustainable competitive advantages through consistent service excellence and operational efficiency.`;
+  addText(businessDesc, 27, yPosition + 22, 9, 160, darkGray);
+  yPosition += 45;
   
   // Key business attributes in two-column layout
   const leftColData = [
@@ -218,32 +293,31 @@ export async function generateValuationPDF({ valuation, industryData }: Valuatio
   
   checkNewPage(80);
   
-  // 3. Financial Highlights with professional table design
-  yPosition = addSectionHeader('3. FINANCIAL HIGHLIGHTS', yPosition);
+  // 3. Financial Highlights with ultra-modern dashboard design
+  yPosition = addSectionHeader('💰 FINANCIAL ANALYSIS', yPosition);
   yPosition += 5;
   
-  // Financial performance overview
-  addBackground(15, yPosition, 180, 25, [240, 253, 244]);
-  doc.setDrawColor(34, 197, 94);
-  doc.rect(15, yPosition, 180, 25);
+  // Modern financial dashboard header
+  addBackground(15, yPosition, 180, 30, modernTeal);
+  addBackground(16, yPosition + 1, 178, 28, [14, 165, 147]);
+  
+  // Performance indicator accent
+  addBackground(25, yPosition + 8, 160, 2, [255, 255, 255]);
   
   doc.setFont('helvetica', 'bold');
-  addText('Financial Performance Summary', 20, yPosition + 8, 12, 170, [22, 163, 74]);
+  addText('FINANCIAL PERFORMANCE DASHBOARD', 25, yPosition + 15, 12, 155, [255, 255, 255]);
+  addText('Strong fundamentals with sustainable cash flow generation', 25, yPosition + 24, 9, 155, [200, 250, 240]);
+  yPosition += 40;
   
-  doc.setFont('helvetica', 'normal');
-  const financialSummary = `Strong financial fundamentals with consistent cash flow generation and healthy profit margins.`;
-  addText(financialSummary, 20, yPosition + 18, 10, 170, darkGray);
-  yPosition += 35;
-  
-  // Key financial metrics in styled boxes
+  // Key financial metrics with modern KPI cards
   const currentRevenue = parseInt(valuation.annualRevenue || valuation.revenue || 0);
   const currentSDE = parseInt(valuation.sde || 0);
   const margin = currentRevenue > 0 ? ((currentSDE / currentRevenue) * 100).toFixed(1) : '0';
   
-  // Financial metrics row
-  addDataBox('Annual Revenue', `$${currentRevenue.toLocaleString()}`, 20, yPosition, 55);
-  addDataBox('Annual SDE', `$${currentSDE.toLocaleString()}`, 80, yPosition, 55);
-  addDataBox('SDE Margin', `${margin}%`, 140, yPosition, 50);
+  // Premium KPI metrics with accent styling
+  addDataBox('Annual Revenue', `$${currentRevenue.toLocaleString()}`, 20, yPosition, 55, true);
+  addDataBox('Annual SDE', `$${currentSDE.toLocaleString()}`, 80, yPosition, 55, true);
+  addDataBox('SDE Margin', `${margin}%`, 140, yPosition, 50, true);
   yPosition += 30;
   
   // Financial table with enhanced styling
@@ -285,89 +359,103 @@ export async function generateValuationPDF({ valuation, industryData }: Valuatio
   
   checkNewPage(100);
   
-  // 4. Valuation Methodology with enhanced styling
-  yPosition = addSectionHeader('4. VALUATION METHODOLOGY', yPosition);
+  // 4. Valuation Methodology with premium design
+  yPosition = addSectionHeader('🎯 VALUATION METHODOLOGY', yPosition);
   yPosition += 5;
   
-  // Methodology explanation
-  addBackground(15, yPosition, 180, 35, [255, 247, 237]);
-  doc.setDrawColor(251, 146, 60);
-  doc.rect(15, yPosition, 180, 35);
+  // Ultra-modern methodology showcase
+  addBackground(15, yPosition, 180, 40, [254, 243, 199]);
+  addBackground(15, yPosition, 8, 40, premiumGold);
+  
+  // Professional accent elements
+  addBackground(27, yPosition + 8, 160, 1, primaryBlue);
+  addBackground(27, yPosition + 28, 160, 1, primaryBlue);
   
   doc.setFont('helvetica', 'bold');
-  addText('SDE Multiple Approach', 20, yPosition + 8, 12, 170, [194, 65, 12]);
+  addText('SDE MULTIPLE METHODOLOGY', 27, yPosition + 15, 12, 160, primaryBlue);
   
   doc.setFont('helvetica', 'normal');
-  const methodologyText = `This valuation uses the Seller's Discretionary Earnings (SDE) multiple method, the industry standard for small business valuations. SDE represents the total financial benefit derived by one full-time owner-operator.`;
-  addText(methodologyText, 20, yPosition + 18, 10, 170, darkGray);
-  yPosition += 45;
+  const methodologyText = `Our valuation employs the industry-leading Seller's Discretionary Earnings (SDE) multiple approach - the gold standard for service-based business valuations. This methodology captures the total economic benefit available to a single owner-operator, ensuring comprehensive value assessment.`;
+  addText(methodologyText, 27, yPosition + 22, 9, 160, darkGray);
+  yPosition += 50;
   
   // Calculation breakdown with styled boxes
   const multiple = parseFloat(valuation.industryMultiple || '2.5');
   const baseSDE = currentSDE;
   const baseValue = baseSDE * multiple;
   
-  // Calculation steps
-  addDataBox('Annual SDE', `$${baseSDE.toLocaleString()}`, 20, yPosition, 80);
-  addDataBox('Industry Multiple', `${multiple}x`, 110, yPosition, 75);
+  // Modern calculation showcase with step-by-step premium design
+  addDataBox('Annual SDE', `$${baseSDE.toLocaleString()}`, 20, yPosition, 80, true);
+  addDataBox('Industry Multiple', `${multiple}x`, 110, yPosition, 75, true);
   yPosition += 25;
+  
+  // Mathematical operator styling
+  doc.setFont('helvetica', 'bold');
+  addText('×', 95, yPosition - 10, 16, 10, premiumGold);
   
   addDataBox('Base Valuation', `$${parseInt(baseValue.toString()).toLocaleString()}`, 20, yPosition, 80);  
-  addDataBox('Adjustment Range', '±10-15%', 110, yPosition, 75);
+  addDataBox('Market Adjustment', '±10-15%', 110, yPosition, 75);
   yPosition += 25;
   
-  // Final valuation range with prominent styling
-  addBackground(15, yPosition, 180, 25, [240, 253, 244]);
-  doc.setDrawColor(34, 197, 94);
-  doc.rect(15, yPosition, 180, 25);
+  // Ultra-premium final valuation showcase
+  addBackground(15, yPosition, 180, 40, primaryBlue);
+  addBackground(16, yPosition + 1, 178, 38, [25, 35, 65]);
+  
+  // Sophisticated accent design
+  addBackground(20, yPosition + 8, 170, 3, premiumGold);
+  addBackground(25, yPosition + 15, 160, 1, modernTeal);
   
   doc.setFont('helvetica', 'bold');
-  addText('Final Valuation Range', 20, yPosition + 8, 14, 170, [22, 163, 74]);
-  addText(`$${valuationLow.toLocaleString()} - $${valuationHigh.toLocaleString()}`, 20, yPosition + 18, 16, 170, primaryBlue);
-  yPosition += 35;
+  addText('FINAL VALUATION RANGE', 25, yPosition + 20, 14, 165, [255, 255, 255]);
+  addText(`$${valuationLow.toLocaleString()} - $${valuationHigh.toLocaleString()}`, 25, yPosition + 32, 18, 165, premiumGold);
+  yPosition += 50;
   
   checkNewPage(80);
   
-  // 5. Risk Assessment & Value Drivers
-  yPosition = addSectionHeader('5. RISK ASSESSMENT & VALUE DRIVERS', yPosition);
+  // 5. Risk Assessment & Value Drivers with sophisticated design
+  yPosition = addSectionHeader('⚖️ INVESTMENT ANALYSIS', yPosition);
   yPosition += 5;
   
-  // Value Drivers section with green styling
-  addBackground(15, yPosition, 180, 50, [240, 253, 244]);
-  doc.setDrawColor(34, 197, 94);
-  doc.rect(15, yPosition, 180, 50);
+  // Modern value drivers showcase
+  addBackground(15, yPosition, 180, 55, [236, 253, 245]);
+  addBackground(15, yPosition, 8, 55, [34, 197, 94]);
+  
+  // Premium accent elements
+  addBackground(27, yPosition + 8, 160, 2, [34, 197, 94]);
   
   doc.setFont('helvetica', 'bold');
-  addText('Key Value Drivers', 20, yPosition + 8, 12, 170, [22, 163, 74]);
+  addText('💎 KEY VALUE DRIVERS', 27, yPosition + 15, 12, 155, [22, 163, 74]);
   
   doc.setFont('helvetica', 'normal');
   const drivers = [
-    '✓ Established customer relationships and repeat business',
-    '✓ Consistent cash flow generation and profitability',
-    '✓ Strong market position with competitive advantages',
-    '✓ Operational systems and processes in place'
+    '✓ Proven customer retention & recurring revenue streams',
+    '✓ Robust cash flow generation with healthy margins',
+    '✓ Established market position & competitive moats',
+    '✓ Scalable operations with documented processes'
   ];
   
-  let tempY = yPosition + 18;
+  let tempY = yPosition + 25;
   drivers.forEach(driver => {
-    addText(driver, 25, tempY, 10, 165, darkGray);
+    addText(driver, 30, tempY, 9, 155, darkGray);
     tempY += 8;
   });
-  yPosition += 60;
+  yPosition += 65;
   
-  // Risk Factors section with red styling
-  addBackground(15, yPosition, 180, 50, [254, 242, 242]);
-  doc.setDrawColor(239, 68, 68);
-  doc.rect(15, yPosition, 180, 50);
+  // Modern risk assessment with professional styling
+  addBackground(15, yPosition, 180, 55, [254, 242, 242]);
+  addBackground(15, yPosition, 8, 55, [239, 68, 68]);
+  
+  // Warning accent design
+  addBackground(27, yPosition + 8, 160, 2, [239, 68, 68]);
   
   doc.setFont('helvetica', 'bold');
-  addText('Risk Factors', 20, yPosition + 8, 12, 170, [220, 38, 38]);
+  addText('⚠️ RISK CONSIDERATIONS', 27, yPosition + 15, 12, 155, [220, 38, 38]);
   
   doc.setFont('helvetica', 'normal');
   const risks = [
-    '⚠ Owner dependency for key operations and decisions',
-    '⚠ Customer concentration and retention risks',
-    '⚠ Market competition and pricing pressure',
+    '⚠ Key person dependency in operations & client relations',
+    '⚠ Market competition & pricing pressures',
+    '⚠ Economic sensitivity & industry cyclicality',
     '⚠ Economic sensitivity and market conditions'
   ];
   
