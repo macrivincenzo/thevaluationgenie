@@ -89,19 +89,27 @@ export default function CheckoutFinalWorking() {
 
       const stripe = (window as any).Stripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
       
-      // Confirm payment with card details
-      const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: {
-          card: {
-            number: cardNumber.replace(/\s/g, ''),
-            exp_month: parseInt(expiry.split('/')[0]),
-            exp_year: parseInt('20' + expiry.split('/')[1]),
-            cvc: cvc,
-          },
-          billing_details: {
-            name: name,
-          },
+      // Create a payment method first
+      const { error: pmError, paymentMethod } = await stripe.createPaymentMethod({
+        type: 'card',
+        card: {
+          number: cardNumber.replace(/\s/g, ''),
+          exp_month: parseInt(expiry.split('/')[0]),
+          exp_year: parseInt('20' + expiry.split('/')[1]),
+          cvc: cvc,
         },
+        billing_details: {
+          name: name,
+        },
+      });
+
+      if (pmError) {
+        throw new Error(pmError.message);
+      }
+
+      // Confirm payment with the payment method
+      const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: paymentMethod.id
       });
 
       if (error) {
