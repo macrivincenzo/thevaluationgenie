@@ -91,9 +91,6 @@ export default function Home() {
           <div>
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold text-slate-900">Recent Valuations</h2>
-              <Link href="/dashboard">
-                <Button variant="outline">View All</Button>
-              </Link>
             </div>
             
             <div className="grid gap-4">
@@ -111,7 +108,35 @@ export default function Home() {
                       </div>
                       <div className="flex items-center space-x-2">
                         {valuation.paid && (
-                          <Button variant="outline" size="sm">
+                          <Button 
+                            variant="outline" 
+                            size="sm"
+                            onClick={async () => {
+                              try {
+                                const response = await fetch(`/api/valuations/${valuation.id}/pdf`, {
+                                  method: 'GET',
+                                  credentials: 'include',
+                                  headers: { 'Accept': 'application/pdf' }
+                                });
+                                
+                                if (!response.ok) return;
+                                
+                                const blob = await response.blob();
+                                const url = URL.createObjectURL(blob);
+                                const link = document.createElement('a');
+                                link.href = url;
+                                link.download = `${valuation.businessName}-valuation-report.pdf`;
+                                link.style.display = 'none';
+                                
+                                document.body.appendChild(link);
+                                link.click();
+                                document.body.removeChild(link);
+                                setTimeout(() => URL.revokeObjectURL(url), 100);
+                              } catch (error) {
+                                console.error('Download error:', error);
+                              }
+                            }}
+                          >
                             Download PDF
                           </Button>
                         )}
