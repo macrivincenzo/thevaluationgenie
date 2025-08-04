@@ -12,7 +12,7 @@ import Landing from "@/pages/landing";
 import Home from "@/pages/home";
 import ValuationFlow from "@/pages/valuation-flow";
 import CheckoutNew from "@/pages/checkout-new";
-import CheckoutSimple from "@/pages/checkout-simple";
+import CheckoutWorking from "@/pages/checkout-working";
 import Dashboard from "@/pages/dashboard";
 import Admin from "@/pages/admin";
 import CustomerData from "@/pages/customer-data";
@@ -64,7 +64,7 @@ function Router() {
           <>
             <Route path="/" component={Home} />
             <Route path="/valuation" component={ValuationFlow} />
-            <Route path="/checkout/:id" component={CheckoutSimple} />
+            <Route path="/checkout/:id" component={CheckoutWorking} />
             <Route path="/dashboard" component={Dashboard} />
 
             <Route path="/admin" component={Admin} />
