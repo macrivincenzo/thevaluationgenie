@@ -15,11 +15,21 @@ import { CheckCircle, Shield } from "lucide-react";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY || '');
 
+// Debug logging
+console.log('Stripe public key available:', !!import.meta.env.VITE_STRIPE_PUBLIC_KEY);
+
 function CheckoutForm({ valuationId, clientSecret, valuation }: { valuationId: string, clientSecret: string, valuation: any }) {
   const [isProcessing, setIsProcessing] = useState(false);
   const stripe = useStripe();
   const elements = useElements();
   const { toast } = useToast();
+
+  // Debug logging
+  useEffect(() => {
+    console.log('CheckoutForm mounted - clientSecret:', !!clientSecret);
+    console.log('Stripe ready:', !!stripe);
+    console.log('Elements ready:', !!elements);
+  }, [stripe, elements, clientSecret]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -88,7 +98,13 @@ function CheckoutForm({ valuationId, clientSecret, valuation }: { valuationId: s
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
-                <PaymentElement />
+                <div className="min-h-[200px]">
+                  <PaymentElement 
+                    options={{
+                      layout: 'tabs'
+                    }}
+                  />
+                </div>
                 
                 <div className="flex items-center space-x-2 text-sm text-slate-600">
                   <Shield className="w-4 h-4" />
@@ -316,7 +332,15 @@ export default function CheckoutFinal() {
   return (
     <div className="min-h-screen bg-white">
       <Header />
-      <Elements stripe={stripePromise} options={{ clientSecret }}>
+      <Elements 
+        stripe={stripePromise} 
+        options={{ 
+          clientSecret,
+          appearance: {
+            theme: 'stripe'
+          }
+        }}
+      >
         <CheckoutForm valuationId={valuationId!} clientSecret={clientSecret} valuation={valuation} />
       </Elements>
     </div>
