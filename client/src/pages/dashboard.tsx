@@ -97,7 +97,15 @@ export default function Dashboard() {
     mutationFn: async (id: string) => {
       try {
         console.log('Starting PDF download for ID:', id);
-        const response = await apiRequest("GET", `/api/valuations/${id}/pdf`);
+        
+        // Use direct fetch instead of apiRequest for blob handling
+        const response = await fetch(`/api/valuations/${id}/pdf`, {
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+            'Accept': 'application/pdf'
+          }
+        });
         
         console.log('Response status:', response.status, response.statusText);
         console.log('Response headers:', Object.fromEntries(response.headers.entries()));
@@ -110,20 +118,31 @@ export default function Dashboard() {
         }
         
         const blob = await response.blob();
+        console.log('Blob size:', blob.size, 'Type:', blob.type);
         
         // Check if we got a valid PDF blob
         if (blob.size === 0) {
           throw new Error('Received empty PDF file');
         }
         
+        // Create download link and trigger download
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
         a.download = `valuation-${id}.pdf`;
+        a.style.display = 'none';
         document.body.appendChild(a);
+        
+        console.log('Triggering download click...');
+        
+        // Force click event
         a.click();
-        window.URL.revokeObjectURL(url);
-        document.body.removeChild(a);
+        
+        // Clean up after a short delay
+        setTimeout(() => {
+          window.URL.revokeObjectURL(url);
+          document.body.removeChild(a);
+        }, 100);
         
         toast({
           title: "Download Started",
