@@ -15,8 +15,21 @@ class EmailService {
   }
 
   private initializeTransporter() {
-    // Gmail configuration
-    if (process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD) {
+    // Mailgun configuration (preferred for production)
+    if (process.env.MAILGUN_API_KEY && process.env.MAILGUN_DOMAIN) {
+      this.transporter = nodemailer.createTransport({
+        host: 'smtp.mailgun.org',
+        port: 587,
+        secure: false, // true for 465, false for other ports
+        auth: {
+          user: `postmaster@${process.env.MAILGUN_DOMAIN}`,
+          pass: process.env.MAILGUN_API_KEY,
+        },
+      });
+      console.log('Mailgun email service initialized');
+    }
+    // Gmail configuration (fallback)
+    else if (process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD) {
       this.transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -24,10 +37,11 @@ class EmailService {
           pass: process.env.GMAIL_APP_PASSWORD, // App-specific password
         },
       });
+      console.log('Gmail email service initialized');
     }
-    // Add other email providers here as alternatives
+    // No email service configured
     else {
-      console.log('Email service not configured. Add GMAIL_USER and GMAIL_APP_PASSWORD to enable emails.');
+      console.log('Email service not configured. Add MAILGUN_API_KEY + MAILGUN_DOMAIN or GMAIL_USER + GMAIL_APP_PASSWORD to enable emails.');
     }
   }
 
@@ -39,7 +53,7 @@ class EmailService {
 
     try {
       const mailOptions = {
-        from: `"ValuationGenie Team" <${process.env.GMAIL_USER || 'noreply@thevaluationgenie.com'}>`,
+        from: `"ValuationGenie Team" <${process.env.MAILGUN_DOMAIN ? `support@${process.env.MAILGUN_DOMAIN}` : process.env.GMAIL_USER || 'noreply@thevaluationgenie.com'}>`,
         to: options.to,
         subject: options.subject,
         html: options.html,
