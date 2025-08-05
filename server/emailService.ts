@@ -39,7 +39,7 @@ class EmailService {
 
     try {
       const mailOptions = {
-        from: process.env.GMAIL_USER || 'noreply@valuationgenie.com',
+        from: `"ValuationGenie Team" <${process.env.GMAIL_USER || 'noreply@thevaluationgenie.com'}>`,
         to: options.to,
         subject: options.subject,
         html: options.html,
