@@ -10,7 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Calculator, User, Settings, LogOut, BarChart3 } from "lucide-react";
+import { User, Settings, LogOut, BarChart3, Sparkles, TrendingUp } from "lucide-react";
 import type { User as UserType } from "@shared/schema";
 
 export default function Header() {
@@ -23,9 +23,21 @@ export default function Header() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <Calculator className="w-8 h-8 text-primary" />
-            <span className="text-xl font-bold text-slate-900">ValuationGenie</span>
+          <Link href="/" className="flex items-center space-x-3">
+            <div className="relative">
+              {/* Main geometric shape - representing precision and value */}
+              <div className="w-8 h-8 bg-gradient-to-br from-indigo-600 via-purple-600 to-blue-700 rounded-lg rotate-45 flex items-center justify-center shadow-lg">
+                <TrendingUp className="w-4 h-4 text-white -rotate-45" />
+              </div>
+              {/* Magic sparkle - representing the "genie" instant magic */}
+              <Sparkles className="w-3 h-3 text-yellow-500 absolute -top-1 -right-1 animate-pulse" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+                ValuationGenie
+              </span>
+              <span className="text-xs text-slate-500 font-medium -mt-1">Instant Business Insights</span>
+            </div>
           </Link>
 
           {/* Navigation */}
