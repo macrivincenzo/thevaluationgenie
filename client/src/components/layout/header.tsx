@@ -10,7 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { User, Settings, LogOut, BarChart3, Sparkles, TrendingUp } from "lucide-react";
+import { User, Settings, LogOut, BarChart3, Sparkles, TrendingUp, FileText } from "lucide-react";
 import type { User as UserType } from "@shared/schema";
 
 export default function Header() {
@@ -36,7 +36,7 @@ export default function Header() {
               <span className="text-xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
                 ValuationGenie
               </span>
-              <span className="text-xs text-slate-500 font-medium -mt-1">Instant Business Insights</span>
+              <span className="text-xs text-slate-500 font-medium -mt-1">Instant Business Valuation</span>
             </div>
           </Link>
 
@@ -105,7 +105,7 @@ export default function Header() {
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
                     <Link href="/valuation" className="w-full flex items-center">
-                      <Calculator className="mr-2 h-4 w-4" />
+                      <FileText className="mr-2 h-4 w-4" />
                       New Valuation
                     </Link>
                   </DropdownMenuItem>
