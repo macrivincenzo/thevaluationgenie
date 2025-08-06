@@ -156,13 +156,13 @@ export default function Dashboard() {
       
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 sm:mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-slate-900">Dashboard</h1>
-            <p className="text-slate-600">Manage your business valuations and reports</p>
+            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">Dashboard</h1>
+            <p className="text-slate-600 text-sm sm:text-base">Manage your business valuations and reports</p>
           </div>
           <Link href="/valuation">
-            <Button>
+            <Button className="w-full sm:w-auto">
               <Calculator className="w-4 h-4 mr-2" />
               New Valuation
             </Button>
@@ -170,36 +170,36 @@ export default function Dashboard() {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
           <Card className="bg-blue-50 border-blue-200">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-blue-800">Total Valuations</CardTitle>
+              <CardTitle className="text-xs sm:text-sm font-medium text-blue-800">Total Valuations</CardTitle>
               <BarChart3 className="h-4 w-4 text-blue-600" />
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-blue-900">{valuations.length}</div>
+            <CardContent className="pt-2">
+              <div className="text-xl sm:text-2xl font-bold text-blue-900">{valuations.length}</div>
             </CardContent>
           </Card>
           
           <Card className="bg-green-50 border-green-200">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-green-800">Average Value</CardTitle>
+              <CardTitle className="text-xs sm:text-sm font-medium text-green-800">Average Value</CardTitle>
               <DollarSign className="h-4 w-4 text-green-600" />
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-green-900">
+            <CardContent className="pt-2">
+              <div className="text-xl sm:text-2xl font-bold text-green-900">
                 ${Math.round(averageValue / 1000)}K
               </div>
             </CardContent>
           </Card>
           
-          <Card className="bg-purple-50 border-purple-200">
+          <Card className="bg-purple-50 border-purple-200 sm:col-span-2 lg:col-span-1">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-purple-800">Last Report</CardTitle>
+              <CardTitle className="text-xs sm:text-sm font-medium text-purple-800">Last Report</CardTitle>
               <FileText className="h-4 w-4 text-purple-600" />
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-purple-900">
+            <CardContent className="pt-2">
+              <div className="text-xl sm:text-2xl font-bold text-purple-900">
                 {valuations.length > 0 
                   ? new Date(valuations[0].createdAt!).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
                   : 'None'
@@ -235,31 +235,32 @@ export default function Dashboard() {
               <div className="space-y-4">
                 {valuations.map((valuation) => (
                   <Card key={valuation.id} className="border-slate-200">
-                    <CardContent className="p-4">
-                      <div className="flex items-center justify-between">
-                        <div className="flex-1">
-                          <h5 className="font-semibold text-slate-900">{valuation.businessName}</h5>
-                          <div className="flex items-center space-x-4 text-sm text-slate-600 mt-1">
-                            <span>
-                              <Building className="w-4 h-4 inline mr-1" />
-                              {valuation.industry}
+                    <CardContent className="p-3 sm:p-4">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+                        <div className="flex-1 min-w-0">
+                          <h5 className="font-semibold text-slate-900 text-sm sm:text-base truncate">{valuation.businessName}</h5>
+                          <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 text-xs sm:text-sm text-slate-600 mt-1">
+                            <span className="flex items-center">
+                              <Building className="w-3 h-3 sm:w-4 sm:h-4 mr-1 flex-shrink-0" />
+                              <span className="truncate">{valuation.industry}</span>
                             </span>
-                            <span>
-                              <Calendar className="w-4 h-4 inline mr-1" />
+                            <span className="flex items-center">
+                              <Calendar className="w-3 h-3 sm:w-4 sm:h-4 mr-1 flex-shrink-0" />
                               {new Date(valuation.createdAt!).toLocaleDateString()}
                             </span>
-                            <span>
-                              <DollarSign className="w-4 h-4 inline mr-1" />
-                              ${parseInt(valuation.valuationLow).toLocaleString()} - ${parseInt(valuation.valuationHigh).toLocaleString()}
+                            <span className="flex items-center">
+                              <DollarSign className="w-3 h-3 sm:w-4 sm:h-4 mr-1 flex-shrink-0" />
+                              <span className="font-medium">${parseInt(valuation.valuationLow).toLocaleString()} - ${parseInt(valuation.valuationHigh).toLocaleString()}</span>
                             </span>
                           </div>
                         </div>
-                        <div className="flex items-center space-x-3">
+                        <div className="flex items-center justify-end gap-2 sm:gap-3 flex-shrink-0">
                           {valuation.paid ? (
-                            <div className="flex space-x-2">
+                            <div className="flex flex-col sm:flex-row gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm"
+                                className="w-full sm:w-auto text-xs sm:text-sm"
                                 onClick={async () => {
                                   console.log('=== DOWNLOAD BUTTON CLICKED ===');
                                   console.log('Valuation ID:', valuation.id);
@@ -370,32 +371,36 @@ export default function Dashboard() {
                                 }}
                                 disabled={valuationsLoading}
                               >
-                                <Download className="w-4 h-4 mr-1" />
-                                Download PDF
+                                <Download className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
+                                <span className="hidden sm:inline">Download PDF</span>
+                                <span className="sm:hidden">PDF</span>
                               </Button>
                               <Button 
                                 variant="ghost" 
                                 size="sm"
+                                className="w-full sm:w-auto text-xs sm:text-sm"
                                 asChild
                               >
                                 <a 
                                   href={`/api/valuations/${valuation.id}/pdf`} 
                                   target="_blank" 
                                   rel="noopener noreferrer"
-                                  className="flex items-center"
+                                  className="flex items-center justify-center"
                                   onClick={(e) => {
                                     console.log('Direct link clicked for valuation:', valuation.id);
                                   }}
                                 >
-                                  <FileText className="w-4 h-4 mr-1" />
-                                  View PDF
+                                  <FileText className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
+                                  <span className="hidden sm:inline">View PDF</span>
+                                  <span className="sm:hidden">View</span>
                                 </a>
                               </Button>
                             </div>
                           ) : (
                             <Link href={`/checkout/${valuation.id}`}>
-                              <Button size="sm">
-                                Pay & Download - $39
+                              <Button size="sm" className="w-full sm:w-auto text-xs sm:text-sm">
+                                <span className="hidden sm:inline">Pay & Download - $39</span>
+                                <span className="sm:hidden">Pay $39</span>
                               </Button>
                             </Link>
                           )}
@@ -405,10 +410,11 @@ export default function Dashboard() {
                               <Button 
                                 variant="outline" 
                                 size="sm" 
-                                className="text-destructive hover:text-red-700"
+                                className="text-destructive hover:text-red-700 w-full sm:w-auto text-xs sm:text-sm"
                               >
-                                <Trash2 className="w-4 h-4 mr-1" />
-                                Delete
+                                <Trash2 className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
+                                <span className="hidden sm:inline">Delete</span>
+                                <span className="sm:hidden">Del</span>
                               </Button>
                             </AlertDialogTrigger>
                             <AlertDialogContent>
@@ -440,19 +446,19 @@ export default function Dashboard() {
         </Card>
 
         {/* Data Management */}
-        <Card className="mt-8">
+        <Card className="mt-6 sm:mt-8">
           <CardHeader>
-            <CardTitle>Data Management</CardTitle>
+            <CardTitle className="text-lg sm:text-xl">Data Management</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div>
-                <p className="text-slate-600">You can delete all your data and reports at any time.</p>
-                <p className="text-sm text-slate-500 mt-1">This action cannot be undone.</p>
+                <p className="text-slate-600 text-sm sm:text-base">You can delete all your data and reports at any time.</p>
+                <p className="text-xs sm:text-sm text-slate-500 mt-1">This action cannot be undone.</p>
               </div>
               <AlertDialog>
                 <AlertDialogTrigger asChild>
-                  <Button variant="destructive">
+                  <Button variant="destructive" className="w-full sm:w-auto">
                     <UserMinus className="w-4 h-4 mr-2" />
                     Delete All Data
                   </Button>

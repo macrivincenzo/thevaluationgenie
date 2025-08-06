@@ -164,21 +164,22 @@ export default function ComprehensiveQuestions({ data, onChange, onNext, onPrevi
               <h3 className="text-2xl font-bold text-slate-900">Basic Business Information</h3>
             </div>
 
-            <div className="grid gap-6">
+            <div className="grid gap-4 sm:gap-6">
               <div>
-                <Label htmlFor="businessName">Company Name *</Label>
+                <Label htmlFor="businessName" className="text-sm sm:text-base">Company Name *</Label>
                 <Input
                   id="businessName"
                   value={data.businessName || ''}
                   onChange={(e) => handleInputChange('businessName', e.target.value)}
                   placeholder="Enter your company name"
+                  className="mt-1"
                 />
               </div>
 
               <div>
-                <Label htmlFor="industry">Industry *</Label>
+                <Label htmlFor="industry" className="text-sm sm:text-base">Industry *</Label>
                 <Select value={data.industry || ''} onValueChange={(value) => handleInputChange('industry', value)}>
-                  <SelectTrigger>
+                  <SelectTrigger className="mt-1">
                     <SelectValue placeholder="Select your industry" />
                   </SelectTrigger>
                   <SelectContent>
@@ -192,19 +193,20 @@ export default function ComprehensiveQuestions({ data, onChange, onNext, onPrevi
               </div>
 
               <div>
-                <Label htmlFor="businessDescription">Business Description</Label>
+                <Label htmlFor="businessDescription" className="text-sm sm:text-base">Business Description</Label>
                 <Textarea
                   id="businessDescription"
                   value={data.businessDescription || ''}
                   onChange={(e) => handleInputChange('businessDescription', e.target.value)}
                   placeholder="Briefly describe what your business does (2-3 sentences)"
                   rows={3}
+                  className="mt-1"
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="foundedYear">Year Founded *</Label>
+                  <Label htmlFor="foundedYear" className="text-sm sm:text-base">Year Founded *</Label>
                   <Input
                     id="foundedYear"
                     type="number"
@@ -213,29 +215,32 @@ export default function ComprehensiveQuestions({ data, onChange, onNext, onPrevi
                     placeholder="e.g., 2020"
                     min="1900"
                     max={new Date().getFullYear()}
+                    className="mt-1"
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="employeeCount">Number of Employees *</Label>
+                  <Label htmlFor="employeeCount" className="text-sm sm:text-base">Number of Employees</Label>
                   <Input
                     id="employeeCount"
                     type="number"
                     value={data.employeeCount || ''}
                     onChange={(e) => handleInputChange('employeeCount', parseInt(e.target.value) || 0)}
-                    placeholder="e.g., 10"
+                    placeholder="Including yourself"
                     min="0"
+                    className="mt-1"
                   />
                 </div>
               </div>
 
               <div>
-                <Label htmlFor="location">Business Location *</Label>
+                <Label htmlFor="location" className="text-sm sm:text-base">Business Location *</Label>
                 <Input
                   id="location"
                   value={data.location || ''}
                   onChange={(e) => handleInputChange('location', e.target.value)}
                   placeholder="City, State (e.g., Austin, TX)"
+                  className="mt-1"
                 />
               </div>
             </div>
@@ -250,15 +255,16 @@ export default function ComprehensiveQuestions({ data, onChange, onNext, onPrevi
               <h3 className="text-2xl font-bold text-slate-900">Financial Performance (Last 12 Months)</h3>
             </div>
 
-            <div className="grid gap-6">
+            <div className="grid gap-4 sm:gap-6">
               <div>
-                <Label htmlFor="annualRevenue">Annual Revenue *</Label>
+                <Label htmlFor="annualRevenue" className="text-sm sm:text-base">Annual Revenue *</Label>
                 <Input
                   id="annualRevenue"
                   type="number"
                   value={data.annualRevenue || ''}
                   onChange={(e) => handleInputChange('annualRevenue', parseFloat(e.target.value) || 0)}
                   placeholder="Total revenue for last 12 months"
+                  className="mt-1"
                 />
               </div>
 
@@ -764,12 +770,12 @@ export default function ComprehensiveQuestions({ data, onChange, onNext, onPrevi
 
   return (
     <Card className="shadow-lg">
-      <CardContent className="p-8">
+      <CardContent className="p-4 sm:p-6 lg:p-8">
         {/* Progress indicator */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl font-bold text-slate-900">Comprehensive Business Assessment</h2>
-            <span className="text-sm text-slate-500">Section {currentSection} of {totalSections}</span>
+        <div className="mb-6 sm:mb-8">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4 mb-4">
+            <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-slate-900">Comprehensive Business Assessment</h2>
+            <span className="text-xs sm:text-sm text-slate-500">Section {currentSection} of {totalSections}</span>
           </div>
           <div className="w-full bg-slate-200 rounded-full h-2">
             <div 
@@ -783,28 +789,29 @@ export default function ComprehensiveQuestions({ data, onChange, onNext, onPrevi
         {renderSection()}
 
         {/* Navigation buttons */}
-        <div className="flex justify-between mt-8">
+        <div className="flex flex-col sm:flex-row sm:justify-between gap-4 mt-6 sm:mt-8">
           <Button 
             variant="ghost" 
             onClick={handlePrevious}
-            className="flex items-center"
+            className="flex items-center justify-center w-full sm:w-auto order-2 sm:order-1"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             {currentSection === 1 ? 'Back' : 'Previous'}
           </Button>
           
-          <div className="flex flex-col items-end">
+          <div className="flex flex-col items-center sm:items-end order-1 sm:order-2">
             {!canProceedToNextSection() && getMissingFields().length > 0 && (
-              <div className="mb-2 text-sm text-slate-600 bg-slate-50 px-3 py-2 rounded-md border border-slate-200">
+              <div className="mb-2 text-xs sm:text-sm text-slate-600 bg-slate-50 px-3 py-2 rounded-md border border-slate-200 text-center sm:text-left">
                 <span className="font-medium">To continue, please provide:</span> {getMissingFields().join(', ')}
               </div>
             )}
             <Button 
               onClick={handleNext}
               disabled={!canProceedToNextSection()}
-              className="bg-blue-600 hover:bg-blue-700 text-white flex items-center disabled:bg-slate-300"
+              className="bg-blue-600 hover:bg-blue-700 text-white flex items-center disabled:bg-slate-300 w-full sm:w-auto"
             >
-              {currentSection === totalSections ? 'Continue to Industry Selection' : 'Next Section'}
+              <span className="hidden sm:inline">{currentSection === totalSections ? 'Continue to Industry Selection' : 'Next Section'}</span>
+              <span className="sm:hidden">{currentSection === totalSections ? 'Continue' : 'Next'}</span>
               <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
           </div>
