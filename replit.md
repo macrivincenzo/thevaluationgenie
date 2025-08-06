@@ -2,7 +2,7 @@
 
 ## Overview
 
-ValuationGenie is a web application providing instant business valuations for small service-based businesses in the US. It generates automated, professional PDF valuation reports using industry-standard methodologies, focusing on the Seller's Discretionary Earnings (SDE) multiplier approach. The project aims to offer a cost-effective alternative to traditional appraisers, targeting business buyers, sellers, brokers, and consultants.
+ValuationGenie is a web application providing instant business valuations for small service-based businesses globally. It generates automated, professional PDF valuation reports using industry-standard methodologies, focusing on the Seller's Discretionary Earnings (SDE) multiplier approach. The project aims to offer a cost-effective alternative to traditional appraisers, targeting business buyers, sellers, brokers, and consultants.
 
 ## User Preferences
 

@@ -239,7 +239,7 @@ export default function ComprehensiveQuestions({ data, onChange, onNext, onPrevi
                   id="location"
                   value={data.location || ''}
                   onChange={(e) => handleInputChange('location', e.target.value)}
-                  placeholder="City, State (e.g., Austin, TX)"
+                  placeholder="City, State/Province, Country (e.g., Austin, TX, USA or London, UK)"
                   className="mt-1"
                 />
               </div>

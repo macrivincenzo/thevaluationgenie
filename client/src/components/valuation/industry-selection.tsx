@@ -17,25 +17,7 @@ export default function IndustrySelection({ data, onChange, onNext, onPrevious }
   const industries = getAllIndustries();
   const selectedIndustry = industries.find(ind => ind.industry === data.industry);
 
-  const states = [
-    { value: "AL", label: "Alabama" }, { value: "AK", label: "Alaska" }, { value: "AZ", label: "Arizona" },
-    { value: "AR", label: "Arkansas" }, { value: "CA", label: "California" }, { value: "CO", label: "Colorado" },
-    { value: "CT", label: "Connecticut" }, { value: "DE", label: "Delaware" }, { value: "FL", label: "Florida" },
-    { value: "GA", label: "Georgia" }, { value: "HI", label: "Hawaii" }, { value: "ID", label: "Idaho" },
-    { value: "IL", label: "Illinois" }, { value: "IN", label: "Indiana" }, { value: "IA", label: "Iowa" },
-    { value: "KS", label: "Kansas" }, { value: "KY", label: "Kentucky" }, { value: "LA", label: "Louisiana" },
-    { value: "ME", label: "Maine" }, { value: "MD", label: "Maryland" }, { value: "MA", label: "Massachusetts" },
-    { value: "MI", label: "Michigan" }, { value: "MN", label: "Minnesota" }, { value: "MS", label: "Mississippi" },
-    { value: "MO", label: "Missouri" }, { value: "MT", label: "Montana" }, { value: "NE", label: "Nebraska" },
-    { value: "NV", label: "Nevada" }, { value: "NH", label: "New Hampshire" }, { value: "NJ", label: "New Jersey" },
-    { value: "NM", label: "New Mexico" }, { value: "NY", label: "New York" }, { value: "NC", label: "North Carolina" },
-    { value: "ND", label: "North Dakota" }, { value: "OH", label: "Ohio" }, { value: "OK", label: "Oklahoma" },
-    { value: "OR", label: "Oregon" }, { value: "PA", label: "Pennsylvania" }, { value: "RI", label: "Rhode Island" },
-    { value: "SC", label: "South Carolina" }, { value: "SD", label: "South Dakota" }, { value: "TN", label: "Tennessee" },
-    { value: "TX", label: "Texas" }, { value: "UT", label: "Utah" }, { value: "VT", label: "Vermont" },
-    { value: "VA", label: "Virginia" }, { value: "WA", label: "Washington" }, { value: "WV", label: "West Virginia" },
-    { value: "WI", label: "Wisconsin" }, { value: "WY", label: "Wyoming" }
-  ];
+
 
   return (
     <Card className="shadow-lg">
@@ -69,23 +51,14 @@ export default function IndustrySelection({ data, onChange, onNext, onPrevious }
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
                   <Label htmlFor="location" className="text-lg font-medium">
-                    Business Location (State)
+                    Business Location
                   </Label>
-                  <Select
-                    value={data.location}
-                    onValueChange={(value) => onChange({ location: value })}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select state" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {states.map((state) => (
-                        <SelectItem key={state.value} value={state.value}>
-                          {state.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <Input
+                    id="location"
+                    placeholder="City, State/Province, Country (e.g., Austin, TX, USA or London, UK)"
+                    value={data.location || ''}
+                    onChange={(e) => onChange({ location: e.target.value })}
+                  />
                 </div>
 
                 <div>
