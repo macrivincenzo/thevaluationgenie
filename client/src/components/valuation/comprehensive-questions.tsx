@@ -35,29 +35,39 @@ export default function ComprehensiveQuestions({ data, onChange, onNext, onPrevi
   const canProceedToNextSection = () => {
     switch (currentSection) {
       case 1:
-        // Business Basics - only require essential fields that actually exist
-        return data.businessName && data.industry && data.foundedYear && data.location && data.employeeCount >= 0;
+        // Business Basics - only require essential fields
+        return data.businessName && data.industry && data.foundedYear && data.location;
       case 2:
         // Financial Performance - only require core financial data
         return data.annualRevenue > 0 && data.sde > 0;
       case 3:
-        // Customer & Market Metrics - simplified validation
-        return true; // All fields are optional in this section
       case 4:
-        // Operations & Management - simplified validation
-        return true; // All fields are optional in this section
       case 5:
-        // Growth & Opportunities - simplified validation
-        return true; // All fields are optional in this section
       case 6:
-        // Risk Assessment - simplified validation
-        return true; // All fields are optional in this section
       case 7:
-        // Financial Assets - simplified validation
-        return true; // All fields are optional in this section
+      case 8:
+        // All other sections are optional for better user experience
+        return true;
       default:
         return true;
     }
+  };
+
+  const getMissingFields = () => {
+    const missing = [];
+    switch (currentSection) {
+      case 1:
+        if (!data.businessName) missing.push('Company Name');
+        if (!data.industry) missing.push('Industry');
+        if (!data.foundedYear) missing.push('Year Founded');
+        if (!data.location) missing.push('Location');
+        break;
+      case 2:
+        if (!data.annualRevenue || data.annualRevenue <= 0) missing.push('Annual Revenue');
+        if (!data.sde || data.sde <= 0) missing.push('SDE (Seller\'s Discretionary Earnings)');
+        break;
+    }
+    return missing;
   };
 
   const industryOptions = [
@@ -687,14 +697,15 @@ export default function ComprehensiveQuestions({ data, onChange, onNext, onPrevi
               </div>
 
               <div>
-                <Label htmlFor="outstandingDebt">Outstanding Business Debt</Label>
+                <Label htmlFor="outstandingDebt">Outstanding Business Debt <span className="text-slate-400 text-sm">(optional)</span></Label>
                 <Input
                   id="outstandingDebt"
                   type="number"
                   value={data.outstandingDebt || ''}
                   onChange={(e) => handleInputChange('outstandingDebt', parseFloat(e.target.value) || 0)}
-                  placeholder="Total business debt amount"
+                  placeholder="Enter if you have business debt (leave blank if none)"
                 />
+                <p className="text-xs text-slate-500 mt-1">Include loans, credit lines, equipment financing, etc.</p>
               </div>
 
               <div>
@@ -782,14 +793,21 @@ export default function ComprehensiveQuestions({ data, onChange, onNext, onPrevi
             {currentSection === 1 ? 'Back' : 'Previous'}
           </Button>
           
-          <Button 
-            onClick={handleNext}
-            disabled={!canProceedToNextSection()}
-            className="bg-blue-600 hover:bg-blue-700 text-white flex items-center"
-          >
-            {currentSection === totalSections ? 'Continue to Industry Selection' : 'Next Section'}
-            <ArrowRight className="w-4 h-4 ml-2" />
-          </Button>
+          <div className="flex flex-col items-end">
+            {!canProceedToNextSection() && getMissingFields().length > 0 && (
+              <div className="mb-2 text-sm text-slate-600 bg-slate-50 px-3 py-2 rounded-md border border-slate-200">
+                <span className="font-medium">To continue, please provide:</span> {getMissingFields().join(', ')}
+              </div>
+            )}
+            <Button 
+              onClick={handleNext}
+              disabled={!canProceedToNextSection()}
+              className="bg-blue-600 hover:bg-blue-700 text-white flex items-center disabled:bg-slate-300"
+            >
+              {currentSection === totalSections ? 'Continue to Industry Selection' : 'Next Section'}
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </Button>
+          </div>
         </div>
       </CardContent>
     </Card>
