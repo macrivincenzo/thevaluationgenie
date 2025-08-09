@@ -103,10 +103,10 @@ export default function LifetimeSetup() {
               </Alert>
               
               <div className="flex gap-3 justify-center">
-                <Button onClick={() => window.location.href = '/api/login'} className="flex-1 max-w-xs">
+                <Button onClick={() => window.location.href = '/api/login?redirect=/lifetime'} className="flex-1 max-w-xs">
                   Sign In
                 </Button>
-                <Button variant="outline" onClick={() => window.location.href = '/api/login'} className="flex-1 max-w-xs">
+                <Button variant="outline" onClick={() => window.location.href = '/api/login?redirect=/lifetime'} className="flex-1 max-w-xs">
                   Create Account
                 </Button>
               </div>

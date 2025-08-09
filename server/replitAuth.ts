@@ -104,6 +104,12 @@ export async function setupAuth(app: Express) {
   passport.deserializeUser((user: Express.User, cb) => cb(null, user));
 
   app.get("/api/login", (req, res, next) => {
+    // Store redirect URL in session if provided
+    const redirectUrl = req.query.redirect as string;
+    if (redirectUrl) {
+      req.session.redirectAfterLogin = redirectUrl;
+    }
+    
     passport.authenticate(`replitauth:${req.hostname}`, {
       prompt: "login consent",
       scope: ["openid", "email", "profile", "offline_access"],
@@ -111,9 +117,22 @@ export async function setupAuth(app: Express) {
   });
 
   app.get("/api/callback", (req, res, next) => {
-    passport.authenticate(`replitauth:${req.hostname}`, {
-      successReturnToOrRedirect: "/",
-      failureRedirect: "/api/login",
+    passport.authenticate(`replitauth:${req.hostname}`, (err, user) => {
+      if (err || !user) {
+        return res.redirect("/api/login");
+      }
+      
+      req.logIn(user, (err) => {
+        if (err) {
+          return res.redirect("/api/login");
+        }
+        
+        // Check for stored redirect URL
+        const redirectUrl = req.session.redirectAfterLogin || "/";
+        delete req.session.redirectAfterLogin; // Clean up
+        
+        res.redirect(redirectUrl);
+      });
     })(req, res, next);
   });
 
