@@ -61,6 +61,7 @@ function Router() {
             <Route path="/signup" component={Signup} />
             <Route path="/services" component={Services} />
             <Route path="/industry-analysis" component={IndustryAnalysis} />
+            <Route path="/lifetime" component={LifetimeSetup} />
             <Route path="/terms" component={Terms} />
             <Route path="/privacy" component={Privacy} />
             <Route path="/contact" component={Contact} />
