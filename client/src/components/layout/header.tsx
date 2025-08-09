@@ -10,7 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { User, Settings, LogOut, BarChart3, Sparkles, TrendingUp, FileText } from "lucide-react";
+import { User, Settings, LogOut, BarChart3, Sparkles, TrendingUp, FileText, Crown } from "lucide-react";
 import type { User as UserType } from "@shared/schema";
 
 export default function Header() {
@@ -47,6 +47,10 @@ export default function Header() {
             </Link>
             <Link href="/services" className="text-slate-600 hover:text-slate-900 transition-colors">
               Services
+            </Link>
+            <Link href="/lifetime" className="flex items-center text-yellow-600 hover:text-yellow-700 transition-colors font-medium">
+              <Crown className="w-4 h-4 mr-1" />
+              AppSumo Deal
             </Link>
             {isAuthenticated ? (
               <>
@@ -107,6 +111,12 @@ export default function Header() {
                     <Link href="/valuation" className="w-full flex items-center">
                       <FileText className="mr-2 h-4 w-4" />
                       New Valuation
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/lifetime" className="w-full flex items-center text-yellow-600">
+                      <Crown className="mr-2 h-4 w-4" />
+                      AppSumo Lifetime
                     </Link>
                   </DropdownMenuItem>
 
