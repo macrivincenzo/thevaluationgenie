@@ -9,6 +9,7 @@ import { storage } from "./storage";
 import { setupSimpleAuth, requireSimpleAuth } from "./simpleAuth";
 import { emailService } from "./emailService";
 import cookieParser from "cookie-parser";
+import lifetimeRoutes from "./routes/lifetime";
 import { 
   insertEmailSubscriptionSchema, 
   insertValuationSchema,
@@ -266,6 +267,11 @@ function generateProfessionalHtml(valuation: Valuation): string {
 <body>
     <div class="header">
         <div class="report-title">Business Valuation Report</div>
+        ${valuation.isLifetimeFree ? `
+        <div style="background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #92400e; padding: 8px 16px; border-radius: 20px; display: inline-block; margin: 10px 0; font-weight: bold; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">
+            👑 Lifetime Member - Free Report
+        </div>
+        ` : ''}
         <div class="company-name">${valuation.businessName}</div>
         <div class="report-date">Prepared on ${currentDate}</div>
     </div>
@@ -389,6 +395,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Auth route is now handled in simpleAuth.ts
 
+  // Lifetime membership routes
+  app.use('/api/lifetime', lifetimeRoutes);
+
   // Complete user profile endpoint  
   app.post('/api/auth/complete-profile', requireSimpleAuth, async (req: any, res) => {
     try {
@@ -461,6 +470,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const rawData = req.body;
       
       console.log('Received valuation data:', JSON.stringify(rawData, null, 2));
+      
+      // Check if user is a lifetime member
+      const user = await storage.getUser(userId);
+      const isLifetimeMember = user?.lifetimeAccess || false;
       
       // Extract core values from comprehensive data
       const annualRevenueValue = Array.isArray(rawData.annualRevenue) ? rawData.annualRevenue[0] || 0 : rawData.annualRevenue || 0;
@@ -543,7 +556,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         valuationLow: low,
         valuationHigh: high,
         industryMultiple: multiple,
-        paid: false
+        paid: isLifetimeMember, // Lifetime members get reports for free
+        isLifetimeFree: isLifetimeMember
       };
       
       console.log('Creating valuation with data:', JSON.stringify(valuationData, null, 2));

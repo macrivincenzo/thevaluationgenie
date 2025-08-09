@@ -21,6 +21,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Link } from "wouter";
+import { Badge } from "@/components/ui/badge";
 import { 
   Calculator, 
   Download, 
@@ -30,7 +31,9 @@ import {
   DollarSign, 
   UserMinus,
   BarChart3,
-  FileText
+  FileText,
+  Crown,
+  Sparkles
 } from "lucide-react";
 
 export default function Dashboard() {
@@ -57,6 +60,12 @@ export default function Dashboard() {
     retry: false,
     staleTime: 0, // Always refetch to ensure fresh data
     refetchOnWindowFocus: true,
+  });
+
+  // Query lifetime status
+  const { data: lifetimeStatus } = useQuery({
+    queryKey: ['/api/lifetime/status'],
+    retry: false,
   });
 
   // Calculate average value
@@ -155,18 +164,54 @@ export default function Dashboard() {
       <Header />
       
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Lifetime Member Badge */}
+        {(lifetimeStatus as any)?.lifetimeAccess && (
+          <div className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-amber-500 rounded-lg p-4 mb-6 shadow-lg">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <Crown className="w-6 h-6 text-yellow-900 mr-3" />
+                <div>
+                  <h3 className="text-lg font-bold text-yellow-900">Lifetime Member</h3>
+                  <p className="text-yellow-800 text-sm">Unlimited valuations • No more $39 fees</p>
+                </div>
+              </div>
+              <div className="flex items-center">
+                <Sparkles className="w-5 h-5 text-yellow-700 mr-2" />
+                <Badge variant="secondary" className="bg-yellow-200 text-yellow-900">
+                  {(lifetimeStatus as any)?.lifetimeSource?.toUpperCase() || 'PREMIUM'}
+                </Badge>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 sm:mb-8">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">Dashboard</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center">
+              Dashboard
+              {(lifetimeStatus as any)?.lifetimeAccess && (
+                <Crown className="w-6 h-6 text-yellow-600 ml-2" />
+              )}
+            </h1>
             <p className="text-slate-600 text-sm sm:text-base">Manage your business valuations and reports</p>
           </div>
-          <Link href="/valuation">
-            <Button className="w-full sm:w-auto">
-              <Calculator className="w-4 h-4 mr-2" />
-              New Valuation
-            </Button>
-          </Link>
+          <div className="flex gap-2">
+            {!(lifetimeStatus as any)?.lifetimeAccess && (
+              <Link href="/lifetime">
+                <Button variant="outline" className="text-yellow-600 border-yellow-300 hover:bg-yellow-50">
+                  <Crown className="w-4 h-4 mr-2" />
+                  Get Lifetime Access
+                </Button>
+              </Link>
+            )}
+            <Link href="/valuation">
+              <Button className="w-full sm:w-auto">
+                <Calculator className="w-4 h-4 mr-2" />
+                New Valuation
+              </Button>
+            </Link>
+          </div>
         </div>
 
         {/* Stats Cards */}

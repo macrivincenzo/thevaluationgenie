@@ -26,6 +26,7 @@ import IndustryAnalysis from "@/pages/industry-analysis";
 import NotFound from "@/pages/not-found";
 import Login from "@/pages/auth/login";
 import Signup from "@/pages/auth/signup";
+import LifetimeSetup from "@/pages/lifetime-setup";
 
 function Router() {
   const { isAuthenticated, isLoading, user } = useAuth();
@@ -76,6 +77,7 @@ function Router() {
             <Route path="/admin" component={Admin} />
             <Route path="/customer-data" component={CustomerData} />
             <Route path="/stripe-test" component={StripeTest} />
+            <Route path="/lifetime" component={LifetimeSetup} />
             <Route path="/terms" component={Terms} />
             <Route path="/privacy" component={Privacy} />
             <Route path="/contact" component={Contact} />

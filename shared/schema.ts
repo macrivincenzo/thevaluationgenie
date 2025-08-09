@@ -33,6 +33,12 @@ export const users = pgTable("users", {
   lastName: varchar("last_name").notNull(),
   profileImageUrl: varchar("profile_image_url"),
   stripeCustomerId: varchar("stripe_customer_id"),
+  // Membership and subscription tracking
+  membershipType: varchar("membership_type").notNull().default("free"), // "free", "pay_per_report", "lifetime"
+  lifetimeAccess: boolean("lifetime_access").default(false),
+  lifetimeSource: varchar("lifetime_source"), // "appsumo", "direct", "promotion"
+  lifetimePurchaseDate: timestamp("lifetime_purchase_date"),
+  lifetimeFeatures: jsonb("lifetime_features"), // Store specific lifetime features
   // Authentication method tracking
   authMethod: varchar("auth_method").notNull().default("email"), // "email" or "oauth"
   emailVerified: boolean("email_verified").default(false),
@@ -91,6 +97,7 @@ export const valuations = pgTable("valuations", {
   pdfPath: varchar("pdf_path"),
   stripePaymentIntentId: varchar("stripe_payment_intent_id"),
   paid: boolean("paid").default(false),
+  isLifetimeFree: boolean("is_lifetime_free").default(false), // For lifetime member reports
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });

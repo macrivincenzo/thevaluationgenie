@@ -36,6 +36,7 @@ export interface IStorage {
   createEmailUser(user: UpsertUser): Promise<User>; // For email/password users
   updateUserProfile(id: string, profileData: Partial<UpsertUser>): Promise<User>;
   updateStripeCustomerId(userId: string, customerId: string): Promise<User>;
+  grantLifetimeAccess(userId: string, source: string): Promise<User>;
   
   // Customer profile operations
   createCustomerProfile(profile: UpsertCustomerProfile): Promise<CustomerProfile>;
@@ -137,6 +138,30 @@ export class DatabaseStorage implements IStorage {
     return user;
   }
 
+  async grantLifetimeAccess(userId: string, source: string): Promise<User> {
+    const lifetimeFeatures = {
+      unlimitedValuations: true,
+      priorityPdfGeneration: true,
+      premiumReportTemplates: true,
+      emailSupport: true,
+      earlyAccess: true
+    };
+
+    const [user] = await db
+      .update(users)
+      .set({
+        membershipType: 'lifetime',
+        lifetimeAccess: true,
+        lifetimeSource: source,
+        lifetimePurchaseDate: new Date(),
+        lifetimeFeatures: lifetimeFeatures,
+        updatedAt: new Date()
+      })
+      .where(eq(users.id, userId))
+      .returning();
+    return user;
+  }
+
   // Customer profile operations
   async createCustomerProfile(profile: UpsertCustomerProfile): Promise<CustomerProfile> {
     const [customerProfile] = await db
@@ -207,7 +232,8 @@ export class DatabaseStorage implements IStorage {
         valuationLow: valuationData.valuationLow,
         valuationHigh: valuationData.valuationHigh,
         industryMultiple: valuationData.industryMultiple,
-        paid: valuationData.paid || false
+        paid: valuationData.paid || false,
+        isLifetimeFree: valuationData.isLifetimeFree || false
       };
 
       console.log('Sanitized data for insertion:', JSON.stringify(sanitizedData, null, 2));
