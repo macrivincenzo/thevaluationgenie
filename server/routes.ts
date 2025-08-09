@@ -464,6 +464,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Valuation routes
+  // Check user's report limits
+  app.get('/api/valuations/check-limits', requireSimpleAuth, async (req: any, res) => {
+    try {
+      const userId = req.user.id;
+      const limitCheck = await storage.canUserCreateReport(userId);
+      res.json(limitCheck);
+    } catch (error: any) {
+      console.error('Error checking report limits:', error);
+      res.status(500).json({ error: 'Failed to check report limits' });
+    }
+  });
+
   app.post('/api/valuations', requireSimpleAuth, async (req: any, res) => {
     try {
       const userId = req.user.id;

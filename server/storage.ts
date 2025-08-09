@@ -225,10 +225,80 @@ export class DatabaseStorage implements IStorage {
     return result;
   }
 
+  // Check if user can create more reports this month (for tiered users)
+  async canUserCreateReport(userId: string): Promise<{ canCreate: boolean; reason?: string; reportsUsed?: number; limit?: number }> {
+    const user = await this.getUser(userId);
+    
+    if (!user) {
+      return { canCreate: false, reason: 'User not found' };
+    }
+
+    // If user doesn't have lifetime access, they need to pay per report
+    if (!user.lifetimeAccess) {
+      return { canCreate: true }; // They'll pay per report
+    }
+
+    // If unlimited tier, always allow
+    if (!user.monthlyReportLimit || user.lifetimeTier === 'unlimited') {
+      return { canCreate: true };
+    }
+
+    // Check if we need to reset the monthly counter
+    const now = new Date();
+    const currentMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const userMonthStart = user.currentMonthStart ? new Date(user.currentMonthStart) : currentMonth;
+    const userCurrentMonth = new Date(userMonthStart.getFullYear(), userMonthStart.getMonth(), 1);
+
+    // Reset counter if it's a new month
+    if (currentMonth > userCurrentMonth) {
+      await db
+        .update(users)
+        .set({
+          reportsUsedThisMonth: 0,
+          currentMonthStart: now,
+          updatedAt: new Date()
+        })
+        .where(eq(users.id, userId));
+      
+      return { canCreate: true, reportsUsed: 0, limit: user.monthlyReportLimit };
+    }
+
+    // Check if user has reached their monthly limit
+    const reportsUsed = user.reportsUsedThisMonth || 0;
+    if (reportsUsed >= user.monthlyReportLimit) {
+      return { 
+        canCreate: false, 
+        reason: `Monthly limit reached (${reportsUsed}/${user.monthlyReportLimit}). Resets next month.`,
+        reportsUsed,
+        limit: user.monthlyReportLimit
+      };
+    }
+
+    return { canCreate: true, reportsUsed, limit: user.monthlyReportLimit };
+  }
+
+  // Increment user's monthly report usage
+  async incrementUserReportUsage(userId: string): Promise<void> {
+    await db
+      .update(users)
+      .set({
+        reportsUsedThisMonth: sql`COALESCE(reports_used_this_month, 0) + 1`,
+        updatedAt: new Date()
+      })
+      .where(eq(users.id, userId));
+  }
+
   // Valuations
   async createValuation(valuationData: any): Promise<Valuation> {
     try {
       console.log('Storage: Creating valuation with data:', JSON.stringify(valuationData, null, 2));
+
+      // Check if user can create this report (for lifetime tiered users)
+      const canCreate = await this.canUserCreateReport(valuationData.userId);
+      
+      if (!canCreate.canCreate) {
+        throw new Error(canCreate.reason || 'Cannot create report');
+      }
 
       // Create a sanitized object with only the columns that exist in the database
       const sanitizedData = {
@@ -255,6 +325,12 @@ export class DatabaseStorage implements IStorage {
       console.log('Sanitized data for insertion:', JSON.stringify(sanitizedData, null, 2));
 
       const [result] = await db.insert(valuations).values(sanitizedData).returning();
+      
+      // If this is a lifetime user with limits, increment their usage counter
+      if (valuationData.isLifetimeFree && canCreate.limit) {
+        await this.incrementUserReportUsage(valuationData.userId);
+      }
+      
       return result;
     } catch (error: any) {
       console.error('Database insertion error:', error);
