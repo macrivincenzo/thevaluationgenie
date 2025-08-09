@@ -102,13 +102,39 @@ export default function LifetimeSetup() {
                 </AlertDescription>
               </Alert>
               
-              <div className="flex gap-3 justify-center">
-                <Button onClick={() => window.location.href = '/api/login?redirect=/lifetime'} className="flex-1 max-w-xs">
-                  Sign In
-                </Button>
-                <Button variant="outline" onClick={() => window.location.href = '/api/login?redirect=/lifetime'} className="flex-1 max-w-xs">
-                  Create Account
-                </Button>
+              <div className="flex flex-col gap-3">
+                <div className="flex gap-3 justify-center">
+                  <Button onClick={() => window.location.href = '/api/login?redirect=/lifetime'} className="flex-1 max-w-xs">
+                    Sign In with Replit
+                  </Button>
+                  <Button variant="outline" onClick={() => window.location.href = '/api/login?redirect=/lifetime'} className="flex-1 max-w-xs">
+                    Create Account
+                  </Button>
+                </div>
+                
+                {/* Temporary test login for development */}
+                <div className="text-center">
+                  <p className="text-sm text-slate-500 mb-3">For testing, you can also:</p>
+                  <Button 
+                    variant="secondary" 
+                    size="sm"
+                    onClick={() => {
+                      // Quick test login
+                      fetch('/api/auth/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        credentials: 'include',
+                        body: JSON.stringify({ email: 'test@test.com', password: 'password' })
+                      }).then(res => {
+                        if (res.ok) {
+                          window.location.reload();
+                        }
+                      });
+                    }}
+                  >
+                    Quick Test Login (test@test.com)
+                  </Button>
+                </div>
               </div>
             </CardContent>
           </Card>
