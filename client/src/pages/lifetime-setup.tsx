@@ -124,10 +124,12 @@ export default function LifetimeSetup() {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         credentials: 'include',
-                        body: JSON.stringify({ email: 'test@test.com', password: 'password' })
+                        body: JSON.stringify({ email: 'test@test.com', password: 'test' })
                       }).then(res => {
                         if (res.ok) {
                           window.location.reload();
+                        } else {
+                          console.error('Login failed');
                         }
                       });
                     }}
