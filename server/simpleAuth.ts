@@ -1,7 +1,7 @@
 import type { Express, RequestHandler } from "express";
 import crypto from "crypto";
 import { z } from "zod";
-import { emailService } from "./emailService";
+import { emailService } from "./emailService-resend";
 
 // In-memory user storage for maximum speed
 const users = new Map<string, {

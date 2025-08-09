@@ -7,7 +7,7 @@ import path from "path";
 import fs from "fs";
 import { storage } from "./storage";
 import { setupSimpleAuth, requireSimpleAuth } from "./simpleAuth";
-import { emailService } from "./emailService";
+import { emailService } from "./emailService-resend";
 import cookieParser from "cookie-parser";
 import lifetimeRoutes from "./routes/lifetime";
 import { 
