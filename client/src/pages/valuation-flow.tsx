@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { useLocation } from "wouter";
 import Header from "@/components/layout/header";
@@ -201,10 +201,22 @@ export default function ValuationFlow() {
   // Total steps: 1=Start, 2=Questions, 3=Industry, 4=FileUpload, 5=Results
   const totalSteps = 5;
 
+  // Check user's report limits
+  const { data: limitCheck } = useQuery({
+    queryKey: ['/api/valuations/check-limits'],
+    retry: false,
+    staleTime: 1000 * 60 * 5, // 5 minutes
+  });
+
   const createValuationMutation = useMutation({
     mutationFn: async (data: ValuationData) => {
       console.log("Starting valuation calculation...");
       console.log("Sending valuation data:", JSON.stringify(data, null, 2));
+      
+      // Check limits before submitting (frontend validation)
+      if (limitCheck && !limitCheck.canCreate) {
+        throw new Error(limitCheck.reason || 'Cannot create report - monthly limit reached');
+      }
       
       // Add detailed validation logging
       console.log("Business name:", data.businessName);
@@ -227,6 +239,8 @@ export default function ValuationFlow() {
         title: "Valuation Complete!",
         description: "Your business valuation has been calculated.",
       });
+      // Refetch limits to update usage display
+      queryClient.invalidateQueries({ queryKey: ['/api/valuations/check-limits'] });
     },
     onError: (error: Error) => {
       console.error("✗ Valuation creation error:", error);

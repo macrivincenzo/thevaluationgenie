@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { Valuation } from "@shared/schema";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
+import TierUsageDisplay from "@/components/valuation/tier-usage-display";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -164,6 +165,9 @@ export default function Dashboard() {
       <Header />
       
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Tier Usage Display for Limited Plans */}
+        <TierUsageDisplay />
+
         {/* Lifetime Member Badge */}
         {(lifetimeStatus as any)?.lifetimeAccess && (
           <div className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-amber-500 rounded-lg p-4 mb-6 shadow-lg">
@@ -172,13 +176,17 @@ export default function Dashboard() {
                 <Crown className="w-6 h-6 text-yellow-900 mr-3" />
                 <div>
                   <h3 className="text-lg font-bold text-yellow-900">Lifetime Member</h3>
-                  <p className="text-yellow-800 text-sm">Unlimited valuations • No more $39 fees</p>
+                  <p className="text-yellow-800 text-sm">
+                    {(lifetimeStatus as any)?.monthlyReportLimit 
+                      ? `${(lifetimeStatus as any).monthlyReportLimit} valuations per month` 
+                      : 'Unlimited valuations'} • No more $39 fees
+                  </p>
                 </div>
               </div>
               <div className="flex items-center">
                 <Sparkles className="w-5 h-5 text-yellow-700 mr-2" />
                 <Badge variant="secondary" className="bg-yellow-200 text-yellow-900">
-                  {(lifetimeStatus as any)?.lifetimeSource?.toUpperCase() || 'PREMIUM'}
+                  {((lifetimeStatus as any)?.lifetimeTier || 'premium').toUpperCase()}
                 </Badge>
               </div>
             </div>
