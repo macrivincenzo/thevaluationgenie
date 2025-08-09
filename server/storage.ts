@@ -138,13 +138,25 @@ export class DatabaseStorage implements IStorage {
     return user;
   }
 
-  async grantLifetimeAccess(userId: string, source: string): Promise<User> {
+  async grantLifetimeAccess(userId: string, source: string, tier: string = 'unlimited', verificationCode?: string): Promise<User> {
+    // Define tier-specific settings
+    const tierSettings = {
+      basic: { limit: 5, price: 69 },
+      pro: { limit: 10, price: 89 },
+      unlimited: { limit: null, price: 149 }
+    };
+    
+    const settings = tierSettings[tier as keyof typeof tierSettings] || tierSettings.unlimited;
+    
     const lifetimeFeatures = {
-      unlimitedValuations: true,
+      unlimitedValuations: tier === 'unlimited',
+      monthlyReportLimit: settings.limit,
       priorityPdfGeneration: true,
       premiumReportTemplates: true,
       emailSupport: true,
-      earlyAccess: true
+      earlyAccess: true,
+      tier: tier,
+      price: settings.price
     };
 
     const [user] = await db
@@ -152,6 +164,10 @@ export class DatabaseStorage implements IStorage {
       .set({
         membershipType: 'lifetime',
         lifetimeAccess: true,
+        lifetimeTier: tier,
+        monthlyReportLimit: settings.limit,
+        reportsUsedThisMonth: 0,
+        currentMonthStart: new Date(),
         lifetimeSource: source,
         lifetimePurchaseDate: new Date(),
         lifetimeFeatures: lifetimeFeatures,

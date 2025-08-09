@@ -36,6 +36,10 @@ export const users = pgTable("users", {
   // Membership and subscription tracking
   membershipType: varchar("membership_type").notNull().default("free"), // "free", "pay_per_report", "lifetime"
   lifetimeAccess: boolean("lifetime_access").default(false),
+  lifetimeTier: varchar("lifetime_tier"), // "basic", "pro", "unlimited" 
+  monthlyReportLimit: integer("monthly_report_limit"), // 5, 10, or null (unlimited)
+  reportsUsedThisMonth: integer("reports_used_this_month").default(0),
+  currentMonthStart: timestamp("current_month_start").defaultNow(),
   lifetimeSource: varchar("lifetime_source"), // "appsumo", "direct", "promotion"
   lifetimePurchaseDate: timestamp("lifetime_purchase_date"),
   lifetimeFeatures: jsonb("lifetime_features"), // Store specific lifetime features

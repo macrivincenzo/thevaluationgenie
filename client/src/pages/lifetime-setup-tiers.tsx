@@ -1,18 +1,6 @@
-import { useState } from "react";
-import { useQuery, useMutation } from "@tanstack/react-query";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Badge } from "@/components/ui/badge";
-import { useAuth } from "@/hooks/useAuth";
-import { Sparkles, Crown, Check, AlertCircle } from "lucide-react";
-import Header from "@/components/layout/header";
-import Footer from "@/components/layout/footer";
+// This file is no longer needed - functionality moved to lifetime-setup.tsx
 
-export default function LifetimeSetup() {
+export default function LifetimeSetupTiers() {
   const { user, isAuthenticated } = useAuth();
   const [verificationCode, setVerificationCode] = useState("");
   const [lifetimeSource, setLifetimeSource] = useState("appsumo");

@@ -9,17 +9,29 @@ const router = Router();
 router.post('/grant-lifetime', requireSimpleAuth, async (req: any, res: Response) => {
   try {
     const userId = req.user?.id;
-    const { source = 'appsumo', verificationCode } = req.body;
+    const { source = 'appsumo', verificationCode, tier = 'unlimited' } = req.body;
 
-    // In production, you'd verify the AppSumo code here
-    // For now, we'll use a simple verification code approach
-    const validCodes = [
-      'APPSUMO-LIFETIME-2025',
-      'DIRECT-LIFETIME-SPECIAL',
-      'ADMIN-GRANT-ACCESS'
-    ];
+    // Define tier-specific verification codes
+    const validCodes = {
+      // Basic Tier - $69 - 5 reports/month
+      'APPSUMO-BASIC-2025': 'basic',
+      'APPSUMO-STARTER-2025': 'basic',
+      
+      // Pro Tier - $89 - 10 reports/month  
+      'APPSUMO-PRO-2025': 'pro',
+      'APPSUMO-BUSINESS-2025': 'pro',
+      
+      // Unlimited Tier - $149 - Unlimited reports
+      'APPSUMO-UNLIMITED-2025': 'unlimited',
+      'APPSUMO-PREMIUM-2025': 'unlimited',
+      'APPSUMO-LIFETIME-2025': 'unlimited', // Legacy code
+      
+      // Admin codes
+      'DIRECT-LIFETIME-SPECIAL': 'unlimited',
+      'ADMIN-GRANT-ACCESS': 'unlimited'
+    };
 
-    if (!verificationCode || !validCodes.includes(verificationCode)) {
+    if (!verificationCode || !(verificationCode in validCodes)) {
       return res.status(400).json({ error: 'Invalid verification code' });
     }
 
@@ -27,7 +39,9 @@ router.post('/grant-lifetime', requireSimpleAuth, async (req: any, res: Response
       return res.status(401).json({ error: 'User not authenticated' });
     }
 
-    const user = await storage.grantLifetimeAccess(userId, source);
+    // Get tier from verification code
+    const assignedTier = validCodes[verificationCode as keyof typeof validCodes];
+    const user = await storage.grantLifetimeAccess(userId, source, assignedTier, verificationCode);
     
     res.json({ 
       success: true, 
@@ -36,6 +50,8 @@ router.post('/grant-lifetime', requireSimpleAuth, async (req: any, res: Response
         email: user.email,
         membershipType: user.membershipType,
         lifetimeAccess: user.lifetimeAccess,
+        lifetimeTier: user.lifetimeTier,
+        monthlyReportLimit: user.monthlyReportLimit,
         lifetimeSource: user.lifetimeSource
       }
     });
@@ -61,6 +77,10 @@ router.get('/status', requireSimpleAuth, async (req: any, res: Response) => {
     res.json({
       membershipType: user.membershipType,
       lifetimeAccess: user.lifetimeAccess,
+      lifetimeTier: user.lifetimeTier,
+      monthlyReportLimit: user.monthlyReportLimit,
+      reportsUsedThisMonth: user.reportsUsedThisMonth,
+      currentMonthStart: user.currentMonthStart,
       lifetimeSource: user.lifetimeSource,
       lifetimePurchaseDate: user.lifetimePurchaseDate,
       lifetimeFeatures: user.lifetimeFeatures
