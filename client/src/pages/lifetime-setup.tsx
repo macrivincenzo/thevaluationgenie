@@ -265,11 +265,7 @@ export default function LifetimeSetup() {
                       <li className="flex items-center"><Check className="w-4 h-4 text-green-600 mr-2" />Email support</li>
                       <li className="flex items-center"><Check className="w-4 h-4 text-green-600 mr-2" />Priority generation</li>
                     </ul>
-                    <div className="mt-6 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-                      <p className="text-xs font-medium text-yellow-800 mb-2">Valid Codes:</p>
-                      <code className="text-xs text-yellow-700 block">APPSUMO-BASIC-2025</code>
-                      <code className="text-xs text-yellow-700 block">APPSUMO-STARTER-2025</code>
-                    </div>
+
                   </CardContent>
                 </Card>
 
@@ -294,11 +290,7 @@ export default function LifetimeSetup() {
                       <li className="flex items-center"><Check className="w-4 h-4 text-green-600 mr-2" />Priority generation</li>
                       <li className="flex items-center"><Check className="w-4 h-4 text-green-600 mr-2" />Advanced templates</li>
                     </ul>
-                    <div className="mt-6 p-3 bg-indigo-50 border border-indigo-200 rounded-lg">
-                      <p className="text-xs font-medium text-indigo-800 mb-2">Valid Codes:</p>
-                      <code className="text-xs text-indigo-700 block">APPSUMO-PRO-2025</code>
-                      <code className="text-xs text-indigo-700 block">APPSUMO-BUSINESS-2025</code>
-                    </div>
+
                   </CardContent>
                 </Card>
 
@@ -321,11 +313,7 @@ export default function LifetimeSetup() {
                       <li className="flex items-center"><Check className="w-4 h-4 text-green-600 mr-2" />Advanced templates</li>
                       <li className="flex items-center"><Check className="w-4 h-4 text-green-600 mr-2" />Early feature access</li>
                     </ul>
-                    <div className="mt-6 p-3 bg-purple-50 border border-purple-200 rounded-lg">
-                      <p className="text-xs font-medium text-purple-800 mb-2">Valid Codes:</p>
-                      <code className="text-xs text-purple-700 block">APPSUMO-UNLIMITED-2025</code>
-                      <code className="text-xs text-purple-700 block">APPSUMO-PREMIUM-2025</code>
-                    </div>
+
                   </CardContent>
                 </Card>
               </div>
