@@ -14,26 +14,40 @@ import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 
 export default function LifetimeSetup() {
-  const { user } = useAuth();
+  const { user, isAuthenticated } = useAuth();
   const [verificationCode, setVerificationCode] = useState("");
   const [lifetimeSource, setLifetimeSource] = useState("appsumo");
 
-  // Query lifetime status
+  // Query lifetime status - only if authenticated
   const { data: lifetimeStatus, refetch } = useQuery({
     queryKey: ['/api/lifetime/status'],
-    queryFn: () => apiRequest('/api/lifetime/status'),
+    enabled: isAuthenticated,
+    retry: false,
   });
 
   // Grant lifetime access mutation
   const grantLifetimeMutation = useMutation({
-    mutationFn: (data: { verificationCode: string; source: string }) =>
-      apiRequest('/api/lifetime/grant-lifetime', {
+    mutationFn: async (data: { verificationCode: string; source: string }) => {
+      if (!isAuthenticated) {
+        throw new Error('Please sign in first to activate your lifetime membership');
+      }
+      
+      const response = await fetch('/api/lifetime/grant-lifetime', {
         method: 'POST',
-        body: JSON.stringify(data),
         headers: { 'Content-Type': 'application/json' },
-      }),
+        credentials: 'include',
+        body: JSON.stringify(data),
+      });
+      
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to activate lifetime membership');
+      }
+      
+      return response.json();
+    },
     onSuccess: () => {
-      refetch();
+      if (refetch) refetch();
       setVerificationCode("");
     },
   });
@@ -55,7 +69,38 @@ export default function LifetimeSetup() {
           </p>
         </div>
 
-        {isLifetimeMember ? (
+        {!isAuthenticated ? (
+          // Sign in prompt for non-authenticated users
+          <Card className="shadow-lg">
+            <CardHeader>
+              <CardTitle className="text-2xl flex items-center">
+                <Crown className="w-8 h-8 text-yellow-600 mr-3" />
+                Activate Your AppSumo Lifetime Deal
+              </CardTitle>
+              <p className="text-slate-600">
+                Sign in to your ValuationGenie account to activate your lifetime membership
+              </p>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <Alert className="border-blue-200 bg-blue-50">
+                <AlertCircle className="w-4 h-4" />
+                <AlertDescription className="text-blue-800">
+                  You need to sign in first to activate your AppSumo lifetime membership. 
+                  If you don't have an account yet, create one and then return to this page.
+                </AlertDescription>
+              </Alert>
+              
+              <div className="flex gap-3">
+                <Button onClick={() => window.location.href = '/api/login'} className="flex-1">
+                  Sign In
+                </Button>
+                <Button variant="outline" onClick={() => window.location.href = '/api/login'} className="flex-1">
+                  Create Account
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        ) : isLifetimeMember ? (
           // Lifetime member status card
           <Card className="shadow-xl border-2 border-yellow-200 bg-gradient-to-r from-yellow-50 to-amber-50">
             <CardHeader>
