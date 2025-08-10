@@ -36,6 +36,7 @@ import {
   Crown,
   Sparkles
 } from "lucide-react";
+import SocialShare from "@/components/social/social-share";
 
 export default function Dashboard() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -310,6 +311,11 @@ export default function Dashboard() {
                         <div className="flex items-center justify-end gap-2 sm:gap-3 flex-shrink-0">
                           {valuation.paid ? (
                             <div className="flex flex-col sm:flex-row gap-2">
+                              <SocialShare 
+                                valuation={valuation}
+                                variant="button"
+                                size="sm"
+                              />
                               <Button 
                                 variant="outline" 
                                 size="sm"
