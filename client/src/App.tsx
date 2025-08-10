@@ -27,6 +27,11 @@ import NotFound from "@/pages/not-found";
 import Login from "@/pages/auth/login";
 import Signup from "@/pages/auth/signup";
 import LifetimeSetup from "@/pages/lifetime-setup";
+import BlogIndex from "@/pages/blog/index";
+import SdeBusinessValuationGuide from "@/pages/blog/sde-business-valuation-guide";
+import BusinessValuationVsMarketAppraisal from "@/pages/blog/business-valuation-vs-market-appraisal";
+import SmallBusinessSalePreparation from "@/pages/blog/small-business-sale-preparation";
+import IndustryValuationMultiples2025 from "@/pages/blog/industry-valuation-multiples-2025";
 
 function Router() {
   const { isAuthenticated, isLoading, user } = useAuth();
@@ -62,6 +67,11 @@ function Router() {
             <Route path="/services" component={Services} />
             <Route path="/industry-analysis" component={IndustryAnalysis} />
             <Route path="/lifetime" component={LifetimeSetup} />
+            <Route path="/blog" component={BlogIndex} />
+            <Route path="/blog/sde-business-valuation-guide" component={SdeBusinessValuationGuide} />
+            <Route path="/blog/business-valuation-vs-market-appraisal" component={BusinessValuationVsMarketAppraisal} />
+            <Route path="/blog/small-business-sale-preparation" component={SmallBusinessSalePreparation} />
+            <Route path="/blog/industry-valuation-multiples-2025" component={IndustryValuationMultiples2025} />
             <Route path="/terms" component={Terms} />
             <Route path="/privacy" component={Privacy} />
             <Route path="/contact" component={Contact} />
@@ -74,6 +84,11 @@ function Router() {
             <Route path="/dashboard" component={Dashboard} />
             <Route path="/services" component={Services} />
             <Route path="/industry-analysis" component={IndustryAnalysis} />
+            <Route path="/blog" component={BlogIndex} />
+            <Route path="/blog/sde-business-valuation-guide" component={SdeBusinessValuationGuide} />
+            <Route path="/blog/business-valuation-vs-market-appraisal" component={BusinessValuationVsMarketAppraisal} />
+            <Route path="/blog/small-business-sale-preparation" component={SmallBusinessSalePreparation} />
+            <Route path="/blog/industry-valuation-multiples-2025" component={IndustryValuationMultiples2025} />
 
             <Route path="/admin" component={Admin} />
             <Route path="/customer-data" component={CustomerData} />

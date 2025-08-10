@@ -1,0 +1,187 @@
+import { Link } from "wouter";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { CalendarDays, Clock, ArrowRight, TrendingUp, Calculator, FileText, Users } from "lucide-react";
+
+const blogPosts = [
+  {
+    id: "sde-business-valuation-guide",
+    title: "SDE Business Valuation: Complete Guide for Small Business Owners",
+    description: "Master Seller's Discretionary Earnings (SDE) valuation method with industry multiples, calculation examples, and when to use SDE vs EBITDA for businesses under $5M.",
+    excerpt: "Learn why SDE is the gold standard for valuing main street businesses and how to calculate your company's worth using this proven methodology.",
+    category: "Valuation Methods",
+    readTime: "12 min read",
+    publishDate: "2025-01-10",
+    featured: true,
+    keywords: ["SDE business valuation", "seller discretionary earnings", "small business valuation method"],
+    icon: TrendingUp,
+    slug: "/blog/sde-business-valuation-guide"
+  },
+  {
+    id: "business-valuation-vs-market-appraisal",
+    title: "Business Valuation vs Market Appraisal: Which Do You Need?",
+    description: "Understand the key differences between business valuations and market appraisals, when to use each approach, and how they impact your SME's financial decisions.",
+    excerpt: "Not sure whether you need a valuation or appraisal? This guide breaks down the differences, costs, and use cases for each approach.",
+    category: "Business Fundamentals", 
+    readTime: "8 min read",
+    publishDate: "2025-01-10",
+    featured: false,
+    keywords: ["business valuation vs appraisal", "market appraisal SME", "business valuation difference"],
+    icon: Calculator,
+    slug: "/blog/business-valuation-vs-market-appraisal"
+  },
+  {
+    id: "small-business-sale-preparation",
+    title: "How to Prepare Your Small Business for Sale: Valuation Checklist",
+    description: "Essential steps to maximize your business value before selling. Financial cleanup, documentation requirements, and valuation optimization strategies.",
+    excerpt: "Boost your sale price by 15-30% with proper preparation. Our comprehensive checklist covers everything from financial statements to operational improvements.",
+    category: "Exit Planning",
+    readTime: "15 min read", 
+    publishDate: "2025-01-10",
+    featured: false,
+    keywords: ["prepare business for sale", "small business sale preparation", "business valuation preparation"],
+    icon: FileText,
+    slug: "/blog/small-business-sale-preparation"
+  },
+  {
+    id: "industry-valuation-multiples-2025",
+    title: "Industry Valuation Multiples 2025: SDE Benchmarks by Sector",
+    description: "Current SDE multiples for restaurants, retail, manufacturing, IT services, and professional services. Updated market data and valuation trends.",
+    excerpt: "Access the latest industry benchmarks with real market data. See how your business compares to recent sales in your sector.",
+    category: "Market Data",
+    readTime: "10 min read",
+    publishDate: "2025-01-10", 
+    featured: false,
+    keywords: ["industry valuation multiples 2025", "SDE multiples by industry", "business valuation benchmarks"],
+    icon: Users,
+    slug: "/blog/industry-valuation-multiples-2025"
+  }
+];
+
+export default function BlogIndex() {
+  const featuredPost = blogPosts.find(post => post.featured);
+  const otherPosts = blogPosts.filter(post => !post.featured);
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+      {/* Header */}
+      <div className="bg-white border-b">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="text-center">
+            <h1 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-6">
+              Business Valuation <span className="text-blue-600">Insights</span>
+            </h1>
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto mb-8">
+              Expert guidance on business valuation, SDE analysis, and exit planning. 
+              Stay informed with the latest market data and proven valuation methodologies.
+            </p>
+            <div className="flex gap-4 justify-center">
+              <Link href="/get-valuation">
+                <Button size="lg" className="bg-blue-600 hover:bg-blue-700">
+                  <Calculator className="w-5 h-5 mr-2" />
+                  Get Free Estimate
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Featured Article */}
+        {featuredPost && (
+          <div className="mb-16">
+            <h2 className="text-2xl font-bold text-slate-900 mb-8">Featured Article</h2>
+            <Card className="shadow-xl border-0 overflow-hidden">
+              <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-8 text-white">
+                <div className="flex items-center gap-3 mb-4">
+                  <featuredPost.icon className="w-8 h-8" />
+                  <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium">
+                    {featuredPost.category}
+                  </span>
+                </div>
+                <h3 className="text-3xl font-bold mb-4">{featuredPost.title}</h3>
+                <p className="text-xl text-blue-100 mb-6">{featuredPost.excerpt}</p>
+                <div className="flex items-center gap-6 text-blue-100 mb-6">
+                  <div className="flex items-center gap-2">
+                    <CalendarDays className="w-4 h-4" />
+                    <span>{new Date(featuredPost.publishDate).toLocaleDateString()}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Clock className="w-4 h-4" />
+                    <span>{featuredPost.readTime}</span>
+                  </div>
+                </div>
+                <Link href={featuredPost.slug}>
+                  <Button variant="secondary" size="lg" className="bg-white text-blue-600 hover:bg-blue-50">
+                    Read Full Article
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </Button>
+                </Link>
+              </div>
+            </Card>
+          </div>
+        )}
+
+        {/* Other Articles Grid */}
+        <div>
+          <h2 className="text-2xl font-bold text-slate-900 mb-8">Latest Articles</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {otherPosts.map((post) => (
+              <Card key={post.id} className="shadow-lg hover:shadow-xl transition-shadow duration-300">
+                <CardHeader>
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="p-2 bg-blue-100 rounded-lg">
+                      <post.icon className="w-5 h-5 text-blue-600" />
+                    </div>
+                    <span className="text-sm font-medium text-blue-600">{post.category}</span>
+                  </div>
+                  <CardTitle className="text-xl font-bold text-slate-900 line-clamp-2">
+                    {post.title}
+                  </CardTitle>
+                  <CardDescription className="text-slate-600 line-clamp-3">
+                    {post.excerpt}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-center justify-between text-sm text-slate-500 mb-4">
+                    <div className="flex items-center gap-2">
+                      <CalendarDays className="w-4 h-4" />
+                      <span>{new Date(post.publishDate).toLocaleDateString()}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Clock className="w-4 h-4" />
+                      <span>{post.readTime}</span>
+                    </div>
+                  </div>
+                  <Link href={post.slug}>
+                    <Button variant="outline" className="w-full group">
+                      Read Article
+                      <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+
+        {/* CTA Section */}
+        <div className="mt-16 text-center">
+          <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-8 text-white">
+            <h3 className="text-2xl font-bold mb-4">Ready to Value Your Business?</h3>
+            <p className="text-xl text-blue-100 mb-6 max-w-2xl mx-auto">
+              Get your free business valuation estimate in minutes using our SDE-based calculator.
+            </p>
+            <Link href="/get-valuation">
+              <Button size="lg" variant="secondary" className="bg-white text-blue-600 hover:bg-blue-50">
+                <Calculator className="w-5 h-5 mr-2" />
+                Start Free Valuation
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

@@ -48,6 +48,9 @@ export default function Header() {
             <Link href="/services" className="text-slate-600 hover:text-slate-900 transition-colors">
               Services
             </Link>
+            <Link href="/blog" className="text-slate-600 hover:text-slate-900 transition-colors">
+              Blog
+            </Link>
             <Link href="/lifetime" className="flex items-center text-yellow-600 hover:text-yellow-700 transition-colors font-medium">
               <Crown className="w-4 h-4 mr-1" />
               AppSumo Deal
