@@ -307,7 +307,7 @@ export function setupSimpleAuth(app: Express) {
 }
 
 // Simple auth middleware
-export const requireSimpleAuth: RequestHandler = (req, res, next) => {
+export const requireSimpleAuth: RequestHandler = async (req, res, next) => {
   const sessionId = req.cookies.session;
   if (!sessionId || !sessions.has(sessionId)) {
     return res.status(401).json({ message: 'Authentication required' });
@@ -319,6 +319,27 @@ export const requireSimpleAuth: RequestHandler = (req, res, next) => {
   if (!user) {
     sessions.delete(sessionId);
     return res.status(401).json({ message: 'Authentication required' });
+  }
+  
+  // Ensure user exists in storage system too
+  try {
+    const { resilientStorage } = await import('./storage-resilient');
+    let storageUser = await resilientStorage.getUser(userId);
+    
+    // If user doesn't exist in storage, create them
+    if (!storageUser) {
+      console.log('Creating user in storage system:', user.email);
+      await resilientStorage.createUser({
+        id: userId,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        profileComplete: true
+      });
+    }
+  } catch (error) {
+    console.error('Error syncing user to storage:', error);
+    // Don't fail auth if storage sync fails
   }
   
   (req as any).user = user;
