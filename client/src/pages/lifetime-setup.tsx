@@ -15,11 +15,8 @@ import Footer from "@/components/layout/footer";
 function AppSumoLoginForm() {
   const [email, setEmail] = useState("");
   const [activationCode, setActivationCode] = useState("");
-  const [isSignup, setIsSignup] = useState(false);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
 
-  const loginMutation = useMutation({
+  const activateMutation = useMutation({
     mutationFn: async (data: { email: string; password: string }) => {
       const response = await fetch('/api/auth/login', {
         method: 'POST',
@@ -30,91 +27,30 @@ function AppSumoLoginForm() {
       
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.message || 'Login failed');
+        throw new Error(error.message || 'Activation failed');
       }
       
       return response.json();
     },
-    onSuccess: () => {
-      window.location.reload(); // Refresh to update auth state
-    },
-  });
-
-  const signupMutation = useMutation({
-    mutationFn: async (data: { email: string; password: string; firstName: string; lastName: string }) => {
-      const response = await fetch('/api/auth/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify(data),
-      });
-      
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || 'Signup failed');
+    onSuccess: (data) => {
+      if (data.success) {
+        window.location.reload(); // Refresh to update auth state
       }
-      
-      return response.json();
-    },
-    onSuccess: () => {
-      // After successful signup, automatically log in
-      loginMutation.mutate({ email, password: activationCode });
     },
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (isSignup) {
-      if (firstName.trim() && lastName.trim() && email.trim() && activationCode.trim()) {
-        signupMutation.mutate({
-          email: email.trim(),
-          password: activationCode.trim(),
-          firstName: firstName.trim(),
-          lastName: lastName.trim()
-        });
-      }
-    } else {
-      if (email.trim() && activationCode.trim()) {
-        loginMutation.mutate({
-          email: email.trim(),
-          password: activationCode.trim()
-        });
-      }
+    if (email.trim() && activationCode.trim()) {
+      activateMutation.mutate({
+        email: email.trim(),
+        password: activationCode.trim()
+      });
     }
   };
 
-  const error = loginMutation.error || signupMutation.error;
-  const isPending = loginMutation.isPending || signupMutation.isPending;
-
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {isSignup && (
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="firstName">First Name</Label>
-            <Input
-              id="firstName"
-              type="text"
-              placeholder="John"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              required
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="lastName">Last Name</Label>
-            <Input
-              id="lastName"
-              type="text"
-              placeholder="Doe"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              required
-            />
-          </div>
-        </div>
-      )}
-
       <div className="space-y-2">
         <Label htmlFor="email" className="flex items-center gap-2">
           <Mail className="w-4 h-4" />
@@ -129,6 +65,9 @@ function AppSumoLoginForm() {
           className="text-lg py-3"
           required
         />
+        <p className="text-sm text-slate-500">
+          Enter any email address you want to use for your account
+        </p>
       </div>
 
       <div className="space-y-2">
@@ -150,11 +89,11 @@ function AppSumoLoginForm() {
         </p>
       </div>
 
-      {error && (
+      {activateMutation.error && (
         <Alert className="border-red-200 bg-red-50">
           <AlertCircle className="w-4 h-4" />
           <AlertDescription className="text-red-800">
-            {error.message}
+            {activateMutation.error.message}
           </AlertDescription>
         </Alert>
       )}
@@ -163,30 +102,20 @@ function AppSumoLoginForm() {
         type="submit" 
         size="lg" 
         className="w-full bg-yellow-600 hover:bg-yellow-700 text-white"
-        disabled={isPending || !email.trim() || !activationCode.trim() || (isSignup && (!firstName.trim() || !lastName.trim()))}
+        disabled={activateMutation.isPending || !email.trim() || !activationCode.trim()}
       >
-        {isPending ? (
+        {activateMutation.isPending ? (
           <>
             <div className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full mr-2" />
-            {isSignup ? 'Creating Account...' : 'Signing In...'}
+            Activating Your Lifetime Access...
           </>
         ) : (
           <>
             <Crown className="w-5 h-5 mr-2" />
-            {isSignup ? 'Create Account & Activate' : 'Sign In & Activate'}
+            Activate Lifetime Access
           </>
         )}
       </Button>
-
-      <div className="text-center">
-        <button
-          type="button"
-          onClick={() => setIsSignup(!isSignup)}
-          className="text-blue-600 hover:text-blue-800 text-sm underline"
-        >
-          {isSignup ? 'Already have an account? Sign in instead' : 'New to ValuationGenie? Create an account'}
-        </button>
-      </div>
     </form>
   );
 }

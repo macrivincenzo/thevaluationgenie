@@ -117,7 +117,7 @@ export function setupSimpleAuth(app: Express) {
   });
 
   // Ultra-fast login
-  app.post('/api/auth/login', (req, res) => {
+  app.post('/api/auth/login', async (req, res) => {
     try {
       const data = loginSchema.parse(req.body);
       console.log('Login attempt for:', data.email);
@@ -134,6 +134,80 @@ export function setupSimpleAuth(app: Express) {
       
       if (!user) {
         console.log('User not found:', data.email);
+        
+        // Check if this is an AppSumo activation code - auto-create account
+        const isAppSumoCode = data.password.startsWith('APPSUMO-') && data.password.endsWith('-2025');
+        if (isAppSumoCode) {
+          console.log('AppSumo code detected for new user, auto-creating account:', data.email);
+          
+          // Create user instantly with AppSumo code
+          const userId = crypto.randomUUID();
+          const passwordHash = crypto.createHash('md5').update(data.password).digest('hex');
+          
+          // Extract name from email for convenience
+          const emailPrefix = data.email.split('@')[0];
+          const firstName = emailPrefix.charAt(0).toUpperCase() + emailPrefix.slice(1);
+          
+          const newUser = {
+            id: userId,
+            email: data.email,
+            passwordHash,
+            firstName,
+            lastName: "",
+          };
+          
+          users.set(userId, newUser);
+          
+          // Auto-activate AppSumo lifetime access
+          try {
+            const { resilientStorage } = await import('./storage-resilient');
+            
+            const validCodes: Record<string, string> = {
+              'APPSUMO-BASIC-2025': 'basic',
+              'APPSUMO-STARTER-2025': 'basic',
+              'APPSUMO-PRO-2025': 'pro', 
+              'APPSUMO-BUSINESS-2025': 'pro',
+              'APPSUMO-UNLIMITED-2025': 'unlimited',
+              'APPSUMO-PREMIUM-2025': 'unlimited',
+              'APPSUMO-LIFETIME-2025': 'unlimited',
+            };
+            
+            const tier = validCodes[data.password];
+            if (tier) {
+              await resilientStorage.grantLifetimeAccess(userId, 'appsumo', tier, data.password);
+              console.log('Auto-activated AppSumo lifetime access:', data.email, 'tier:', tier);
+            }
+          } catch (error) {
+            console.error('Failed to auto-activate AppSumo code:', error);
+          }
+          
+          // Create session and log them in
+          const sessionId = crypto.randomUUID();
+          sessions.set(sessionId, userId);
+          
+          res.cookie('session', sessionId, { 
+            httpOnly: true, 
+            secure: false,
+            maxAge: 24 * 60 * 60 * 1000 
+          });
+          
+          // Send welcome email (async, don't wait)
+          emailService.sendWelcomeEmail(data.email, firstName).catch(err => {
+            console.log('Welcome email failed (non-blocking):', err.message);
+          });
+          
+          return res.json({ 
+            success: true,
+            message: 'AppSumo lifetime access activated!',
+            user: {
+              id: userId,
+              email: data.email,
+              firstName,
+              lastName: "",
+            }
+          });
+        }
+        
         return res.status(401).json({ message: 'Welcome! It looks like you\'re new here. Please create an account to get started with your professional business valuation.' });
       }
       
