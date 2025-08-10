@@ -139,14 +139,14 @@ function AppSumoLoginForm() {
         <Input
           id="activationCode"
           type="text"
-          placeholder="APPSUMO-BASIC-2025"
+          placeholder=""
           value={activationCode}
           onChange={(e) => setActivationCode(e.target.value)}
           className="text-lg py-3 font-mono"
           required
         />
         <p className="text-sm text-slate-500">
-          Use your AppSumo code as your password (e.g., APPSUMO-BASIC-2025, APPSUMO-PRO-2025, APPSUMO-UNLIMITED-2025)
+          Use your AppSumo code as your password
         </p>
       </div>
 
@@ -393,18 +393,9 @@ export default function LifetimeSetup() {
               <div className="bg-slate-50 rounded-lg p-4">
                 <h3 className="font-semibold text-slate-900 mb-2">Available Tiers:</h3>
                 <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span>Basic Tier (5 reports/month):</span>
-                    <span className="font-mono">APPSUMO-BASIC-2025</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Pro Tier (10 reports/month):</span>
-                    <span className="font-mono">APPSUMO-PRO-2025</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Unlimited Tier:</span>
-                    <span className="font-mono">APPSUMO-UNLIMITED-2025</span>
-                  </div>
+                  <div>• Basic Tier: 5 reports per month</div>
+                  <div>• Pro Tier: 10 reports per month</div>
+                  <div>• Unlimited Tier: No limits</div>
                 </div>
               </div>
             </CardContent>
