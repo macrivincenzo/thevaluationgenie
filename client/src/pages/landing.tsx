@@ -79,7 +79,7 @@ export default function Landing() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl lg:text-6xl font-bold text-slate-900 mb-6">
-              Instant SME Business Valuation
+              Free Business Valuation Calculator for SMEs
             </h1>
             
             {/* Pricing Highlight */}
@@ -99,10 +99,10 @@ export default function Landing() {
               </span>
             </div>
             <h2 className="text-2xl lg:text-3xl font-semibold text-slate-700 mb-6">
-              Fast, Affordable, AI-Powered Business Valuation Software for Small and Medium Enterprises
+              Get Your Business Value Estimate Instantly - Professional SDE-Based Reports Available for $39
             </h2>
             <p className="text-xl text-slate-600 mb-8 max-w-3xl mx-auto">
-              Running a small or medium-sized business is tough. Why pay thousands for slow, complex valuations? ValuationGenie delivers professional SME business valuation reports in minutes for only $39.
+              Calculate your business value for free using our SDE-based valuation calculator. For a detailed professional PDF report with industry comparisons and actionable insights, upgrade to our comprehensive analysis for just $39.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <div className="flex gap-3 justify-center">
@@ -112,7 +112,7 @@ export default function Landing() {
                   onClick={handleGetStarted}
                 >
                   <Calculator className="w-5 h-5 mr-2" />
-                  Sign Up For Free
+                  Try Free Calculator
                 </Button>
                 <Button 
                   size="lg" 
@@ -276,7 +276,7 @@ export default function Landing() {
                   onClick={handleGetStarted}
                 >
                   <Calculator className="w-5 h-5 mr-2" />
-                  Sign Up For Free
+                  Try Free Calculator
                 </Button>
                 <Button 
                   size="lg" 

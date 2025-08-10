@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+
+# Important pages for SEO crawling
+Allow: /valuation
+Allow: /services
+Allow: /industry-analysis
+Allow: /contact
+
+# Block sensitive pages
+Disallow: /dashboard
+Disallow: /admin
+Disallow: /api/
+
+# Sitemap location
+Sitemap: https://thevaluationgenie.com/sitemap.xml
+
+# Crawl delay (optional - helps with server load)
+Crawl-delay: 1
