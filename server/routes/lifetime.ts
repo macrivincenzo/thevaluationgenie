@@ -43,10 +43,14 @@ router.post('/grant-lifetime', requireSimpleAuth, async (req: any, res: Response
     const assignedTier = validCodes[verificationCode as keyof typeof validCodes];
     const user = await storage.grantLifetimeAccess(userId, source, assignedTier, verificationCode);
     
+    if (!user) {
+      return res.status(500).json({ error: 'Failed to update user with lifetime access' });
+    }
+    
     res.json({ 
       success: true, 
       user: {
-        id: user.id,
+        id: user.id || userId,
         email: user.email,
         membershipType: user.membershipType,
         lifetimeAccess: user.lifetimeAccess,
