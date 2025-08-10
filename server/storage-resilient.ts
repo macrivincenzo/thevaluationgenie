@@ -288,7 +288,23 @@ export class ResilientStorage implements IStorage {
   async createCustomerProfile(profile: any) { throw new Error('Not implemented in fallback mode'); }
   async getCustomerProfile(userId: string) { return undefined; }
   async updateCustomerProfile(userId: string, profile: any) { throw new Error('Not implemented in fallback mode'); }
-  async updateValuationPayment(id: string, paymentIntentId: string, pdfPath: string) { throw new Error('Not implemented in fallback mode'); }
+  async updateValuationPayment(id: string, paymentIntentId: string, pdfPath: string) {
+    return this.withFallback(
+      () => this.dbStorage.updateValuationPayment(id, paymentIntentId, pdfPath),
+      () => {
+        // In-memory fallback - mark valuation as paid
+        const valuation = this.memoryStorage.getValuation(id);
+        if (valuation) {
+          valuation.stripePaymentIntentId = paymentIntentId;
+          valuation.paid = true;
+          valuation.pdfPath = pdfPath;
+          valuation.updatedAt = new Date();
+          return valuation;
+        }
+        throw new Error('Valuation not found');
+      }
+    );
+  }
   async deleteValuation(id: string) { }
   async getAllValuations() { return []; }
   async createFileUpload(upload: any) { throw new Error('Not implemented in fallback mode'); }
