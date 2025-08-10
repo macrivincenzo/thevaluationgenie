@@ -79,7 +79,7 @@ export default function Landing() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl lg:text-6xl font-bold text-slate-900 mb-6">
-              Free Business Valuation Calculator for SMEs
+              Free Business Valuation Estimate - Professional Reports $39
             </h1>
             
             {/* Pricing Highlight */}
@@ -99,10 +99,10 @@ export default function Landing() {
               </span>
             </div>
             <h2 className="text-2xl lg:text-3xl font-semibold text-slate-700 mb-6">
-              Get Your Business Value Estimate Instantly - Professional SDE-Based Reports Available for $39
+              Get Your SME Business Value Estimate Instantly - Professional SDE Reports Available
             </h2>
             <p className="text-xl text-slate-600 mb-8 max-w-3xl mx-auto">
-              Calculate your business value for free using our SDE-based valuation calculator. For a detailed professional PDF report with industry comparisons and actionable insights, upgrade to our comprehensive analysis for just $39.
+              Get your free business valuation estimate instantly using our SDE-based calculator. Download detailed professional PDF reports with industry comparisons and actionable insights for just $39.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <div className="flex gap-3 justify-center">
@@ -112,7 +112,7 @@ export default function Landing() {
                   onClick={handleGetStarted}
                 >
                   <Calculator className="w-5 h-5 mr-2" />
-                  Try Free Calculator
+                  Get Free Estimate
                 </Button>
                 <Button 
                   size="lg" 
@@ -276,7 +276,7 @@ export default function Landing() {
                   onClick={handleGetStarted}
                 >
                   <Calculator className="w-5 h-5 mr-2" />
-                  Try Free Calculator
+                  Get Free Estimate
                 </Button>
                 <Button 
                   size="lg" 
@@ -296,7 +296,7 @@ export default function Landing() {
                 Learn More
               </Button>
             </div>
-            <p className="text-sm text-slate-500 mt-4">Starting at $39—no subscriptions, no hidden fees.</p>
+            <p className="text-sm text-slate-500 mt-4">Free estimates • Professional reports $39 • No subscriptions, no hidden fees.</p>
           </div>
         </div>
       </section>
