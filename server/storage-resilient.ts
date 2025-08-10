@@ -6,6 +6,7 @@ import type { User, UpsertUser } from '@shared/schema';
 class MemoryStorage {
   private users = new Map<string, User>();
   private usersByEmail = new Map<string, User>();
+  private valuations = new Map<string, any>();
 
   setUser(user: User) {
     this.users.set(user.id, user);
@@ -31,6 +32,27 @@ class MemoryStorage {
 
   getAllUsers(): User[] {
     return Array.from(this.users.values());
+  }
+
+  // Basic valuation storage for testing
+  createValuation(valuation: any): any {
+    const id = Math.random().toString(36);
+    const newValuation = {
+      ...valuation,
+      id,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    this.valuations.set(id, newValuation);
+    return newValuation;
+  }
+
+  getValuation(id: string): any {
+    return this.valuations.get(id);
+  }
+
+  getUserValuations(userId: string): any[] {
+    return Array.from(this.valuations.values()).filter(v => v.userId === userId);
   }
 }
 
@@ -239,14 +261,33 @@ export class ResilientStorage implements IStorage {
     }
   }
 
+  // Valuation operations with fallback
+  async createValuation(valuation: any): Promise<any> {
+    return this.withFallback(
+      () => this.dbStorage.createValuation(valuation),
+      () => this.memoryStorage.createValuation(valuation)
+    );
+  }
+
+  async getValuation(id: string): Promise<any> {
+    return this.withFallback(
+      () => this.dbStorage.getValuation(id),
+      () => this.memoryStorage.getValuation(id)
+    );
+  }
+
+  async getUserValuations(userId: string): Promise<any[]> {
+    return this.withFallback(
+      () => this.dbStorage.getUserValuations(userId),
+      () => this.memoryStorage.getUserValuations(userId)
+    );
+  }
+
   // Stub implementations for remaining methods (add full implementations as needed)
   async getEmailSubscription(email: string) { return undefined; }
   async createCustomerProfile(profile: any) { throw new Error('Not implemented in fallback mode'); }
   async getCustomerProfile(userId: string) { return undefined; }
   async updateCustomerProfile(userId: string, profile: any) { throw new Error('Not implemented in fallback mode'); }
-  async createValuation(valuation: any) { throw new Error('Valuation storage requires database'); }
-  async getValuation(id: string) { return undefined; }
-  async getUserValuations(userId: string) { return []; }
   async updateValuationPayment(id: string, paymentIntentId: string, pdfPath: string) { throw new Error('Not implemented in fallback mode'); }
   async deleteValuation(id: string) { }
   async getAllValuations() { return []; }
