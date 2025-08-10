@@ -53,7 +53,7 @@ const loginSchema = z.object({
 
 export function setupSimpleAuth(app: Express) {
   // Ultra-fast signup
-  app.post('/api/auth/signup', (req, res) => {
+  app.post('/api/auth/signup', async (req, res) => {
     try {
       const data = signupSchema.parse(req.body);
       
@@ -75,6 +75,35 @@ export function setupSimpleAuth(app: Express) {
         firstName: data.firstName,
         lastName: data.lastName,
       });
+      
+      // Check if password is an AppSumo activation code and auto-activate
+      const isAppSumoCode = data.password.startsWith('APPSUMO-') && data.password.endsWith('-2025');
+      if (isAppSumoCode) {
+        console.log('Auto-activating AppSumo code for new user:', data.email, data.password);
+        try {
+          const { resilientStorage } = await import('./storage-resilient');
+          
+          // Define valid codes and their tiers
+          const validCodes: Record<string, string> = {
+            'APPSUMO-BASIC-2025': 'basic',
+            'APPSUMO-STARTER-2025': 'basic',
+            'APPSUMO-PRO-2025': 'pro', 
+            'APPSUMO-BUSINESS-2025': 'pro',
+            'APPSUMO-UNLIMITED-2025': 'unlimited',
+            'APPSUMO-PREMIUM-2025': 'unlimited',
+            'APPSUMO-LIFETIME-2025': 'unlimited',
+          };
+          
+          const tier = validCodes[data.password];
+          if (tier) {
+            await resilientStorage.grantLifetimeAccess(userId, 'appsumo', tier, data.password);
+            console.log('Successfully activated AppSumo lifetime access for:', data.email, 'tier:', tier);
+          }
+        } catch (error) {
+          console.error('Failed to auto-activate AppSumo code:', error);
+          // Don't fail signup if activation fails - user can activate manually later
+        }
+      }
       
       // Send welcome email (async, don't wait for it)
       emailService.sendWelcomeEmail(data.email, data.firstName).catch(err => {
@@ -114,6 +143,15 @@ export function setupSimpleAuth(app: Express) {
       console.log('Stored hash:', user.passwordHash);
       
       if (passwordHash !== user.passwordHash) {
+        // Check if password is an AppSumo activation code
+        const isAppSumoCode = data.password.startsWith('APPSUMO-') && data.password.endsWith('-2025');
+        if (isAppSumoCode) {
+          console.log('AppSumo code detected for existing user:', data.email);
+          return res.status(401).json({ 
+            message: 'It looks like you\'re trying to use an AppSumo code, but this email already has an account with a different password. Please use your original password to sign in, then activate your AppSumo code from the /lifetime page.' 
+          });
+        }
+        
         console.log('Password mismatch for user:', data.email);
         return res.status(401).json({ message: 'Please double-check your password. If you forgot it, no worries - we\'re here to help you get back in.' });
       }

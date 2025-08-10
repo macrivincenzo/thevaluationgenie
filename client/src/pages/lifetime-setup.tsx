@@ -7,9 +7,189 @@ import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/hooks/useAuth";
-import { Sparkles, Crown, Check, AlertCircle, Gift } from "lucide-react";
+import { Sparkles, Crown, Check, AlertCircle, Gift, Mail, Key } from "lucide-react";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
+
+// AppSumo Login Form Component
+function AppSumoLoginForm() {
+  const [email, setEmail] = useState("");
+  const [activationCode, setActivationCode] = useState("");
+  const [isSignup, setIsSignup] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+
+  const loginMutation = useMutation({
+    mutationFn: async (data: { email: string; password: string }) => {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(data),
+      });
+      
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Login failed');
+      }
+      
+      return response.json();
+    },
+    onSuccess: () => {
+      window.location.reload(); // Refresh to update auth state
+    },
+  });
+
+  const signupMutation = useMutation({
+    mutationFn: async (data: { email: string; password: string; firstName: string; lastName: string }) => {
+      const response = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(data),
+      });
+      
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Signup failed');
+      }
+      
+      return response.json();
+    },
+    onSuccess: () => {
+      // After successful signup, automatically log in
+      loginMutation.mutate({ email, password: activationCode });
+    },
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (isSignup) {
+      if (firstName.trim() && lastName.trim() && email.trim() && activationCode.trim()) {
+        signupMutation.mutate({
+          email: email.trim(),
+          password: activationCode.trim(),
+          firstName: firstName.trim(),
+          lastName: lastName.trim()
+        });
+      }
+    } else {
+      if (email.trim() && activationCode.trim()) {
+        loginMutation.mutate({
+          email: email.trim(),
+          password: activationCode.trim()
+        });
+      }
+    }
+  };
+
+  const error = loginMutation.error || signupMutation.error;
+  const isPending = loginMutation.isPending || signupMutation.isPending;
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-6">
+      {isSignup && (
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="firstName">First Name</Label>
+            <Input
+              id="firstName"
+              type="text"
+              placeholder="John"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              required
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="lastName">Last Name</Label>
+            <Input
+              id="lastName"
+              type="text"
+              placeholder="Doe"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              required
+            />
+          </div>
+        </div>
+      )}
+
+      <div className="space-y-2">
+        <Label htmlFor="email" className="flex items-center gap-2">
+          <Mail className="w-4 h-4" />
+          Email Address
+        </Label>
+        <Input
+          id="email"
+          type="email"
+          placeholder="your.email@example.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="text-lg py-3"
+          required
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="activationCode" className="flex items-center gap-2">
+          <Key className="w-4 h-4" />
+          AppSumo Activation Code
+        </Label>
+        <Input
+          id="activationCode"
+          type="text"
+          placeholder="APPSUMO-BASIC-2025"
+          value={activationCode}
+          onChange={(e) => setActivationCode(e.target.value)}
+          className="text-lg py-3 font-mono"
+          required
+        />
+        <p className="text-sm text-slate-500">
+          Use your AppSumo code as your password (e.g., APPSUMO-BASIC-2025, APPSUMO-PRO-2025, APPSUMO-UNLIMITED-2025)
+        </p>
+      </div>
+
+      {error && (
+        <Alert className="border-red-200 bg-red-50">
+          <AlertCircle className="w-4 h-4" />
+          <AlertDescription className="text-red-800">
+            {error.message}
+          </AlertDescription>
+        </Alert>
+      )}
+
+      <Button 
+        type="submit" 
+        size="lg" 
+        className="w-full bg-yellow-600 hover:bg-yellow-700 text-white"
+        disabled={isPending || !email.trim() || !activationCode.trim() || (isSignup && (!firstName.trim() || !lastName.trim()))}
+      >
+        {isPending ? (
+          <>
+            <div className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full mr-2" />
+            {isSignup ? 'Creating Account...' : 'Signing In...'}
+          </>
+        ) : (
+          <>
+            <Crown className="w-5 h-5 mr-2" />
+            {isSignup ? 'Create Account & Activate' : 'Sign In & Activate'}
+          </>
+        )}
+      </Button>
+
+      <div className="text-center">
+        <button
+          type="button"
+          onClick={() => setIsSignup(!isSignup)}
+          className="text-blue-600 hover:text-blue-800 text-sm underline"
+        >
+          {isSignup ? 'Already have an account? Sign in instead' : 'New to ValuationGenie? Create an account'}
+        </button>
+      </div>
+    </form>
+  );
+}
 
 export default function LifetimeSetup() {
   const { user, isAuthenticated } = useAuth();
@@ -81,27 +261,18 @@ export default function LifetimeSetup() {
         </div>
 
         {!isAuthenticated ? (
-          // Sign in prompt for non-authenticated users
+          // AppSumo activation form for non-authenticated users
           <Card className="shadow-lg max-w-2xl mx-auto">
             <CardHeader>
               <CardTitle className="text-2xl text-center">
-                Sign In to Activate Your Code
+                Activate Your AppSumo Lifetime Access
               </CardTitle>
+              <p className="text-slate-600 text-center">
+                Enter your email address and use your AppSumo code as the password
+              </p>
             </CardHeader>
             <CardContent className="space-y-6">
-              <Alert className="border-blue-200 bg-blue-50">
-                <AlertCircle className="w-4 h-4" />
-                <AlertDescription className="text-blue-800">
-                  You need to sign in first to activate your AppSumo lifetime membership. 
-                  If you don't have an account yet, create one and then return to this page.
-                </AlertDescription>
-              </Alert>
-              
-              <div className="flex gap-3 justify-center">
-                <Button onClick={() => window.location.href = '/api/login?redirect=/lifetime'} className="flex-1 max-w-xs">
-                  Sign In with Replit
-                </Button>
-              </div>
+              <AppSumoLoginForm />
             </CardContent>
           </Card>
         ) : isLifetimeMember ? (
