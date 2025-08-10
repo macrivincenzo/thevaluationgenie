@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { storage } from "../storage";
+import { resilientStorage as storage } from "../storage-resilient";
 import { requireSimpleAuth } from "../simpleAuth";
 import { Router } from "express";
 

@@ -5,7 +5,7 @@ import Stripe from "stripe";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
-import { storage } from "./storage";
+import { resilientStorage as storage } from "./storage-resilient";
 import { setupSimpleAuth, requireSimpleAuth } from "./simpleAuth";
 import { emailService } from "./emailService-resend";
 import cookieParser from "cookie-parser";
