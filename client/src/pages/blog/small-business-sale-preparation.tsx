@@ -652,9 +652,9 @@ export default function SmallBusinessSalePreparation() {
                   <p className="text-slate-700 mb-4">
                     Start with a free business valuation to understand your baseline value before improvements.
                   </p>
-                  <Link href="/get-valuation">
+                  <Link href="/valuation">
                     <Button className="w-full bg-emerald-600 hover:bg-emerald-700">
-                      Get Free Valuation
+                      Get Free Estimate
                     </Button>
                   </Link>
                 </CardContent>

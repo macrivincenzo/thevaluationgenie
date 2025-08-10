@@ -608,9 +608,9 @@ export default function IndustryValuationMultiples2025() {
                   <p className="text-slate-700 mb-4">
                     Get an instant valuation using current industry multiples and your business data.
                   </p>
-                  <Link href="/get-valuation">
+                  <Link href="/valuation">
                     <Button className="w-full bg-purple-600 hover:bg-purple-700">
-                      Calculate My Value
+                      Get Free Estimate
                     </Button>
                   </Link>
                 </CardContent>
@@ -625,9 +625,9 @@ export default function IndustryValuationMultiples2025() {
                   <p className="text-slate-700 mb-4">
                     Download comprehensive analysis with industry comparisons, market trends, and improvement recommendations.
                   </p>
-                  <Link href="/get-valuation">
+                  <Link href="/valuation">
                     <Button variant="outline" className="w-full border-blue-600 text-blue-600 hover:bg-blue-50">
-                      Get Professional Analysis
+                      Get Professional Report
                     </Button>
                   </Link>
                 </CardContent>
