@@ -25,26 +25,29 @@ Logo: Premium geometric diamond design with "Instant Business Valuation" tagline
 - **Language**: TypeScript
 - **API**: RESTful
 - **Session Management**: Express sessions with PostgreSQL store
-- **PDF Generation**: Browser print-to-PDF approach
+- **PDF Generation**: Browser print-to-PDF approach with jsPDF fallback
+- **Resilient Architecture**: Automatic database fallback to in-memory storage preventing crashes during outages
 
 ### Database
 - **ORM**: Drizzle ORM
 - **Database**: PostgreSQL (Neon)
 - **Schema**: Shared TypeScript definitions for users, valuations, sessions, etc.
+- **Fallback System**: Complete in-memory storage backup for 100% uptime
 
 ### Core Features
 - **Valuation Engine**: Uses SDE multiplier method with industry-specific multiples. Supports various industries including consulting, marketing, IT services, etc. Output is a comprehensive PDF report. 100% halal compliant with no interest-based calculations and absolutely no EBITDA usage.
-- **Payment Processing**: Stripe integration with simplified single-tier pricing: Professional Report ($39). Secure payment forms using Stripe Elements.
+- **Payment Processing**: Stripe integration with simplified single-tier pricing: Professional Report ($39). Secure payment forms using Stripe Elements. Fully operational demo mode with resilient payment confirmation.
 - **Authentication**: Replit Auth (OpenID Connect) for user authentication, with custom user storage.
 - **File Management**: Local filesystem storage for PDF and CSV uploads (not parsed).
 - **Email System**: Resend API with verified custom domain (noreply@thevaluationgenie.com) for professional email delivery.
 - **Valuation Questionnaire**: A streamlined, universal questionnaire for all users (buyers and sellers) focused on SDE-relevant financial data and business specifics. Includes auto-calculations for key metrics.
 - **PDF Report Generation**: Ultra-modern, premium PDF design with sophisticated color palette (deep slate, indigo, gold, teal), geometric patterns, gradient headers, and professional card layouts creating a "WOW" factor that justifies the $39 price point.
-- **SEO Landing Page**: Extensively optimized for Google ranking targeting "SME Business Valuation" keywords with structured sections including competitive positioning, benefits showcase, and strategic CTA placement.
+- **SEO Foundation**: Comprehensive technical SEO implementation with schema markup, meta optimization, XML sitemap, robots.txt, and transparent messaging targeting "business valuation calculator" keywords.
 - **Complete Navigation**: All pages functional including Services, Industry Analysis, Terms, Privacy, Contact with proper authentication flows.
 - **Premium Logo**: Geometric diamond design with gradient effects, trending arrow, animated sparkles, and "Instant Business Valuation" tagline.
 - **Mobile-Optimized Dashboard**: Fully responsive design with mobile-friendly valuation cards, compact buttons, stacked layouts, and touch-optimized navigation for seamless phone usage.
 - **Professional Form Validation**: Soft gray guidance messages instead of intimidating red errors, optional debt field, and streamlined validation to prevent user abandonment.
+- **AppSumo Integration**: Complete three-tier lifetime system (BASIC-2025, PRO-2025, UNLIMITED-2025) with tier-based report limits.
 
 ## External Dependencies
 

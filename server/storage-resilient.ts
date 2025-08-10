@@ -307,6 +307,12 @@ export class ResilientStorage implements IStorage {
   }
   async deleteValuation(id: string) { }
   async getAllValuations() { return []; }
+  async canUserCreateReport(userId: string) {
+    return this.withFallback(
+      () => this.dbStorage.canUserCreateReport(userId),
+      () => ({ canCreate: true }) // In memory mode, always allow
+    );
+  }
   async createFileUpload(upload: any) { throw new Error('Not implemented in fallback mode'); }
   async getValuationFiles(valuationId: string) { return []; }
   async deleteFile(id: string) { }
