@@ -32,7 +32,7 @@ class EmailService {
 
     try {
       const result = await this.resend.emails.send({
-        from: 'ValuationGenie <noreply@resend.dev>',
+        from: 'ValuationGenie <noreply@thevaluationgenie.com>',
         to: options.to,
         subject: options.subject,
         html: options.html,
