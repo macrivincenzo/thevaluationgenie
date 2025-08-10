@@ -329,7 +329,7 @@ export const requireSimpleAuth: RequestHandler = async (req, res, next) => {
     // If user doesn't exist in storage, create them
     if (!storageUser) {
       console.log('Creating user in storage system:', user.email);
-      await resilientStorage.insertUser({
+      await resilientStorage.upsertUser({
         id: userId,
         email: user.email,
         firstName: user.firstName,
