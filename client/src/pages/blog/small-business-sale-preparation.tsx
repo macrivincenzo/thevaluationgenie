@@ -669,9 +669,11 @@ export default function SmallBusinessSalePreparation() {
                   <p className="text-slate-700 mb-4">
                     Get our comprehensive PDF checklist with timelines, templates, and detailed instructions.
                   </p>
-                  <Button variant="outline" className="w-full border-blue-600 text-blue-600 hover:bg-blue-50">
-                    Download PDF Guide
-                  </Button>
+                  <Link href="/valuation">
+                    <Button variant="outline" className="w-full border-blue-600 text-blue-600 hover:bg-blue-50">
+                      Get Professional Report
+                    </Button>
+                  </Link>
                 </CardContent>
               </Card>
             </div>
