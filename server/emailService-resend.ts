@@ -75,7 +75,7 @@ class EmailService {
         </div>
         
         <div style="text-align: center; margin: 30px 0;">
-          <a href="https://thevaluationgenie.com/get-valuation" 
+          <a href="https://thevaluationgenie.com/valuation" 
              style="background: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">
             Start Your First Valuation
           </a>
@@ -101,7 +101,7 @@ class EmailService {
       - Generate professional PDF reports
       - Track your valuation history
 
-      Start your first valuation: https://thevaluationgenie.com/get-valuation
+      Start your first valuation: https://thevaluationgenie.com/valuation
 
       Best regards,
       The ValuationGenie Team
