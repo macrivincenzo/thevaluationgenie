@@ -38,7 +38,7 @@ Messaging Strategy: Complete transparency with "Free Business Valuation Estimate
 ### Core Features
 - **Valuation Engine**: Uses SDE multiplier method with industry-specific multiples. Supports various industries including consulting, marketing, IT services, etc. Output is a comprehensive PDF report. 100% halal compliant with no interest-based calculations and absolutely no EBITDA usage.
 - **Payment Processing**: Stripe integration with simplified single-tier pricing: Professional Report ($39). Secure payment forms using Stripe Elements. Fully operational demo mode with resilient payment confirmation.
-- **Authentication**: Replit Auth (OpenID Connect) for user authentication, with custom user storage.
+- **Authentication**: Dual authentication system - Replit Auth (OpenID Connect) for general users, and AppSumo-specific email/code authentication where users can use any email address as username and their AppSumo activation code as password for automatic lifetime access activation.
 - **File Management**: Local filesystem storage for PDF and CSV uploads (not parsed).
 - **Email System**: Resend API with verified custom domain (noreply@thevaluationgenie.com) for professional email delivery.
 - **Valuation Questionnaire**: A streamlined, universal questionnaire for all users (buyers and sellers) focused on SDE-relevant financial data and business specifics. Includes auto-calculations for key metrics.
@@ -49,7 +49,7 @@ Messaging Strategy: Complete transparency with "Free Business Valuation Estimate
 - **Premium Logo**: Geometric diamond design with gradient effects, trending arrow, animated sparkles, and "Instant Business Valuation" tagline.
 - **Mobile-Optimized Dashboard**: Fully responsive design with mobile-friendly valuation cards, compact buttons, stacked layouts, and touch-optimized navigation for seamless phone usage.
 - **Professional Form Validation**: Soft gray guidance messages instead of intimidating red errors, optional debt field, and streamlined validation to prevent user abandonment.
-- **AppSumo Integration**: Complete three-tier lifetime system (BASIC-2025, PRO-2025, UNLIMITED-2025) with tier-based report limits.
+- **AppSumo Integration**: Complete three-tier lifetime system (BASIC-2025, PRO-2025, UNLIMITED-2025) with tier-based report limits. Streamlined authentication where AppSumo buyers use any email as username and activation code as password, with automatic lifetime access activation during signup. No "Sign in with Replit" required for AppSumo users.
 
 ## External Dependencies
 
