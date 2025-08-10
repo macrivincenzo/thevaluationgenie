@@ -34,7 +34,8 @@ function AppSumoLoginForm() {
     },
     onSuccess: (data) => {
       if (data.success) {
-        window.location.reload(); // Refresh to update auth state
+        // Redirect to dashboard instead of reloading
+        window.location.href = '/dashboard';
       }
     },
   });
