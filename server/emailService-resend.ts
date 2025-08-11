@@ -49,6 +49,7 @@ class EmailService {
 
   async sendWelcomeEmail(email: string, firstName?: string): Promise<boolean> {
     const name = firstName || 'Valued Customer';
+    const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : 'https://thevaluationgenie.com';
     
     const html = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
@@ -75,7 +76,7 @@ class EmailService {
         </div>
         
         <div style="text-align: center; margin: 30px 0;">
-          <a href="https://thevaluationgenie.com/dashboard" 
+          <a href="${baseUrl}/dashboard" 
              style="background: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">
             Start Your First Valuation
           </a>
@@ -101,7 +102,7 @@ class EmailService {
       - Generate professional PDF reports
       - Track your valuation history
 
-      Start your first valuation: https://thevaluationgenie.com/dashboard
+      Start your first valuation: ${baseUrl}/dashboard
 
       Best regards,
       The ValuationGenie Team

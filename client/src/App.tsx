@@ -64,6 +64,11 @@ function Router() {
             <Route path="/" component={Landing} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
+            <Route path="/dashboard" component={() => {
+              // Redirect unauthenticated users to login with return URL
+              window.location.href = '/login?redirect=dashboard';
+              return null;
+            }} />
             <Route path="/services" component={Services} />
             <Route path="/industry-analysis" component={IndustryAnalysis} />
             <Route path="/lifetime" component={LifetimeSetup} />
