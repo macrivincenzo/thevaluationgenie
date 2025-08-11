@@ -1,3 +1,4 @@
+import { Link } from "wouter";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
@@ -25,13 +26,17 @@ export default function HowToValueServiceBusiness() {
           
           {/* CTA */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button onClick={() => window.location.href = '/valuation'} size="lg" className="bg-blue-600 hover:bg-blue-700">
-              <Calculator className="w-5 h-5 mr-2" />
-              Get Free Business Valuation
+            <Button asChild size="lg" className="bg-blue-600 hover:bg-blue-700">
+              <Link href="/valuation">
+                <Calculator className="w-5 h-5 mr-2" />
+                Get Free Business Valuation
+              </Link>
             </Button>
-            <Button variant="outline" size="lg" onClick={() => window.location.href = '/blog'}>
-              <FileText className="w-5 h-5 mr-2" />
-              More Valuation Guides
+            <Button asChild variant="outline" size="lg">
+              <Link href="/blog">
+                <FileText className="w-5 h-5 mr-2" />
+                More Valuation Guides
+              </Link>
             </Button>
           </div>
         </div>
@@ -207,13 +212,17 @@ export default function HowToValueServiceBusiness() {
               Get a professional business valuation report in minutes. Our SDE-based methodology provides accurate valuations for service businesses of all types.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button onClick={() => window.location.href = '/valuation'} size="lg" className="bg-blue-600 hover:bg-blue-700">
-                <Calculator className="w-5 h-5 mr-2" />
-                Start Your Free Valuation
+              <Button asChild size="lg" className="bg-blue-600 hover:bg-blue-700">
+                <Link href="/valuation">
+                  <Calculator className="w-5 h-5 mr-2" />
+                  Start Your Free Valuation
+                </Link>
               </Button>
-              <Button variant="outline" size="lg" onClick={() => window.location.href = '/blog/sde-business-valuation-guide'}>
-                <ArrowRight className="w-5 h-5 mr-2" />
-                Learn More About SDE
+              <Button asChild variant="outline" size="lg">
+                <Link href="/blog/sde-business-valuation-guide">
+                  <ArrowRight className="w-5 h-5 mr-2" />
+                  Learn More About SDE
+                </Link>
               </Button>
             </div>
           </div>
@@ -236,8 +245,10 @@ export default function HowToValueServiceBusiness() {
               <CardContent className="p-6">
                 <h4 className="font-semibold text-slate-900 mb-2">SDE Business Valuation Guide</h4>
                 <p className="text-slate-600 text-sm mb-4">Master the fundamentals of SDE-based business valuations</p>
-                <Button variant="outline" size="sm" onClick={() => window.location.href = '/blog/sde-business-valuation-guide'}>
-                  Read Article
+                <Button asChild variant="outline" size="sm">
+                  <Link href="/blog/sde-business-valuation-guide">
+                    Read Article
+                  </Link>
                 </Button>
               </CardContent>
             </Card>
@@ -246,8 +257,10 @@ export default function HowToValueServiceBusiness() {
               <CardContent className="p-6">
                 <h4 className="font-semibold text-slate-900 mb-2">Business vs Market Appraisal</h4>
                 <p className="text-slate-600 text-sm mb-4">Understand the key differences between valuation methods</p>
-                <Button variant="outline" size="sm" onClick={() => window.location.href = '/blog/business-valuation-vs-market-appraisal'}>
-                  Read Article
+                <Button asChild variant="outline" size="sm">
+                  <Link href="/blog/business-valuation-vs-market-appraisal">
+                    Read Article
+                  </Link>
                 </Button>
               </CardContent>
             </Card>
@@ -256,8 +269,10 @@ export default function HowToValueServiceBusiness() {
               <CardContent className="p-6">
                 <h4 className="font-semibold text-slate-900 mb-2">Industry Multiples 2025</h4>
                 <p className="text-slate-600 text-sm mb-4">Current industry-specific valuation multiples and trends</p>
-                <Button variant="outline" size="sm" onClick={() => window.location.href = '/blog/industry-valuation-multiples-2025'}>
-                  Read Article
+                <Button asChild variant="outline" size="sm">
+                  <Link href="/blog/industry-valuation-multiples-2025">
+                    Read Article
+                  </Link>
                 </Button>
               </CardContent>
             </Card>

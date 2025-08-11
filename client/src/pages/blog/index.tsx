@@ -55,6 +55,19 @@ const blogPosts = [
     keywords: ["industry valuation multiples 2025", "SDE multiples by industry", "business valuation benchmarks"],
     icon: Users,
     slug: "/blog/industry-valuation-multiples-2025"
+  },
+  {
+    id: "how-to-value-service-business",
+    title: "How to Value a Service Business for Sale: Complete 2025 Guide",
+    description: "Master service business valuation with proven methodologies, industry multiples, and real-world examples. Get accurate valuations for consulting, marketing, and professional services.",
+    excerpt: "Learn the complete framework for valuing service businesses using SDE calculations, industry multiples, and key factors that drive value in service-based enterprises.",
+    category: "Service Business",
+    readTime: "15 min read",
+    publishDate: "2025-01-11", 
+    featured: false,
+    keywords: ["service business valuation", "how to value service business", "business valuation methods"],
+    icon: TrendingUp,
+    slug: "/blog/how-to-value-service-business"
   }
 ];
 

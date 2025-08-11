@@ -80,9 +80,8 @@ export default function Signup() {
       });
       // Redirect to login page immediately
       setTimeout(() => {
-        window.location.href = '/login';
+        setLocation('/login');
       }, 500);
-      setLocation("/");
     },
     onError: (error: Error) => {
       toast({
