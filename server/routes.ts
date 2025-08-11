@@ -396,6 +396,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Auth route is now handled in simpleAuth.ts
 
   // Lifetime membership routes
+  // Test email route
+  app.post('/api/test-email', async (req, res) => {
+    try {
+      const { email, firstName } = req.body;
+      const result = await emailService.sendWelcomeEmail(email, firstName);
+      res.json({ success: result, message: result ? 'Test email sent successfully' : 'Failed to send email' });
+    } catch (error) {
+      console.error('Error sending test email:', error);
+      res.status(500).json({ success: false, error: 'Internal server error' });
+    }
+  });
+
   app.use('/api/lifetime', lifetimeRoutes);
 
   // Complete user profile endpoint  
