@@ -7,119 +7,11 @@ import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/hooks/useAuth";
-import { Sparkles, Crown, Check, AlertCircle, Gift, Mail, Key } from "lucide-react";
+import { Sparkles, Crown, Check, AlertCircle, Gift } from "lucide-react";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 
-// AppSumo Login Form Component
-function AppSumoLoginForm() {
-  const [email, setEmail] = useState("");
-  const [activationCode, setActivationCode] = useState("");
 
-  const activateMutation = useMutation({
-    mutationFn: async (data: { email: string; password: string }) => {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify(data),
-      });
-      
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || 'Activation failed');
-      }
-      
-      return response.json();
-    },
-    onSuccess: (data) => {
-      if (data.success) {
-        // Redirect to dashboard instead of reloading
-        window.location.href = '/dashboard';
-      }
-    },
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email.trim() && activationCode.trim()) {
-      activateMutation.mutate({
-        email: email.trim(),
-        password: activationCode.trim()
-      });
-    }
-  };
-
-  return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="space-y-2">
-        <Label htmlFor="email" className="flex items-center gap-2">
-          <Mail className="w-4 h-4" />
-          Email Address
-        </Label>
-        <Input
-          id="email"
-          type="email"
-          placeholder="your.email@example.com"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="text-lg py-3"
-          required
-        />
-        <p className="text-sm text-slate-500">
-          Enter any email address you want to use for your account
-        </p>
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="activationCode" className="flex items-center gap-2">
-          <Key className="w-4 h-4" />
-          AppSumo Activation Code
-        </Label>
-        <Input
-          id="activationCode"
-          type="text"
-          placeholder=""
-          value={activationCode}
-          onChange={(e) => setActivationCode(e.target.value)}
-          className="text-lg py-3 font-mono"
-          required
-        />
-        <p className="text-sm text-slate-500">
-          Use your AppSumo code as your password
-        </p>
-      </div>
-
-      {activateMutation.error && (
-        <Alert className="border-red-200 bg-red-50">
-          <AlertCircle className="w-4 h-4" />
-          <AlertDescription className="text-red-800">
-            {activateMutation.error.message}
-          </AlertDescription>
-        </Alert>
-      )}
-
-      <Button 
-        type="submit" 
-        size="lg" 
-        className="w-full bg-yellow-600 hover:bg-yellow-700 text-white"
-        disabled={activateMutation.isPending || !email.trim() || !activationCode.trim()}
-      >
-        {activateMutation.isPending ? (
-          <>
-            <div className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full mr-2" />
-            Activating Your Lifetime Access...
-          </>
-        ) : (
-          <>
-            <Crown className="w-5 h-5 mr-2" />
-            Activate Lifetime Access
-          </>
-        )}
-      </Button>
-    </form>
-  );
-}
 
 export default function LifetimeSetup() {
   const { user, isAuthenticated } = useAuth();
@@ -191,18 +83,53 @@ export default function LifetimeSetup() {
         </div>
 
         {!isAuthenticated ? (
-          // AppSumo activation form for non-authenticated users
-          <Card className="shadow-lg max-w-2xl mx-auto">
-            <CardHeader>
-              <CardTitle className="text-2xl text-center">
-                Activate Your AppSumo Lifetime Access
+          // Need to sign up first message
+          <Card className="shadow-lg max-w-2xl mx-auto border-yellow-200">
+            <CardHeader className="bg-yellow-50">
+              <CardTitle className="text-2xl text-center text-yellow-800">
+                Create Your Account First
               </CardTitle>
-              <p className="text-slate-600 text-center">
-                Enter your email address and use your AppSumo code as the password
+              <p className="text-yellow-700 text-center">
+                Before activating your AppSumo code, you need to create a free account
               </p>
             </CardHeader>
-            <CardContent className="space-y-6">
-              <AppSumoLoginForm />
+            <CardContent className="space-y-6 pt-6">
+              <div className="text-center space-y-4">
+                <div className="bg-white border-2 border-yellow-200 rounded-lg p-6">
+                  <h3 className="text-lg font-semibold text-slate-900 mb-3">
+                    Quick 2-Step Process:
+                  </h3>
+                  <div className="space-y-3 text-left">
+                    <div className="flex items-start gap-3">
+                      <div className="w-6 h-6 bg-yellow-600 text-white rounded-full flex items-center justify-center text-sm font-bold">1</div>
+                      <div>
+                        <p className="font-medium">Create your account</p>
+                        <p className="text-sm text-slate-600">Sign up with your email and password</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <div className="w-6 h-6 bg-yellow-600 text-white rounded-full flex items-center justify-center text-sm font-bold">2</div>
+                      <div>
+                        <p className="font-medium">Activate your AppSumo code</p>
+                        <p className="text-sm text-slate-600">Return to this page to enter your activation code</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="space-y-3">
+                  <Button 
+                    onClick={() => window.location.href = '/signup'} 
+                    size="lg" 
+                    className="w-full bg-yellow-600 hover:bg-yellow-700 text-white"
+                  >
+                    Create Free Account
+                  </Button>
+                  <p className="text-sm text-slate-500">
+                    Already have an account? <a href="/login" className="text-yellow-600 hover:underline">Sign in here</a>
+                  </p>
+                </div>
+              </div>
             </CardContent>
           </Card>
         ) : isLifetimeMember ? (
