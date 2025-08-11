@@ -61,10 +61,10 @@ export default function LifetimeSetup() {
     }
   };
 
-  const isLifetimeMember = lifetimeStatus?.lifetimeAccess;
-  const tierName = lifetimeStatus?.lifetimeTier || 'unlimited';
-  const monthlyLimit = lifetimeStatus?.monthlyReportLimit;
-  const reportsUsed = lifetimeStatus?.reportsUsedThisMonth || 0;
+  const isLifetimeMember = (lifetimeStatus as any)?.lifetimeAccess || false;
+  const tierName = (lifetimeStatus as any)?.lifetimeTier || 'free';
+  const monthlyLimit = (lifetimeStatus as any)?.monthlyReportLimit;
+  const reportsUsed = (lifetimeStatus as any)?.reportsUsedThisMonth || 0;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
