@@ -408,29 +408,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Test AppSumo welcome email
-  app.post('/api/test-appsumo-email', async (req, res) => {
-    try {
-      const { email, activationCode, tier } = req.body;
-      const result = await emailService.sendAppSumoWelcomeEmail(email, activationCode || 'APPSUMO-PRO-2025', tier || 'pro');
-      res.json({ success: result, message: result ? 'AppSumo welcome email sent successfully' : 'Failed to send email' });
-    } catch (error) {
-      console.error('Error sending AppSumo test email:', error);
-      res.status(500).json({ success: false, error: 'Internal server error' });
-    }
-  });
 
-  // Test welcome email with AppSumo reminder
-  app.post('/api/test-welcome-appsumo', async (req, res) => {
-    try {
-      const { email, firstName } = req.body;
-      const result = await emailService.sendWelcomeEmail(email, firstName, true);
-      res.json({ success: result, message: result ? 'Welcome email with AppSumo reminder sent successfully' : 'Failed to send email' });
-    } catch (error) {
-      console.error('Error sending welcome test email:', error);
-      res.status(500).json({ success: false, error: 'Internal server error' });
-    }
-  });
 
   app.use('/api/lifetime', lifetimeRoutes);
 

@@ -76,34 +76,7 @@ export function setupSimpleAuth(app: Express) {
         lastName: data.lastName,
       });
       
-      // Check if password is an AppSumo activation code and auto-activate
-      const isAppSumoCode = data.password.startsWith('APPSUMO-') && data.password.endsWith('-2025');
-      if (isAppSumoCode) {
-        console.log('Auto-activating AppSumo code for new user:', data.email, data.password);
-        try {
-          const { resilientStorage } = await import('./storage-resilient');
-          
-          // Define valid codes and their tiers
-          const validCodes: Record<string, string> = {
-            'APPSUMO-BASIC-2025': 'basic',
-            'APPSUMO-STARTER-2025': 'basic',
-            'APPSUMO-PRO-2025': 'pro', 
-            'APPSUMO-BUSINESS-2025': 'pro',
-            'APPSUMO-UNLIMITED-2025': 'unlimited',
-            'APPSUMO-PREMIUM-2025': 'unlimited',
-            'APPSUMO-LIFETIME-2025': 'unlimited',
-          };
-          
-          const tier = validCodes[data.password];
-          if (tier) {
-            await resilientStorage.grantLifetimeAccess(userId, 'appsumo', tier, data.password);
-            console.log('Successfully activated AppSumo lifetime access for:', data.email, 'tier:', tier);
-          }
-        } catch (error) {
-          console.error('Failed to auto-activate AppSumo code:', error);
-          // Don't fail signup if activation fails - user can activate manually later
-        }
-      }
+
       
       // Send welcome email (async, don't wait for it)
       emailService.sendWelcomeEmail(data.email, data.firstName).catch(err => {
