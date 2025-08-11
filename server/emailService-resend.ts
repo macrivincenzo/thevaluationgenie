@@ -77,9 +77,16 @@ class EmailService {
         
         <div style="text-align: center; margin: 30px 0;">
           <a href="${baseUrl}/dashboard" 
-             style="background: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">
+             style="background: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">
             Start Your First Valuation
           </a>
+        </div>
+        
+        <div style="background: #f1f5f9; padding: 15px; border-radius: 8px; margin: 20px 0;">
+          <p style="color: #475569; font-size: 14px; margin: 0; text-align: center;">
+            <strong>Having trouble with the button?</strong><br>
+            Copy and paste this link into your browser: ${baseUrl}/dashboard
+          </p>
         </div>
         
         <div style="border-top: 1px solid #e2e8f0; padding-top: 20px; margin-top: 30px; text-align: center;">
@@ -120,6 +127,7 @@ class EmailService {
 
   async sendAppSumoActivationEmail(email: string, tierName: string, monthlyLimit?: number): Promise<boolean> {
     const limitText = monthlyLimit ? `${monthlyLimit} reports per month` : 'unlimited reports';
+    const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : 'https://thevaluationgenie.com';
     
     const html = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
@@ -146,10 +154,17 @@ class EmailService {
         </div>
         
         <div style="text-align: center; margin: 30px 0;">
-          <a href="https://thevaluationgenie.com/dashboard" 
-             style="background: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">
+          <a href="${baseUrl}/dashboard" 
+             style="background: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">
             Access Your Dashboard
           </a>
+        </div>
+        
+        <div style="background: #f1f5f9; padding: 15px; border-radius: 8px; margin: 20px 0;">
+          <p style="color: #475569; font-size: 14px; margin: 0; text-align: center;">
+            <strong>Having trouble with the button?</strong><br>
+            Copy and paste this link into your browser: ${baseUrl}/dashboard
+          </p>
         </div>
         
         <div style="border-top: 1px solid #e2e8f0; padding-top: 20px; margin-top: 30px; text-align: center;">
