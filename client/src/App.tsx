@@ -32,6 +32,7 @@ import SdeBusinessValuationGuide from "@/pages/blog/sde-business-valuation-guide
 import BusinessValuationVsMarketAppraisal from "@/pages/blog/business-valuation-vs-market-appraisal";
 import SmallBusinessSalePreparation from "@/pages/blog/small-business-sale-preparation";
 import IndustryValuationMultiples2025 from "@/pages/blog/industry-valuation-multiples-2025";
+import HowToValueServiceBusiness from "@/pages/blog/how-to-value-service-business";
 
 function Router() {
   const { isAuthenticated, isLoading, user } = useAuth();
@@ -72,6 +73,7 @@ function Router() {
             <Route path="/blog/business-valuation-vs-market-appraisal" component={BusinessValuationVsMarketAppraisal} />
             <Route path="/blog/small-business-sale-preparation" component={SmallBusinessSalePreparation} />
             <Route path="/blog/industry-valuation-multiples-2025" component={IndustryValuationMultiples2025} />
+            <Route path="/blog/how-to-value-service-business" component={HowToValueServiceBusiness} />
             <Route path="/terms" component={Terms} />
             <Route path="/privacy" component={Privacy} />
             <Route path="/contact" component={Contact} />
@@ -89,6 +91,7 @@ function Router() {
             <Route path="/blog/business-valuation-vs-market-appraisal" component={BusinessValuationVsMarketAppraisal} />
             <Route path="/blog/small-business-sale-preparation" component={SmallBusinessSalePreparation} />
             <Route path="/blog/industry-valuation-multiples-2025" component={IndustryValuationMultiples2025} />
+            <Route path="/blog/how-to-value-service-business" component={HowToValueServiceBusiness} />
 
             <Route path="/admin" component={Admin} />
             <Route path="/customer-data" component={CustomerData} />
