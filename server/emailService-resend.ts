@@ -76,7 +76,7 @@ class EmailService {
         </div>
         
         <div style="text-align: center; margin: 30px 0;">
-          <a href="${baseUrl}/login" 
+          <a href="https://thevaluationgenie.com/login" 
              style="background: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">
             Start Your First Valuation
           </a>
@@ -85,7 +85,7 @@ class EmailService {
         <div style="background: #f1f5f9; padding: 15px; border-radius: 8px; margin: 20px 0;">
           <p style="color: #475569; font-size: 14px; margin: 0; text-align: center;">
             <strong>Having trouble with the button?</strong><br>
-            Copy and paste this link into your browser: ${baseUrl}/login
+            Copy and paste this link into your browser: https://thevaluationgenie.com/login
           </p>
         </div>
         
@@ -109,7 +109,7 @@ class EmailService {
       - Generate professional PDF reports
       - Track your valuation history
 
-      Start your first valuation: ${baseUrl}/login
+      Start your first valuation: https://thevaluationgenie.com/login
 
       Best regards,
       The ValuationGenie Team
