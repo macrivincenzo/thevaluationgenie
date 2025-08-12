@@ -75,17 +75,17 @@ class EmailService {
           </ul>
         </div>
         
-        <div style="text-align: center; margin: 30px 0;">
-          <a href="https://thevaluationgenie.com/login" 
-             style="background: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">
-            Start Your First Valuation
-          </a>
+        <div style="text-align: center; margin: 30px 0; background: #2563eb; padding: 20px; border-radius: 8px;">
+          <p style="color: white; font-size: 16px; margin: 0 0 15px 0; font-weight: bold;">Ready to start your valuation?</p>
+          <p style="color: white; font-size: 18px; margin: 0;">
+            <a href="https://thevaluationgenie.com/login" style="color: #fbbf24; text-decoration: underline; font-weight: bold;">Click here to login: https://thevaluationgenie.com/login</a>
+          </p>
         </div>
         
         <div style="background: #f1f5f9; padding: 15px; border-radius: 8px; margin: 20px 0;">
           <p style="color: #475569; font-size: 14px; margin: 0; text-align: center;">
-            <strong>Having trouble with the button?</strong><br>
-            Copy and paste this link into your browser: https://thevaluationgenie.com/login
+            <strong>Or copy this link:</strong><br>
+            https://thevaluationgenie.com/login
           </p>
         </div>
         
