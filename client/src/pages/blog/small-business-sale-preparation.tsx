@@ -652,7 +652,7 @@ export default function SmallBusinessSalePreparation() {
                   <p className="text-slate-700 mb-4">
                     Start with a free business valuation to understand your baseline value before improvements.
                   </p>
-                  <Link href="/valuation">
+                  <Link href="/">
                     <Button className="w-full bg-emerald-600 hover:bg-emerald-700">
                       Get Free Estimate
                     </Button>
@@ -669,7 +669,7 @@ export default function SmallBusinessSalePreparation() {
                   <p className="text-slate-700 mb-4">
                     Get our comprehensive PDF checklist with timelines, templates, and detailed instructions.
                   </p>
-                  <Link href="/valuation">
+                  <Link href="/">
                     <Button variant="outline" className="w-full border-blue-600 text-blue-600 hover:bg-blue-50">
                       Get Professional Report
                     </Button>
