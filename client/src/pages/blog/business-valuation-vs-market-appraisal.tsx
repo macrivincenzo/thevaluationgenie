@@ -500,7 +500,7 @@ export default function BusinessValuationVsMarketAppraisal() {
                   <p className="text-slate-700 mb-4">
                     Get an instant SDE-based valuation to understand your business value baseline.
                   </p>
-                  <Link href="/valuation">
+                  <Link href="/">
                     <Button className="w-full bg-blue-600 hover:bg-blue-700">
                       Get Free Estimate
                     </Button>
@@ -517,7 +517,7 @@ export default function BusinessValuationVsMarketAppraisal() {
                   <p className="text-slate-700 mb-4">
                     Download comprehensive PDF with detailed analysis, comparable sales, and recommendations.
                   </p>
-                  <Link href="/valuation">
+                  <Link href="/">
                     <Button variant="outline" className="w-full border-green-600 text-green-600 hover:bg-green-50">
                       Get Professional Report
                     </Button>
