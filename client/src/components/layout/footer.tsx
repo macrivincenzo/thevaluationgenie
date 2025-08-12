@@ -1,7 +1,9 @@
 import { Link } from "wouter";
 import { Calculator } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Footer() {
+  const { isAuthenticated } = useAuth();
   return (
     <footer className="bg-slate-900 text-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -31,11 +33,19 @@ export default function Footer() {
                 </Link>
               </li>
 
-              <li>
-                <Link href="/dashboard" className="hover:text-white transition-colors">
-                  Valuation Dashboard
-                </Link>
-              </li>
+              {isAuthenticated ? (
+                <li>
+                  <Link href="/dashboard" className="hover:text-white transition-colors">
+                    Valuation Dashboard
+                  </Link>
+                </li>
+              ) : (
+                <li>
+                  <Link href="/login" className="hover:text-white transition-colors">
+                    Login
+                  </Link>
+                </li>
+              )}
               <li>
                 <Link href="/industry-analysis" className="hover:text-white transition-colors">
                   Industry Analysis
