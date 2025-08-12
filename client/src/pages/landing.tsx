@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
@@ -69,6 +69,11 @@ export default function Landing() {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  // Scroll to top when component mounts (from external links)
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="min-h-screen bg-white">
