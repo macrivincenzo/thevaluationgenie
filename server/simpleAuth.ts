@@ -76,14 +76,31 @@ export function setupSimpleAuth(app: Express) {
         lastName: data.lastName,
       });
       
-
+      // Auto-login: Create session for new user
+      const sessionId = crypto.randomUUID();
+      sessions.set(sessionId, userId);
+      
+      // Set cookie
+      res.cookie('sessionId', sessionId, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
+      });
       
       // Send welcome email (async, don't wait for it)
       emailService.sendWelcomeEmail(data.email, data.firstName).catch(err => {
         console.log('Welcome email failed (non-blocking):', err.message);
       });
       
-      res.json({ success: true, message: 'Account created successfully' });
+      const userData = {
+        id: userId,
+        email: data.email,
+        firstName: data.firstName,
+        lastName: data.lastName
+      };
+      
+      res.json({ success: true, message: 'Account created successfully', user: userData });
     } catch (error) {
       res.status(400).json({ message: 'Invalid data' });
     }
