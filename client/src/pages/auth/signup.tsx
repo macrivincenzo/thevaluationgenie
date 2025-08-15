@@ -84,11 +84,20 @@ export default function Signup() {
       }, 500);
     },
     onError: (error: Error) => {
-      toast({
-        title: "Signup Failed",
-        description: error.message,
-        variant: "destructive",
-      });
+      // Check if it's a duplicate email error
+      if (error.message.includes("account with this email address already exists")) {
+        toast({
+          title: "Account Already Exists",
+          description: error.message,
+          variant: "default", // Use default blue styling instead of red
+        });
+      } else {
+        toast({
+          title: "Unable to Create Account",
+          description: error.message,
+          variant: "default", // Use default blue styling instead of red
+        });
+      }
     },
   });
 
