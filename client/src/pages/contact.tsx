@@ -165,10 +165,10 @@ export default function Contact() {
                   For general inquiries and support:
                 </p>
                 <a 
-                  href="mailto:support@thevaluationgenie.com" 
+                  href="mailto:contact@thevaluationgenie.com" 
                   className="text-primary hover:underline font-medium"
                 >
-                  support@thevaluationgenie.com
+                  contact@thevaluationgenie.com
                 </a>
                 <p className="text-sm text-slate-500 mt-2">
                   We typically respond within 24 hours
