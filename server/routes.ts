@@ -762,7 +762,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Mark valuation as paid (immediate confirmation)
+  // Mark valuation as paid (requires verified Stripe payment)
   app.post('/api/valuations/:id/mark-paid', requireSimpleAuth, async (req: any, res) => {
     try {
       const valuationId = req.params.id;
@@ -775,10 +775,48 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: 'Valuation not found' });
       }
 
-      // Mark as paid
-      await storage.updateValuationPayment(valuationId, paymentIntentId, `/pdfs/${valuationId}.pdf`);
-      
-      res.json({ success: true });
+      // Check if user has lifetime access (skip payment verification)
+      const user = await storage.getUser(userId);
+      if (user?.lifetimeAccess) {
+        console.log('Lifetime user accessing valuation:', userId);
+        await storage.updateValuationPayment(valuationId, `lifetime-${Date.now()}`, `/pdfs/${valuationId}.pdf`);
+        return res.json({ success: true });
+      }
+
+      // For non-lifetime users, verify the payment with Stripe
+      if (!paymentIntentId) {
+        return res.status(400).json({ message: 'Payment verification required' });
+      }
+
+      if (!stripe) {
+        return res.status(500).json({ message: 'Payment processing not configured' });
+      }
+
+      try {
+        // Verify the payment intent with Stripe
+        const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+        
+        if (paymentIntent.status !== 'succeeded') {
+          return res.status(400).json({ message: 'Payment not completed' });
+        }
+
+        if (paymentIntent.amount !== 3900) { // $39.00
+          return res.status(400).json({ message: 'Payment amount mismatch' });
+        }
+
+        // Verify the payment intent matches this valuation
+        if (paymentIntent.metadata.valuationId !== valuationId) {
+          return res.status(400).json({ message: 'Payment does not match valuation' });
+        }
+
+        console.log('✅ Payment verified for valuation:', valuationId, 'Amount:', paymentIntent.amount / 100);
+        await storage.updateValuationPayment(valuationId, paymentIntentId, `/pdfs/${valuationId}.pdf`);
+        
+        res.json({ success: true });
+      } catch (stripeError: any) {
+        console.error('Stripe verification failed:', stripeError);
+        return res.status(400).json({ message: 'Payment verification failed' });
+      }
     } catch (error: any) {
       console.error('Error marking valuation as paid:', error);
       res.status(500).json({ message: 'Failed to update payment status' });
