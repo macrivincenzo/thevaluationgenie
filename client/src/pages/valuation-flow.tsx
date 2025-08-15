@@ -70,7 +70,6 @@ export interface ValuationData {
   yearsInBusiness: number;
   sdeData?: number[]; // Array of 3 years  
   profitMargin?: number;
-  sde: number;
   growthTrend: string;
   majorRisks: string;
   
@@ -125,8 +124,10 @@ const initialData: ValuationData = {
   annualRevenue: 0,
   recurringRevenuePct: 0,
   oneTimeRevenuePct: 0,
-  ebitda: 0,
-  ebitdaMargin: 0,
+  sde: 0,
+  sdeMargin: 0,
+  grossMargin: 0,
+  netProfitMargin: 0,
   ownerSalary: 0,
   addBacks: 0,
   
@@ -164,7 +165,6 @@ const initialData: ValuationData = {
   yearsInBusiness: 0,
   sdeData: [0, 0, 0],
   profitMargin: 0,
-  sde: 0,
   growthTrend: '',
   majorRisks: '',
   competitiveAdvantage: '',
@@ -202,7 +202,7 @@ export default function ValuationFlow() {
   const totalSteps = 5;
 
   // Check user's report limits
-  const { data: limitCheck } = useQuery({
+  const { data: limitCheck } = useQuery<{canCreate: boolean; reason?: string; reportsUsed?: number; limit?: number}>({
     queryKey: ['/api/valuations/check-limits'],
     retry: false,
     staleTime: 1000 * 60 * 5, // 5 minutes
