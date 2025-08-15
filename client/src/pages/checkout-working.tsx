@@ -8,14 +8,163 @@ import Header from "@/components/layout/header";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle } from "lucide-react";
+import { CheckCircle, CreditCard, Shield, Lock } from "lucide-react";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+
+// Stripe setup
+let stripePromise: Promise<any> | null = null;
+
+const getStripe = () => {
+  if (!stripePromise) {
+    // Get Stripe config from server
+    fetch('/api/stripe/config')
+      .then(res => res.json())
+      .then(({ publicKey }) => {
+        stripePromise = loadStripe(publicKey);
+      });
+  }
+  return stripePromise;
+};
+
+// Payment Form Component
+function PaymentForm({ valuationId }: { valuationId: string }) {
+  const stripe = useStripe();
+  const elements = useElements();
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [clientSecret, setClientSecret] = useState<string>("");
+  const { toast } = useToast();
+
+  // Create payment intent when component loads
+  useEffect(() => {
+    if (valuationId) {
+      apiRequest("POST", "/api/create-payment-intent", { valuationId })
+        .then((data: any) => {
+          setClientSecret(data.clientSecret);
+        })
+        .catch((error) => {
+          toast({
+            title: "Error",
+            description: "Failed to initialize payment. Please refresh and try again.",
+            variant: "destructive",
+          });
+        });
+    }
+  }, [valuationId]);
+
+  const handlePayment = async () => {
+    if (!stripe || !elements || !clientSecret) return;
+
+    setIsProcessing(true);
+
+    const cardElement = elements.getElement(CardElement);
+    if (!cardElement) {
+      setIsProcessing(false);
+      return;
+    }
+
+    try {
+      // Confirm payment with Stripe
+      const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: cardElement,
+        }
+      });
+
+      if (error) {
+        toast({
+          title: "Payment Failed",
+          description: error.message || "Something went wrong with the payment.",
+          variant: "destructive",
+        });
+      } else if (paymentIntent?.status === "succeeded") {
+        // Mark valuation as paid with verified payment
+        await apiRequest("POST", `/api/valuations/${valuationId}/mark-paid`, {
+          paymentIntentId: paymentIntent.id
+        });
+        
+        toast({
+          title: "Payment Successful!",
+          description: "Your professional valuation report is now available.",
+        });
+        
+        setTimeout(() => {
+          window.location.href = "/dashboard";
+        }, 2000);
+      }
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+    }
+
+    setIsProcessing(false);
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+        <div className="flex items-center mb-2">
+          <Shield className="w-5 h-5 text-green-600 mr-2" />
+          <h3 className="font-semibold text-green-900">Live Payment Mode</h3>
+        </div>
+        <p className="text-sm text-green-700">
+          Secure payment processing powered by Stripe. Your card information is encrypted and processed securely.
+        </p>
+      </div>
+
+      <div className="bg-white border border-slate-200 rounded-lg p-4">
+        <div className="flex items-center mb-3">
+          <CreditCard className="w-5 h-5 text-slate-600 mr-2" />
+          <span className="font-medium text-slate-900">Payment Information</span>
+        </div>
+        <CardElement 
+          options={{
+            style: {
+              base: {
+                fontSize: '16px',
+                color: '#424770',
+                '::placeholder': {
+                  color: '#aab7c4',
+                },
+              },
+            },
+          }}
+        />
+      </div>
+      
+      <Button 
+        onClick={handlePayment}
+        className="w-full py-4 text-lg font-semibold bg-green-600 hover:bg-green-700"
+        disabled={isProcessing || !stripe || !clientSecret}
+      >
+        {isProcessing ? "Processing Payment..." : "Complete Payment - $39.00"}
+      </Button>
+      
+      <div className="flex items-center justify-center text-xs text-slate-500">
+        <Lock className="w-3 h-3 mr-1" />
+        Secure payment processing • 7-day money-back guarantee
+      </div>
+    </div>
+  );
+}
 
 export default function CheckoutWorking() {
   const [, params] = useRoute("/checkout/:id");
   const valuationId = params?.id;
-  const [isProcessing, setIsProcessing] = useState(false);
-  const { toast } = useToast();
   const { isAuthenticated, isLoading } = useAuth();
+  const [stripePromise, setStripePromise] = useState<Promise<any> | null>(null);
+
+  // Initialize Stripe
+  useEffect(() => {
+    fetch('/api/stripe/config')
+      .then(res => res.json())
+      .then(({ publicKey }) => {
+        setStripePromise(loadStripe(publicKey));
+      });
+  }, []);
 
   // Redirect to login if not authenticated
   useEffect(() => {
@@ -30,37 +179,6 @@ export default function CheckoutWorking() {
     enabled: !!valuationId,
     retry: false,
   }) as { data: any, isLoading: boolean };
-
-  // For demo purposes, simulate successful payment
-  const handlePayment = async () => {
-    if (!valuationId) return;
-
-    setIsProcessing(true);
-
-    try {
-      // Mark valuation as paid directly (bypass Stripe for now)
-      await apiRequest("POST", `/api/valuations/${valuationId}/mark-paid`, {
-        paymentIntentId: `demo_payment_${Date.now()}`
-      });
-      
-      toast({
-        title: "Payment Successful!",
-        description: "Your professional valuation report is now available.",
-      });
-      
-      setTimeout(() => {
-        window.location.href = "/dashboard";
-      }, 2000);
-    } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message || "Something went wrong. Please try again.",
-        variant: "destructive",
-      });
-    }
-
-    setIsProcessing(false);
-  };
 
   if (isLoading || valuationLoading) {
     return (
@@ -129,34 +247,27 @@ export default function CheckoutWorking() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-8">
-          {/* Payment Button */}
+          {/* Payment Form */}
           <div>
             <Card>
               <CardHeader>
                 <CardTitle>Complete Payment</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-6">
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                    <h3 className="font-semibold text-blue-900 mb-2">Demo Mode Active</h3>
-                    <p className="text-sm text-blue-700">
-                      Click below to simulate the payment and unlock your professional valuation report.
-                      In production, this would connect to Stripe for secure payment processing.
-                    </p>
+                {stripePromise ? (
+                  <Elements stripe={stripePromise}>
+                    <PaymentForm valuationId={valuationId!} />
+                  </Elements>
+                ) : (
+                  <div className="space-y-4">
+                    <div className="animate-pulse">
+                      <div className="h-4 bg-slate-200 rounded w-3/4 mb-2"></div>
+                      <div className="h-12 bg-slate-200 rounded mb-4"></div>
+                      <div className="h-12 bg-slate-200 rounded"></div>
+                    </div>
+                    <p className="text-sm text-slate-500 text-center">Loading secure payment form...</p>
                   </div>
-                  
-                  <Button 
-                    onClick={handlePayment}
-                    className="w-full py-4 text-lg font-semibold bg-green-600 hover:bg-green-700"
-                    disabled={isProcessing}
-                  >
-                    {isProcessing ? "Processing..." : "Complete Payment - $39"}
-                  </Button>
-                  
-                  <div className="text-xs text-slate-500 text-center">
-                    Secure payment processing • 7-day money-back guarantee
-                  </div>
-                </div>
+                )}
               </CardContent>
             </Card>
           </div>
