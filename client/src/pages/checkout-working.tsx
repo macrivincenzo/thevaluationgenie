@@ -57,7 +57,17 @@ function PaymentForm({ valuationId }: { valuationId: string }) {
   }, [valuationId]);
 
   const handlePayment = async () => {
-    if (!stripe || !elements || !clientSecret) return;
+    console.log('Payment button clicked!', { stripe: !!stripe, elements: !!elements, clientSecret: !!clientSecret });
+    
+    if (!stripe || !elements || !clientSecret) {
+      console.log('Missing requirements:', { stripe: !!stripe, elements: !!elements, clientSecret: !!clientSecret });
+      toast({
+        title: "Payment Not Ready",
+        description: "Please wait for the payment form to fully load and try again.",
+        variant: "destructive",
+      });
+      return;
+    }
 
     setIsProcessing(true);
 
@@ -194,11 +204,23 @@ function PaymentForm({ valuationId }: { valuationId: string }) {
       
       <Button 
         onClick={handlePayment}
-        className="w-full py-4 text-lg font-semibold bg-green-600 hover:bg-green-700"
+        className="w-full py-4 text-lg font-semibold bg-green-600 hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
         disabled={isProcessing || !stripe || !clientSecret}
+        data-testid="button-complete-payment"
       >
-        {isProcessing ? "Processing Payment..." : "Complete Payment - $39.00"}
+        {isProcessing ? "Processing Payment..." : 
+         !stripe ? "Loading Payment System..." :
+         !clientSecret ? "Preparing Payment..." : 
+         "Complete Payment - $39.00"}
       </Button>
+      
+      {(!stripe || !clientSecret) && (
+        <div className="text-center">
+          <p className="text-sm text-slate-500">
+            {!stripe ? "Loading Stripe..." : "Creating payment intent..."}
+          </p>
+        </div>
+      )}
       
       <div className="space-y-3">
         <div className="flex items-center justify-center text-xs text-slate-500">
