@@ -15,6 +15,7 @@ import CheckoutNew from "@/pages/checkout-new";
 import CheckoutWorking from "@/pages/checkout-working";
 import SimpleCheckout from "@/pages/simple-checkout";
 import UltraSimpleCheckout from "@/pages/ultra-simple-checkout";
+import WorkingPayment from "@/pages/working-payment";
 import Dashboard from "@/pages/dashboard";
 import Admin from "@/pages/admin";
 import CustomerData from "@/pages/customer-data";
@@ -84,7 +85,7 @@ function Router() {
           <>
             <Route path="/" component={Home} />
             <Route path="/valuation" component={ValuationFlow} />
-            <Route path="/checkout/:id" component={UltraSimpleCheckout} />
+            <Route path="/checkout/:id" component={WorkingPayment} />
             <Route path="/dashboard" component={Dashboard} />
             <Route path="/services" component={Services} />
             <Route path="/industry-analysis" component={IndustryAnalysis} />
