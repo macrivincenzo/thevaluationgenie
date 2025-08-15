@@ -1246,6 +1246,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Stripe configuration endpoint
+  app.get("/api/stripe/config", (req, res) => {
+    res.json({
+      publicKey: process.env.STRIPE_PUBLISHABLE_KEY || '',
+      mode: process.env.STRIPE_PUBLISHABLE_KEY?.startsWith('pk_live_') ? 'live' : 'test'
+    });
+  });
+
   // Test Stripe connection
   app.post("/api/test-stripe", requireSimpleAuth, async (req: any, res) => {
     try {
