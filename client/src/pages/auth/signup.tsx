@@ -87,8 +87,8 @@ export default function Signup() {
       // Check if it's a duplicate email error
       if (error.message.includes("account with this email address already exists")) {
         toast({
-          title: "Welcome back!",
-          description: "Please sign in with your existing account.",
+          title: "An account with this email already exists.",
+          description: "",
           variant: "default",
         });
       } else {
