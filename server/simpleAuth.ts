@@ -60,7 +60,9 @@ export function setupSimpleAuth(app: Express) {
       // Check if user already exists
       for (const user of Array.from(users.values())) {
         if (user.email === data.email) {
-          return res.status(400).json({ message: 'Email already registered' });
+          return res.status(400).json({ 
+            message: 'An account with this email address already exists. Please sign in using your existing credentials, or use a different email address to create a new account. If you\'ve forgotten your password, please contact our support team for assistance.' 
+          });
         }
       }
       
