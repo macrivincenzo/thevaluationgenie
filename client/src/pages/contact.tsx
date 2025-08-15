@@ -165,10 +165,10 @@ export default function Contact() {
                   For general inquiries and support:
                 </p>
                 <a 
-                  href="mailto:support@valuationgenie.com" 
+                  href="mailto:support@thevaluationgenie.com" 
                   className="text-primary hover:underline font-medium"
                 >
-                  support@valuationgenie.com
+                  support@thevaluationgenie.com
                 </a>
                 <p className="text-sm text-slate-500 mt-2">
                   We typically respond within 24 hours
@@ -191,7 +191,7 @@ export default function Contact() {
                 <div>
                   <h4 className="font-medium text-slate-900 mb-1">Can I get a refund?</h4>
                   <p className="text-sm text-slate-600">
-                    We offer a 30-day money-back guarantee if you're not satisfied with your valuation report. Contact us to request a refund.
+                    We offer a 7-day money-back guarantee if you're not satisfied with your valuation report. Contact us to request a refund.
                   </p>
                 </div>
 
