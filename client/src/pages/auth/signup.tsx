@@ -85,7 +85,7 @@ export default function Signup() {
     },
     onError: (error: Error) => {
       // Check if it's a duplicate email error
-      if (error.message.includes("account with this email address already exists")) {
+      if (error.message.includes("email address already exists")) {
         toast({
           title: "An account with this email already exists.",
           description: "",
