@@ -153,20 +153,53 @@ function SimplePaymentForm({ valuationId }: { valuationId: string }) {
         </p>
       </div>
       
-      <button
-        onClick={handlePayment}
-        disabled={buttonDisabled}
-        className={`w-full py-4 text-lg font-semibold rounded-md transition-colors ${
-          buttonDisabled 
-            ? 'bg-gray-400 cursor-not-allowed' 
-            : 'bg-green-600 hover:bg-green-700 text-white'
-        }`}
-        data-testid="button-pay-now"
-      >
-        {isProcessing ? "Processing Payment..." : 
-         !isReady ? "Loading..." :
-         "Pay $39.00 Now"}
-      </button>
+      <div className="space-y-2">
+        <button
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            console.log('DIRECT BUTTON CLICK DETECTED!');
+            handlePayment(e);
+          }}
+          disabled={buttonDisabled}
+          className={`w-full py-4 text-lg font-semibold rounded-md transition-colors ${
+            buttonDisabled 
+              ? 'bg-gray-400 cursor-not-allowed text-gray-600' 
+              : 'bg-green-600 hover:bg-green-700 text-white cursor-pointer'
+          }`}
+          data-testid="button-pay-now"
+          style={{ pointerEvents: buttonDisabled ? 'none' : 'auto' }}
+        >
+          {isProcessing ? "Processing Payment..." : 
+           !isReady ? "Loading..." :
+           "Pay $39.00 Now"}
+        </button>
+        
+        {/* Alternative direct payment button for testing */}
+        <button
+          type="button"
+          onClick={() => {
+            console.log('BACKUP BUTTON CLICKED!');
+            if (stripe && elements && clientSecret) {
+              handlePayment({ preventDefault: () => {} } as any);
+            } else {
+              alert('Payment not ready. Please wait...');
+            }
+          }}
+          className="w-full py-2 text-sm bg-blue-600 hover:bg-blue-700 text-white rounded-md"
+          data-testid="button-backup-pay"
+        >
+          Backup Payment Button (Click if main button doesn't work)
+        </button>
+        
+        {/* Debug info */}
+        <div className="text-xs text-gray-500 p-2 bg-gray-50 rounded">
+          Debug: Stripe={!!stripe ? 'Ready' : 'Not Ready'} | 
+          Elements={!!elements ? 'Ready' : 'Not Ready'} | 
+          Secret={!!clientSecret ? 'Ready' : 'Not Ready'} | 
+          Processing={isProcessing ? 'Yes' : 'No'}
+        </div>
+      </div>
       
       <div className="text-center text-xs text-slate-500">
         <Lock className="w-3 h-3 inline mr-1" />
