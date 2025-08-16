@@ -136,20 +136,7 @@ export default function Terms() {
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>10. Contact Information</CardTitle>
-            </CardHeader>
-            <CardContent className="prose max-w-none">
-              <p>
-                If you have any questions about these Terms of Service, please contact us at:
-              </p>
-              <p>
-                <strong>Email:</strong> legal@valuationgenie.com<br />
-                <strong>Address:</strong> [Your Business Address]
-              </p>
-            </CardContent>
-          </Card>
+
         </div>
       </div>
       
