@@ -52,6 +52,7 @@ export interface IStorage {
   getValuation(id: string): Promise<Valuation | undefined>;
   getUserValuations(userId: string): Promise<Valuation[]>;
   updateValuationPayment(id: string, paymentIntentId: string, pdfPath: string): Promise<Valuation>;
+  markValuationAsPaid(id: string): Promise<Valuation>;
   deleteValuation(id: string): Promise<void>;
   getAllValuations(): Promise<Valuation[]>;
   
@@ -367,6 +368,18 @@ export class DatabaseStorage implements IStorage {
       .set({ 
         stripePaymentIntentId: paymentIntentId, 
         pdfPath: pdfPath, 
+        paid: true,
+        updatedAt: new Date() 
+      })
+      .where(eq(valuations.id, id))
+      .returning();
+    return result;
+  }
+
+  async markValuationAsPaid(id: string): Promise<Valuation> {
+    const [result] = await db
+      .update(valuations)
+      .set({ 
         paid: true,
         updatedAt: new Date() 
       })

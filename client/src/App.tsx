@@ -11,11 +11,8 @@ import ProfileCompletionModal from "@/components/auth/profile-completion-modal";
 import Landing from "@/pages/landing";
 import Home from "@/pages/home";
 import ValuationFlow from "@/pages/valuation-flow";
-import CheckoutNew from "@/pages/checkout-new";
-import CheckoutWorking from "@/pages/checkout-working";
-import SimpleCheckout from "@/pages/simple-checkout";
-import UltraSimpleCheckout from "@/pages/ultra-simple-checkout";
-import WorkingPayment from "@/pages/working-payment";
+import Checkout from "@/pages/checkout";
+import CheckoutSuccess from "@/pages/checkout-success";
 import Dashboard from "@/pages/dashboard";
 import Admin from "@/pages/admin";
 import CustomerData from "@/pages/customer-data";
@@ -85,7 +82,8 @@ function Router() {
           <>
             <Route path="/" component={Home} />
             <Route path="/valuation" component={ValuationFlow} />
-            <Route path="/checkout/:id" component={WorkingPayment} />
+            <Route path="/checkout/:id" component={Checkout} />
+            <Route path="/checkout-success" component={CheckoutSuccess} />
             <Route path="/dashboard" component={Dashboard} />
             <Route path="/services" component={Services} />
             <Route path="/industry-analysis" component={IndustryAnalysis} />

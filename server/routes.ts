@@ -1336,10 +1336,93 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Stripe configuration endpoint
   app.get("/api/stripe/config", (req, res) => {
+    const publicKey = process.env.VITE_STRIPE_PUBLIC_KEY || '';
     res.json({
-      publicKey: process.env.STRIPE_PUBLISHABLE_KEY || '',
-      mode: process.env.STRIPE_PUBLISHABLE_KEY?.startsWith('pk_live_') ? 'live' : 'test'
+      publicKey: publicKey,
+      mode: publicKey?.startsWith('pk_live_') ? 'live' : 'test'
     });
+  });
+
+  // Create Stripe checkout session
+  app.post("/api/create-checkout-session", requireSimpleAuth, async (req: any, res) => {
+    try {
+      if (!stripe) {
+        return res.status(500).json({ message: "Stripe not initialized" });
+      }
+
+      const { valuationId, successUrl, cancelUrl } = req.body;
+      const userId = req.user.id;
+
+      // Get valuation to verify ownership
+      const valuation = await storage.getValuation(valuationId);
+      if (!valuation || valuation.userId !== userId) {
+        return res.status(404).json({ message: "Valuation not found" });
+      }
+
+      if (valuation.paid) {
+        return res.status(400).json({ message: "Valuation already paid" });
+      }
+
+      // Create checkout session
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        line_items: [{
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: 'Professional Business Valuation Report',
+              description: `Comprehensive valuation report for ${valuation.businessName}`,
+            },
+            unit_amount: 3900, // $39.00
+          },
+          quantity: 1,
+        }],
+        mode: 'payment',
+        success_url: successUrl,
+        cancel_url: cancelUrl,
+        metadata: {
+          valuationId: valuationId,
+          userId: userId,
+        },
+      });
+
+      res.json({ url: session.url });
+    } catch (error: any) {
+      console.error("Checkout session error:", error);
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  // Verify payment after Stripe redirect
+  app.post("/api/verify-payment", requireSimpleAuth, async (req: any, res) => {
+    try {
+      if (!stripe) {
+        return res.status(500).json({ message: "Stripe not initialized" });
+      }
+
+      const { sessionId, valuationId } = req.body;
+      const userId = req.user.id;
+
+      // Get valuation to verify ownership
+      const valuation = await storage.getValuation(valuationId);
+      if (!valuation || valuation.userId !== userId) {
+        return res.status(404).json({ message: "Valuation not found" });
+      }
+
+      // Retrieve the session from Stripe to verify payment
+      const session = await stripe.checkout.sessions.retrieve(sessionId);
+      
+      if (session.payment_status === 'paid') {
+        // Mark valuation as paid
+        await storage.markValuationAsPaid(valuationId);
+        res.json({ success: true, message: "Payment verified successfully" });
+      } else {
+        res.status(400).json({ message: "Payment not completed" });
+      }
+    } catch (error: any) {
+      console.error("Payment verification error:", error);
+      res.status(500).json({ message: error.message });
+    }
   });
 
   // Test Stripe connection

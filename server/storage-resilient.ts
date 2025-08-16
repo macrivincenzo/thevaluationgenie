@@ -305,6 +305,23 @@ export class ResilientStorage implements IStorage {
       }
     );
   }
+  
+  async markValuationAsPaid(id: string) {
+    return this.withFallback(
+      () => this.dbStorage.markValuationAsPaid(id),
+      () => {
+        // In-memory fallback
+        const valuation = this.memoryStorage.getValuation(id);
+        if (valuation) {
+          valuation.paid = true;
+          valuation.updatedAt = new Date();
+          return valuation;
+        }
+        throw new Error('Valuation not found');
+      }
+    );
+  }
+  
   async deleteValuation(id: string) { }
   async getAllValuations() { return []; }
   async canUserCreateReport(userId: string) {

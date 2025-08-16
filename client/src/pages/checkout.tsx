@@ -1,416 +1,249 @@
-import { useEffect, useState } from "react";
-import { useRoute } from "wouter";
+import { useParams, useLocation } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Check, Shield, FileText, TrendingUp, AlertTriangle, Users, Calendar, ArrowLeft } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import { useAuth } from "@/hooks/useAuth";
-import { isUnauthorizedError } from "@/lib/authUtils";
-import Header from "@/components/layout/header";
-import Footer from "@/components/layout/footer";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Badge } from "@/components/ui/badge";
-import { CheckCircle, DollarSign, FileText, Shield } from "lucide-react";
+import { Link } from "wouter";
+import type { Valuation } from "@shared/schema";
 
 export default function Checkout() {
-  const [, params] = useRoute("/checkout/:id");
-  const valuationId = params?.id;
-  const [clientSecret, setClientSecret] = useState("");
-  const [isProcessing, setIsProcessing] = useState(false);
-  const stripe = useStripe();
-  const elements = useElements();
+  const { id } = useParams<{ id: string }>();
+  const [, navigate] = useLocation();
   const { toast } = useToast();
-  const { isAuthenticated, isLoading } = useAuth();
 
-  // Redirect to login if not authenticated
-  useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      toast({
-        title: "Unauthorized",
-        description: "You are logged out. Logging in again...",
-        variant: "destructive",
+  // Get valuation details
+  const { data: valuation, isLoading } = useQuery({
+    queryKey: ['/api/valuations', id],
+    enabled: !!id,
+  });
+
+  // Create checkout session mutation
+  const createCheckoutSession = useMutation({
+    mutationFn: async () => {
+      const response = await apiRequest("POST", "/api/create-checkout-session", {
+        valuationId: id,
+        successUrl: `${window.location.origin}/checkout-success?session_id={CHECKOUT_SESSION_ID}&valuation_id=${id}`,
+        cancelUrl: `${window.location.origin}/checkout/${id}`,
       });
-      setTimeout(() => {
-        window.location.href = "/api/login";
-      }, 500);
-      return;
-    }
-  }, [isAuthenticated, isLoading, toast]);
-
-  const { data: valuation, isLoading: valuationLoading } = useQuery({
-    queryKey: ["/api/valuations", valuationId],
-    enabled: !!valuationId,
-    retry: false,
-  }) as { data: any, isLoading: boolean };
-
-  const createPaymentIntentMutation = useMutation({
-    mutationFn: async (valuationId: string) => {
-      const response = await apiRequest("POST", "/api/create-payment-intent", { valuationId });
-      return await response.json();
+      return response.json();
     },
     onSuccess: (data) => {
-      setClientSecret(data.clientSecret);
+      // Redirect to Stripe checkout
+      window.location.href = data.url;
     },
-    onError: (error: Error) => {
-      if (isUnauthorizedError(error)) {
-        toast({
-          title: "Unauthorized",
-          description: "You are logged out. Logging in again...",
-          variant: "destructive",
-        });
-        setTimeout(() => {
-          window.location.href = "/api/login";
-        }, 500);
-        return;
-      }
+    onError: (error: any) => {
       toast({
-        title: "Error",
-        description: error.message,
+        title: "Payment Error",
+        description: error.message || "Failed to start checkout",
         variant: "destructive",
       });
     },
   });
 
-  useEffect(() => {
-    if (valuationId && valuation && !clientSecret) {
-      createPaymentIntentMutation.mutate(valuationId);
-    }
-  }, [valuationId, valuation, clientSecret]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!stripe || !elements || !clientSecret) {
-      console.error("Missing required payment components:", { stripe: !!stripe, elements: !!elements, clientSecret: !!clientSecret });
-      toast({
-        title: "Payment Error",
-        description: "Payment system not ready. Please refresh the page.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setIsProcessing(true);
-
-    try {
-      console.log("Starting payment confirmation...");
-      
-      const { error, paymentIntent } = await stripe.confirmPayment({
-        elements,
-        confirmParams: {
-          return_url: `${window.location.origin}/dashboard`,
-        },
-        redirect: 'if_required',
-      });
-
-      console.log("Payment confirmation result:", { error, paymentIntent });
-
-      if (error) {
-        console.error("Payment error details:", error);
-        toast({
-          title: "Payment Failed",
-          description: `${error.message || "Payment processing failed. Please try again."}`,
-          variant: "destructive",
-        });
-      } else if (paymentIntent) {
-        console.log("Payment intent status:", paymentIntent.status);
-        
-        if (paymentIntent.status === 'succeeded') {
-          console.log("Payment succeeded, updating valuation...");
-          // Update valuation as paid immediately
-          try {
-            const response = await apiRequest("POST", `/api/valuations/${valuationId}/mark-paid`, {
-              paymentIntentId: paymentIntent.id
-            });
-            console.log("Valuation update response:", response);
-            
-            toast({
-              title: "Payment Successful",
-              description: "Thank you for your purchase! Your PDF report is now available.",
-            });
-            
-            // Redirect to dashboard after a short delay
-            setTimeout(() => {
-              window.location.href = "/dashboard";
-            }, 2000);
-          } catch (updateError) {
-            console.error("Failed to update valuation:", updateError);
-            toast({
-              title: "Payment Successful",
-              description: "Payment completed! Please check your dashboard for the PDF report.",
-            });
-            // Still redirect even if update failed
-            setTimeout(() => {
-              window.location.href = "/dashboard";
-            }, 3000);
-          }
-        } else if (paymentIntent.status === 'requires_action') {
-          console.log("Payment requires additional action");
-          toast({
-            title: "Additional Authentication Required",
-            description: "Please complete the additional authentication steps.",
-            variant: "default",
-          });
-        } else {
-          console.log("Payment in unexpected status:", paymentIntent.status);
-          toast({
-            title: "Payment Processing",
-            description: `Payment status: ${paymentIntent.status}. Please check your dashboard.`,
-            variant: "default",
-          });
-        }
-      } else {
-        console.error("No payment intent returned and no error");
-        toast({
-          title: "Payment Error",
-          description: "Unexpected payment response. Please try again.",
-          variant: "destructive",
-        });
-      }
-    } catch (unexpectedError) {
-      console.error("Unexpected error during payment:", unexpectedError);
-      toast({
-        title: "Payment Error",
-        description: "An unexpected error occurred. Please try again.",
-        variant: "destructive",
-      });
-    }
-
-    setIsProcessing(false);
-  };
-
-  if (isLoading || valuationLoading) {
+  if (isLoading) {
     return (
-      <div className="min-h-screen bg-white">
-        <Header />
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="animate-pulse space-y-8">
-            <div className="h-8 bg-slate-200 rounded w-1/3"></div>
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="space-y-4">
-                <div className="h-64 bg-slate-200 rounded"></div>
-              </div>
-              <div className="space-y-4">
-                <div className="h-32 bg-slate-200 rounded"></div>
-                <div className="h-32 bg-slate-200 rounded"></div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center">
+        <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" />
       </div>
     );
   }
 
   if (!valuation) {
     return (
-      <div className="min-h-screen bg-white">
-        <Header />
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <Card>
-            <CardContent className="p-8 text-center">
-              <h2 className="text-2xl font-bold text-slate-900 mb-4">Valuation Not Found</h2>
-              <p className="text-slate-600">The valuation you're looking for doesn't exist or you don't have permission to access it.</p>
-            </CardContent>
-          </Card>
-        </div>
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center">
+        <Card className="w-full max-w-md">
+          <CardContent className="pt-6 text-center">
+            <p className="text-muted-foreground">Valuation not found</p>
+            <Button asChild className="mt-4">
+              <Link href="/dashboard">Back to Dashboard</Link>
+            </Button>
+          </CardContent>
+        </Card>
       </div>
     );
   }
 
-  if (valuation?.paid) {
+  if (valuation.paid) {
     return (
-      <div className="min-h-screen bg-white">
-        <Header />
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <Card>
-            <CardContent className="p-8 text-center">
-              <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-              <h2 className="text-2xl font-bold text-slate-900 mb-4">Already Paid</h2>
-              <p className="text-slate-600 mb-6">This valuation has already been paid for. You can download the PDF from your dashboard.</p>
-              <Button onClick={() => window.location.href = '/dashboard'}>
-                Go to Dashboard
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    );
-  }
-
-  if (!clientSecret) {
-    return (
-      <div className="min-h-screen bg-white">
-        <Header />
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="flex items-center justify-center">
-            <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" />
-          </div>
-        </div>
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center">
+        <Card className="w-full max-w-md">
+          <CardContent className="pt-6 text-center">
+            <Check className="w-16 h-16 text-green-500 mx-auto mb-4" />
+            <h2 className="text-xl font-semibold mb-2">Already Purchased</h2>
+            <p className="text-muted-foreground mb-4">You have already purchased this professional report.</p>
+            <Button asChild>
+              <Link href={`/dashboard`}>View Report</Link>
+            </Button>
+          </CardContent>
+        </Card>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-white">
-      <Header />
-      
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800 py-8">
+      <div className="container mx-auto px-4 max-w-4xl">
+        {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">Complete Your Purchase</h1>
-          <p className="text-slate-600">Secure your professional business valuation report</p>
+          <Button variant="ghost" asChild className="mb-4">
+            <Link href="/dashboard">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to Dashboard
+            </Link>
+          </Button>
+          <h1 className="text-3xl font-bold text-center bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+            Upgrade to Professional Report
+          </h1>
+          <p className="text-center text-muted-foreground mt-2">
+            Get your comprehensive business valuation report
+          </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* Payment Form */}
-          <div>
-            <Card>
-              <CardHeader>
-                <CardTitle>Payment Details</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <PaymentElement />
-                  
-                  <div className="flex items-center space-x-2 text-sm text-slate-600">
-                    <Shield className="w-4 h-4" />
-                    <span>Secured by Stripe. Your payment information is encrypted and secure.</span>
-                  </div>
-                  
-                  <Button 
-                    type="submit" 
-                    className="w-full py-3 text-lg font-semibold"
-                    disabled={!stripe || !elements || isProcessing || !clientSecret}
-                    onClick={(e) => {
-                      console.log("Payment button clicked");
-                      console.log("Stripe ready:", !!stripe);
-                      console.log("Elements ready:", !!elements);
-                      console.log("Client secret:", !!clientSecret);
-                      if (!stripe || !elements || !clientSecret) {
-                        e.preventDefault();
-                        toast({
-                          title: "Payment Error",
-                          description: "Payment system not ready. Please refresh the page and try again.",
-                          variant: "destructive",
-                        });
-                        return false;
-                      }
-                    }}
-                  >
-                    {isProcessing ? "Processing..." : "Complete Payment - $39"}
-                  </Button>
-                </form>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Order Summary */}
-          <div className="space-y-6">
-            {/* Valuation Details */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Valuation Summary</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
+        <div className="grid lg:grid-cols-2 gap-8">
+          {/* Business Summary */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <FileText className="w-5 h-5" />
+                Valuation Summary
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <h3 className="font-semibold text-lg">{valuation.businessName}</h3>
+                <p className="text-muted-foreground">{valuation.businessType || 'Service Business'}</p>
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
-                  <h3 className="font-semibold text-slate-900">{valuation?.businessName}</h3>
-                  <p className="text-sm text-slate-600">{valuation?.industry}</p>
+                  <p className="text-muted-foreground">Annual Revenue</p>
+                  <p className="font-semibold">${valuation.annualRevenue?.toLocaleString() || 'N/A'}</p>
                 </div>
-                
-                <div className="flex items-center justify-between py-2">
-                  <span className="text-slate-600">Estimated Value:</span>
-                  <Badge variant="secondary" className="text-lg font-semibold">
-                    ${parseInt(valuation?.valuationLow || '0').toLocaleString()} - ${parseInt(valuation?.valuationHigh || '0').toLocaleString()}
-                  </Badge>
-                </div>
-                
-                <Separator />
-                
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span>Annual Revenue:</span>
-                    <span>${parseInt(valuation?.annualRevenue || '0').toLocaleString()}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>SDE:</span>
-                    <span>${parseInt(valuation?.sde || '0').toLocaleString()}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Industry Multiple:</span>
-                    <span>{parseFloat(valuation?.industryMultiple || '0').toFixed(1)}x</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* What's Included */}
-            <Card>
-              <CardHeader>
-                <CardTitle>What's Included</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-3">
-                  <li className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />
-                    <span className="text-sm">Professional PDF valuation report</span>
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />
-                    <span className="text-sm">Detailed valuation methodology</span>
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />
-                    <span className="text-sm">Industry benchmarking analysis</span>
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />
-                    <span className="text-sm">Key financial ratios & metrics</span>
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />
-                    <span className="text-sm">Risk factors assessment</span>
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />
-                    <span className="text-sm">Instant download access</span>
-                  </li>
-                </ul>
-              </CardContent>
-            </Card>
-
-            {/* Order Total */}
-            <Card>
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between text-lg font-semibold">
-                  <span>Total:</span>
-                  <div className="flex items-center">
-                    <DollarSign className="w-5 h-5" />
-                    <span>39.00</span>
-                  </div>
-                </div>
-                <p className="text-sm text-slate-500 mt-2">One-time payment • 7 days money back guarantee</p>
-              </CardContent>
-            </Card>
-
-            {/* Disclaimer */}
-            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-              <div className="flex items-start">
-                <FileText className="w-5 h-5 text-yellow-600 mr-2 mt-0.5 flex-shrink-0" />
                 <div>
-                  <p className="text-sm text-yellow-800 font-medium">Important Disclaimer</p>
-                  <p className="text-xs text-yellow-700 mt-1">
-                    This valuation is for informational purposes only and is not a formal business appraisal. 
-                    It should not be used as the sole basis for business decisions.
-                  </p>
+                  <p className="text-muted-foreground">SDE</p>
+                  <p className="font-semibold">${valuation.sde?.toLocaleString() || 'N/A'}</p>
+                </div>
+                <div>
+                  <p className="text-muted-foreground">Estimated Value</p>
+                  <p className="font-semibold text-green-600">${valuation.estimatedValue?.toLocaleString() || 'N/A'}</p>
+                </div>
+                <div>
+                  <p className="text-muted-foreground">Multiple</p>
+                  <p className="font-semibold">{valuation.multiple?.toFixed(1)}x</p>
                 </div>
               </div>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
+
+          {/* Professional Report Details */}
+          <Card className="border-2 border-primary/20">
+            <CardHeader className="text-center">
+              <Badge className="w-fit mx-auto mb-2">Most Popular</Badge>
+              <CardTitle className="text-2xl">Professional Report</CardTitle>
+              <CardDescription>Complete business valuation package</CardDescription>
+              <div className="text-center">
+                <span className="text-4xl font-bold">$39</span>
+                <span className="text-muted-foreground ml-1">one-time</span>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {/* Features */}
+              <div className="space-y-3">
+                <div className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="font-medium">Professional PDF valuation report</p>
+                    <p className="text-sm text-muted-foreground">Comprehensive 15+ page document</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-3">
+                  <TrendingUp className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="font-medium">Enterprise valuation with confidence range</p>
+                    <p className="text-sm text-muted-foreground">Statistical analysis and range estimates</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-3">
+                  <FileText className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="font-medium">Company overview & financial metrics</p>
+                    <p className="text-sm text-muted-foreground">Detailed business analysis</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-3">
+                  <Users className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="font-medium">SDE multiple methodology analysis</p>
+                    <p className="text-sm text-muted-foreground">Industry-standard valuation approach</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="font-medium">Positive value drivers assessment</p>
+                    <p className="text-sm text-muted-foreground">Identify business strengths</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-3">
+                  <AlertTriangle className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="font-medium">Key risk factors evaluation</p>
+                    <p className="text-sm text-muted-foreground">Comprehensive risk analysis</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-3">
+                  <Shield className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="font-medium">Professional presentation format</p>
+                    <p className="text-sm text-muted-foreground">Suitable for investors and lenders</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-3">
+                  <Calendar className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="font-medium">7-day money-back guarantee</p>
+                    <p className="text-sm text-muted-foreground">Risk-free purchase</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Purchase Button */}
+              <Button 
+                className="w-full text-lg py-6 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700"
+                onClick={() => createCheckoutSession.mutate()}
+                disabled={createCheckoutSession.isPending}
+                data-testid="button-purchase-report"
+              >
+                {createCheckoutSession.isPending ? (
+                  <>
+                    <div className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full mr-2" />
+                    Processing...
+                  </>
+                ) : (
+                  <>
+                    <Shield className="w-5 h-5 mr-2" />
+                    Get Professional Report - $39
+                  </>
+                )}
+              </Button>
+
+              <p className="text-xs text-center text-muted-foreground">
+                Secure payment powered by Stripe. Your card information is encrypted and secure.
+              </p>
+            </CardContent>
+          </Card>
         </div>
       </div>
-      
-      <Footer />
     </div>
   );
 }
