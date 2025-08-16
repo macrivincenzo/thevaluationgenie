@@ -23,10 +23,14 @@ export default function Checkout() {
   // Create checkout session mutation
   const createCheckoutSession = useMutation({
     mutationFn: async () => {
+      // Use simpler URLs to avoid Replit domain issues
+      const baseUrl = window.location.origin;
+      console.log('Creating checkout with base URL:', baseUrl);
+      
       const response = await apiRequest("POST", "/api/create-checkout-session", {
         valuationId: id,
-        successUrl: `${window.location.origin}/checkout-success?session_id={CHECKOUT_SESSION_ID}&valuation_id=${id}`,
-        cancelUrl: `${window.location.origin}/checkout/${id}`,
+        successUrl: `${baseUrl}/checkout-success?session_id={CHECKOUT_SESSION_ID}&valuation_id=${id}`,
+        cancelUrl: `${baseUrl}/checkout/${id}`,
       });
       return response.json();
     },

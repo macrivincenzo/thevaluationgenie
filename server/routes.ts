@@ -1363,7 +1363,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Valuation already paid" });
       }
 
-      // Create checkout session
+      // Log the URLs being sent to Stripe
+      console.log('Creating Stripe session with URLs:', { successUrl, cancelUrl });
+
+      // Create checkout session with simplified configuration
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         line_items: [{
@@ -1383,6 +1386,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         metadata: {
           valuationId: valuationId,
           userId: userId,
+        },
+        allow_promotion_codes: false,
+        billing_address_collection: 'auto',
+        payment_intent_data: {
+          setup_future_usage: 'off_session',
         },
       });
 
