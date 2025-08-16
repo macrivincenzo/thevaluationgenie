@@ -160,7 +160,7 @@ export default function Checkout() {
                   <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
                   <div>
                     <p className="font-medium">Professional PDF valuation report</p>
-                    <p className="text-sm text-muted-foreground">Comprehensive 15+ page document</p>
+                    <p className="text-sm text-muted-foreground">Comprehensive 3+ page document</p>
                   </div>
                 </div>
                 
