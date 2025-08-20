@@ -37,6 +37,7 @@ import BusinessValuationMistakes from "@/pages/blog/business-valuation-mistakes"
 import EcommerceBusinessValuation from "@/pages/blog/ecommerce-business-valuation";
 import SdeVsEbitdaGuide from "@/pages/blog/sde-vs-ebitda-guide";
 import RestaurantValuationGuide from "@/pages/blog/restaurant-valuation-guide";
+import DownloadLogos from "@/pages/download-logos";
 
 function Router() {
   const { isAuthenticated, isLoading, user } = useAuth();
@@ -82,6 +83,7 @@ function Router() {
             <Route path="/blog/ecommerce-business-valuation" component={EcommerceBusinessValuation} />
             <Route path="/blog/sde-vs-ebitda-guide" component={SdeVsEbitdaGuide} />
             <Route path="/blog/restaurant-valuation-guide" component={RestaurantValuationGuide} />
+            <Route path="/download-logos" component={DownloadLogos} />
             <Route path="/terms" component={Terms} />
             <Route path="/privacy" component={Privacy} />
             <Route path="/contact" component={Contact} />
@@ -105,6 +107,7 @@ function Router() {
             <Route path="/blog/ecommerce-business-valuation" component={EcommerceBusinessValuation} />
             <Route path="/blog/sde-vs-ebitda-guide" component={SdeVsEbitdaGuide} />
             <Route path="/blog/restaurant-valuation-guide" component={RestaurantValuationGuide} />
+            <Route path="/download-logos" component={DownloadLogos} />
 
             <Route path="/admin" component={Admin} />
             <Route path="/customer-data" component={CustomerData} />
