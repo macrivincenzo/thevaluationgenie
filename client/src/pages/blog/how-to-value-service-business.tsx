@@ -1,282 +1,337 @@
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { ArrowRight, Calculator, TrendingUp, FileText, Users, Clock, CheckCircle } from "lucide-react";
 import { Link } from "wouter";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Calculator, TrendingUp, FileText, Users, DollarSign, BarChart3, CheckCircle, ArrowRight } from "lucide-react";
 
 export default function HowToValueServiceBusiness() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800">
       <Header />
       
-      {/* Hero Section */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="container mx-auto px-4 py-12 max-w-4xl">
+        {/* Hero Section */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-2 rounded-full text-sm font-medium mb-4">
-            <TrendingUp className="w-4 h-4" />
-            Service Business Valuation Guide
-          </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
+          <Badge className="mb-4">Expert Guide</Badge>
+          <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
             How to Value a Service Business for Sale: Complete 2025 Guide
           </h1>
-          <p className="text-xl text-slate-600 max-w-3xl mx-auto mb-8">
-            Master the art of service business valuation with proven methodologies, industry multiples, and real-world examples. Get accurate valuations for consulting, marketing, and professional service businesses.
+          <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
+            Learn professional valuation methods for service businesses using Seller's Discretionary Earnings (SDE) and industry-standard multiples. Get accurate valuations in minutes, not months.
           </p>
           
-          {/* CTA */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild size="lg" className="bg-blue-600 hover:bg-blue-700">
-              <Link href="/">
-                <Calculator className="w-5 h-5 mr-2" />
-                Get Free Business Valuation
-              </Link>
-            </Button>
-            <Button asChild variant="outline" size="lg">
-              <Link href="/blog">
-                <FileText className="w-5 h-5 mr-2" />
-                More Valuation Guides
-              </Link>
-            </Button>
-          </div>
-        </div>
-
-        {/* Quick Stats */}
-        <div className="grid md:grid-cols-3 gap-6 mb-12">
-          <Card>
-            <CardContent className="p-6 text-center">
-              <Users className="w-8 h-8 text-blue-600 mx-auto mb-3" />
-              <div className="text-2xl font-bold text-slate-900 mb-1">85%</div>
-              <p className="text-slate-600">of service businesses use SDE method</p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-6 text-center">
-              <DollarSign className="w-8 h-8 text-green-600 mx-auto mb-3" />
-              <div className="text-2xl font-bold text-slate-900 mb-1">2.5-4x</div>
-              <p className="text-slate-600">typical SDE multiple range</p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-6 text-center">
-              <BarChart3 className="w-8 h-8 text-purple-600 mx-auto mb-3" />
-              <div className="text-2xl font-bold text-slate-900 mb-1">$500K</div>
-              <p className="text-slate-600">average service business sale</p>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Table of Contents */}
-        <Card className="mb-12 bg-slate-50 border-slate-200">
-          <CardContent className="p-8">
-            <h2 className="text-2xl font-bold text-slate-900 mb-6">What You'll Learn</h2>
-            <div className="grid md:grid-cols-2 gap-4">
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
-                  <span className="text-slate-700">Service business valuation fundamentals</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
-                  <span className="text-slate-700">SDE calculation methods</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
-                  <span className="text-slate-700">Industry-specific multiples</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
-                  <span className="text-slate-700">Key valuation factors</span>
-                </div>
-              </div>
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
-                  <span className="text-slate-700">Common valuation mistakes</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
-                  <span className="text-slate-700">Real-world examples</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
-                  <span className="text-slate-700">Professional tips</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
-                  <span className="text-slate-700">Step-by-step process</span>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Main Content */}
-        <div className="prose prose-slate max-w-none">
-          
-          <h2 className="text-3xl font-bold text-slate-900 mb-6">Understanding Service Business Valuations</h2>
-          <p className="text-lg text-slate-700 leading-relaxed mb-6">
-            Service businesses represent one of the most common types of enterprises sold today, yet their valuation presents unique challenges. Unlike product-based businesses with tangible inventory and assets, service businesses derive their value primarily from customer relationships, recurring revenue, and the expertise of their teams.
-          </p>
-          
-          <p className="text-slate-700 leading-relaxed mb-8">
-            Whether you're valuing a consulting firm, marketing agency, accounting practice, or any other service-based business, the fundamental principles remain consistent. The key is understanding how to properly calculate Seller's Discretionary Earnings (SDE) and apply appropriate industry multiples to arrive at a fair market value.
-          </p>
-
-          <div className="bg-blue-50 border-l-4 border-blue-400 p-6 mb-8">
-            <div className="flex items-start gap-3">
-              <div className="flex-shrink-0">
-                <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                  <TrendingUp className="w-4 h-4 text-blue-600" />
-                </div>
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold text-blue-900 mb-2">Industry Insight</h3>
-                <p className="text-blue-800">
-                  Service businesses typically sell for 2.5-4x their annual SDE, with premium businesses achieving multiples of 4-6x when they demonstrate strong systems, recurring revenue, and growth potential.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <h2 className="text-3xl font-bold text-slate-900 mb-6">The Service Business Valuation Framework</h2>
-          <p className="text-slate-700 leading-relaxed mb-6">
-            Valuing a service business requires a systematic approach that considers both financial performance and operational factors. Here's the proven framework used by professional business valuators:
-          </p>
-
-          <h3 className="text-2xl font-bold text-slate-900 mb-4">1. Calculate Seller's Discretionary Earnings (SDE)</h3>
-          <p className="text-slate-700 leading-relaxed mb-4">
-            SDE forms the foundation of service business valuation. It represents the true earning power available to a new owner, including the current owner's salary, benefits, and discretionary expenses.
-          </p>
-
-          <div className="bg-slate-100 p-6 rounded-lg mb-6">
-            <h4 className="font-semibold text-slate-900 mb-3">SDE Calculation Formula:</h4>
-            <div className="space-y-2 text-sm font-mono">
-              <div>Net Income: $150,000</div>
-              <div>+ Owner's Salary: $80,000</div>
-              <div>+ Owner's Benefits: $12,000</div>
-              <div>+ Personal Expenses: $8,000</div>
-              <div>+ One-time Expenses: $5,000</div>
-              <div className="border-t pt-2 font-bold">= SDE: $255,000</div>
-            </div>
-          </div>
-
-          <h3 className="text-2xl font-bold text-slate-900 mb-4">2. Determine the Appropriate Multiple</h3>
-          <p className="text-slate-700 leading-relaxed mb-4">
-            Service business multiples vary significantly based on industry, size, growth rate, and operational factors. Here are typical ranges for common service businesses:
-          </p>
-
-          <div className="overflow-x-auto mb-8">
-            <table className="w-full border-collapse border border-slate-300">
-              <thead>
-                <tr className="bg-slate-100">
-                  <th className="border border-slate-300 p-3 text-left font-semibold">Service Type</th>
-                  <th className="border border-slate-300 p-3 text-left font-semibold">Typical Multiple</th>
-                  <th className="border border-slate-300 p-3 text-left font-semibold">Premium Range</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="border border-slate-300 p-3">Marketing Agency</td>
-                  <td className="border border-slate-300 p-3">2.5-3.5x SDE</td>
-                  <td className="border border-slate-300 p-3">4.0-5.0x SDE</td>
-                </tr>
-                <tr className="bg-slate-50">
-                  <td className="border border-slate-300 p-3">Management Consulting</td>
-                  <td className="border border-slate-300 p-3">3.0-4.0x SDE</td>
-                  <td className="border border-slate-300 p-3">4.5-6.0x SDE</td>
-                </tr>
-                <tr>
-                  <td className="border border-slate-300 p-3">IT Services</td>
-                  <td className="border border-slate-300 p-3">2.5-3.5x SDE</td>
-                  <td className="border border-slate-300 p-3">4.0-5.5x SDE</td>
-                </tr>
-                <tr className="bg-slate-50">
-                  <td className="border border-slate-300 p-3">Professional Services</td>
-                  <td className="border border-slate-300 p-3">2.0-3.0x SDE</td>
-                  <td className="border border-slate-300 p-3">3.5-4.5x SDE</td>
-                </tr>
-                <tr>
-                  <td className="border border-slate-300 p-3">Financial Services</td>
-                  <td className="border border-slate-300 p-3">3.0-4.5x SDE</td>
-                  <td className="border border-slate-300 p-3">5.0-7.0x SDE</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          {/* Get Valuation CTA */}
-          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-8 text-center mb-8">
-            <h3 className="text-2xl font-bold text-slate-900 mb-4">Ready to Value Your Service Business?</h3>
-            <p className="text-slate-700 mb-6 max-w-2xl mx-auto">
-              Get a professional business valuation report in minutes. Our SDE-based methodology provides accurate valuations for service businesses of all types.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild size="lg" className="bg-blue-600 hover:bg-blue-700">
+          {/* CTA Button */}
+          <Card className="border-2 border-primary/20 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-950 dark:to-purple-950 p-6 mb-8">
+            <div className="text-center">
+              <h3 className="text-2xl font-bold mb-4">Get Your Free Business Valuation Estimate</h3>
+              <p className="text-muted-foreground mb-4">
+                Professional service business valuation in under 10 minutes. No registration required.
+              </p>
+              <Button asChild size="lg" className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700">
                 <Link href="/">
                   <Calculator className="w-5 h-5 mr-2" />
-                  Start Your Free Valuation
-                </Link>
-              </Button>
-              <Button asChild variant="outline" size="lg">
-                <Link href="/blog/sde-business-valuation-guide">
-                  <ArrowRight className="w-5 h-5 mr-2" />
-                  Learn More About SDE
+                  Start Free Valuation Now
+                  <ArrowRight className="w-4 h-4 ml-2" />
                 </Link>
               </Button>
             </div>
-          </div>
-
-          <h2 className="text-3xl font-bold text-slate-900 mb-6">Conclusion</h2>
-          <p className="text-slate-700 leading-relaxed mb-6">
-            Valuing a service business requires a thorough understanding of SDE calculations, industry multiples, and the key factors that drive value in service-based enterprises. By following the framework outlined in this guide, you can arrive at a realistic valuation range for your business.
-          </p>
-          
-          <p className="text-slate-700 leading-relaxed">
-            Remember that business valuation is both an art and a science. While the mathematical calculations provide a foundation, the final value often depends on market conditions, buyer motivations, and the unique characteristics of your specific business. For the most accurate valuation, consider working with experienced professionals who understand your industry and current market dynamics.
-          </p>
+          </Card>
         </div>
 
-        {/* Related Articles */}
-        <div className="mt-16 pt-12 border-t border-slate-200">
-          <h3 className="text-2xl font-bold text-slate-900 mb-8 text-center">Related Valuation Guides</h3>
-          <div className="grid md:grid-cols-3 gap-6">
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardContent className="p-6">
-                <h4 className="font-semibold text-slate-900 mb-2">SDE Business Valuation Guide</h4>
-                <p className="text-slate-600 text-sm mb-4">Master the fundamentals of SDE-based business valuations</p>
-                <Button asChild variant="outline" size="sm">
-                  <Link href="/blog/sde-business-valuation-guide">
-                    Read Article
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
-            
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardContent className="p-6">
-                <h4 className="font-semibold text-slate-900 mb-2">Business vs Market Appraisal</h4>
-                <p className="text-slate-600 text-sm mb-4">Understand the key differences between valuation methods</p>
-                <Button asChild variant="outline" size="sm">
-                  <Link href="/blog/business-valuation-vs-market-appraisal">
-                    Read Article
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
-            
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardContent className="p-6">
-                <h4 className="font-semibold text-slate-900 mb-2">Industry Multiples 2025</h4>
-                <p className="text-slate-600 text-sm mb-4">Current industry-specific valuation multiples and trends</p>
-                <Button asChild variant="outline" size="sm">
-                  <Link href="/blog/industry-valuation-multiples-2025">
-                    Read Article
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
+        {/* Article Content */}
+        <div className="prose prose-lg max-w-none">
+          
+          {/* Introduction */}
+          <Card className="mb-8">
+            <CardContent className="pt-6">
+              <h2 className="text-2xl font-bold mb-4 text-indigo-600">Why Service Business Valuation is Different</h2>
+              <p className="mb-4">
+                Service businesses represent over 65% of all small business sales, yet they're often the most challenging to value accurately. Unlike asset-heavy businesses, service companies derive their worth from intangible assets: customer relationships, expertise, systems, and recurring revenue streams.
+              </p>
+              <p className="mb-4">
+                The key to service business valuation lies in understanding Seller's Discretionary Earnings (SDE) - the total financial benefit a single owner-operator receives from the business. This halal-compliant approach focuses on actual cash flow rather than debt-based calculations.
+              </p>
+              
+              <div className="bg-blue-50 dark:bg-blue-950 p-6 rounded-lg mt-6">
+                <h3 className="text-xl font-semibold mb-3 flex items-center">
+                  <TrendingUp className="w-5 h-5 mr-2 text-blue-600" />
+                  Quick Valuation Preview
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  A consulting business with $300,000 annual SDE typically sells for $900,000 - $1,500,000 using industry multiples of 3.0x - 5.0x.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* SDE Calculation Method */}
+          <Card className="mb-8">
+            <CardContent className="pt-6">
+              <h2 className="text-2xl font-bold mb-4 text-indigo-600">Step 1: Calculate Seller's Discretionary Earnings (SDE)</h2>
+              <p className="mb-4">
+                SDE forms the foundation of service business valuation. It represents the true earning power available to a new owner-operator.
+              </p>
+              
+              <div className="bg-slate-50 dark:bg-slate-800 p-6 rounded-lg mb-6">
+                <h3 className="text-lg font-semibold mb-3">SDE Calculation Formula:</h3>
+                <div className="space-y-2 text-sm font-mono">
+                  <p>Net Income (Profit/Loss)</p>
+                  <p>+ Owner's Salary & Benefits</p>
+                  <p>+ Owner's Personal Expenses</p>
+                  <p>+ One-time/Unusual Expenses</p>
+                  <p>+ Depreciation & Amortization</p>
+                  <p className="border-t pt-2 font-bold">= Seller's Discretionary Earnings</p>
+                </div>
+              </div>
+
+              <h3 className="text-xl font-semibold mb-3">Common SDE Adjustments for Service Businesses:</h3>
+              <div className="grid md:grid-cols-2 gap-4 mb-6">
+                <div className="space-y-3">
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="w-5 h-5 text-green-500 mt-0.5" />
+                    <div>
+                      <p className="font-medium">Owner's Full Compensation</p>
+                      <p className="text-sm text-muted-foreground">Salary, bonuses, benefits, perks</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="w-5 h-5 text-green-500 mt-0.5" />
+                    <div>
+                      <p className="font-medium">Personal Vehicle Expenses</p>
+                      <p className="text-sm text-muted-foreground">Business use of personal car</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="w-5 h-5 text-green-500 mt-0.5" />
+                    <div>
+                      <p className="font-medium">Travel & Entertainment</p>
+                      <p className="text-sm text-muted-foreground">Personal trips, meals, entertainment</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="w-5 h-5 text-green-500 mt-0.5" />
+                    <div>
+                      <p className="font-medium">One-time Professional Fees</p>
+                      <p className="text-sm text-muted-foreground">Legal, consulting, setup costs</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Industry Multiples */}
+          <Card className="mb-8">
+            <CardContent className="pt-6">
+              <h2 className="text-2xl font-bold mb-4 text-indigo-600">Step 2: Apply Industry-Specific SDE Multiples</h2>
+              <p className="mb-6">
+                Service businesses command different multiples based on recurring revenue, scalability, and market demand. Here are 2025 industry benchmarks:
+              </p>
+              
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse border border-slate-300 dark:border-slate-700">
+                  <thead>
+                    <tr className="bg-slate-100 dark:bg-slate-800">
+                      <th className="border border-slate-300 dark:border-slate-700 px-4 py-2 text-left">Service Type</th>
+                      <th className="border border-slate-300 dark:border-slate-700 px-4 py-2 text-center">SDE Multiple Range</th>
+                      <th className="border border-slate-300 dark:border-slate-700 px-4 py-2 text-center">Average Multiple</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td className="border border-slate-300 dark:border-slate-700 px-4 py-2">Digital Marketing Agency</td>
+                      <td className="border border-slate-300 dark:border-slate-700 px-4 py-2 text-center">3.5x - 6.0x</td>
+                      <td className="border border-slate-300 dark:border-slate-700 px-4 py-2 text-center">4.8x</td>
+                    </tr>
+                    <tr className="bg-slate-50 dark:bg-slate-900">
+                      <td className="border border-slate-300 dark:border-slate-700 px-4 py-2">IT Consulting</td>
+                      <td className="border border-slate-300 dark:border-slate-700 px-4 py-2 text-center">3.0x - 5.5x</td>
+                      <td className="border border-slate-300 dark:border-slate-700 px-4 py-2 text-center">4.2x</td>
+                    </tr>
+                    <tr>
+                      <td className="border border-slate-300 dark:border-slate-700 px-4 py-2">Business Consulting</td>
+                      <td className="border border-slate-300 dark:border-slate-700 px-4 py-2 text-center">2.8x - 4.5x</td>
+                      <td className="border border-slate-300 dark:border-slate-700 px-4 py-2 text-center">3.6x</td>
+                    </tr>
+                    <tr className="bg-slate-50 dark:bg-slate-900">
+                      <td className="border border-slate-300 dark:border-slate-700 px-4 py-2">Professional Services</td>
+                      <td className="border border-slate-300 dark:border-slate-700 px-4 py-2 text-center">3.2x - 5.0x</td>
+                      <td className="border border-slate-300 dark:border-slate-700 px-4 py-2 text-center">4.1x</td>
+                    </tr>
+                    <tr>
+                      <td className="border border-slate-300 dark:border-slate-700 px-4 py-2">Creative Services</td>
+                      <td className="border border-slate-300 dark:border-slate-700 px-4 py-2 text-center">2.5x - 4.0x</td>
+                      <td className="border border-slate-300 dark:border-slate-700 px-4 py-2 text-center">3.2x</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div className="mt-6 p-4 bg-amber-50 dark:bg-amber-950 border border-amber-200 dark:border-amber-800 rounded-lg">
+                <h4 className="font-semibold text-amber-800 dark:text-amber-200 mb-2">Multiple Adjustment Factors:</h4>
+                <ul className="text-sm text-amber-700 dark:text-amber-300 space-y-1">
+                  <li>• <strong>Higher multiples:</strong> Recurring contracts, documented processes, diverse client base</li>
+                  <li>• <strong>Lower multiples:</strong> Owner dependency, limited client base, irregular revenue</li>
+                  <li>• <strong>Premium multiples:</strong> Strong growth trajectory, proprietary systems, high barriers to entry</li>
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Valuation Example */}
+          <Card className="mb-8">
+            <CardContent className="pt-6">
+              <h2 className="text-2xl font-bold mb-4 text-indigo-600">Step 3: Real-World Valuation Example</h2>
+              
+              <div className="bg-indigo-50 dark:bg-indigo-950 p-6 rounded-lg">
+                <h3 className="text-xl font-semibold mb-4">Case Study: Digital Marketing Agency</h3>
+                
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <h4 className="font-semibold mb-3">Financial Profile:</h4>
+                    <div className="space-y-2 text-sm">
+                      <p>Annual Revenue: $850,000</p>
+                      <p>Net Income: $180,000</p>
+                      <p>Owner Salary: $120,000</p>
+                      <p>Owner Benefits: $15,000</p>
+                      <p>Personal Expenses: $8,000</p>
+                      <p>One-time Costs: $12,000</p>
+                      <p className="border-t pt-2 font-bold">SDE: $335,000</p>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <h4 className="font-semibold mb-3">Valuation Range:</h4>
+                    <div className="space-y-2 text-sm">
+                      <p>Industry Multiple: 3.5x - 6.0x</p>
+                      <p>Low Estimate: $1,172,500</p>
+                      <p>High Estimate: $2,010,000</p>
+                      <p className="border-t pt-2 font-bold text-lg">Average Value: $1,608,000</p>
+                    </div>
+                    
+                    <div className="mt-4 p-3 bg-green-100 dark:bg-green-900 rounded">
+                      <p className="text-sm font-medium text-green-800 dark:text-green-200">
+                        Applied Multiple: 4.8x (strong recurring revenue)
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Value Drivers */}
+          <Card className="mb-8">
+            <CardContent className="pt-6">
+              <h2 className="text-2xl font-bold mb-4 text-indigo-600">Key Value Drivers for Service Businesses</h2>
+              
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h3 className="text-lg font-semibold mb-3 text-green-600">Positive Value Drivers</h3>
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-3">
+                      <Users className="w-5 h-5 text-green-500 mt-0.5" />
+                      <div>
+                        <p className="font-medium">Recurring Revenue Model</p>
+                        <p className="text-sm text-muted-foreground">Monthly retainers, annual contracts</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <FileText className="w-5 h-5 text-green-500 mt-0.5" />
+                      <div>
+                        <p className="font-medium">Documented Processes</p>
+                        <p className="text-sm text-muted-foreground">Systems that work without owner</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <TrendingUp className="w-5 h-5 text-green-500 mt-0.5" />
+                      <div>
+                        <p className="font-medium">Growing Market Share</p>
+                        <p className="text-sm text-muted-foreground">Increasing revenue and client base</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div>
+                  <h3 className="text-lg font-semibold mb-3 text-red-600">Risk Factors</h3>
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-3">
+                      <Clock className="w-5 h-5 text-red-500 mt-0.5" />
+                      <div>
+                        <p className="font-medium">Owner Dependency</p>
+                        <p className="text-sm text-muted-foreground">Business can't operate without owner</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <Users className="w-5 h-5 text-red-500 mt-0.5" />
+                      <div>
+                        <p className="font-medium">Client Concentration</p>
+                        <p className="text-sm text-muted-foreground">Over 20% revenue from single client</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <TrendingUp className="w-5 h-5 text-red-500 mt-0.5" />
+                      <div>
+                        <p className="font-medium">Declining Industry</p>
+                        <p className="text-sm text-muted-foreground">Market shrinking or being disrupted</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Call to Action */}
+          <Card className="border-2 border-primary bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-950 dark:to-purple-950">
+            <CardContent className="pt-6 text-center">
+              <h2 className="text-3xl font-bold mb-4">Ready to Value Your Service Business?</h2>
+              <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto">
+                Get a professional valuation estimate using the same SDE methodology and industry multiples covered in this guide. Our tool provides instant results with detailed calculations.
+              </p>
+              
+              <div className="grid md:grid-cols-3 gap-4 mb-8">
+                <div className="text-center">
+                  <div className="w-12 h-12 bg-indigo-100 dark:bg-indigo-900 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <Calculator className="w-6 h-6 text-indigo-600" />
+                  </div>
+                  <h3 className="font-semibold mb-2">Free Estimate</h3>
+                  <p className="text-sm text-muted-foreground">No registration required</p>
+                </div>
+                <div className="text-center">
+                  <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <Clock className="w-6 h-6 text-purple-600" />
+                  </div>
+                  <h3 className="font-semibold mb-2">10 Minutes</h3>
+                  <p className="text-sm text-muted-foreground">Quick and easy process</p>
+                </div>
+                <div className="text-center">
+                  <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <FileText className="w-6 h-6 text-green-600" />
+                  </div>
+                  <h3 className="font-semibold mb-2">Professional Results</h3>
+                  <p className="text-sm text-muted-foreground">Industry-standard methodology</p>
+                </div>
+              </div>
+              
+              <Button asChild size="lg" className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-lg px-8 py-4">
+                <Link href="/">
+                  <Calculator className="w-5 h-5 mr-2" />
+                  Start Your Free Business Valuation
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </Link>
+              </Button>
+              
+              <p className="text-sm text-muted-foreground mt-4">
+                Join 15,000+ business owners who've valued their service businesses with ValuationGenie
+              </p>
+            </CardContent>
+          </Card>
         </div>
       </div>
       

@@ -1,7 +1,7 @@
 import { Link } from "wouter";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CalendarDays, Clock, ArrowRight, TrendingUp, Calculator, FileText, Users } from "lucide-react";
+import { CalendarDays, Clock, ArrowRight, TrendingUp, Calculator, FileText, Users, AlertTriangle, ShoppingCart, Target, ChefHat } from "lucide-react";
 
 const blogPosts = [
   {
@@ -68,6 +68,58 @@ const blogPosts = [
     keywords: ["service business valuation", "how to value service business", "business valuation methods"],
     icon: TrendingUp,
     slug: "/blog/how-to-value-service-business"
+  },
+  {
+    id: "business-valuation-mistakes",
+    title: "Business Valuation Mistakes That Cost Sellers Thousands",
+    description: "Avoid the 7 most expensive valuation errors that cause business owners to leave money on the table. Learn how proper SDE calculation and market positioning can increase your sale price by 40-60%.",
+    excerpt: "Small errors in calculating SDE or misunderstanding market multiples can reduce your sale price by hundreds of thousands. Learn the costly mistakes and how to avoid them.",
+    category: "Common Mistakes",
+    readTime: "12 min read",
+    publishDate: "2025-01-13",
+    featured: false,
+    keywords: ["business valuation mistakes", "valuation errors", "SDE calculation mistakes"],
+    icon: AlertTriangle,
+    slug: "/blog/business-valuation-mistakes"
+  },
+  {
+    id: "ecommerce-business-valuation",
+    title: "E-commerce Business Valuation: Complete 2025 Methods Guide",
+    description: "Master e-commerce business valuation using SDE multiples, revenue-based methods, and digital asset assessment. Learn platform-specific valuation strategies for Amazon FBA, Shopify, and marketplace businesses.",
+    excerpt: "E-commerce businesses command premium valuations due to scalability and global reach. Learn platform-specific multiples and unique valuation considerations for online businesses.",
+    category: "E-commerce",
+    readTime: "14 min read",
+    publishDate: "2025-01-14",
+    featured: false,
+    keywords: ["ecommerce business valuation", "Amazon FBA valuation", "Shopify business value"],
+    icon: ShoppingCart,
+    slug: "/blog/ecommerce-business-valuation"
+  },
+  {
+    id: "sde-vs-ebitda-guide",
+    title: "SDE vs EBITDA: Complete Business Valuation Comparison Guide",
+    description: "Master the critical differences between Seller's Discretionary Earnings (SDE) and EBITDA for small business valuation. Learn when to use each method and why SDE delivers more accurate valuations for owner-operated businesses.",
+    excerpt: "For businesses under $10M revenue, SDE provides significantly more accurate valuations than EBITDA. Learn the key differences and when to use each methodology.",
+    category: "Valuation Methods",
+    readTime: "13 min read",
+    publishDate: "2025-01-15",
+    featured: false,
+    keywords: ["SDE vs EBITDA", "business valuation comparison", "seller discretionary earnings"],
+    icon: Target,
+    slug: "/blog/sde-vs-ebitda-guide"
+  },
+  {
+    id: "restaurant-valuation-guide",
+    title: "Restaurant Business Valuation: Complete 2025 Guide",
+    description: "Master restaurant valuation using industry-specific SDE multiples, location factors, and operational metrics. Learn how to value quick-service, casual dining, and fine dining establishments accurately.",
+    excerpt: "Restaurant businesses require specialized valuation approaches that account for lease terms, equipment depreciation, and location factors. Learn industry-specific multiples and critical considerations.",
+    category: "Restaurant Industry",
+    readTime: "16 min read",
+    publishDate: "2025-01-16",
+    featured: false,
+    keywords: ["restaurant valuation", "restaurant business value", "food service valuation"],
+    icon: ChefHat,
+    slug: "/blog/restaurant-valuation-guide"
   }
 ];
 

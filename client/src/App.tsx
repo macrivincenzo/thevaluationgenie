@@ -33,6 +33,10 @@ import BusinessValuationVsMarketAppraisal from "@/pages/blog/business-valuation-
 import SmallBusinessSalePreparation from "@/pages/blog/small-business-sale-preparation";
 import IndustryValuationMultiples2025 from "@/pages/blog/industry-valuation-multiples-2025";
 import HowToValueServiceBusiness from "@/pages/blog/how-to-value-service-business";
+import BusinessValuationMistakes from "@/pages/blog/business-valuation-mistakes";
+import EcommerceBusinessValuation from "@/pages/blog/ecommerce-business-valuation";
+import SdeVsEbitdaGuide from "@/pages/blog/sde-vs-ebitda-guide";
+import RestaurantValuationGuide from "@/pages/blog/restaurant-valuation-guide";
 
 function Router() {
   const { isAuthenticated, isLoading, user } = useAuth();
@@ -74,6 +78,10 @@ function Router() {
             <Route path="/blog/small-business-sale-preparation" component={SmallBusinessSalePreparation} />
             <Route path="/blog/industry-valuation-multiples-2025" component={IndustryValuationMultiples2025} />
             <Route path="/blog/how-to-value-service-business" component={HowToValueServiceBusiness} />
+            <Route path="/blog/business-valuation-mistakes" component={BusinessValuationMistakes} />
+            <Route path="/blog/ecommerce-business-valuation" component={EcommerceBusinessValuation} />
+            <Route path="/blog/sde-vs-ebitda-guide" component={SdeVsEbitdaGuide} />
+            <Route path="/blog/restaurant-valuation-guide" component={RestaurantValuationGuide} />
             <Route path="/terms" component={Terms} />
             <Route path="/privacy" component={Privacy} />
             <Route path="/contact" component={Contact} />
@@ -93,6 +101,10 @@ function Router() {
             <Route path="/blog/small-business-sale-preparation" component={SmallBusinessSalePreparation} />
             <Route path="/blog/industry-valuation-multiples-2025" component={IndustryValuationMultiples2025} />
             <Route path="/blog/how-to-value-service-business" component={HowToValueServiceBusiness} />
+            <Route path="/blog/business-valuation-mistakes" component={BusinessValuationMistakes} />
+            <Route path="/blog/ecommerce-business-valuation" component={EcommerceBusinessValuation} />
+            <Route path="/blog/sde-vs-ebitda-guide" component={SdeVsEbitdaGuide} />
+            <Route path="/blog/restaurant-valuation-guide" component={RestaurantValuationGuide} />
 
             <Route path="/admin" component={Admin} />
             <Route path="/customer-data" component={CustomerData} />
