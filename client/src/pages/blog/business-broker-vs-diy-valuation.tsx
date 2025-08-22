@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link } from "wouter";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
+import { BlogSEO, InternalLinks, FAQSchema } from "@/components/seo/BlogSEO";
 
 export default function BusinessBrokerVsDiyValuation() {
   // SEO Schema Markup
@@ -28,33 +29,51 @@ export default function BusinessBrokerVsDiyValuation() {
     "mainEntityOfPage": "https://thevaluationgenie.com/blog/business-broker-vs-diy-valuation"
   };
 
-  React.useEffect(() => {
-    document.title = "Business Broker vs DIY Valuation: Cost Comparison 2025 | Save $127,000+";
-    
-    const setMeta = (name: string, content: string) => {
-      let meta = document.querySelector(`meta[name="${name}"]`);
-      if (!meta) {
-        meta = document.createElement("meta");
-        meta.setAttribute("name", name);
-        document.head.appendChild(meta);
-      }
-      meta.setAttribute("content", content);
-    };
+  const seoData = {
+    title: "Business Broker vs DIY Valuation: Cost Comparison 2025 | Save $127,000+",
+    description: "Business broker costs $15K-$50K+ vs $39 professional reports. Real case studies show $127,000+ savings with DIY alternatives. Complete cost comparison guide.",
+    keywords: "business broker cost, business broker fees, DIY business valuation, business valuation cost comparison, business broker vs online valuation",
+    url: "https://thevaluationgenie.com/blog/business-broker-vs-diy-valuation"
+  };
 
-    setMeta("description", "Business broker costs $15K-$50K+ vs $39 professional reports. Real case studies show $127,000+ savings with DIY alternatives. Complete cost comparison guide.");
-    setMeta("keywords", "business broker cost, business broker fees, DIY business valuation, business valuation cost comparison, business broker vs online valuation");
+  const internalLinks = [
+    { href: "/blog/business-valuation-calculator", text: "Free Business Valuation Calculator", category: "Valuation Methods & Tools" },
+    { href: "/blog/sde-business-valuation-guide", text: "SDE Valuation Complete Guide", category: "Valuation Methods & Tools" },
+    { href: "/blog/how-to-value-service-business", text: "Service Business Valuation Guide", category: "Valuation Methods & Tools" },
+    { href: "/blog/ecommerce-business-valuation", text: "E-commerce Valuation Methods", category: "Industry-Specific Guides" },
+    { href: "/blog/restaurant-valuation-guide", text: "Restaurant Business Valuation", category: "Industry-Specific Guides" },
+    { href: "/blog/industry-valuation-multiples-2025", text: "2025 Industry Multiples", category: "Industry-Specific Guides" }
+  ];
 
-    let script = document.querySelector('script[type="application/ld+json"]');
-    if (!script) {
-      script = document.createElement("script");
-      script.setAttribute("type", "application/ld+json");
-      document.head.appendChild(script);
+  const faqData = [
+    {
+      question: "How much do business brokers typically charge?",
+      answer: "Business brokers typically charge 8-12% commission on sale price plus upfront fees of $15,000-$50,000. For a $1M business, total costs can reach $170,000+ in fees and commissions."
+    },
+    {
+      question: "Are business broker valuations more accurate than online tools?",
+      answer: "Not necessarily. Both use similar SDE methodology and industry multiples. The main difference is personalization vs automation. Our $39 professional reports provide the same analytical foundation as broker valuations."
+    },
+    {
+      question: "When should I hire a business broker vs use DIY valuation?",
+      answer: "Use brokers for complex businesses over $5M with unique assets. For service businesses under $3M, DIY valuation provides excellent value at fraction of the cost."
+    },
+    {
+      question: "Can I negotiate business broker fees?",
+      answer: "Yes, broker fees are negotiable, especially for higher-value businesses. However, even reduced fees often exceed $25,000-$50,000 total."
     }
-    script.textContent = JSON.stringify(schemaMarkup);
-  }, []);
+  ];
 
   return (
     <div className="min-h-screen bg-white">
+      <BlogSEO 
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        url={seoData.url}
+        schemaMarkup={schemaMarkup}
+      />
+      <FAQSchema faqs={faqData} />
       <Header />
       
       <main className="max-w-4xl mx-auto px-4 py-12">
@@ -540,6 +559,20 @@ export default function BusinessBrokerVsDiyValuation() {
             <h3 className="text-lg font-semibold text-green-800 mb-2">💡 Pro Tip</h3>
             <p className="text-green-700">Start with a professional online valuation to understand your baseline value. Use this information to make informed decisions about whether you need additional services. The $39 investment saves thousands in potential mistakes.</p>
           </div>
+
+          <InternalLinks 
+            title="Essential Reading for Business Owners"
+            links={internalLinks}
+          />
+
+          <h2>Frequently Asked Questions</h2>
+          
+          {faqData.map((faq, index) => (
+            <div key={index} className="mb-6">
+              <h3 className="text-xl font-semibold mb-3">{faq.question}</h3>
+              <p className="text-slate-600 leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
 
           <h2>Get Started with Smart Business Valuation</h2>
           <p>Don't let fear of broker costs prevent you from getting the accurate valuation you need. Our professional reports provide the perfect balance of cost, speed, and quality for most business situations.</p>

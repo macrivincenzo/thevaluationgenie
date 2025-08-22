@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link } from "wouter";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
+import { BlogSEO, InternalLinks, FAQSchema } from "@/components/seo/BlogSEO";
 
 export default function BusinessAppraisalCostGuide() {
   // SEO Schema Markup
@@ -28,33 +29,51 @@ export default function BusinessAppraisalCostGuide() {
     "mainEntityOfPage": "https://thevaluationgenie.com/blog/business-appraisal-cost-guide"
   };
 
-  React.useEffect(() => {
-    document.title = "Business Appraisal Cost Guide 2025: Certified vs Online ($5K-$25K vs $39)";
-    
-    const setMeta = (name: string, content: string) => {
-      let meta = document.querySelector(`meta[name="${name}"]`);
-      if (!meta) {
-        meta = document.createElement("meta");
-        meta.setAttribute("name", name);
-        document.head.appendChild(meta);
-      }
-      meta.setAttribute("content", content);
-    };
+  const seoData = {
+    title: "Business Appraisal Cost Guide 2025: Certified vs Online ($5K-$25K vs $39)",
+    description: "Business appraisal costs: Certified appraisers $5K-$25K, online tools $39-$500. Complete cost breakdown with when to use each option for best ROI.",
+    keywords: "business appraisal cost, certified appraiser fees, business appraisal price, professional business appraisal cost, online business appraisal",
+    url: "https://thevaluationgenie.com/blog/business-appraisal-cost-guide"
+  };
 
-    setMeta("description", "Business appraisal costs: Certified appraisers $5K-$25K, online tools $39-$500. Complete cost breakdown with when to use each option for best ROI.");
-    setMeta("keywords", "business appraisal cost, certified appraiser fees, business appraisal price, professional business appraisal cost, online business appraisal");
+  const internalLinks = [
+    { href: "/blog/business-valuation-calculator", text: "Free Valuation Calculator", category: "Free Tools & Resources" },
+    { href: "/blog/business-broker-vs-diy-valuation", text: "Business Broker vs DIY ($127K savings)", category: "Free Tools & Resources" },
+    { href: "/blog/business-valuation-mistakes", text: "Avoid Costly Valuation Mistakes", category: "Free Tools & Resources" },
+    { href: "/blog/sde-business-valuation-guide", text: "Complete SDE Valuation Guide", category: "Professional Guidance" },
+    { href: "/blog/business-sale-preparation", text: "Business Sale Preparation Guide", category: "Professional Guidance" },
+    { href: "/blog/sde-vs-ebitda-guide", text: "SDE vs EBITDA Complete Comparison", category: "Professional Guidance" }
+  ];
 
-    let script = document.querySelector('script[type="application/ld+json"]');
-    if (!script) {
-      script = document.createElement("script");
-      script.setAttribute("type", "application/ld+json");
-      document.head.appendChild(script);
+  const faqData = [
+    {
+      question: "How much does a certified business appraiser cost?",
+      answer: "Certified business appraisers typically charge $5,000-$25,000 depending on business complexity and size. Simple service businesses start around $5,000, while complex manufacturing or tech companies can cost $25,000+."
+    },
+    {
+      question: "When do I need a certified appraiser vs online valuation?",
+      answer: "Certified appraisers are required for legal proceedings, tax disputes, and some loan applications. For business sales, strategic planning, and initial valuations, online professional reports at $39 provide excellent value."
+    },
+    {
+      question: "Are online business appraisals legally acceptable?",
+      answer: "Online appraisals work well for business sales and strategic decisions but may not be accepted for formal legal or tax purposes. Check specific requirements with your attorney or accountant."
+    },
+    {
+      question: "How long does a professional business appraisal take?",
+      answer: "Certified appraisers typically take 2-6 weeks to complete reports. Online professional reports are delivered within 24-48 hours, making them ideal for time-sensitive decisions."
     }
-    script.textContent = JSON.stringify(schemaMarkup);
-  }, []);
+  ];
 
   return (
     <div className="min-h-screen bg-white">
+      <BlogSEO 
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        url={seoData.url}
+        schemaMarkup={schemaMarkup}
+      />
+      <FAQSchema faqs={faqData} />
       <Header />
       
       <main className="max-w-4xl mx-auto px-4 py-12">
@@ -605,22 +624,19 @@ export default function BusinessAppraisalCostGuide() {
             </table>
           </div>
 
+          <InternalLinks 
+            title="Related Resources for Business Owners"
+            links={internalLinks}
+          />
+
           <h2>Frequently Asked Questions About Appraisal Costs</h2>
           
-          <h3>Why are certified appraisals so expensive?</h3>
-          <p>Certified appraisals require extensive documentation, research, and professional liability insurance. Appraisers must defend their work in court if challenged, requiring comprehensive analysis and bulletproof methodology. However, for most business sale situations, this level of rigor isn't necessary.</p>
-          
-          <h3>Can I negotiate appraiser fees?</h3>
-          <p>Sometimes, especially for straightforward businesses or if you're flexible on timeline. However, the lowest-cost appraiser isn't always the best choice. Focus on experience and relevant credentials rather than just price.</p>
-          
-          <h3>How accurate are $39 professional reports compared to $25,000 appraisals?</h3>
-          <p>For typical small to medium businesses, both use the same fundamental SDE methodology. The main difference is documentation depth and legal defensibility. Our professional reports provide the accuracy you need for sales, financing, and strategic planning at 99% cost savings.</p>
-          
-          <h3>What if my business has unique characteristics?</h3>
-          <p>Most "unique" characteristics are actually common within industries. Our reports account for typical business variations. For truly unusual situations (proprietary technology, environmental issues, pending litigation), consider a certified appraiser.</p>
-          
-          <h3>Can I upgrade from an online report to a formal appraisal later?</h3>
-          <p>Absolutely. Many clients start with our $39 professional report to understand their baseline value, then decide if they need additional services. The report investment helps you make informed decisions about whether higher-cost options are justified.</p>
+          {faqData.map((faq, index) => (
+            <div key={index} className="mb-6">
+              <h3 className="text-xl font-semibold mb-3">{faq.question}</h3>
+              <p className="text-slate-600 leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
 
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 my-8">
             <h3 className="text-lg font-semibold text-blue-800 mb-2">💡 Money-Saving Pro Tip</h3>
