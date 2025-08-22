@@ -12,7 +12,7 @@ const blogPosts = [
     category: "Valuation Methods",
     readTime: "12 min read",
     publishDate: "2025-01-10",
-    featured: true,
+    featured: false,
     keywords: ["SDE business valuation", "seller discretionary earnings", "small business valuation method"],
     icon: TrendingUp,
     slug: "/blog/sde-business-valuation-guide"
@@ -129,7 +129,7 @@ const blogPosts = [
     category: "Free Tools",
     readTime: "12 min read",
     publishDate: "2025-01-17",
-    featured: true,
+    featured: false,
     keywords: ["business valuation calculator", "free business valuation", "SDE calculator"],
     icon: Calculator,
     slug: "/blog/business-valuation-calculator"
