@@ -1,7 +1,7 @@
 import { Link } from "wouter";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CalendarDays, Clock, ArrowRight, TrendingUp, Calculator, FileText, Users, AlertTriangle, ShoppingCart, Target, ChefHat } from "lucide-react";
+import { CalendarDays, Clock, ArrowRight, TrendingUp, Calculator, FileText, Users, AlertTriangle, ShoppingCart, Target, ChefHat, DollarSign, Building } from "lucide-react";
 
 const blogPosts = [
   {
@@ -120,6 +120,45 @@ const blogPosts = [
     keywords: ["restaurant valuation", "restaurant business value", "food service valuation"],
     icon: ChefHat,
     slug: "/blog/restaurant-valuation-guide"
+  },
+  {
+    id: "business-valuation-calculator",
+    title: "Business Valuation Calculator: Free Tool + Professional Reports (2025)",
+    description: "Get instant business value estimates with our free SDE-based calculator, then upgrade to comprehensive professional reports for just $39. Perfect for business sales and financing.",
+    excerpt: "Use our free calculator for instant estimates, then get professional 3+ page reports with detailed analysis, risk assessment, and market comparisons for important decisions.",
+    category: "Free Tools",
+    readTime: "12 min read",
+    publishDate: "2025-01-17",
+    featured: true,
+    keywords: ["business valuation calculator", "free business valuation", "SDE calculator"],
+    icon: Calculator,
+    slug: "/blog/business-valuation-calculator"
+  },
+  {
+    id: "business-broker-vs-diy-valuation",
+    title: "Business Broker vs DIY Valuation: Complete Cost Comparison Guide (2025)",
+    description: "Compare business broker fees ($15K-$50K+) versus online professional valuations ($39). Real cost breakdowns, case studies, and ROI analysis for smart business owners.",
+    excerpt: "Business brokers charge $15K-$50K+ for valuations. Learn when it's worth it and when professional online reports deliver the same accuracy for 99% less cost.",
+    category: "Cost Comparison", 
+    readTime: "18 min read",
+    publishDate: "2025-01-18",
+    featured: false,
+    keywords: ["business broker cost", "DIY business valuation", "valuation cost comparison"],
+    icon: DollarSign,
+    slug: "/blog/business-broker-vs-diy-valuation"
+  },
+  {
+    id: "business-appraisal-cost-guide", 
+    title: "Business Appraisal Cost Guide: Professional vs Online Options (2025)",
+    description: "Complete breakdown of business appraisal costs from certified appraisers ($15K-$50K), brokers ($5K-$15K), and online platforms ($39). Find the perfect balance of price and quality.",
+    excerpt: "Certified appraisers charge $15K-$50K for business appraisals. Learn when you need that level of service and when professional online reports provide the same core value.",
+    category: "Appraisal Costs",
+    readTime: "16 min read", 
+    publishDate: "2025-01-19",
+    featured: false,
+    keywords: ["business appraisal cost", "certified appraiser fees", "business valuation price"],
+    icon: Building,
+    slug: "/blog/business-appraisal-cost-guide"
   }
 ];
 

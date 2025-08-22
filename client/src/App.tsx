@@ -37,6 +37,9 @@ import BusinessValuationMistakes from "@/pages/blog/business-valuation-mistakes"
 import EcommerceBusinessValuation from "@/pages/blog/ecommerce-business-valuation";
 import SdeVsEbitdaGuide from "@/pages/blog/sde-vs-ebitda-guide";
 import RestaurantValuationGuide from "@/pages/blog/restaurant-valuation-guide";
+import BusinessValuationCalculator from "@/pages/blog/business-valuation-calculator";
+import BusinessBrokerVsDiyValuation from "@/pages/blog/business-broker-vs-diy-valuation";
+import BusinessAppraisalCostGuide from "@/pages/blog/business-appraisal-cost-guide";
 import DownloadLogos from "@/pages/download-logos";
 
 function Router() {
@@ -83,6 +86,9 @@ function Router() {
             <Route path="/blog/ecommerce-business-valuation" component={EcommerceBusinessValuation} />
             <Route path="/blog/sde-vs-ebitda-guide" component={SdeVsEbitdaGuide} />
             <Route path="/blog/restaurant-valuation-guide" component={RestaurantValuationGuide} />
+            <Route path="/blog/business-valuation-calculator" component={BusinessValuationCalculator} />
+            <Route path="/blog/business-broker-vs-diy-valuation" component={BusinessBrokerVsDiyValuation} />
+            <Route path="/blog/business-appraisal-cost-guide" component={BusinessAppraisalCostGuide} />
             <Route path="/download-logos" component={DownloadLogos} />
             <Route path="/terms" component={Terms} />
             <Route path="/privacy" component={Privacy} />
@@ -107,6 +113,9 @@ function Router() {
             <Route path="/blog/ecommerce-business-valuation" component={EcommerceBusinessValuation} />
             <Route path="/blog/sde-vs-ebitda-guide" component={SdeVsEbitdaGuide} />
             <Route path="/blog/restaurant-valuation-guide" component={RestaurantValuationGuide} />
+            <Route path="/blog/business-valuation-calculator" component={BusinessValuationCalculator} />
+            <Route path="/blog/business-broker-vs-diy-valuation" component={BusinessBrokerVsDiyValuation} />
+            <Route path="/blog/business-appraisal-cost-guide" component={BusinessAppraisalCostGuide} />
             <Route path="/download-logos" component={DownloadLogos} />
 
             <Route path="/admin" component={Admin} />
