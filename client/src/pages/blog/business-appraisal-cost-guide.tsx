@@ -1,3 +1,4 @@
+import React from "react";
 import { DollarSign, TrendingUp, Clock, CheckCircle, AlertCircle, Calculator, FileText, Building } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -6,6 +7,52 @@ import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 
 export default function BusinessAppraisalCostGuide() {
+  // SEO Schema Markup
+  const schemaMarkup = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Business Appraisal Cost Guide: Professional vs Online Options 2025",
+    "description": "Complete guide to business appraisal costs. Certified appraisers $5K-$25K vs $39 online alternatives. When to use each option.",
+    "author": {
+      "@type": "Organization", 
+      "name": "ValuationGenie"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "ValuationGenie",
+      "url": "https://thevaluationgenie.com"
+    },
+    "datePublished": "2025-01-17",
+    "dateModified": "2025-01-22", 
+    "url": "https://thevaluationgenie.com/blog/business-appraisal-cost-guide",
+    "mainEntityOfPage": "https://thevaluationgenie.com/blog/business-appraisal-cost-guide"
+  };
+
+  React.useEffect(() => {
+    document.title = "Business Appraisal Cost Guide 2025: Certified vs Online ($5K-$25K vs $39)";
+    
+    const setMeta = (name: string, content: string) => {
+      let meta = document.querySelector(`meta[name="${name}"]`);
+      if (!meta) {
+        meta = document.createElement("meta");
+        meta.setAttribute("name", name);
+        document.head.appendChild(meta);
+      }
+      meta.setAttribute("content", content);
+    };
+
+    setMeta("description", "Business appraisal costs: Certified appraisers $5K-$25K, online tools $39-$500. Complete cost breakdown with when to use each option for best ROI.");
+    setMeta("keywords", "business appraisal cost, certified appraiser fees, business appraisal price, professional business appraisal cost, online business appraisal");
+
+    let script = document.querySelector('script[type="application/ld+json"]');
+    if (!script) {
+      script = document.createElement("script");
+      script.setAttribute("type", "application/ld+json");
+      document.head.appendChild(script);
+    }
+    script.textContent = JSON.stringify(schemaMarkup);
+  }, []);
+
   return (
     <div className="min-h-screen bg-white">
       <Header />

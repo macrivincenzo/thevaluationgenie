@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Calculator, TrendingUp, FileText, CheckCircle, ArrowRight, DollarSign } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Link } from "wouter";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
+import { BlogSEO, InternalLinks, FAQSchema } from "@/components/seo/BlogSEO";
 
 export default function BusinessValuationCalculator() {
   const [revenue, setRevenue] = useState("");
@@ -15,6 +16,28 @@ export default function BusinessValuationCalculator() {
   const [ownerSalary, setOwnerSalary] = useState("");
   const [industry, setIndustry] = useState("");
   const [result, setResult] = useState<{sde: number, lowValue: number, highValue: number, midValue: number} | null>(null);
+
+  // SEO Schema Markup
+  const schemaMarkup = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Business Valuation Calculator",
+    "description": "Free online business valuation calculator using SDE methodology. Get instant estimates with professional upgrade options.",
+    "url": "https://thevaluationgenie.com/blog/business-valuation-calculator",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "description": "Free business valuation calculator"
+    },
+    "provider": {
+      "@type": "Organization",
+      "name": "ValuationGenie",
+      "url": "https://thevaluationgenie.com"
+    }
+  };
 
   const industryMultipliers: Record<string, {low: number, high: number}> = {
     "consulting": { low: 0.5, high: 2.5 },
@@ -46,8 +69,52 @@ export default function BusinessValuationCalculator() {
     setResult({ sde, lowValue, highValue, midValue });
   };
 
+  // SEO data
+  const seoData = {
+    title: "Business Valuation Calculator - Free SDE Calculator Tool 2025 | ValuationGenie",
+    description: "Free business valuation calculator using SDE method. Get instant estimates for businesses worth $100K-$5M. Upgrade to professional $39 reports with detailed analysis.",
+    keywords: "business valuation calculator, free business valuation, SDE calculator, seller discretionary earnings, business value calculator, small business valuation tool",
+    url: "https://thevaluationgenie.com/blog/business-valuation-calculator"
+  };
+
+  const internalLinks = [
+    { href: "/blog/sde-business-valuation-guide", text: "Complete SDE Valuation Guide", category: "Understanding Business Valuation" },
+    { href: "/blog/sde-vs-ebitda-guide", text: "SDE vs EBITDA Comparison", category: "Understanding Business Valuation" },
+    { href: "/blog/business-valuation-vs-market-appraisal", text: "Valuation vs Market Appraisal", category: "Understanding Business Valuation" },
+    { href: "/blog/business-broker-vs-diy-valuation", text: "Business Broker vs DIY ($127K savings)", category: "Cost Comparisons" },
+    { href: "/blog/business-appraisal-cost-guide", text: "Professional Appraisal Costs ($25K vs $39)", category: "Cost Comparisons" },
+    { href: "/blog/business-valuation-mistakes", text: "Avoid Costly Valuation Mistakes", category: "Cost Comparisons" }
+  ];
+
+  const faqData = [
+    {
+      question: "How accurate is the free business valuation calculator?",
+      answer: "Our calculator provides a solid baseline estimate using industry-standard SDE methodology. However, it uses generalized multipliers and doesn't account for specific business factors that can significantly impact value. For buying, selling, or financing decisions, we recommend a professional report."
+    },
+    {
+      question: "What's the difference between SDE and EBITDA?",
+      answer: "SDE (Seller's Discretionary Earnings) includes owner compensation and benefits, making it ideal for small to medium businesses with active owners. EBITDA (Earnings Before Interest, Taxes, Depreciation, and Amortization) is typically used for larger companies with professional management teams."
+    },
+    {
+      question: "How often should I value my business?",
+      answer: "We recommend annual valuations for strategic planning and more frequent assessments when considering major decisions like sales, investments, or significant operational changes."
+    },
+    {
+      question: "Can I use this valuation for tax purposes?",
+      answer: "While our reports provide comprehensive analysis, formal tax purposes may require certified appraisals from licensed professionals. Consult with your tax advisor for specific requirements."
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-white">
+      <BlogSEO 
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        url={seoData.url}
+        schemaMarkup={schemaMarkup}
+      />
+      <FAQSchema faqs={faqData} />
       <Header />
       
       <main className="max-w-4xl mx-auto px-4 py-12">
@@ -352,17 +419,12 @@ export default function BusinessValuationCalculator() {
 
           <h2>Frequently Asked Questions</h2>
           
-          <h3>How accurate is the free business valuation calculator?</h3>
-          <p>Our calculator provides a solid baseline estimate using industry-standard SDE methodology. However, it uses generalized multipliers and doesn't account for specific business factors that can significantly impact value. For buying, selling, or financing decisions, we recommend a professional report.</p>
-          
-          <h3>What's the difference between SDE and EBITDA?</h3>
-          <p>SDE (Seller's Discretionary Earnings) includes owner compensation and benefits, making it ideal for small to medium businesses with active owners. EBITDA (Earnings Before Interest, Taxes, Depreciation, and Amortization) is typically used for larger companies with professional management teams.</p>
-          
-          <h3>How often should I value my business?</h3>
-          <p>We recommend annual valuations for strategic planning and more frequent assessments when considering major decisions like sales, investments, or significant operational changes.</p>
-          
-          <h3>Can I use this valuation for tax purposes?</h3>
-          <p>While our reports provide comprehensive analysis, formal tax purposes may require certified appraisals from licensed professionals. Consult with your tax advisor for specific requirements.</p>
+          {faqData.map((faq, index) => (
+            <div key={index} className="mb-6">
+              <h3 className="text-xl font-semibold mb-3">{faq.question}</h3>
+              <p className="text-slate-600 leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
 
           <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 my-8">
             <h3 className="text-lg font-semibold text-yellow-800 mb-2">💡 Pro Tip</h3>
@@ -371,6 +433,11 @@ export default function BusinessValuationCalculator() {
 
           <h2>Start Your Business Valuation Journey Today</h2>
           <p>Whether you're curious about your business's worth or preparing for a major transaction, understanding your value is crucial. Our free calculator provides immediate insights, while our professional reports deliver the comprehensive analysis you need for confident decision-making.</p>
+          
+          <InternalLinks 
+            title="Related Resources"
+            links={internalLinks}
+          />
           
           <p><strong>Ready to discover what your business is truly worth?</strong> Use our free calculator above to get started, then upgrade to a professional report for complete peace of mind.</p>
         </div>

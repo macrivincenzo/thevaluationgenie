@@ -1,3 +1,4 @@
+import React from "react";
 import { DollarSign, TrendingUp, Clock, CheckCircle, XCircle, AlertTriangle, Users, FileText, Calculator } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -6,6 +7,52 @@ import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 
 export default function BusinessBrokerVsDiyValuation() {
+  // SEO Schema Markup
+  const schemaMarkup = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Business Broker vs DIY Valuation: Complete Cost Comparison Guide 2025",
+    "description": "Compare business broker costs ($15K-$50K) vs DIY valuation tools. Save $127,000+ with professional alternatives at $39.",
+    "author": {
+      "@type": "Organization",
+      "name": "ValuationGenie"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "ValuationGenie",
+      "url": "https://thevaluationgenie.com"
+    },
+    "datePublished": "2025-01-17",
+    "dateModified": "2025-01-22",
+    "url": "https://thevaluationgenie.com/blog/business-broker-vs-diy-valuation",
+    "mainEntityOfPage": "https://thevaluationgenie.com/blog/business-broker-vs-diy-valuation"
+  };
+
+  React.useEffect(() => {
+    document.title = "Business Broker vs DIY Valuation: Cost Comparison 2025 | Save $127,000+";
+    
+    const setMeta = (name: string, content: string) => {
+      let meta = document.querySelector(`meta[name="${name}"]`);
+      if (!meta) {
+        meta = document.createElement("meta");
+        meta.setAttribute("name", name);
+        document.head.appendChild(meta);
+      }
+      meta.setAttribute("content", content);
+    };
+
+    setMeta("description", "Business broker costs $15K-$50K+ vs $39 professional reports. Real case studies show $127,000+ savings with DIY alternatives. Complete cost comparison guide.");
+    setMeta("keywords", "business broker cost, business broker fees, DIY business valuation, business valuation cost comparison, business broker vs online valuation");
+
+    let script = document.querySelector('script[type="application/ld+json"]');
+    if (!script) {
+      script = document.createElement("script");
+      script.setAttribute("type", "application/ld+json");
+      document.head.appendChild(script);
+    }
+    script.textContent = JSON.stringify(schemaMarkup);
+  }, []);
+
   return (
     <div className="min-h-screen bg-white">
       <Header />
