@@ -30,7 +30,7 @@ export default function SdeVsEbitdaGuide() {
                 Professional small business valuation using Seller's Discretionary Earnings methodology. More accurate for owner-operated businesses.
               </p>
               <Button asChild size="lg" className="bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700">
-                <a href="https://thevaluationgenie.com/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
+                <a href="https://thevaluationgenie.com/" className="inline-flex items-center">
                   <Calculator className="w-5 h-5 mr-2" />
                   Calculate Using SDE Method
                   <ArrowRight className="w-4 h-4 ml-2" />
@@ -408,7 +408,7 @@ export default function SdeVsEbitdaGuide() {
               </div>
               
               <Button asChild size="lg" className="bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 text-lg px-8 py-4">
-                <a href="https://thevaluationgenie.com/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
+                <a href="https://thevaluationgenie.com/" className="inline-flex items-center">
                   <Calculator className="w-5 h-5 mr-2" />
                   Start SDE Business Valuation
                   <ArrowRight className="w-5 h-5 ml-2" />
