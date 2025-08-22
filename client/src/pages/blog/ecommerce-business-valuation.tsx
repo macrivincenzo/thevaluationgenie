@@ -30,11 +30,11 @@ export default function EcommerceBusinessValuation() {
                 Professional valuation for online stores, Amazon businesses, and digital commerce. Results in 10 minutes.
               </p>
               <Button asChild size="lg" className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700">
-                <Link href="/">
+                <a href="https://thevaluationgenie.com/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
                   <ShoppingCart className="w-5 h-5 mr-2" />
                   Value My E-commerce Business
                   <ArrowRight className="w-4 h-4 ml-2" />
-                </Link>
+                </a>
               </Button>
             </div>
           </Card>
@@ -345,11 +345,11 @@ export default function EcommerceBusinessValuation() {
               </div>
               
               <Button asChild size="lg" className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-lg px-8 py-4">
-                <Link href="/">
+                <a href="https://thevaluationgenie.com/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
                   <ShoppingCart className="w-5 h-5 mr-2" />
                   Get E-commerce Valuation Now
                   <ArrowRight className="w-5 h-5 ml-2" />
-                </Link>
+                </a>
               </Button>
               
               <p className="text-sm text-muted-foreground mt-4">
