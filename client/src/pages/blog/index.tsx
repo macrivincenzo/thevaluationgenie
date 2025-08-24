@@ -1,7 +1,7 @@
 import { Link } from "wouter";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CalendarDays, Clock, ArrowRight, TrendingUp, Calculator, FileText, Users, AlertTriangle, ShoppingCart, Target, ChefHat, DollarSign, Building } from "lucide-react";
+import { CalendarDays, Clock, ArrowRight, TrendingUp, Calculator, FileText, Users, AlertTriangle, ShoppingCart, Target, ChefHat, DollarSign, Building, Cog, Scale, HandHeart, Zap } from "lucide-react";
 
 const blogPosts = [
   {
@@ -159,6 +159,71 @@ const blogPosts = [
     keywords: ["business appraisal cost", "certified appraiser fees", "business valuation price"],
     icon: Building,
     slug: "/blog/business-appraisal-cost-guide"
+  },
+  {
+    id: "family-business-valuation-estate-planning",
+    title: "Family Business Valuation for Estate Planning: Complete 2025 Guide",
+    description: "Essential guide to valuing family businesses for estate planning, succession, and inheritance. Learn SDE methodology, tax implications, and professional valuation requirements for family-owned enterprises.",
+    excerpt: "Family business valuations require specialized approaches for estate planning. Learn SDE adjustments, succession strategies, and tax optimization for multi-generational wealth preservation.",
+    category: "Estate Planning",
+    readTime: "18 min read",
+    publishDate: "2025-01-22",
+    featured: false,
+    keywords: ["family business valuation estate planning", "family business succession", "estate planning business valuation"],
+    icon: Users,
+    slug: "/blog/family-business-valuation-estate-planning"
+  },
+  {
+    id: "manufacturing-business-valuation-multiples",
+    title: "Manufacturing Business Valuation Multiples by Industry Type: 2025 SDE Benchmarks",
+    description: "Complete guide to manufacturing business valuation multiples by sector. Current SDE multiples for food processing, metal fabrication, machinery, textiles, and specialized manufacturing with 2025 market data.",
+    excerpt: "Manufacturing businesses require industry-specific valuation multiples. Learn current SDE benchmarks for food processing, custom manufacturing, metal fabrication, and emerging sectors.",
+    category: "Manufacturing",
+    readTime: "20 min read",
+    publishDate: "2025-01-22",
+    featured: false,
+    keywords: ["manufacturing business valuation multiples", "manufacturing SDE multiples", "factory business valuation"],
+    icon: Cog,
+    slug: "/blog/manufacturing-business-valuation-multiples"
+  },
+  {
+    id: "business-valuation-divorce-proceedings",
+    title: "Small Business Valuation for Divorce Proceedings: Legal Requirements & Methods 2025",
+    description: "Complete guide to business valuation in divorce cases. Legal requirements, SDE methodology, court-accepted valuation standards, and protecting business assets during divorce proceedings.",
+    excerpt: "Divorce proceedings require court-accepted business valuations. Learn legal requirements, SDE methodology for family courts, and strategies for protecting business assets during separation.",
+    category: "Legal Valuation",
+    readTime: "17 min read",
+    publishDate: "2025-01-22",
+    featured: false,
+    keywords: ["business valuation for divorce proceedings", "small business valuation divorce", "divorce business appraisal"],
+    icon: Scale,
+    slug: "/blog/business-valuation-divorce-proceedings"
+  },
+  {
+    id: "restaurant-employee-buyout-valuation", 
+    title: "Restaurant Business Valuation When Selling to Employees: Complete ESOP & Buyout Guide 2025",
+    description: "Complete guide to restaurant valuation for employee buyouts, ESOP transitions, and management buyouts. Employee ownership structures, SDE calculations, and pricing strategies for restaurant worker cooperatives.",
+    excerpt: "Employee buyouts offer unique opportunities for restaurant transitions. Learn valuation strategies, financing structures, and ESOP considerations for successful employee ownership transitions.",
+    category: "Employee Ownership",
+    readTime: "19 min read",
+    publishDate: "2025-01-22",
+    featured: false,
+    keywords: ["restaurant employee buyout valuation", "restaurant ESOP valuation", "employee ownership restaurant"],
+    icon: HandHeart,
+    slug: "/blog/restaurant-employee-buyout-valuation"
+  },
+  {
+    id: "saas-startup-valuation-calculator",
+    title: "SaaS Company Valuation Calculator for Startups Under $1M Revenue: 2025 Methods & Multiples",
+    description: "Complete SaaS startup valuation guide for companies under $1M ARR. Revenue multiples, SDE calculations, and valuation methods for early-stage software companies. Free SaaS valuation calculator.",
+    excerpt: "SaaS startups require specialized valuation approaches combining revenue multiples and unit economics. Learn ARR-based methods, growth adjustments, and SDE calculations for software companies.",
+    category: "SaaS Startup",
+    readTime: "21 min read",
+    publishDate: "2025-01-22",
+    featured: false,
+    keywords: ["saas valuation calculator startup", "saas company valuation under 1m", "software startup valuation"],
+    icon: Zap,
+    slug: "/blog/saas-startup-valuation-calculator"
   }
 ];
 
