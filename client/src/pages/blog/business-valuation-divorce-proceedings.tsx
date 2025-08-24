@@ -90,11 +90,11 @@ export default function BusinessValuationDivorceProceedings() {
                 Professional business valuation meeting legal standards for divorce proceedings. SDE methodology accepted by courts nationwide.
               </p>
               <Button asChild size="lg" className="bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700">
-                <a href="https://thevaluationgenie.com/" className="inline-flex items-center">
+                <Link href="/" className="inline-flex items-center">
                   <Scale className="w-5 h-5 mr-2" />
                   Start Divorce Business Valuation
                   <ArrowRight className="w-4 h-4 ml-2" />
-                </a>
+                </Link>
               </Button>
             </div>
           </Card>
@@ -526,10 +526,10 @@ export default function BusinessValuationDivorceProceedings() {
             Professional business valuation for divorce proceedings. SDE methodology accepted by courts nationwide. Objective, defensible valuation reports for legal proceedings.
           </p>
           <Button asChild size="lg" className="bg-white text-red-600 hover:bg-gray-100">
-            <a href="https://thevaluationgenie.com/" className="inline-flex items-center">
+            <Link href="/" className="inline-flex items-center">
               <Scale className="w-5 h-5 mr-2" />
               Get Court-Ready Valuation - $39
-            </a>
+            </Link>
           </Button>
           <p className="text-red-100 text-sm mt-4">✨ 7-day money-back guarantee • Legal standard methodology • Court-accepted documentation</p>
         </div>

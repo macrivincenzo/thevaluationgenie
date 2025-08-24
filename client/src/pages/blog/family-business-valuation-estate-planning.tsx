@@ -90,11 +90,11 @@ export default function FamilyBusinessValuationEstatePlanning() {
                 Professional estate planning valuation using SDE methodology. Essential for succession planning and family wealth management.
               </p>
               <Button asChild size="lg" className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700">
-                <a href="https://thevaluationgenie.com/" className="inline-flex items-center">
+                <Link href="/" className="inline-flex items-center">
                   <Heart className="w-5 h-5 mr-2" />
                   Start Family Business Valuation
                   <ArrowRight className="w-4 h-4 ml-2" />
-                </a>
+                </Link>
               </Button>
             </div>
           </Card>
@@ -572,10 +572,10 @@ export default function FamilyBusinessValuationEstatePlanning() {
             Professional family business valuation designed for estate planning. SDE methodology accounts for family employment, benefits, and succession planning requirements.
           </p>
           <Button asChild size="lg" className="bg-white text-purple-600 hover:bg-gray-100">
-            <a href="https://thevaluationgenie.com/" className="inline-flex items-center">
+            <Link href="/" className="inline-flex items-center">
               <Heart className="w-5 h-5 mr-2" />
               Start Estate Planning Valuation - $39
-            </a>
+            </Link>
           </Button>
           <p className="text-purple-100 text-sm mt-4">✨ 7-day money-back guarantee • Family business expertise • Professional methodology</p>
         </div>

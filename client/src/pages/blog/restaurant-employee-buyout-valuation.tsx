@@ -90,11 +90,11 @@ export default function RestaurantEmployeeBuyoutValuation() {
                 Professional restaurant valuation optimized for employee ownership transitions. Fair pricing that enables employee affordability while protecting seller interests.
               </p>
               <Button asChild size="lg" className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700">
-                <a href="https://thevaluationgenie.com/" className="inline-flex items-center">
+                <Link href="/" className="inline-flex items-center">
                   <HandHeart className="w-5 h-5 mr-2" />
                   Start Employee Buyout Valuation
                   <ArrowRight className="w-4 h-4 ml-2" />
-                </a>
+                </Link>
               </Button>
             </div>
           </Card>
@@ -527,10 +527,10 @@ export default function RestaurantEmployeeBuyoutValuation() {
             Professional restaurant valuation for employee ownership transitions. Fair pricing strategies that enable employee affordability while protecting your investment and ensuring business legacy.
           </p>
           <Button asChild size="lg" className="bg-white text-green-600 hover:bg-gray-100">
-            <a href="https://thevaluationgenie.com/" className="inline-flex items-center">
+            <Link href="/" className="inline-flex items-center">
               <HandHeart className="w-5 h-5 mr-2" />
               Get Employee Buyout Valuation - $39
-            </a>
+            </Link>
           </Button>
           <p className="text-green-100 text-sm mt-4">✨ 7-day money-back guarantee • Employee ownership expertise • Community impact focus</p>
         </div>

@@ -40,6 +40,11 @@ import RestaurantValuationGuide from "@/pages/blog/restaurant-valuation-guide";
 import BusinessValuationCalculator from "@/pages/blog/business-valuation-calculator";
 import BusinessBrokerVsDiyValuation from "@/pages/blog/business-broker-vs-diy-valuation";
 import BusinessAppraisalCostGuide from "@/pages/blog/business-appraisal-cost-guide";
+import FamilyBusinessValuationEstatePlanning from "@/pages/blog/family-business-valuation-estate-planning";
+import ManufacturingBusinessValuationMultiples from "@/pages/blog/manufacturing-business-valuation-multiples";
+import BusinessValuationDivorceProceedings from "@/pages/blog/business-valuation-divorce-proceedings";
+import RestaurantEmployeeBuyoutValuation from "@/pages/blog/restaurant-employee-buyout-valuation";
+import SaaSStartupValuationCalculator from "@/pages/blog/saas-startup-valuation-calculator";
 import DownloadLogos from "@/pages/download-logos";
 
 function Router() {
@@ -89,6 +94,11 @@ function Router() {
             <Route path="/blog/business-valuation-calculator" component={BusinessValuationCalculator} />
             <Route path="/blog/business-broker-vs-diy-valuation" component={BusinessBrokerVsDiyValuation} />
             <Route path="/blog/business-appraisal-cost-guide" component={BusinessAppraisalCostGuide} />
+            <Route path="/blog/family-business-valuation-estate-planning" component={FamilyBusinessValuationEstatePlanning} />
+            <Route path="/blog/manufacturing-business-valuation-multiples" component={ManufacturingBusinessValuationMultiples} />
+            <Route path="/blog/business-valuation-divorce-proceedings" component={BusinessValuationDivorceProceedings} />
+            <Route path="/blog/restaurant-employee-buyout-valuation" component={RestaurantEmployeeBuyoutValuation} />
+            <Route path="/blog/saas-startup-valuation-calculator" component={SaaSStartupValuationCalculator} />
             <Route path="/download-logos" component={DownloadLogos} />
             <Route path="/terms" component={Terms} />
             <Route path="/privacy" component={Privacy} />
@@ -116,6 +126,11 @@ function Router() {
             <Route path="/blog/business-valuation-calculator" component={BusinessValuationCalculator} />
             <Route path="/blog/business-broker-vs-diy-valuation" component={BusinessBrokerVsDiyValuation} />
             <Route path="/blog/business-appraisal-cost-guide" component={BusinessAppraisalCostGuide} />
+            <Route path="/blog/family-business-valuation-estate-planning" component={FamilyBusinessValuationEstatePlanning} />
+            <Route path="/blog/manufacturing-business-valuation-multiples" component={ManufacturingBusinessValuationMultiples} />
+            <Route path="/blog/business-valuation-divorce-proceedings" component={BusinessValuationDivorceProceedings} />
+            <Route path="/blog/restaurant-employee-buyout-valuation" component={RestaurantEmployeeBuyoutValuation} />
+            <Route path="/blog/saas-startup-valuation-calculator" component={SaaSStartupValuationCalculator} />
             <Route path="/download-logos" component={DownloadLogos} />
 
             <Route path="/admin" component={Admin} />

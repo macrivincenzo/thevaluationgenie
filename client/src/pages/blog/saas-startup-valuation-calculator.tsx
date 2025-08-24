@@ -90,11 +90,11 @@ export default function SaaSStartupValuationCalculator() {
                 Professional SaaS valuation using ARR multiples, SDE methodology, and startup-specific growth factors. Designed for early-stage software companies.
               </p>
               <Button asChild size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
-                <a href="https://thevaluationgenie.com/" className="inline-flex items-center">
+                <Link href="/" className="inline-flex items-center">
                   <Zap className="w-5 h-5 mr-2" />
                   Start SaaS Valuation Calculator
                   <ArrowRight className="w-4 h-4 ml-2" />
-                </a>
+                </Link>
               </Button>
             </div>
           </Card>
@@ -564,10 +564,10 @@ export default function SaaSStartupValuationCalculator() {
             Professional SaaS valuation calculator using ARR multiples, SDE methodology, and growth-adjusted methods. Designed specifically for software startups under $1M revenue.
           </p>
           <Button asChild size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
-            <a href="https://thevaluationgenie.com/" className="inline-flex items-center">
+            <Link href="/" className="inline-flex items-center">
               <Zap className="w-5 h-5 mr-2" />
               Calculate SaaS Value - $39
-            </a>
+            </Link>
           </Button>
           <p className="text-blue-100 text-sm mt-4">✨ 7-day money-back guarantee • SaaS expertise • Growth-focused methodology</p>
         </div>
