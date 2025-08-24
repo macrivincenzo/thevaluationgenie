@@ -5,10 +5,75 @@ import { ArrowRight, Calculator, AlertTriangle, DollarSign, TrendingDown, Users,
 import { Link } from "wouter";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
+import { BlogSEO, InternalLinks, FAQSchema } from "@/components/seo/BlogSEO";
 
 export default function BusinessValuationMistakes() {
+  // SEO Schema Markup
+  const schemaMarkup = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Business Valuation Mistakes That Cost Sellers Thousands",
+    "description": "Avoid the 7 most expensive valuation errors that cause business owners to leave money on the table. Learn how proper SDE calculation can increase sale price by 40-60%.",
+    "author": {
+      "@type": "Organization",
+      "name": "ValuationGenie"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "ValuationGenie",
+      "url": "https://thevaluationgenie.com"
+    },
+    "datePublished": "2025-01-17",
+    "dateModified": "2025-01-22",
+    "url": "https://thevaluationgenie.com/blog/business-valuation-mistakes",
+    "mainEntityOfPage": "https://thevaluationgenie.com/blog/business-valuation-mistakes"
+  };
+
+  const seoData = {
+    title: "Business Valuation Mistakes That Cost Sellers Thousands | Avoid These 7 Errors",
+    description: "Avoid the 7 most expensive valuation errors that cause business owners to leave money on the table. Learn how proper SDE calculation can increase sale price by 40-60%.",
+    keywords: "business valuation mistakes, common valuation errors, SDE calculation errors, business valuation tips, valuation best practices",
+    url: "https://thevaluationgenie.com/blog/business-valuation-mistakes"
+  };
+
+  const internalLinks = [
+    { href: "/blog/business-valuation-calculator", text: "Free Business Valuation Calculator", category: "Valuation Tools" },
+    { href: "/blog/sde-business-valuation-guide", text: "Complete SDE Valuation Guide", category: "Valuation Tools" },
+    { href: "/blog/business-broker-vs-diy-valuation", text: "Business Broker vs DIY ($127K savings)", category: "Valuation Tools" },
+    { href: "/blog/business-appraisal-cost-guide", text: "Professional Appraisal Costs", category: "Cost Guidance" },
+    { href: "/blog/how-to-value-service-business", text: "Service Business Valuation", category: "Cost Guidance" },
+    { href: "/blog/restaurant-valuation-guide", text: "Restaurant Valuation Guide", category: "Cost Guidance" }
+  ];
+
+  const faqData = [
+    {
+      question: "What is the most common business valuation mistake?",
+      answer: "The most common mistake is using incorrect SDE calculations by failing to add back owner compensation, personal expenses, and one-time costs. This can undervalue a business by 20-40%."
+    },
+    {
+      question: "How much can valuation mistakes cost business sellers?",
+      answer: "Valuation mistakes can cost sellers $50,000-$300,000+ on typical business sales. Poor SDE calculation and wrong industry multiples are the biggest culprits."
+    },
+    {
+      question: "Should I hire a professional to avoid valuation mistakes?",
+      answer: "For most small businesses, professional online valuations at $39 provide the accuracy needed while avoiding expensive broker fees. Only complex businesses over $5M typically need certified appraisers."
+    },
+    {
+      question: "How can I verify my business valuation is accurate?",
+      answer: "Compare your SDE calculation with industry standards, verify your industry multiples are current, and ensure all owner benefits are properly added back. Professional reports provide this verification."
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800">
+      <BlogSEO 
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        url={seoData.url}
+        schemaMarkup={schemaMarkup}
+      />
+      <FAQSchema faqs={faqData} />
       <Header />
       
       <div className="container mx-auto px-4 py-12 max-w-4xl">
@@ -328,6 +393,11 @@ export default function BusinessValuationMistakes() {
               </div>
             </CardContent>
           </Card>
+
+          <InternalLinks 
+            title="Essential Valuation Resources"
+            links={internalLinks}
+          />
 
           {/* Call to Action */}
           <Card className="border-2 border-primary bg-gradient-to-r from-red-50 to-orange-50 dark:from-red-950 dark:to-orange-950">

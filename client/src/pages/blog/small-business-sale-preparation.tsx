@@ -1,722 +1,513 @@
-import { Link } from "wouter";
-import { Button } from "@/components/ui/button";
+import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, FileText, CheckCircle, AlertCircle, TrendingUp, Clock, DollarSign, Users } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { ArrowRight, Calculator, CheckCircle, FileText, Users, TrendingUp, AlertTriangle, Clock } from "lucide-react";
+import { Link } from "wouter";
+import Header from "@/components/layout/header";
+import Footer from "@/components/layout/footer";
+import { BlogSEO, InternalLinks, FAQSchema } from "@/components/seo/BlogSEO";
 
 export default function SmallBusinessSalePreparation() {
+  const schemaMarkup = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Small Business Sale Preparation: Complete Guide to Maximize Value",
+    "description": "Essential steps to prepare your small business for sale and maximize value. Timeline, documentation, valuation improvements, and buyer attraction strategies for successful exits.",
+    "author": { "@type": "Organization", "name": "ValuationGenie" },
+    "publisher": { "@type": "Organization", "name": "ValuationGenie", "url": "https://thevaluationgenie.com" },
+    "datePublished": "2025-01-17",
+    "dateModified": "2025-01-22",
+    "url": "https://thevaluationgenie.com/blog/small-business-sale-preparation"
+  };
+
+  const seoData = {
+    title: "Small Business Sale Preparation: Complete Guide to Maximize Value 2025",
+    description: "Essential steps to prepare your small business for sale and maximize value. Timeline, documentation, valuation improvements, and buyer attraction strategies for successful exits.",
+    keywords: "business sale preparation, how to prepare business for sale, maximize business value before sale, business exit planning, small business sale guide",
+    url: "https://thevaluationgenie.com/blog/small-business-sale-preparation"
+  };
+
+  const internalLinks = [
+    { href: "/blog/business-valuation-calculator", text: "Free Business Valuation Calculator", category: "Valuation Tools" },
+    { href: "/blog/sde-business-valuation-guide", text: "Complete SDE Valuation Guide", category: "Valuation Tools" },
+    { href: "/blog/business-valuation-mistakes", text: "Avoid Costly Valuation Mistakes", category: "Valuation Tools" },
+    { href: "/blog/business-broker-vs-diy-valuation", text: "Business Broker vs DIY", category: "Sale Resources" },
+    { href: "/blog/business-appraisal-cost-guide", text: "Professional Appraisal Costs", category: "Sale Resources" },
+    { href: "/blog/industry-valuation-multiples-2025", text: "2025 Industry Multiples", category: "Sale Resources" }
+  ];
+
+  const faqData = [
+    {
+      question: "How long does it take to prepare a business for sale?",
+      answer: "Proper sale preparation typically takes 6-24 months depending on your business's current state. Financial cleanup and operational improvements require the most time."
+    },
+    {
+      question: "What's the most important step in preparing for business sale?",
+      answer: "Clean, accurate financial records are crucial. Buyers need 3-5 years of financial statements, clear SDE calculations, and documented business performance."
+    },
+    {
+      question: "Should I hire a business broker to sell my business?",
+      answer: "For businesses under $2M, many owners successfully sell directly. Above $2M, brokers provide valuable buyer networks and negotiation expertise. Consider the 10-15% commission vs. your time and expertise."
+    },
+    {
+      question: "How can I increase my business value before selling?",
+      answer: "Focus on reducing customer concentration, documenting systems, building management teams, and improving financial performance. These changes can increase value by 20-40%."
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-white">
-      {/* Breadcrumb & Header */}
-      <div className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="flex items-center gap-2 text-emerald-200 mb-6">
-            <Link href="/blog">
-              <Button variant="ghost" size="sm" className="text-emerald-200 hover:text-white hover:bg-emerald-700">
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Blog
-              </Button>
-            </Link>
-          </div>
-          <h1 className="text-4xl lg:text-5xl font-bold mb-6">
-            How to Prepare Your Small Business for Sale: Valuation Checklist
+      <BlogSEO 
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        url={seoData.url}
+        schemaMarkup={schemaMarkup}
+      />
+      <FAQSchema faqs={faqData} />
+      <Header />
+      
+      <div className="max-w-4xl mx-auto px-4 py-12">
+        {/* Hero Section */}
+        <div className="text-center mb-12">
+          <Badge className="mb-4 bg-green-100 text-green-700">Sale Preparation</Badge>
+          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-slate-900">
+            Small Business Sale Preparation: Complete Guide to Maximize Value
           </h1>
-          <p className="text-xl text-emerald-100 max-w-3xl">
-            Essential steps to maximize your business value before selling. Financial cleanup, 
-            documentation requirements, and valuation optimization strategies that can boost your sale price by 15-30%.
+          <p className="text-xl text-slate-600 mb-8 max-w-3xl mx-auto">
+            Essential steps to prepare your small business for sale and maximize value. Timeline, documentation, valuation improvements, and buyer attraction strategies for successful exits.
           </p>
-          <div className="flex items-center gap-6 mt-8 text-emerald-200">
-            <span>January 10, 2025</span>
-            <span>15 min read</span>
-            <span>Exit Planning</span>
-          </div>
+          
+          <Card className="border-2 border-green-200 bg-gradient-to-r from-green-50 to-emerald-50 p-6 mb-8">
+            <div className="text-center">
+              <h3 className="text-2xl font-bold mb-4">Get Your Current Business Valuation</h3>
+              <p className="text-slate-600 mb-4">
+                Start with a professional valuation to understand your current value and improvement opportunities.
+              </p>
+              <Button asChild size="lg" className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700">
+                <a href="https://thevaluationgenie.com/" className="inline-flex items-center">
+                  <Calculator className="w-5 h-5 mr-2" />
+                  Start Free Valuation
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </a>
+              </Button>
+            </div>
+          </Card>
         </div>
-      </div>
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Value Impact Overview */}
-        <Card className="mb-12 bg-gradient-to-r from-green-50 to-emerald-50 border-green-200">
+        {/* Sale Preparation Timeline */}
+        <Card className="mb-12 bg-gradient-to-r from-blue-50 to-green-50 border-blue-200">
           <CardHeader>
             <CardTitle className="text-2xl text-center text-slate-900">
-              Preparation Impact on Sale Price
+              Business Sale Preparation Timeline
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid md:grid-cols-3 gap-6 text-center">
-              <div className="bg-white p-6 rounded-lg shadow-sm">
-                <TrendingUp className="w-12 h-12 text-green-600 mx-auto mb-3" />
-                <h3 className="text-xl font-semibold text-slate-900 mb-2">15-30%</h3>
-                <p className="text-slate-700">Higher sale price with proper preparation</p>
-              </div>
-              <div className="bg-white p-6 rounded-lg shadow-sm">
-                <Clock className="w-12 h-12 text-blue-600 mx-auto mb-3" />
-                <h3 className="text-xl font-semibold text-slate-900 mb-2">30-50%</h3>
-                <p className="text-slate-700">Faster sale with organized documentation</p>
-              </div>
-              <div className="bg-white p-6 rounded-lg shadow-sm">
-                <Users className="w-12 h-12 text-purple-600 mx-auto mb-3" />
-                <h3 className="text-xl font-semibold text-slate-900 mb-2">3-5x</h3>
-                <p className="text-slate-700">More qualified buyers with clean financials</p>
+            <div className="space-y-6">
+              <div className="grid md:grid-cols-3 gap-6">
+                <div className="text-center">
+                  <div className="bg-white p-6 rounded-lg shadow-sm border border-blue-200">
+                    <Clock className="w-12 h-12 text-blue-600 mx-auto mb-4" />
+                    <h3 className="text-xl font-semibold text-slate-900 mb-3">18-24 Months Before</h3>
+                    <ul className="text-left space-y-2 text-slate-700">
+                      <li>✓ Begin financial record cleanup</li>
+                      <li>✓ Reduce customer concentration</li>
+                      <li>✓ Document systems and processes</li>
+                      <li>✓ Build management team</li>
+                      <li>✓ Focus on growth and profitability</li>
+                    </ul>
+                  </div>
+                </div>
+                <div className="text-center">
+                  <div className="bg-white p-6 rounded-lg shadow-sm border border-green-200">
+                    <FileText className="w-12 h-12 text-green-600 mx-auto mb-4" />
+                    <h3 className="text-xl font-semibold text-slate-900 mb-3">6-12 Months Before</h3>
+                    <ul className="text-left space-y-2 text-slate-700">
+                      <li>✓ Get professional valuation</li>
+                      <li>✓ Prepare comprehensive financial package</li>
+                      <li>✓ Create operations manual</li>
+                      <li>✓ Secure key employee agreements</li>
+                      <li>✓ Address legal and compliance issues</li>
+                    </ul>
+                  </div>
+                </div>
+                <div className="text-center">
+                  <div className="bg-white p-6 rounded-lg shadow-sm border border-purple-200">
+                    <Users className="w-12 h-12 text-purple-600 mx-auto mb-4" />
+                    <h3 className="text-xl font-semibold text-slate-900 mb-3">3-6 Months Before</h3>
+                    <ul className="text-left space-y-2 text-slate-700">
+                      <li>✓ Market business to qualified buyers</li>
+                      <li>✓ Prepare due diligence materials</li>
+                      <li>✓ Maintain confidentiality agreements</li>
+                      <li>✓ Negotiate terms and conditions</li>
+                      <li>✓ Plan transition timeline</li>
+                    </ul>
+                  </div>
+                </div>
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <article className="prose prose-lg max-w-none">
-          {/* Timeline Overview */}
-          <section className="mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 mb-6">12-Month Sale Preparation Timeline</h2>
+        {/* Article Content */}
+        <div className="prose prose-lg max-w-none">
+          
+          <h2>Essential Financial Preparation</h2>
+          
+          <p>Clean, accurate financial records are the foundation of any successful business sale. Buyers will scrutinize every aspect of your financial performance, making this the most critical preparation area.</p>
+          
+          <h3>Financial Documentation Checklist</h3>
+          
+          <div className="grid md:grid-cols-2 gap-6 my-8">
+            <Card className="border-blue-200">
+              <CardHeader>
+                <CardTitle className="text-lg text-blue-800">Required Financial Documents</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2 text-blue-700">
+                  <li>✓ 3-5 years business tax returns</li>
+                  <li>✓ Monthly financial statements (3 years)</li>
+                  <li>✓ Detailed SDE calculations</li>
+                  <li>✓ Accounts receivable aging</li>
+                  <li>✓ Inventory analysis</li>
+                  <li>✓ Equipment lists and depreciation schedules</li>
+                  <li>✓ Lease agreements and contracts</li>
+                </ul>
+              </CardContent>
+            </Card>
             
-            <div className="space-y-6">
-              <Card className="border-l-4 border-l-blue-500">
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold text-slate-900 mb-3">12 Months Before Sale</h3>
-                  <ul className="space-y-2 text-slate-700">
-                    <li>• Begin financial cleanup and organization</li>
-                    <li>• Start documenting all business processes</li>
-                    <li>• Address any outstanding legal or tax issues</li>
-                    <li>• Begin reducing owner dependency</li>
-                  </ul>
-                </CardContent>
-              </Card>
+            <Card className="border-green-200">
+              <CardHeader>
+                <CardTitle className="text-lg text-green-800">Financial Improvements</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2 text-green-700">
+                  <li>✓ Separate personal and business expenses</li>
+                  <li>✓ Document all owner add-backs</li>
+                  <li>✓ Clean up balance sheet</li>
+                  <li>✓ Optimize tax strategies</li>
+                  <li>✓ Improve cash flow management</li>
+                  <li>✓ Reduce unnecessary expenses</li>
+                  <li>✓ Increase profitability margins</li>
+                </ul>
+              </CardContent>
+            </Card>
+          </div>
 
-              <Card className="border-l-4 border-l-green-500">
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold text-slate-900 mb-3">6 Months Before Sale</h3>
-                  <ul className="space-y-2 text-slate-700">
-                    <li>• Complete financial statement reviews</li>
-                    <li>• Strengthen management team and operations</li>
-                    <li>• Optimize key business metrics</li>
-                    <li>• Get preliminary business valuation</li>
-                  </ul>
-                </CardContent>
-              </Card>
-
-              <Card className="border-l-4 border-l-purple-500">
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold text-slate-900 mb-3">3 Months Before Sale</h3>
-                  <ul className="space-y-2 text-slate-700">
-                    <li>• Finalize all documentation packages</li>
-                    <li>• Complete professional business valuation</li>
-                    <li>• Engage business broker or M&A advisor</li>
-                    <li>• Prepare marketing materials</li>
-                  </ul>
-                </CardContent>
-              </Card>
+          <h2>Operational Value Enhancement</h2>
+          
+          <p>Beyond financial performance, buyers evaluate operational strength and transferability. These improvements can significantly increase your business value and attractiveness to buyers.</p>
+          
+          <h3>Systems and Processes Documentation</h3>
+          
+          <div className="bg-slate-50 border border-slate-200 rounded-lg p-6 my-8">
+            <h4 className="text-xl font-semibold mb-4 text-slate-800">Operations Manual Sections</h4>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div>
+                <h5 className="font-semibold text-slate-700 mb-3">Daily Operations</h5>
+                <ul className="space-y-2 text-slate-600">
+                  <li>• Opening and closing procedures</li>
+                  <li>• Customer service protocols</li>
+                  <li>• Quality control standards</li>
+                  <li>• Inventory management</li>
+                  <li>• Vendor relationships</li>
+                </ul>
+              </div>
+              <div>
+                <h5 className="font-semibold text-slate-700 mb-3">Management Systems</h5>
+                <ul className="space-y-2 text-slate-600">
+                  <li>• Employee training programs</li>
+                  <li>• Performance management</li>
+                  <li>• Financial controls</li>
+                  <li>• Marketing strategies</li>
+                  <li>• Technology systems</li>
+                </ul>
+              </div>
             </div>
-          </section>
+          </div>
 
-          {/* Financial Cleanup Section */}
-          <section className="mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 mb-6 flex items-center gap-3">
-              <DollarSign className="w-8 h-8 text-emerald-600" />
-              Financial Cleanup: First Priority
-            </h2>
+          <h3>Reducing Owner Dependence</h3>
+          
+          <p>Businesses that rely heavily on the owner are harder to sell and command lower valuations. Start reducing your involvement 12-24 months before selling.</p>
+          
+          <div className="overflow-x-auto my-8">
+            <table className="min-w-full border-collapse border border-gray-300">
+              <thead>
+                <tr className="bg-gray-50">
+                  <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Area</th>
+                  <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Owner-Dependent</th>
+                  <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Buyer-Ready</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="border border-gray-300 px-4 py-3 font-medium">Customer Relationships</td>
+                  <td className="border border-gray-300 px-4 py-3 text-red-600">Owner knows all customers personally</td>
+                  <td className="border border-gray-300 px-4 py-3 text-green-600">Team manages customer relationships</td>
+                </tr>
+                <tr className="bg-gray-50">
+                  <td className="border border-gray-300 px-4 py-3 font-medium">Daily Operations</td>
+                  <td className="border border-gray-300 px-4 py-3 text-red-600">Owner must be present daily</td>
+                  <td className="border border-gray-300 px-4 py-3 text-green-600">Business runs with minimal owner input</td>
+                </tr>
+                <tr>
+                  <td className="border border-gray-300 px-4 py-3 font-medium">Key Decisions</td>
+                  <td className="border border-gray-300 px-4 py-3 text-red-600">Owner makes all important decisions</td>
+                  <td className="border border-gray-300 px-4 py-3 text-green-600">Management team has decision authority</td>
+                </tr>
+                <tr className="bg-gray-50">
+                  <td className="border border-gray-300 px-4 py-3 font-medium">Vendor Relations</td>
+                  <td className="border border-gray-300 px-4 py-3 text-red-600">All vendors deal only with owner</td>
+                  <td className="border border-gray-300 px-4 py-3 text-green-600">Multiple staff maintain vendor relationships</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
-            <p className="text-lg text-slate-700 mb-8">
-              Clean, accurate financial statements are the foundation of a successful sale. Buyers will scrutinize 
-              every number, and inconsistencies can torpedo deals or significantly reduce offers.
-            </p>
+          <h2>Customer Base Diversification</h2>
+          
+          <p>Customer concentration is one of the biggest value killers in business sales. Buyers fear losing major customers and will discount your business accordingly.</p>
+          
+          <div className="grid md:grid-cols-2 gap-6 my-8">
+            <Card className="border-red-200 bg-red-50">
+              <CardHeader>
+                <CardTitle className="text-lg text-red-800">High Risk Indicators</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2 text-red-700">
+                  <li>• Single customer &gt;20% of revenue</li>
+                  <li>• Top 3 customers &gt;50% of revenue</li>
+                  <li>• Long-term personal relationships</li>
+                  <li>• Informal agreements</li>
+                  <li>• No customer contracts</li>
+                </ul>
+              </CardContent>
+            </Card>
+            
+            <Card className="border-green-200 bg-green-50">
+              <CardHeader>
+                <CardTitle className="text-lg text-green-800">Diversification Strategies</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2 text-green-700">
+                  <li>• Target new market segments</li>
+                  <li>• Implement formal contracts</li>
+                  <li>• Build relationships across customer teams</li>
+                  <li>• Develop recurring revenue streams</li>
+                  <li>• Create customer loyalty programs</li>
+                </ul>
+              </CardContent>
+            </Card>
+          </div>
 
-            <div className="space-y-8">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Step 1: Organize Financial Statements (3 Years)</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <h4 className="font-semibold text-slate-900 mb-3">Required Documents:</h4>
-                      <ul className="space-y-2 text-slate-700">
-                        <li className="flex items-start gap-2">
-                          <CheckCircle className="w-4 h-4 text-green-600 mt-1 flex-shrink-0" />
-                          <span>Profit & Loss statements (monthly for last 3 years)</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <CheckCircle className="w-4 h-4 text-green-600 mt-1 flex-shrink-0" />
-                          <span>Balance sheets (year-end for last 3 years)</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <CheckCircle className="w-4 h-4 text-green-600 mt-1 flex-shrink-0" />
-                          <span>Cash flow statements</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <CheckCircle className="w-4 h-4 text-green-600 mt-1 flex-shrink-0" />
-                          <span>Tax returns (business and personal K-1s)</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <CheckCircle className="w-4 h-4 text-green-600 mt-1 flex-shrink-0" />
-                          <span>Bank statements and reconciliations</span>
-                        </li>
-                      </ul>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-slate-900 mb-3">Quality Standards:</h4>
-                      <ul className="space-y-2 text-slate-700">
-                        <li className="flex items-start gap-2">
-                          <AlertCircle className="w-4 h-4 text-amber-600 mt-1 flex-shrink-0" />
-                          <span>CPA-prepared or reviewed statements preferred</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <AlertCircle className="w-4 h-4 text-amber-600 mt-1 flex-shrink-0" />
-                          <span>Consistent accounting methods across all years</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <AlertCircle className="w-4 h-4 text-amber-600 mt-1 flex-shrink-0" />
-                          <span>No significant unexplained variances</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <AlertCircle className="w-4 h-4 text-amber-600 mt-1 flex-shrink-0" />
-                          <span>All unusual transactions documented</span>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Step 2: Separate Business and Personal Expenses</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-slate-700 mb-4">
-                    Create clear separation between business and personal expenses. This is crucial for 
-                    accurate SDE calculations and buyer confidence.
-                  </p>
-                  
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <h4 className="font-semibold text-green-800 mb-3">Legitimate Business Expenses:</h4>
-                      <ul className="space-y-1 text-slate-700 text-sm">
-                        <li>• Office rent and utilities</li>
-                        <li>• Business insurance premiums</li>
-                        <li>• Employee salaries and benefits</li>
-                        <li>• Business travel and meals</li>
-                        <li>• Professional development</li>
-                        <li>• Equipment and supplies</li>
-                      </ul>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-red-800 mb-3">Personal Expenses to Remove:</h4>
-                      <ul className="space-y-1 text-slate-700 text-sm">
-                        <li>• Personal vehicle payments</li>
-                        <li>• Family health insurance (if excessive)</li>
-                        <li>• Personal meals and entertainment</li>
-                        <li>• Home office expenses (if not exclusively business)</li>
-                        <li>• Personal travel expenses</li>
-                        <li>• Family member wages (if above market rate)</li>
-                      </ul>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Step 3: Calculate Accurate SDE</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-slate-700 mb-4">
-                    Prepare a detailed SDE calculation showing exactly how you arrived at your business's earnings. 
-                    This becomes the foundation for your valuation.
-                  </p>
-                  
-                  <div className="bg-slate-100 p-6 rounded-lg">
-                    <h4 className="font-semibold text-slate-900 mb-3">SDE Calculation Worksheet:</h4>
-                    <div className="space-y-2 font-mono text-sm">
-                      <p>Net Income (after taxes): $_______</p>
-                      <p>+ Owner's Salary/Wages: $_______</p>
-                      <p>+ Owner's Benefits (health, retirement): $_______</p>
-                      <p>+ Interest Expense: $_______</p>
-                      <p>+ Taxes: $_______</p>
-                      <p>+ Depreciation/Amortization: $_______</p>
-                      <p>+ One-time Expenses: $_______</p>
-                      <p>+ Personal Expenses Paid by Business: $_______</p>
-                      <hr className="border-slate-400 my-2" />
-                      <p className="text-lg font-bold">Total SDE: $_______</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+          <h2>Legal and Compliance Preparation</h2>
+          
+          <p>Address all legal and compliance issues well before listing your business. Buyers will conduct thorough due diligence and any problems will delay or derail the sale.</p>
+          
+          <h3>Legal Checklist</h3>
+          
+          <div className="space-y-4 my-8">
+            <div className="flex items-start space-x-3">
+              <CheckCircle className="w-5 h-5 text-green-600 mt-1" />
+              <div>
+                <h4 className="font-semibold text-slate-900">Corporate Structure</h4>
+                <p className="text-slate-600">Ensure proper incorporation, updated bylaws, and clean corporate records.</p>
+              </div>
             </div>
-          </section>
-
-          {/* Operations Optimization */}
-          <section className="mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 mb-6 flex items-center gap-3">
-              <Users className="w-8 h-8 text-emerald-600" />
-              Operations Optimization
-            </h2>
-
-            <p className="text-lg text-slate-700 mb-8">
-              Buyers want businesses that can run without the current owner. Reducing owner dependency 
-              significantly increases value and buyer appeal.
-            </p>
-
-            <div className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Reduce Owner Dependency</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <h4 className="font-semibold text-slate-900 mb-3">Key Areas to Address:</h4>
-                      <ul className="space-y-2 text-slate-700">
-                        <li className="flex items-start gap-2">
-                          <CheckCircle className="w-4 h-4 text-green-600 mt-1 flex-shrink-0" />
-                          <span>Strengthen management team</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <CheckCircle className="w-4 h-4 text-green-600 mt-1 flex-shrink-0" />
-                          <span>Document all processes and procedures</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <CheckCircle className="w-4 h-4 text-green-600 mt-1 flex-shrink-0" />
-                          <span>Cross-train employees on critical functions</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <CheckCircle className="w-4 h-4 text-green-600 mt-1 flex-shrink-0" />
-                          <span>Establish vendor relationships in company name</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <CheckCircle className="w-4 h-4 text-green-600 mt-1 flex-shrink-0" />
-                          <span>Create systems for customer relationship management</span>
-                        </li>
-                      </ul>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-slate-900 mb-3">Value Impact:</h4>
-                      <div className="space-y-3">
-                        <div className="p-3 bg-green-50 rounded">
-                          <p className="font-medium text-green-800">High Owner Dependency</p>
-                          <p className="text-green-700 text-sm">SDE Multiple: 1.5x - 2.5x</p>
-                        </div>
-                        <div className="p-3 bg-blue-50 rounded">
-                          <p className="font-medium text-blue-800">Moderate Owner Dependency</p>
-                          <p className="text-blue-700 text-sm">SDE Multiple: 2.5x - 3.5x</p>
-                        </div>
-                        <div className="p-3 bg-purple-50 rounded">
-                          <p className="font-medium text-purple-800">Low Owner Dependency</p>
-                          <p className="text-purple-700 text-sm">SDE Multiple: 3.5x - 4.5x</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Customer Base Analysis</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-slate-700 mb-4">
-                    Buyers want diversified, stable customer bases. Analyze and optimize your customer concentration.
-                  </p>
-                  
-                  <div className="grid md:grid-cols-3 gap-4 mb-6">
-                    <div className="text-center p-4 bg-red-50 rounded-lg">
-                      <h4 className="font-semibold text-red-800 mb-2">High Risk</h4>
-                      <p className="text-red-700 text-sm">Top customer &gt;30% of revenue</p>
-                      <p className="text-red-700 text-xs mt-1">Significant valuation discount</p>
-                    </div>
-                    <div className="text-center p-4 bg-amber-50 rounded-lg">
-                      <h4 className="font-semibold text-amber-800 mb-2">Moderate Risk</h4>
-                      <p className="text-amber-700 text-sm">Top customer 15-30% of revenue</p>
-                      <p className="text-amber-700 text-xs mt-1">Some valuation impact</p>
-                    </div>
-                    <div className="text-center p-4 bg-green-50 rounded-lg">
-                      <h4 className="font-semibold text-green-800 mb-2">Low Risk</h4>
-                      <p className="text-green-700 text-sm">Top customer &lt;15% of revenue</p>
-                      <p className="text-green-700 text-xs mt-1">Optimal for valuation</p>
-                    </div>
-                  </div>
-
-                  <h4 className="font-semibold text-slate-900 mb-3">Customer Diversification Strategies:</h4>
-                  <ul className="space-y-2 text-slate-700">
-                    <li>• Expand marketing to attract new customer segments</li>
-                    <li>• Develop products/services to reduce single-customer dependency</li>
-                    <li>• Implement long-term contracts with multiple customers</li>
-                    <li>• Create recurring revenue streams</li>
-                    <li>• Document customer retention rates and loyalty programs</li>
-                  </ul>
-                </CardContent>
-              </Card>
+            <div className="flex items-start space-x-3">
+              <CheckCircle className="w-5 h-5 text-green-600 mt-1" />
+              <div>
+                <h4 className="font-semibold text-slate-900">Intellectual Property</h4>
+                <p className="text-slate-600">Register trademarks, secure copyrights, and document all IP ownership.</p>
+              </div>
             </div>
-          </section>
-
-          {/* Documentation Package */}
-          <section className="mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 mb-6 flex items-center gap-3">
-              <FileText className="w-8 h-8 text-emerald-600" />
-              Complete Documentation Package
-            </h2>
-
-            <p className="text-lg text-slate-700 mb-8">
-              Organized documentation speeds up due diligence and builds buyer confidence. 
-              Prepare these materials in advance to demonstrate professionalism.
-            </p>
-
-            <div className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Financial Documentation</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <h4 className="font-semibold text-slate-900 mb-3">Historical Financials:</h4>
-                      <ul className="space-y-1 text-slate-700 text-sm">
-                        <li>• 3 years of profit & loss statements</li>
-                        <li>• 3 years of balance sheets</li>
-                        <li>• 3 years of tax returns</li>
-                        <li>• Current year-to-date financials</li>
-                        <li>• Bank statements (last 12 months)</li>
-                        <li>• Accounts receivable aging</li>
-                        <li>• Accounts payable summary</li>
-                      </ul>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-slate-900 mb-3">Analysis & Projections:</h4>
-                      <ul className="space-y-1 text-slate-700 text-sm">
-                        <li>• SDE calculation worksheets</li>
-                        <li>• Financial trend analysis</li>
-                        <li>• Budget vs. actual comparisons</li>
-                        <li>• Future projections (conservative)</li>
-                        <li>• Key financial ratios</li>
-                        <li>• Seasonal analysis (if applicable)</li>
-                        <li>• Capital expenditure history</li>
-                      </ul>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Legal & Operational Documentation</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <h4 className="font-semibold text-slate-900 mb-3">Legal Documents:</h4>
-                      <ul className="space-y-1 text-slate-700 text-sm">
-                        <li>• Articles of incorporation/LLC operating agreement</li>
-                        <li>• Business licenses and permits</li>
-                        <li>• Material contracts and agreements</li>
-                        <li>• Lease agreements (with transfer terms)</li>
-                        <li>• Employment agreements</li>
-                        <li>• Non-compete agreements</li>
-                        <li>• Insurance policies</li>
-                        <li>• Intellectual property documentation</li>
-                      </ul>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-slate-900 mb-3">Operational Information:</h4>
-                      <ul className="space-y-1 text-slate-700 text-sm">
-                        <li>• Organization chart with roles</li>
-                        <li>• Employee handbook and policies</li>
-                        <li>• Operating procedures manual</li>
-                        <li>• Vendor and supplier lists</li>
-                        <li>• Customer analysis and contracts</li>
-                        <li>• Equipment lists and maintenance records</li>
-                        <li>• Marketing materials and strategy</li>
-                        <li>• Technology systems documentation</li>
-                      </ul>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Business Overview Package</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-slate-700 mb-4">
-                    Create a comprehensive business overview that tells your company's story and highlights value drivers.
-                  </p>
-                  
-                  <div className="space-y-4">
-                    <div>
-                      <h4 className="font-semibold text-slate-900 mb-2">Executive Summary (2-3 pages):</h4>
-                      <ul className="text-slate-700 text-sm space-y-1">
-                        <li>• Business description and history</li>
-                        <li>• Products/services overview</li>
-                        <li>• Market position and competitive advantages</li>
-                        <li>• Financial highlights and trends</li>
-                        <li>• Growth opportunities</li>
-                        <li>• Reason for sale</li>
-                      </ul>
-                    </div>
-                    
-                    <div>
-                      <h4 className="font-semibold text-slate-900 mb-2">Supporting Materials:</h4>
-                      <ul className="text-slate-700 text-sm space-y-1">
-                        <li>• Professional photos of facilities/operations</li>
-                        <li>• Customer testimonials and case studies</li>
-                        <li>• Awards and recognition</li>
-                        <li>• Industry articles and media coverage</li>
-                        <li>• Market research and industry data</li>
-                      </ul>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+            <div className="flex items-start space-x-3">
+              <CheckCircle className="w-5 h-5 text-green-600 mt-1" />
+              <div>
+                <h4 className="font-semibold text-slate-900">Employment Compliance</h4>
+                <p className="text-slate-600">Update employee handbook, ensure wage compliance, and address any HR issues.</p>
+              </div>
             </div>
-          </section>
-
-          {/* Value Enhancement Strategies */}
-          <section className="mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 mb-6 flex items-center gap-3">
-              <TrendingUp className="w-8 h-8 text-emerald-600" />
-              Value Enhancement Strategies
-            </h2>
-
-            <div className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Quick Wins (30-90 days)</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <h4 className="font-semibold text-slate-900 mb-3">Financial Improvements:</h4>
-                      <ul className="space-y-2 text-slate-700">
-                        <li className="flex items-start gap-2">
-                          <CheckCircle className="w-4 h-4 text-green-600 mt-1 flex-shrink-0" />
-                          <span>Collect outstanding receivables</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <CheckCircle className="w-4 h-4 text-green-600 mt-1 flex-shrink-0" />
-                          <span>Eliminate unnecessary expenses</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <CheckCircle className="w-4 h-4 text-green-600 mt-1 flex-shrink-0" />
-                          <span>Optimize pricing strategies</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <CheckCircle className="w-4 h-4 text-green-600 mt-1 flex-shrink-0" />
-                          <span>Improve gross margins</span>
-                        </li>
-                      </ul>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-slate-900 mb-3">Operational Improvements:</h4>
-                      <ul className="space-y-2 text-slate-700">
-                        <li className="flex items-start gap-2">
-                          <CheckCircle className="w-4 h-4 text-green-600 mt-1 flex-shrink-0" />
-                          <span>Clean and organize facilities</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <CheckCircle className="w-4 h-4 text-green-600 mt-1 flex-shrink-0" />
-                          <span>Update marketing materials</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <CheckCircle className="w-4 h-4 text-green-600 mt-1 flex-shrink-0" />
-                          <span>Refresh website and online presence</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <CheckCircle className="w-4 h-4 text-green-600 mt-1 flex-shrink-0" />
-                          <span>Organize inventory and equipment</span>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Medium-term Strategies (3-6 months)</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <div>
-                      <h4 className="font-semibold text-slate-900 mb-3">Revenue Enhancement:</h4>
-                      <ul className="space-y-2 text-slate-700">
-                        <li>• Launch new products or services with strong margins</li>
-                        <li>• Implement recurring revenue streams</li>
-                        <li>• Expand into complementary markets</li>
-                        <li>• Improve customer retention programs</li>
-                        <li>• Optimize sales processes and conversion rates</li>
-                      </ul>
-                    </div>
-                    
-                    <div>
-                      <h4 className="font-semibold text-slate-900 mb-3">Cost Management:</h4>
-                      <ul className="space-y-2 text-slate-700">
-                        <li>• Renegotiate supplier contracts</li>
-                        <li>• Improve operational efficiency</li>
-                        <li>• Invest in productivity-enhancing technology</li>
-                        <li>• Optimize staffing levels</li>
-                        <li>• Reduce overhead expenses</li>
-                      </ul>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-amber-50 border-amber-200">
-                <CardContent className="p-6">
-                  <div className="flex items-start gap-3">
-                    <AlertCircle className="w-6 h-6 text-amber-600 mt-1" />
-                    <div>
-                      <h4 className="text-lg font-semibold text-amber-800 mb-2">Caution: Avoid Over-Optimization</h4>
-                      <p className="text-amber-700">
-                        While improvements are good, dramatic last-minute changes can raise buyer suspicion. 
-                        Focus on sustainable improvements that reflect the business's true potential, not artificial inflation.
-                      </p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+            <div className="flex items-start space-x-3">
+              <CheckCircle className="w-5 h-5 text-green-600 mt-1" />
+              <div>
+                <h4 className="font-semibold text-slate-900">Contracts and Leases</h4>
+                <p className="text-slate-600">Review all agreements for assignability and update terms as needed.</p>
+              </div>
             </div>
-          </section>
+          </div>
 
-          {/* Final Checklist */}
-          <section className="mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 mb-6">Final Pre-Sale Checklist</h2>
-
+          <h2>Valuation Optimization Strategies</h2>
+          
+          <p>Small improvements in the right areas can significantly increase your business value. Focus on the factors that buyers care about most.</p>
+          
+          <h3>High-Impact Value Drivers</h3>
+          
+          <div className="grid md:grid-cols-3 gap-6 my-8">
             <Card>
-              <CardContent className="p-6">
-                <div className="grid md:grid-cols-2 gap-8">
-                  <div>
-                    <h3 className="text-xl font-semibold text-slate-900 mb-4">Financial Readiness</h3>
-                    <div className="space-y-2">
-                      <label className="flex items-center gap-2">
-                        <input type="checkbox" className="rounded" />
-                        <span className="text-slate-700">3 years of clean financial statements</span>
-                      </label>
-                      <label className="flex items-center gap-2">
-                        <input type="checkbox" className="rounded" />
-                        <span className="text-slate-700">Accurate SDE calculation documented</span>
-                      </label>
-                      <label className="flex items-center gap-2">
-                        <input type="checkbox" className="rounded" />
-                        <span className="text-slate-700">Personal vs. business expenses separated</span>
-                      </label>
-                      <label className="flex items-center gap-2">
-                        <input type="checkbox" className="rounded" />
-                        <span className="text-slate-700">All accounting irregularities explained</span>
-                      </label>
-                      <label className="flex items-center gap-2">
-                        <input type="checkbox" className="rounded" />
-                        <span className="text-slate-700">Tax compliance up to date</span>
-                      </label>
-                    </div>
+              <CardHeader>
+                <CardTitle className="text-lg">Financial Performance</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3 text-sm">
+                  <div className="flex justify-between">
+                    <span>Increase SDE margin</span>
+                    <span className="font-semibold text-green-600">+15-25% value</span>
                   </div>
-                  
-                  <div>
-                    <h3 className="text-xl font-semibold text-slate-900 mb-4">Operational Readiness</h3>
-                    <div className="space-y-2">
-                      <label className="flex items-center gap-2">
-                        <input type="checkbox" className="rounded" />
-                        <span className="text-slate-700">Management team strengthened</span>
-                      </label>
-                      <label className="flex items-center gap-2">
-                        <input type="checkbox" className="rounded" />
-                        <span className="text-slate-700">Business processes documented</span>
-                      </label>
-                      <label className="flex items-center gap-2">
-                        <input type="checkbox" className="rounded" />
-                        <span className="text-slate-700">Customer concentration analyzed</span>
-                      </label>
-                      <label className="flex items-center gap-2">
-                        <input type="checkbox" className="rounded" />
-                        <span className="text-slate-700">Legal documents organized</span>
-                      </label>
-                      <label className="flex items-center gap-2">
-                        <input type="checkbox" className="rounded" />
-                        <span className="text-slate-700">Professional valuation completed</span>
-                      </label>
-                    </div>
+                  <div className="flex justify-between">
+                    <span>Consistent growth</span>
+                    <span className="font-semibold text-green-600">+10-20% value</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Clean financials</span>
+                    <span className="font-semibold text-green-600">+5-15% value</span>
                   </div>
                 </div>
               </CardContent>
             </Card>
-          </section>
-
-          {/* Next Steps */}
-          <section className="mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 mb-6">Get Started Today</h2>
-
-            <div className="grid md:grid-cols-2 gap-8">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-center">Assess Your Current Value</CardTitle>
-                </CardHeader>
-                <CardContent className="text-center">
-                  <TrendingUp className="w-12 h-12 text-emerald-600 mx-auto mb-4" />
-                  <p className="text-slate-700 mb-4">
-                    Start with a free business valuation to understand your baseline value before improvements.
-                  </p>
-                  <Link href="/">
-                    <Button className="w-full bg-emerald-600 hover:bg-emerald-700">
-                      Get Free Estimate
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-center">Download Preparation Guide</CardTitle>
-                </CardHeader>
-                <CardContent className="text-center">
-                  <FileText className="w-12 h-12 text-blue-600 mx-auto mb-4" />
-                  <p className="text-slate-700 mb-4">
-                    Get our comprehensive PDF checklist with timelines, templates, and detailed instructions.
-                  </p>
-                  <Link href="/">
-                    <Button variant="outline" className="w-full border-blue-600 text-blue-600 hover:bg-blue-50">
-                      Get Professional Report
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
-            </div>
-          </section>
-        </article>
-
-        {/* Related Articles */}
-        <div className="mt-16 pt-8 border-t border-slate-200">
-          <h3 className="text-2xl font-bold text-slate-900 mb-8">Related Articles</h3>
-          <div className="grid md:grid-cols-3 gap-6">
+            
             <Card>
-              <CardContent className="p-6">
-                <h4 className="font-semibold text-slate-900 mb-2">
-                  <Link href="/blog/sde-business-valuation-guide" className="text-blue-600 hover:text-blue-800">
-                    SDE Business Valuation Guide
-                  </Link>
-                </h4>
-                <p className="text-slate-600 text-sm">Learn how to calculate SDE and understand valuation multiples.</p>
+              <CardHeader>
+                <CardTitle className="text-lg">Operational Strength</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3 text-sm">
+                  <div className="flex justify-between">
+                    <span>Reduce owner dependence</span>
+                    <span className="font-semibold text-green-600">+20-40% value</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Documented systems</span>
+                    <span className="font-semibold text-green-600">+10-20% value</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Strong management</span>
+                    <span className="font-semibold text-green-600">+15-25% value</span>
+                  </div>
+                </div>
               </CardContent>
             </Card>
+            
             <Card>
-              <CardContent className="p-6">
-                <h4 className="font-semibold text-slate-900 mb-2">
-                  <Link href="/blog/business-valuation-vs-market-appraisal" className="text-blue-600 hover:text-blue-800">
-                    Valuation vs Market Appraisal
-                  </Link>
-                </h4>
-                <p className="text-slate-600 text-sm">Understand which approach is right for your situation.</p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-6">
-                <h4 className="font-semibold text-slate-900 mb-2">
-                  <Link href="/blog/industry-valuation-multiples-2025" className="text-blue-600 hover:text-blue-800">
-                    Industry Valuation Multiples 2025
-                  </Link>
-                </h4>
-                <p className="text-slate-600 text-sm">See current market benchmarks for your industry sector.</p>
+              <CardHeader>
+                <CardTitle className="text-lg">Market Position</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3 text-sm">
+                  <div className="flex justify-between">
+                    <span>Diverse customer base</span>
+                    <span className="font-semibold text-green-600">+15-30% value</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Recurring revenue</span>
+                    <span className="font-semibold text-green-600">+20-35% value</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Market leadership</span>
+                    <span className="font-semibold text-green-600">+10-25% value</span>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </div>
+
+          <h2>Marketing Your Business for Sale</h2>
+          
+          <p>Attracting qualified buyers while maintaining confidentiality requires careful planning and execution.</p>
+          
+          <h3>Buyer Qualification Process</h3>
+          
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 my-8">
+            <h4 className="text-lg font-semibold text-blue-800 mb-4">Pre-Qualification Requirements</h4>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div>
+                <h5 className="font-semibold text-blue-700 mb-3">Financial Capability</h5>
+                <ul className="space-y-2 text-blue-600">
+                  <li>• Proof of funds or financing pre-approval</li>
+                  <li>• Business experience or industry knowledge</li>
+                  <li>• Realistic timeline and expectations</li>
+                  <li>• Professional references</li>
+                </ul>
+              </div>
+              <div>
+                <h5 className="font-semibold text-blue-700 mb-3">Confidentiality Protection</h5>
+                <ul className="space-y-2 text-blue-600">
+                  <li>• Signed non-disclosure agreement</li>
+                  <li>• Limited initial information sharing</li>
+                  <li>• Staged information release</li>
+                  <li>• Employee confidentiality protocols</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <h2>Common Sale Preparation Mistakes</h2>
+          
+          <div className="bg-red-50 border border-red-200 rounded-lg p-6 my-8">
+            <h3 className="text-lg font-semibold text-red-800 mb-4">Avoid These Costly Errors</h3>
+            <div className="space-y-4">
+              <div>
+                <h4 className="font-semibold text-red-700">1. Starting Preparation Too Late</h4>
+                <p className="text-red-600">Many owners begin preparing only 3-6 months before selling. This doesn't allow time for meaningful improvements that increase value.</p>
+              </div>
+              <div>
+                <h4 className="font-semibold text-red-700">2. Neglecting Financial Records</h4>
+                <p className="text-red-600">Poor financial documentation kills deals. Buyers need clean, accurate records to complete due diligence and secure financing.</p>
+              </div>
+              <div>
+                <h4 className="font-semibold text-red-700">3. Overvaluing the Business</h4>
+                <p className="text-red-600">Emotional attachment leads to unrealistic pricing. Get a professional valuation and price competitively to attract serious buyers.</p>
+              </div>
+              <div>
+                <h4 className="font-semibold text-red-700">4. Telling Employees Too Early</h4>
+                <p className="text-red-600">Early disclosure can create instability and employee departures. Maintain confidentiality until you have a committed buyer.</p>
+              </div>
+            </div>
+          </div>
+
+          <InternalLinks 
+            title="Essential Sale Preparation Resources"
+            links={internalLinks}
+          />
+
+          <h2>Frequently Asked Questions</h2>
+          
+          {faqData.map((faq, index) => (
+            <div key={index} className="mb-6">
+              <h3 className="text-xl font-semibold mb-3">{faq.question}</h3>
+              <p className="text-slate-600 leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
+
+          <div className="bg-green-50 border border-green-200 rounded-lg p-6 my-8">
+            <h3 className="text-lg font-semibold text-green-800 mb-2">💡 Success Tip</h3>
+            <p className="text-green-700">Start your sale preparation with a professional valuation to understand your current value and identify the highest-impact improvements. Many owners increase their sale price by 20-40% through proper preparation.</p>
+          </div>
+
+          <h2>Ready to Start Your Sale Preparation?</h2>
+          <p>Successful business sales require months of careful preparation. Start with understanding your current value, then systematically address the areas that matter most to buyers.</p>
+          
+          <p><strong>Begin your sale preparation today</strong> with a professional valuation that identifies your improvement opportunities and guides your preparation strategy.</p>
+        </div>
+
+        {/* Final CTA */}
+        <div className="text-center mt-12 p-8 bg-gradient-to-r from-green-600 to-emerald-700 rounded-xl text-white">
+          <h3 className="text-2xl font-bold mb-4">Start Your Business Sale Preparation</h3>
+          <p className="text-green-100 mb-6 max-w-2xl mx-auto">
+            Get professional valuation and preparation guidance to maximize your business sale value. Proven strategies used by thousands of successful business owners.
+          </p>
+          <Button asChild size="lg" className="bg-white text-green-600 hover:bg-gray-100">
+            <a href="https://thevaluationgenie.com/" className="inline-flex items-center">
+              <TrendingUp className="w-5 h-5 mr-2" />
+              Get Sale Preparation Report - $39
+            </a>
+          </Button>
+          <p className="text-green-100 text-sm mt-4">✨ 7-day money-back guarantee • Preparation timeline included • Maximize your sale value</p>
         </div>
       </div>
+      
+      <Footer />
     </div>
   );
 }

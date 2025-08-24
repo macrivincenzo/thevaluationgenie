@@ -5,10 +5,66 @@ import { ArrowRight, Calculator, TrendingUp, Users, ChefHat, MapPin, Star, Utens
 import { Link } from "wouter";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
+import { BlogSEO, InternalLinks, FAQSchema } from "@/components/seo/BlogSEO";
 
 export default function RestaurantValuationGuide() {
+  const schemaMarkup = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Restaurant Business Valuation: Complete 2025 Guide",
+    "description": "Master restaurant valuation using industry-specific SDE multiples, location factors, and operational metrics. Learn how to value quick-service, casual dining, and fine dining establishments accurately.",
+    "author": { "@type": "Organization", "name": "ValuationGenie" },
+    "publisher": { "@type": "Organization", "name": "ValuationGenie", "url": "https://thevaluationgenie.com" },
+    "datePublished": "2025-01-17",
+    "dateModified": "2025-01-22",
+    "url": "https://thevaluationgenie.com/blog/restaurant-valuation-guide"
+  };
+
+  const seoData = {
+    title: "Restaurant Business Valuation: Complete 2025 Guide | SDE Method & Industry Multiples",
+    description: "Master restaurant valuation using industry-specific SDE multiples, location factors, and operational metrics. Learn how to value quick-service, casual dining, and fine dining establishments accurately.",
+    keywords: "restaurant business valuation, restaurant valuation multiples, how to value restaurant business, food service business valuation, restaurant SDE calculation",
+    url: "https://thevaluationgenie.com/blog/restaurant-valuation-guide"
+  };
+
+  const internalLinks = [
+    { href: "/blog/business-valuation-calculator", text: "Free Business Valuation Calculator", category: "Valuation Tools" },
+    { href: "/blog/sde-business-valuation-guide", text: "Complete SDE Valuation Guide", category: "Valuation Tools" },
+    { href: "/blog/industry-valuation-multiples-2025", text: "2025 Industry Multiples", category: "Valuation Tools" },
+    { href: "/blog/business-valuation-mistakes", text: "Avoid Costly Valuation Mistakes", category: "Expert Guidance" },
+    { href: "/blog/how-to-value-service-business", text: "Service Business Valuation", category: "Expert Guidance" },
+    { href: "/blog/small-business-sale-preparation", text: "Business Sale Preparation", category: "Expert Guidance" }
+  ];
+
+  const faqData = [
+    {
+      question: "What is the typical valuation multiple for restaurants?",
+      answer: "Restaurants typically sell for 1.5x-3.0x SDE depending on type, location, and operational efficiency. Quick-service restaurants often command higher multiples (2.0x-3.0x) while full-service restaurants range from 1.5x-2.5x."
+    },
+    {
+      question: "How do you calculate SDE for a restaurant?",
+      answer: "Restaurant SDE = Net Income + Owner Salary + Benefits + Personal Expenses + One-time Costs + Interest + Taxes + Depreciation + Amortization. Include all owner perks like meals, auto expenses, and family member wages."
+    },
+    {
+      question: "What factors increase restaurant valuation multiples?",
+      answer: "Prime location, strong brand recognition, consistent profitability, long-term lease, diverse revenue streams, documented systems, and minimal owner dependence can increase multiples by 20-50%."
+    },
+    {
+      question: "How important is location in restaurant valuation?",
+      answer: "Location is critical - prime locations with high foot traffic can increase valuations by 30-60%. Consider demographics, competition, visibility, parking, and lease terms when evaluating location value."
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800">
+      <BlogSEO 
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        url={seoData.url}
+        schemaMarkup={schemaMarkup}
+      />
+      <FAQSchema faqs={faqData} />
       <Header />
       
       <div className="container mx-auto px-4 py-12 max-w-4xl">
@@ -341,6 +397,11 @@ export default function RestaurantValuationGuide() {
               </div>
             </CardContent>
           </Card>
+
+          <InternalLinks 
+            title="Restaurant Valuation Resources"
+            links={internalLinks}
+          />
 
           {/* Call to Action */}
           <Card className="border-2 border-primary bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-950 dark:to-red-950">

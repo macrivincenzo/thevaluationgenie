@@ -2,10 +2,69 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Calculator, Scale, DollarSign, FileText, CheckCircle, AlertTriangle, Clock } from "lucide-react";
+import Header from "@/components/layout/header";
+import Footer from "@/components/layout/footer";
+import { BlogSEO, InternalLinks, FAQSchema } from "@/components/seo/BlogSEO";
 
 export default function BusinessValuationVsMarketAppraisal() {
+  const schemaMarkup = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Business Valuation vs Market Appraisal: Which Do You Need?",
+    "description": "Understand the key differences between business valuations and market appraisals, when to use each approach, and how they impact your SME's financial decisions.",
+    "author": { "@type": "Organization", "name": "ValuationGenie" },
+    "publisher": { "@type": "Organization", "name": "ValuationGenie", "url": "https://thevaluationgenie.com" },
+    "datePublished": "2025-01-17",
+    "dateModified": "2025-01-22",
+    "url": "https://thevaluationgenie.com/blog/business-valuation-vs-market-appraisal"
+  };
+
+  const seoData = {
+    title: "Business Valuation vs Market Appraisal: Which Do You Need? Complete Guide 2025",
+    description: "Understand the key differences between business valuations and market appraisals, when to use each approach, and how they impact your SME's financial decisions.",
+    keywords: "business valuation vs market appraisal, business appraisal methods, market valuation vs financial valuation, business value assessment",
+    url: "https://thevaluationgenie.com/blog/business-valuation-vs-market-appraisal"
+  };
+
+  const internalLinks = [
+    { href: "/blog/business-valuation-calculator", text: "Free Business Valuation Calculator", category: "Valuation Tools" },
+    { href: "/blog/sde-business-valuation-guide", text: "Complete SDE Valuation Guide", category: "Valuation Tools" },
+    { href: "/blog/business-appraisal-cost-guide", text: "Professional Appraisal Costs", category: "Valuation Tools" },
+    { href: "/blog/business-broker-vs-diy-valuation", text: "Business Broker vs DIY", category: "Professional Resources" },
+    { href: "/blog/how-to-value-service-business", text: "Service Business Valuation", category: "Professional Resources" },
+    { href: "/blog/industry-valuation-multiples-2025", text: "2025 Industry Multiples", category: "Professional Resources" }
+  ];
+
+  const faqData = [
+    {
+      question: "What's the difference between business valuation and market appraisal?",
+      answer: "Business valuation analyzes financial performance using SDE and industry multiples. Market appraisal compares your business to recent sales of similar businesses. Valuation is more detailed and accurate for most business decisions."
+    },
+    {
+      question: "When should I get a business valuation vs market appraisal?",
+      answer: "Use business valuation for selling, buying, or major financial decisions requiring detailed analysis. Use market appraisal for quick estimates or understanding general market positioning."
+    },
+    {
+      question: "Which is more accurate: business valuation or market appraisal?",
+      answer: "Business valuation is typically more accurate as it analyzes your specific financial performance. Market appraisal provides general ranges but may not reflect your business's unique characteristics."
+    },
+    {
+      question: "How much do business valuations cost vs market appraisals?",
+      answer: "Professional business valuations range from $39 (online) to $15,000+ (certified). Market appraisals are often free or low-cost but provide less detailed analysis."
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-white">
+      <BlogSEO 
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        url={seoData.url}
+        schemaMarkup={schemaMarkup}
+      />
+      <FAQSchema faqs={faqData} />
+      <Header />
       {/* Breadcrumb & Header */}
       <div className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -544,6 +603,11 @@ export default function BusinessValuationVsMarketAppraisal() {
             </div>
           </section>
         </article>
+
+        <InternalLinks 
+          title="Related Valuation Resources"
+          links={internalLinks}
+        />
 
         {/* Related Articles */}
         <div className="mt-16 pt-8 border-t border-slate-200">

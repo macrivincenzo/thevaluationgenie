@@ -2,10 +2,69 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Users, TrendingUp, BarChart3, Calculator, CheckCircle, AlertCircle } from "lucide-react";
+import Header from "@/components/layout/header";
+import Footer from "@/components/layout/footer";
+import { BlogSEO, InternalLinks, FAQSchema } from "@/components/seo/BlogSEO";
 
 export default function IndustryValuationMultiples2025() {
+  const schemaMarkup = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Industry Valuation Multiples 2025: SDE Benchmarks by Sector",
+    "description": "Current SDE multiples for restaurants, retail, manufacturing, IT services, and professional services. Updated market data and valuation trends based on recent business sales.",
+    "author": { "@type": "Organization", "name": "ValuationGenie" },
+    "publisher": { "@type": "Organization", "name": "ValuationGenie", "url": "https://thevaluationgenie.com" },
+    "datePublished": "2025-01-17",
+    "dateModified": "2025-01-22",
+    "url": "https://thevaluationgenie.com/blog/industry-valuation-multiples-2025"
+  };
+
+  const seoData = {
+    title: "Industry Valuation Multiples 2025: SDE Benchmarks by Sector | Current Market Data",
+    description: "Current SDE multiples for restaurants, retail, manufacturing, IT services, and professional services. Updated market data and valuation trends based on recent business sales.",
+    keywords: "industry valuation multiples 2025, SDE multiples by industry, business valuation benchmarks, industry-specific multiples, market valuation trends",
+    url: "https://thevaluationgenie.com/blog/industry-valuation-multiples-2025"
+  };
+
+  const internalLinks = [
+    { href: "/blog/business-valuation-calculator", text: "Free Business Valuation Calculator", category: "Valuation Tools" },
+    { href: "/blog/sde-business-valuation-guide", text: "Complete SDE Valuation Guide", category: "Valuation Tools" },
+    { href: "/blog/sde-vs-ebitda-guide", text: "SDE vs EBITDA Guide", category: "Valuation Tools" },
+    { href: "/blog/how-to-value-service-business", text: "Service Business Valuation", category: "Industry Guides" },
+    { href: "/blog/restaurant-valuation-guide", text: "Restaurant Valuation Guide", category: "Industry Guides" },
+    { href: "/blog/ecommerce-business-valuation", text: "E-commerce Valuation Guide", category: "Industry Guides" }
+  ];
+
+  const faqData = [
+    {
+      question: "What are the current industry valuation multiples for 2025?",
+      answer: "2025 SDE multiples range from 0.5x-2.8x for traditional services, 1.5x-4.2x for e-commerce, 2.0x-6.0x for SaaS, and 1.5x-3.0x for restaurants. Multiples vary based on business quality and market conditions."
+    },
+    {
+      question: "How do I know which multiple to use for my industry?",
+      answer: "Use industry-specific SDE multiples based on your primary business activity. Consider business quality factors like customer concentration, growth trends, and management systems that can increase or decrease your multiple."
+    },
+    {
+      question: "Why do industry valuation multiples change each year?",
+      answer: "Multiples change based on market conditions, buyer demand, interest rates, and industry trends. 2025 shows increased premiums for tech and e-commerce businesses due to strong buyer demand."
+    },
+    {
+      question: "Are these multiples based on asking prices or actual sales?",
+      answer: "Our multiples are based on actual completed business sales, not asking prices. This provides realistic market expectations for sellers and buyers in each industry."
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-white">
+      <BlogSEO 
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        url={seoData.url}
+        schemaMarkup={schemaMarkup}
+      />
+      <FAQSchema faqs={faqData} />
+      <Header />
       {/* Breadcrumb & Header */}
       <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -522,6 +581,11 @@ export default function IndustryValuationMultiples2025() {
               </Card>
             </div>
           </section>
+
+          <InternalLinks 
+            title="Industry Valuation Resources"
+            links={internalLinks}
+          />
 
           {/* Using Multiples Effectively */}
           <section className="mb-12">

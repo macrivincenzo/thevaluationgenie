@@ -5,10 +5,66 @@ import { ArrowRight, Calculator, TrendingUp, FileText, Users, Clock, CheckCircle
 import { Link } from "wouter";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
+import { BlogSEO, InternalLinks, FAQSchema } from "@/components/seo/BlogSEO";
 
 export default function HowToValueServiceBusiness() {
+  const schemaMarkup = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "How to Value a Service Business for Sale: Complete 2025 Guide",
+    "description": "Learn professional valuation methods for service businesses using Seller's Discretionary Earnings (SDE) and industry-standard multiples. Get accurate valuations in minutes.",
+    "author": { "@type": "Organization", "name": "ValuationGenie" },
+    "publisher": { "@type": "Organization", "name": "ValuationGenie", "url": "https://thevaluationgenie.com" },
+    "datePublished": "2025-01-17",
+    "dateModified": "2025-01-22",
+    "url": "https://thevaluationgenie.com/blog/how-to-value-service-business"
+  };
+
+  const seoData = {
+    title: "How to Value a Service Business for Sale: Complete 2025 Guide | SDE Method",
+    description: "Learn professional valuation methods for service businesses using Seller's Discretionary Earnings (SDE) and industry-standard multiples. Get accurate valuations in minutes.",
+    keywords: "service business valuation, how to value service business, consulting business valuation, professional services valuation, SDE method",
+    url: "https://thevaluationgenie.com/blog/how-to-value-service-business"
+  };
+
+  const internalLinks = [
+    { href: "/blog/business-valuation-calculator", text: "Free Business Valuation Calculator", category: "Free Tools" },
+    { href: "/blog/sde-business-valuation-guide", text: "Complete SDE Valuation Guide", category: "Free Tools" },
+    { href: "/blog/business-valuation-mistakes", text: "Avoid Costly Valuation Mistakes", category: "Free Tools" },
+    { href: "/blog/industry-valuation-multiples-2025", text: "2025 Industry Multiples", category: "Professional Resources" },
+    { href: "/blog/business-broker-vs-diy-valuation", text: "Business Broker vs DIY", category: "Professional Resources" },
+    { href: "/blog/business-appraisal-cost-guide", text: "Professional Appraisal Costs", category: "Professional Resources" }
+  ];
+
+  const faqData = [
+    {
+      question: "What is the best method to value a service business?",
+      answer: "The SDE (Seller's Discretionary Earnings) method is the gold standard for service businesses. It accounts for owner compensation and provides realistic valuations for businesses with active owner involvement."
+    },
+    {
+      question: "What multiple do service businesses sell for?",
+      answer: "Service businesses typically sell for 0.5x-2.8x SDE depending on industry. Consulting and IT services command higher multiples (1.0x-2.8x) while traditional services range from 0.5x-2.0x."
+    },
+    {
+      question: "How do you calculate SDE for a service business?",
+      answer: "SDE = Net Income + Owner Salary + Benefits + Personal Expenses + One-time Costs + Depreciation. This shows the true earning power available to a new owner."
+    },
+    {
+      question: "Why do service businesses have lower valuations than product businesses?",
+      answer: "Service businesses often depend heavily on owner relationships and expertise, making them harder to transfer. However, well-systematized service businesses can command premium valuations."
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800">
+      <BlogSEO 
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        url={seoData.url}
+        schemaMarkup={schemaMarkup}
+      />
+      <FAQSchema faqs={faqData} />
       <Header />
       
       <div className="container mx-auto px-4 py-12 max-w-4xl">
@@ -286,6 +342,11 @@ export default function HowToValueServiceBusiness() {
               </div>
             </CardContent>
           </Card>
+
+          <InternalLinks 
+            title="Service Business Valuation Resources"
+            links={internalLinks}
+          />
 
           {/* Call to Action */}
           <Card className="border-2 border-primary bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-950 dark:to-purple-950">

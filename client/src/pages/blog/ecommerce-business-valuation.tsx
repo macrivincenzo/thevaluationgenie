@@ -5,10 +5,66 @@ import { ArrowRight, Calculator, TrendingUp, ShoppingCart, Package, Truck, Globe
 import { Link } from "wouter";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
+import { BlogSEO, InternalLinks, FAQSchema } from "@/components/seo/BlogSEO";
 
 export default function EcommerceBusinessValuation() {
+  const schemaMarkup = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "E-commerce Business Valuation: Complete 2025 Methods Guide",
+    "description": "Master e-commerce business valuation using SDE multiples, revenue-based methods, and digital asset assessment. Platform-specific strategies for Amazon FBA, Shopify, and marketplace businesses.",
+    "author": { "@type": "Organization", "name": "ValuationGenie" },
+    "publisher": { "@type": "Organization", "name": "ValuationGenie", "url": "https://thevaluationgenie.com" },
+    "datePublished": "2025-01-17",
+    "dateModified": "2025-01-22",
+    "url": "https://thevaluationgenie.com/blog/ecommerce-business-valuation"
+  };
+
+  const seoData = {
+    title: "E-commerce Business Valuation: Complete 2025 Methods Guide | Amazon FBA, Shopify",
+    description: "Master e-commerce business valuation using SDE multiples, revenue-based methods, and digital asset assessment. Platform-specific strategies for Amazon FBA, Shopify, and marketplace businesses.",
+    keywords: "ecommerce business valuation, Amazon FBA valuation, Shopify business valuation, online store valuation, digital commerce valuation",
+    url: "https://thevaluationgenie.com/blog/ecommerce-business-valuation"
+  };
+
+  const internalLinks = [
+    { href: "/blog/business-valuation-calculator", text: "Free Business Valuation Calculator", category: "Valuation Tools" },
+    { href: "/blog/sde-business-valuation-guide", text: "Complete SDE Valuation Guide", category: "Valuation Tools" },
+    { href: "/blog/industry-valuation-multiples-2025", text: "2025 Industry Multiples", category: "Valuation Tools" },
+    { href: "/blog/business-valuation-mistakes", text: "Avoid Costly Valuation Mistakes", category: "Expert Guidance" },
+    { href: "/blog/how-to-value-service-business", text: "Service Business Valuation", category: "Expert Guidance" },
+    { href: "/blog/restaurant-valuation-guide", text: "Restaurant Valuation Guide", category: "Expert Guidance" }
+  ];
+
+  const faqData = [
+    {
+      question: "How do you value an e-commerce business?",
+      answer: "E-commerce businesses are valued using SDE multiples (typically 1.5x-4.2x) based on revenue, profit margins, growth rate, and platform dependency. Amazon FBA businesses often command higher multiples due to scalability."
+    },
+    {
+      question: "What multiple do e-commerce businesses sell for?",
+      answer: "E-commerce businesses typically sell for 1.5x-4.2x SDE, with Amazon FBA businesses at the higher end (2.5x-4.2x) and traditional e-commerce at 1.5x-3.0x depending on growth and platform diversification."
+    },
+    {
+      question: "Are Amazon FBA businesses worth more than Shopify stores?",
+      answer: "Amazon FBA businesses often command higher multiples due to proven demand and logistics infrastructure, but Shopify stores with strong brands and diverse traffic sources can be equally valuable."
+    },
+    {
+      question: "How long does it take to sell an e-commerce business?",
+      answer: "Well-prepared e-commerce businesses typically sell in 60-120 days. Professional valuations help set realistic pricing and attract serious buyers faster."
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800">
+      <BlogSEO 
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        url={seoData.url}
+        schemaMarkup={schemaMarkup}
+      />
+      <FAQSchema faqs={faqData} />
       <Header />
       
       <div className="container mx-auto px-4 py-12 max-w-4xl">
@@ -311,6 +367,11 @@ export default function EcommerceBusinessValuation() {
               </div>
             </CardContent>
           </Card>
+
+          <InternalLinks 
+            title="Related E-commerce Valuation Resources"
+            links={internalLinks}
+          />
 
           {/* Call to Action */}
           <Card className="border-2 border-primary bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950 dark:to-indigo-950">

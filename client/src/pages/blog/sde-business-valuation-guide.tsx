@@ -1,569 +1,441 @@
-import { Link } from "wouter";
-import { Button } from "@/components/ui/button";
+import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, Calculator, TrendingUp, DollarSign, FileText, CheckCircle, AlertCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { ArrowRight, Calculator, TrendingUp, FileText, CheckCircle, DollarSign, Users, AlertTriangle } from "lucide-react";
+import { Link } from "wouter";
+import Header from "@/components/layout/header";
+import Footer from "@/components/layout/footer";
+import { BlogSEO, InternalLinks, FAQSchema } from "@/components/seo/BlogSEO";
 
 export default function SdeBusinessValuationGuide() {
+  const schemaMarkup = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "SDE Business Valuation: Complete Guide for Small Business Owners",
+    "description": "Master Seller's Discretionary Earnings (SDE) valuation method with industry multiples, calculation examples, and when to use SDE vs EBITDA for businesses under $5M.",
+    "author": { "@type": "Organization", "name": "ValuationGenie" },
+    "publisher": { "@type": "Organization", "name": "ValuationGenie", "url": "https://thevaluationgenie.com" },
+    "datePublished": "2025-01-17",
+    "dateModified": "2025-01-22",
+    "url": "https://thevaluationgenie.com/blog/sde-business-valuation-guide"
+  };
+
+  const seoData = {
+    title: "SDE Business Valuation: Complete Guide for Small Business Owners 2025",
+    description: "Master Seller's Discretionary Earnings (SDE) valuation method with industry multiples, calculation examples, and when to use SDE vs EBITDA for businesses under $5M.",
+    keywords: "SDE business valuation, seller discretionary earnings, small business valuation method, SDE calculation, business valuation multiples",
+    url: "https://thevaluationgenie.com/blog/sde-business-valuation-guide"
+  };
+
+  const internalLinks = [
+    { href: "/blog/business-valuation-calculator", text: "Free SDE Calculator Tool", category: "Free Tools" },
+    { href: "/blog/sde-vs-ebitda-guide", text: "SDE vs EBITDA Complete Comparison", category: "Free Tools" },
+    { href: "/blog/business-valuation-mistakes", text: "Avoid Costly SDE Mistakes", category: "Free Tools" },
+    { href: "/blog/industry-valuation-multiples-2025", text: "2025 SDE Industry Multiples", category: "Professional Resources" },
+    { href: "/blog/how-to-value-service-business", text: "Service Business SDE Valuation", category: "Professional Resources" },
+    { href: "/blog/restaurant-valuation-guide", text: "Restaurant SDE Valuation", category: "Professional Resources" }
+  ];
+
+  const faqData = [
+    {
+      question: "What is SDE in business valuation?",
+      answer: "SDE (Seller's Discretionary Earnings) represents the total financial benefit available to a business owner, including net income, owner salary, benefits, personal expenses, and non-essential costs. It's the gold standard for valuing small businesses."
+    },
+    {
+      question: "How do you calculate SDE for business valuation?",
+      answer: "SDE = Net Income + Owner Salary + Benefits + Personal Expenses + One-time Costs + Interest + Taxes + Depreciation + Amortization. This shows the true earning power available to a new owner."
+    },
+    {
+      question: "What is a good SDE multiple for small businesses?",
+      answer: "SDE multiples typically range from 0.5x-6.0x depending on industry, size, and business quality. Service businesses average 0.5x-2.8x, while tech businesses can reach 2.0x-6.0x."
+    },
+    {
+      question: "When should I use SDE vs EBITDA for valuation?",
+      answer: "Use SDE for businesses under $5M with active owner involvement. Use EBITDA for larger businesses ($5M+) with professional management teams and minimal owner dependence."
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-white">
-      {/* Breadcrumb & Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="flex items-center gap-2 text-blue-200 mb-6">
-            <Link href="/blog">
-              <Button variant="ghost" size="sm" className="text-blue-200 hover:text-white hover:bg-blue-700">
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Blog
-              </Button>
-            </Link>
-          </div>
-          <h1 className="text-4xl lg:text-5xl font-bold mb-6">
+      <BlogSEO 
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        url={seoData.url}
+        schemaMarkup={schemaMarkup}
+      />
+      <FAQSchema faqs={faqData} />
+      <Header />
+      
+      <div className="max-w-4xl mx-auto px-4 py-12">
+        {/* Hero Section */}
+        <div className="text-center mb-12">
+          <Badge className="mb-4 bg-blue-100 text-blue-700">Expert Guide</Badge>
+          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-slate-900">
             SDE Business Valuation: Complete Guide for Small Business Owners
           </h1>
-          <p className="text-xl text-blue-100 max-w-3xl">
-            Master Seller's Discretionary Earnings (SDE) valuation method with industry multiples, 
-            calculation examples, and when to use SDE vs EBITDA for businesses under $5M.
+          <p className="text-xl text-slate-600 mb-8 max-w-3xl mx-auto">
+            Master Seller's Discretionary Earnings (SDE) valuation method with industry multiples, calculation examples, and when to use SDE vs EBITDA for businesses under $5M.
           </p>
-          <div className="flex items-center gap-6 mt-8 text-blue-200">
-            <span>January 10, 2025</span>
-            <span>12 min read</span>
-            <span>Valuation Methods</span>
-          </div>
+          
+          <Card className="border-2 border-blue-200 bg-gradient-to-r from-blue-50 to-indigo-50 p-6 mb-8">
+            <div className="text-center">
+              <h3 className="text-2xl font-bold mb-4">Get Your Free SDE Business Valuation</h3>
+              <p className="text-slate-600 mb-4">
+                Professional SDE-based business valuation in under 10 minutes. See your true market value now.
+              </p>
+              <Button asChild size="lg" className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700">
+                <a href="https://thevaluationgenie.com/" className="inline-flex items-center">
+                  <Calculator className="w-5 h-5 mr-2" />
+                  Calculate My SDE Valuation
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </a>
+              </Button>
+            </div>
+          </Card>
         </div>
-      </div>
-
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Table of Contents */}
-        <Card className="mb-12 border-blue-200">
-          <CardHeader>
-            <CardTitle className="text-lg font-semibold text-slate-900">Table of Contents</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ul className="space-y-2">
-              <li><a href="#what-is-sde" className="text-blue-600 hover:text-blue-800">What is SDE (Seller's Discretionary Earnings)?</a></li>
-              <li><a href="#sde-vs-ebitda" className="text-blue-600 hover:text-blue-800">SDE vs EBITDA: When to Use Each Method</a></li>
-              <li><a href="#calculating-sde" className="text-blue-600 hover:text-blue-800">How to Calculate SDE Step-by-Step</a></li>
-              <li><a href="#industry-multiples" className="text-blue-600 hover:text-blue-800">SDE Multiples by Industry (2025 Data)</a></li>
-              <li><a href="#valuation-example" className="text-blue-600 hover:text-blue-800">Real SDE Valuation Example</a></li>
-              <li><a href="#common-mistakes" className="text-blue-600 hover:text-blue-800">Common SDE Calculation Mistakes</a></li>
-              <li><a href="#next-steps" className="text-blue-600 hover:text-blue-800">Next Steps for Your Business</a></li>
-            </ul>
-          </CardContent>
-        </Card>
 
         {/* Article Content */}
-        <article className="prose prose-lg max-w-none">
-          {/* What is SDE Section */}
-          <section id="what-is-sde" className="mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 mb-6 flex items-center gap-3">
-              <TrendingUp className="w-8 h-8 text-blue-600" />
-              What is SDE (Seller's Discretionary Earnings)?
-            </h2>
+        <div className="prose prose-lg max-w-none">
+          
+          <h2>What is SDE (Seller's Discretionary Earnings)?</h2>
+          
+          <p>Seller's Discretionary Earnings (SDE) represents the total financial benefit available to a business owner. Unlike net income, which only shows bottom-line profit, SDE includes all the perks, benefits, and discretionary expenses that an owner-operator enjoys.</p>
+          
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 my-8">
+            <h3 className="text-lg font-semibold text-blue-800 mb-4">Why SDE is the Gold Standard for Small Business Valuation</h3>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div>
+                <h4 className="font-semibold mb-2">SDE Includes:</h4>
+                <ul className="space-y-2 text-blue-700">
+                  <li>✓ Net income (profit after all expenses)</li>
+                  <li>✓ Owner salary and benefits</li>
+                  <li>✓ Personal expenses run through business</li>
+                  <li>✓ One-time or extraordinary expenses</li>
+                  <li>✓ Interest, taxes, depreciation, amortization</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-semibold mb-2">Why This Matters:</h4>
+                <ul className="space-y-2 text-blue-700">
+                  <li>• Shows true earning power to new owner</li>
+                  <li>• Accounts for owner-operator benefits</li>
+                  <li>• Provides realistic valuation basis</li>
+                  <li>• Industry standard for businesses under $5M</li>
+                  <li>• Preferred by business brokers and buyers</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <h2>How to Calculate SDE: Step-by-Step Formula</h2>
+          
+          <div className="bg-slate-50 border border-slate-200 rounded-lg p-6 my-8">
+            <h3 className="text-xl font-semibold mb-4 text-slate-800">SDE Calculation Formula</h3>
+            <div className="space-y-3 text-slate-700">
+              <p><strong>Net Income</strong> (from tax returns or financial statements)</p>
+              <p>+ Owner Salary and Wages</p>
+              <p>+ Owner Benefits (health insurance, retirement, etc.)</p>
+              <p>+ Personal Expenses (auto, meals, travel, etc.)</p>
+              <p>+ One-time/Extraordinary Expenses</p>
+              <p>+ Interest Expense</p>
+              <p>+ Tax Expense</p>
+              <p>+ Depreciation</p>
+              <p>+ Amortization</p>
+              <p className="border-t pt-2 font-bold text-lg">= Seller's Discretionary Earnings (SDE)</p>
+            </div>
+          </div>
+
+          <h3>SDE Calculation Example: Marketing Agency</h3>
+          
+          <div className="overflow-x-auto my-8">
+            <table className="min-w-full border-collapse border border-gray-300">
+              <thead>
+                <tr className="bg-gray-50">
+                  <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Line Item</th>
+                  <th className="border border-gray-300 px-4 py-3 text-center font-semibold">Amount</th>
+                  <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="border border-gray-300 px-4 py-3 font-medium">Net Income</td>
+                  <td className="border border-gray-300 px-4 py-3 text-center">$75,000</td>
+                  <td className="border border-gray-300 px-4 py-3">From tax returns</td>
+                </tr>
+                <tr className="bg-gray-50">
+                  <td className="border border-gray-300 px-4 py-3 font-medium">Owner Salary</td>
+                  <td className="border border-gray-300 px-4 py-3 text-center">$65,000</td>
+                  <td className="border border-gray-300 px-4 py-3">W-2 wages to owner</td>
+                </tr>
+                <tr>
+                  <td className="border border-gray-300 px-4 py-3 font-medium">Health Insurance</td>
+                  <td className="border border-gray-300 px-4 py-3 text-center">$8,400</td>
+                  <td className="border border-gray-300 px-4 py-3">Owner family coverage</td>
+                </tr>
+                <tr className="bg-gray-50">
+                  <td className="border border-gray-300 px-4 py-3 font-medium">Auto Expenses</td>
+                  <td className="border border-gray-300 px-4 py-3 text-center">$12,000</td>
+                  <td className="border border-gray-300 px-4 py-3">Personal vehicle use</td>
+                </tr>
+                <tr>
+                  <td className="border border-gray-300 px-4 py-3 font-medium">Meals & Entertainment</td>
+                  <td className="border border-gray-300 px-4 py-3 text-center">$6,000</td>
+                  <td className="border border-gray-300 px-4 py-3">Personal dining expenses</td>
+                </tr>
+                <tr className="bg-gray-50">
+                  <td className="border border-gray-300 px-4 py-3 font-medium">Office Remodel</td>
+                  <td className="border border-gray-300 px-4 py-3 text-center">$15,000</td>
+                  <td className="border border-gray-300 px-4 py-3">One-time expense</td>
+                </tr>
+                <tr>
+                  <td className="border border-gray-300 px-4 py-3 font-medium">Interest Expense</td>
+                  <td className="border border-gray-300 px-4 py-3 text-center">$3,600</td>
+                  <td className="border border-gray-300 px-4 py-3">Business loan interest</td>
+                </tr>
+                <tr className="bg-blue-50">
+                  <td className="border border-gray-300 px-4 py-3 font-bold">Total SDE</td>
+                  <td className="border border-gray-300 px-4 py-3 text-center font-bold text-blue-600">$185,000</td>
+                  <td className="border border-gray-300 px-4 py-3 font-medium">Available to new owner</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2>SDE Multiples by Industry (2025)</h2>
+          
+          <p>Once you calculate SDE, multiply it by your industry's typical multiple to estimate business value. Here are current market ranges:</p>
+          
+          <div className="grid md:grid-cols-2 gap-6 my-8">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Professional Services</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  <div className="flex justify-between">
+                    <span>Consulting</span>
+                    <span className="font-semibold">0.5x - 2.5x</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Marketing Agency</span>
+                    <span className="font-semibold">0.8x - 2.8x</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>IT Services</span>
+                    <span className="font-semibold">1.0x - 3.2x</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Accounting</span>
+                    <span className="font-semibold">0.6x - 2.2x</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
             
-            <p className="text-lg text-slate-700 mb-6">
-              <strong>Seller's Discretionary Earnings (SDE)</strong> is the most widely used valuation method for 
-              small businesses with revenues under $5 million. SDE represents the total financial benefit 
-              a single owner-operator would receive from owning and operating the business.
-            </p>
-
-            <Card className="bg-blue-50 border-blue-200 mb-8">
-              <CardContent className="p-6">
-                <h3 className="text-xl font-semibold text-slate-900 mb-4">SDE Formula:</h3>
-                <div className="bg-white p-4 rounded-lg border-2 border-blue-300 font-mono text-lg">
-                  <p><strong>SDE = Net Income + Owner's Salary + Owner's Benefits + Interest + Taxes + Depreciation + One-time Expenses</strong></p>
-                </div>
-              </CardContent>
-            </Card>
-
-            <h3 className="text-2xl font-semibold text-slate-900 mb-4">Why SDE Matters for Small Business Valuation</h3>
-            <ul className="space-y-3 text-slate-700 mb-8">
-              <li className="flex items-start gap-3">
-                <CheckCircle className="w-5 h-5 text-green-600 mt-1 flex-shrink-0" />
-                <span><strong>Owner-operator focused:</strong> Designed for businesses where the owner actively manages operations</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <CheckCircle className="w-5 h-5 text-green-600 mt-1 flex-shrink-0" />
-                <span><strong>Industry standard:</strong> Used by 90%+ of business brokers for main street businesses</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <CheckCircle className="w-5 h-5 text-green-600 mt-1 flex-shrink-0" />
-                <span><strong>Buyer perspective:</strong> Shows total financial benefit available to a new owner</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <CheckCircle className="w-5 h-5 text-green-600 mt-1 flex-shrink-0" />
-                <span><strong>Financing friendly:</strong> SBA and conventional lenders understand SDE-based valuations</span>
-              </li>
-            </ul>
-          </section>
-
-          {/* SDE vs EBITDA Section */}
-          <section id="sde-vs-ebitda" className="mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 mb-6 flex items-center gap-3">
-              <DollarSign className="w-8 h-8 text-blue-600" />
-              SDE vs EBITDA: When to Use Each Method
-            </h2>
-
-            <div className="grid md:grid-cols-2 gap-8 mb-8">
-              <Card className="border-green-200">
-                <CardHeader className="bg-green-50">
-                  <CardTitle className="text-green-800">Use SDE When:</CardTitle>
-                </CardHeader>
-                <CardContent className="p-6">
-                  <ul className="space-y-3">
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="w-4 h-4 text-green-600 mt-1" />
-                      <span>Annual revenue under $5M</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="w-4 h-4 text-green-600 mt-1" />
-                      <span>Owner actively manages business</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="w-4 h-4 text-green-600 mt-1" />
-                      <span>Selling to individual buyer</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="w-4 h-4 text-green-600 mt-1" />
-                      <span>Main street business (retail, restaurant, service)</span>
-                    </li>
-                  </ul>
-                </CardContent>
-              </Card>
-
-              <Card className="border-blue-200">
-                <CardHeader className="bg-blue-50">
-                  <CardTitle className="text-blue-800">Use EBITDA When:</CardTitle>
-                </CardHeader>
-                <CardContent className="p-6">
-                  <ul className="space-y-3">
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="w-4 h-4 text-blue-600 mt-1" />
-                      <span>Annual revenue over $5M</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="w-4 h-4 text-blue-600 mt-1" />
-                      <span>Professional management team</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="w-4 h-4 text-blue-600 mt-1" />
-                      <span>Strategic or private equity buyer</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="w-4 h-4 text-blue-600 mt-1" />
-                      <span>Manufacturing or technology business</span>
-                    </li>
-                  </ul>
-                </CardContent>
-              </Card>
-            </div>
-
-            <Card className="bg-amber-50 border-amber-200">
-              <CardContent className="p-6">
-                <div className="flex items-start gap-3">
-                  <AlertCircle className="w-6 h-6 text-amber-600 mt-1" />
-                  <div>
-                    <h4 className="text-lg font-semibold text-amber-800 mb-2">Important Note:</h4>
-                    <p className="text-amber-700">
-                      SDE typically results in 20-40% higher earnings than EBITDA for the same business because 
-                      it includes owner compensation. This is why SDE multiples are generally lower than EBITDA multiples.
-                    </p>
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Other Industries</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  <div className="flex justify-between">
+                    <span>E-commerce</span>
+                    <span className="font-semibold">1.5x - 4.2x</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>SaaS</span>
+                    <span className="font-semibold">2.0x - 6.0x</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Restaurant</span>
+                    <span className="font-semibold">1.5x - 3.0x</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Retail</span>
+                    <span className="font-semibold">0.8x - 2.5x</span>
                   </div>
                 </div>
               </CardContent>
             </Card>
-          </section>
+          </div>
 
-          {/* Calculating SDE Section */}
-          <section id="calculating-sde" className="mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 mb-6 flex items-center gap-3">
-              <Calculator className="w-8 h-8 text-blue-600" />
-              How to Calculate SDE Step-by-Step
-            </h2>
-
-            <div className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Step 1: Start with Net Income</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-slate-700 mb-4">Begin with your business's net income after taxes from your profit & loss statement.</p>
-                  <div className="bg-slate-100 p-4 rounded-lg">
-                    <p className="font-mono">Example: Net Income = $75,000</p>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Step 2: Add Back Owner's Total Compensation</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-slate-700 mb-4">Include all forms of owner compensation:</p>
-                  <ul className="list-disc list-inside space-y-2 text-slate-700 mb-4">
-                    <li>Owner's salary/wages</li>
-                    <li>Owner's health insurance</li>
-                    <li>Owner's retirement contributions</li>
-                    <li>Owner's vehicle expenses</li>
-                    <li>Personal expenses run through business</li>
-                  </ul>
-                  <div className="bg-slate-100 p-4 rounded-lg">
-                    <p className="font-mono">Example: Owner Compensation = $85,000</p>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Step 3: Add Back Interest, Taxes, Depreciation</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-slate-700 mb-4">Add back non-cash and financing-related expenses:</p>
-                  <ul className="list-disc list-inside space-y-2 text-slate-700 mb-4">
-                    <li>Interest expense (debt will transfer differently)</li>
-                    <li>Income taxes (new owner's tax situation differs)</li>
-                    <li>Depreciation and amortization (non-cash expenses)</li>
-                  </ul>
-                  <div className="bg-slate-100 p-4 rounded-lg">
-                    <p className="font-mono">Example: Interest + Taxes + Depreciation = $25,000</p>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Step 4: Add Back One-Time Expenses</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-slate-700 mb-4">Remove non-recurring expenses that won't continue:</p>
-                  <ul className="list-disc list-inside space-y-2 text-slate-700 mb-4">
-                    <li>Legal fees for lawsuit resolution</li>
-                    <li>One-time equipment repairs</li>
-                    <li>Business broker/attorney fees for sale</li>
-                    <li>Unusual bad debt write-offs</li>
-                  </ul>
-                  <div className="bg-slate-100 p-4 rounded-lg">
-                    <p className="font-mono">Example: One-time Expenses = $15,000</p>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-green-50 border-green-200">
-                <CardHeader>
-                  <CardTitle className="text-green-800">Final SDE Calculation</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2 font-mono text-lg">
-                    <p>Net Income: $75,000</p>
-                    <p>+ Owner Compensation: $85,000</p>
-                    <p>+ Interest/Taxes/Depreciation: $25,000</p>
-                    <p>+ One-time Expenses: $15,000</p>
-                    <hr className="border-green-300 my-4" />
-                    <p className="text-xl font-bold text-green-800">Total SDE: $200,000</p>
-                  </div>
-                </CardContent>
-              </Card>
+          <h3>Valuation Example: Marketing Agency</h3>
+          <p>Using our marketing agency with $185,000 SDE and industry multiple of 0.8x - 2.8x:</p>
+          
+          <div className="bg-green-50 border border-green-200 rounded-lg p-6 my-8">
+            <div className="grid md:grid-cols-3 gap-6 text-center">
+              <div>
+                <h4 className="font-semibold text-green-800 mb-2">Conservative Value</h4>
+                <p className="text-2xl font-bold text-green-900">$148,000</p>
+                <p className="text-sm text-green-700">$185,000 × 0.8x</p>
+              </div>
+              <div>
+                <h4 className="font-semibold text-green-800 mb-2">Mid-Range Value</h4>
+                <p className="text-2xl font-bold text-green-900">$333,000</p>
+                <p className="text-sm text-green-700">$185,000 × 1.8x</p>
+              </div>
+              <div>
+                <h4 className="font-semibold text-green-800 mb-2">Premium Value</h4>
+                <p className="text-2xl font-bold text-green-900">$518,000</p>
+                <p className="text-sm text-green-700">$185,000 × 2.8x</p>
+              </div>
             </div>
-          </section>
+          </div>
 
-          {/* Industry Multiples Section */}
-          <section id="industry-multiples" className="mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 mb-6 flex items-center gap-3">
-              <FileText className="w-8 h-8 text-blue-600" />
-              SDE Multiples by Industry (2025 Data)
-            </h2>
-
-            <p className="text-lg text-slate-700 mb-8">
-              Once you have calculated SDE, multiply it by the appropriate industry multiple to estimate business value. 
-              Here are current market multiples based on recent sales data:
-            </p>
-
-            <div className="grid md:grid-cols-2 gap-6 mb-8">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Service-Based Businesses</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <div className="flex justify-between">
-                      <span>Professional Services</span>
-                      <span className="font-semibold">2.5x - 4.0x</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>IT Services</span>
-                      <span className="font-semibold">3.0x - 5.0x</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Marketing Agencies</span>
-                      <span className="font-semibold">2.0x - 3.5x</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Consulting</span>
-                      <span className="font-semibold">2.5x - 4.5x</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Healthcare Services</span>
-                      <span className="font-semibold">3.0x - 4.5x</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Physical Businesses</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <div className="flex justify-between">
-                      <span>Restaurants</span>
-                      <span className="font-semibold">1.5x - 2.5x</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Retail Stores</span>
-                      <span className="font-semibold">1.5x - 3.0x</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Manufacturing</span>
-                      <span className="font-semibold">2.0x - 3.5x</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Auto Services</span>
-                      <span className="font-semibold">2.0x - 3.0x</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Construction</span>
-                      <span className="font-semibold">1.8x - 2.8x</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            <Card className="bg-blue-50 border-blue-200">
-              <CardContent className="p-6">
-                <h4 className="text-lg font-semibold text-blue-800 mb-3">Factors That Increase SDE Multiples:</h4>
-                <ul className="grid md:grid-cols-2 gap-2">
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-blue-600" />
-                    <span>Recurring revenue streams</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-blue-600" />
-                    <span>Diversified customer base</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-blue-600" />
-                    <span>Strong management team</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-blue-600" />
-                    <span>Growing industry/market</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-blue-600" />
-                    <span>Proprietary processes/IP</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-blue-600" />
-                    <span>Long-term contracts</span>
-                  </li>
+          <h2>SDE vs EBITDA: When to Use Each Method</h2>
+          
+          <div className="grid md:grid-cols-2 gap-6 my-8">
+            <Card className="border-blue-200">
+              <CardHeader>
+                <CardTitle className="text-lg text-blue-800">Use SDE When:</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2 text-blue-700">
+                  <li>✓ Business revenue under $5 million</li>
+                  <li>✓ Owner actively works in business</li>
+                  <li>✓ Significant owner perks/benefits</li>
+                  <li>✓ Selling to individual buyer</li>
+                  <li>✓ Service-based business model</li>
+                  <li>✓ Family-owned business</li>
                 </ul>
               </CardContent>
             </Card>
-          </section>
-
-          {/* Valuation Example */}
-          <section id="valuation-example" className="mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 mb-6">Real SDE Valuation Example</h2>
-
-            <Card className="mb-8">
+            
+            <Card className="border-orange-200">
               <CardHeader>
-                <CardTitle>Case Study: Marketing Agency Valuation</CardTitle>
+                <CardTitle className="text-lg text-orange-800">Use EBITDA When:</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid md:grid-cols-2 gap-8">
-                  <div>
-                    <h4 className="font-semibold text-slate-900 mb-3">Business Profile:</h4>
-                    <ul className="space-y-2 text-slate-700">
-                      <li>• Digital marketing agency</li>
-                      <li>• 5 years in business</li>
-                      <li>• $750K annual revenue</li>
-                      <li>• 15 recurring clients</li>
-                      <li>• Owner + 3 employees</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-slate-900 mb-3">SDE Calculation:</h4>
-                    <div className="space-y-1 font-mono text-sm">
-                      <p>Net Income: $65,000</p>
-                      <p>Owner Salary: $80,000</p>
-                      <p>Owner Benefits: $15,000</p>
-                      <p>Interest/Taxes/Depreciation: $20,000</p>
-                      <p>One-time Expenses: $5,000</p>
-                      <hr className="my-2" />
-                      <p className="font-bold">Total SDE: $185,000</p>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-green-50 border-green-200">
-              <CardContent className="p-6">
-                <h4 className="text-lg font-semibold text-green-800 mb-4">Valuation Result:</h4>
-                <div className="space-y-3">
-                  <p><strong>SDE:</strong> $185,000</p>
-                  <p><strong>Industry Multiple:</strong> 3.0x (marketing agency with strong recurring revenue)</p>
-                  <p><strong>Estimated Business Value:</strong> $185,000 × 3.0 = <span className="text-2xl font-bold text-green-800">$555,000</span></p>
-                </div>
-                <p className="text-green-700 mt-4">
-                  This valuation reflects the agency's strong recurring revenue base and established client relationships, 
-                  placing it at the higher end of the typical 2.0x - 3.5x range for marketing agencies.
-                </p>
-              </CardContent>
-            </Card>
-          </section>
-
-          {/* Common Mistakes */}
-          <section id="common-mistakes" className="mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 mb-6">Common SDE Calculation Mistakes</h2>
-
-            <div className="space-y-6">
-              <Card className="border-red-200">
-                <CardHeader className="bg-red-50">
-                  <CardTitle className="text-red-800 flex items-center gap-2">
-                    <AlertCircle className="w-5 h-5" />
-                    Mistake #1: Including Future Manager's Salary
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-6">
-                  <p className="text-slate-700 mb-3">
-                    <strong>Wrong:</strong> Subtracting a future manager's salary when calculating SDE.
-                  </p>
-                  <p className="text-slate-700">
-                    <strong>Correct:</strong> SDE shows total benefit available to owner-operator. If buyer plans to hire management, 
-                    they'll factor that into their purchase decision and financing.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="border-red-200">
-                <CardHeader className="bg-red-50">
-                  <CardTitle className="text-red-800 flex items-center gap-2">
-                    <AlertCircle className="w-5 h-5" />
-                    Mistake #2: Using EBITDA Multiples with SDE
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-6">
-                  <p className="text-slate-700 mb-3">
-                    <strong>Wrong:</strong> Applying 5x-8x EBITDA multiples to SDE calculations.
-                  </p>
-                  <p className="text-slate-700">
-                    <strong>Correct:</strong> SDE multiples are typically 1.5x-4.5x. EBITDA multiples are higher because 
-                    EBITDA excludes owner compensation that SDE includes.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="border-red-200">
-                <CardHeader className="bg-red-50">
-                  <CardTitle className="text-red-800 flex items-center gap-2">
-                    <AlertCircle className="w-5 h-5" />
-                    Mistake #3: Inconsistent Add-back Policies
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-6">
-                  <p className="text-slate-700 mb-3">
-                    <strong>Wrong:</strong> Adding back some personal expenses but not others, or being overly aggressive with normalizations.
-                  </p>
-                  <p className="text-slate-700">
-                    <strong>Correct:</strong> Only add back legitimate business expenses that benefit the owner personally 
-                    and won't continue under new ownership. Document all adjustments clearly.
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-          </section>
-
-          {/* Next Steps */}
-          <section id="next-steps" className="mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 mb-6">Next Steps for Your Business</h2>
-
-            <div className="grid md:grid-cols-2 gap-8">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Get Your Free SDE Estimate</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-slate-700 mb-4">
-                    Use our free business valuation calculator to get an instant SDE-based estimate of your business value.
-                  </p>
-                  <Link href="/">
-                    <Button className="w-full bg-blue-600 hover:bg-blue-700">
-                      <Calculator className="w-5 h-5 mr-2" />
-                      Get Free Estimate
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Get Professional Report ($39)</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-slate-700 mb-4">
-                    Download a comprehensive PDF report with detailed SDE analysis, industry comparisons, and actionable recommendations.
-                  </p>
-                  <Link href="/">
-                    <Button variant="outline" className="w-full">
-                      <FileText className="w-5 h-5 mr-2" />
-                      Get Professional Report
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
-            </div>
-          </section>
-        </article>
-
-        {/* Related Articles */}
-        <div className="mt-16 pt-8 border-t border-slate-200">
-          <h3 className="text-2xl font-bold text-slate-900 mb-8">Related Articles</h3>
-          <div className="grid md:grid-cols-3 gap-6">
-            <Card>
-              <CardContent className="p-6">
-                <h4 className="font-semibold text-slate-900 mb-2">
-                  <Link href="/blog/business-valuation-vs-market-appraisal" className="text-blue-600 hover:text-blue-800">
-                    Business Valuation vs Market Appraisal
-                  </Link>
-                </h4>
-                <p className="text-slate-600 text-sm">Learn when to use each approach for your SME.</p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-6">
-                <h4 className="font-semibold text-slate-900 mb-2">
-                  <Link href="/blog/industry-valuation-multiples-2025" className="text-blue-600 hover:text-blue-800">
-                    Industry Valuation Multiples 2025
-                  </Link>
-                </h4>
-                <p className="text-slate-600 text-sm">Current SDE benchmarks by sector with market data.</p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-6">
-                <h4 className="font-semibold text-slate-900 mb-2">
-                  <Link href="/blog/small-business-sale-preparation" className="text-blue-600 hover:text-blue-800">
-                    Prepare Your Business for Sale
-                  </Link>
-                </h4>
-                <p className="text-slate-600 text-sm">Maximize value with our comprehensive preparation checklist.</p>
+                <ul className="space-y-2 text-orange-700">
+                  <li>✓ Business revenue over $5 million</li>
+                  <li>✓ Professional management team</li>
+                  <li>✓ Minimal owner involvement</li>
+                  <li>✓ Selling to strategic buyer/PE</li>
+                  <li>✓ Manufacturing or tech business</li>
+                  <li>✓ Multiple locations/complex structure</li>
+                </ul>
               </CardContent>
             </Card>
           </div>
+
+          <h2>Factors That Affect SDE Multiples</h2>
+          
+          <h3>Business Quality Factors</h3>
+          <div className="grid md:grid-cols-2 gap-6 my-8">
+            <div>
+              <h4 className="font-semibold text-green-600 mb-3">Increase Multiples:</h4>
+              <ul className="space-y-2 text-slate-700">
+                <li>• Diverse customer base (no customer &gt;10%)</li>
+                <li>• Recurring revenue/contracts</li>
+                <li>• Strong growth trends</li>
+                <li>• Skilled management team</li>
+                <li>• Documented systems/processes</li>
+                <li>• Strong market position</li>
+                <li>• Clean financial records</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold text-red-600 mb-3">Decrease Multiples:</h4>
+              <ul className="space-y-2 text-slate-700">
+                <li>• Customer concentration risk</li>
+                <li>• Declining revenue trends</li>
+                <li>• Heavy owner dependence</li>
+                <li>• Outdated equipment/technology</li>
+                <li>• Poor financial records</li>
+                <li>• Competitive market pressures</li>
+                <li>• Regulatory/legal issues</li>
+              </ul>
+            </div>
+          </div>
+
+          <h2>Common SDE Calculation Mistakes</h2>
+          
+          <div className="bg-red-50 border border-red-200 rounded-lg p-6 my-8">
+            <h3 className="text-lg font-semibold text-red-800 mb-4">⚠️ Avoid These Costly Errors</h3>
+            <div className="space-y-4">
+              <div>
+                <h4 className="font-semibold text-red-700">1. Forgetting Owner Benefits</h4>
+                <p className="text-red-600">Many owners miss health insurance, retirement contributions, and other benefits. This can undervalue a business by $20,000-$50,000+.</p>
+              </div>
+              <div>
+                <h4 className="font-semibold text-red-700">2. Using Wrong Tax Returns</h4>
+                <p className="text-red-600">Always use the business tax return (1120S, 1065, Schedule C), not personal returns. Personal returns don't show business adjustments.</p>
+              </div>
+              <div>
+                <h4 className="font-semibold text-red-700">3. Missing Personal Expenses</h4>
+                <p className="text-red-600">Cell phone, auto expenses, meals, and travel often flow through the business. These reduce taxable income but should be added back to SDE.</p>
+              </div>
+              <div>
+                <h4 className="font-semibold text-red-700">4. Including Non-Recurring Income</h4>
+                <p className="text-red-600">PPP loans, insurance settlements, or one-time contracts shouldn't be included in SDE. Only include sustainable, recurring earnings.</p>
+              </div>
+            </div>
+          </div>
+
+          <h2>Improving Your SDE and Business Value</h2>
+          
+          <h3>Financial Improvements</h3>
+          <ul className="space-y-2 text-slate-700">
+            <li>• Clean up personal expenses to show true business performance</li>
+            <li>• Maintain consistent, professional bookkeeping</li>
+            <li>• Document all owner benefits and add-backs</li>
+            <li>• Separate business and personal expenses clearly</li>
+            <li>• Prepare 3-5 years of financial statements</li>
+          </ul>
+          
+          <h3>Operational Improvements</h3>
+          <ul className="space-y-2 text-slate-700 mb-8">
+            <li>• Reduce customer concentration (no customer &gt;10% of revenue)</li>
+            <li>• Document systems and processes</li>
+            <li>• Build management team to reduce owner dependence</li>
+            <li>• Secure long-term contracts where possible</li>
+            <li>• Invest in technology and efficiency improvements</li>
+          </ul>
+
+          <InternalLinks 
+            title="Related SDE Valuation Resources"
+            links={internalLinks}
+          />
+
+          <h2>Frequently Asked Questions</h2>
+          
+          {faqData.map((faq, index) => (
+            <div key={index} className="mb-6">
+              <h3 className="text-xl font-semibold mb-3">{faq.question}</h3>
+              <p className="text-slate-600 leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
+
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 my-8">
+            <h3 className="text-lg font-semibold text-blue-800 mb-2">💡 Professional Tip</h3>
+            <p className="text-blue-700">Start with our free SDE calculator to get a baseline valuation. For important decisions like selling your business, upgrade to a professional $39 report that includes detailed SDE analysis, industry comparisons, and value enhancement recommendations.</p>
+          </div>
+
+          <h2>Get Your Professional SDE Business Valuation</h2>
+          <p>Understanding your SDE is crucial for making informed business decisions. Our professional valuation reports provide comprehensive SDE analysis using the same methodology as expensive business brokers and appraisers.</p>
+          
+          <p><strong>Ready to discover your business's true SDE-based value?</strong> Get started with our free calculator or upgrade to a professional report for detailed analysis and documentation.</p>
+        </div>
+
+        {/* Final CTA */}
+        <div className="text-center mt-12 p-8 bg-gradient-to-r from-blue-600 to-indigo-700 rounded-xl text-white">
+          <h3 className="text-2xl font-bold mb-4">Get Your Professional SDE Valuation Report</h3>
+          <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
+            Professional SDE analysis with industry multiples, value enhancement recommendations, and comprehensive documentation. Trusted by thousands of business owners.
+          </p>
+          <Button asChild size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
+            <a href="https://thevaluationgenie.com/" className="inline-flex items-center">
+              <FileText className="w-5 h-5 mr-2" />
+              Get Professional SDE Report - $39
+            </a>
+          </Button>
+          <p className="text-blue-100 text-sm mt-4">✨ 7-day money-back guarantee • Instant download • Professional quality</p>
         </div>
       </div>
+      
+      <Footer />
     </div>
   );
 }
