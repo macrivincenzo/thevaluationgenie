@@ -23,16 +23,25 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Services */}
+          {/* Business Valuation Services */}
           <div>
-            <h3 className="font-semibold mb-4">Services</h3>
+            <h3 className="font-semibold mb-4">Business Valuation Services</h3>
             <ul className="space-y-2 text-slate-300">
               <li>
-                <Link href="/services" className="hover:text-white transition-colors">
-                  Services
+                <Link href="/" className="hover:text-white transition-colors">
+                  Business Valuation Software Home
                 </Link>
               </li>
-
+              <li>
+                <Link href="/pricing" className="hover:text-white transition-colors">
+                  SDE Valuation Pricing
+                </Link>
+              </li>
+              <li>
+                <Link href="/services" className="hover:text-white transition-colors">
+                  Valuation Services
+                </Link>
+              </li>
               {isAuthenticated ? (
                 <li>
                   <Link href="/dashboard" className="hover:text-white transition-colors">
@@ -42,22 +51,32 @@ export default function Footer() {
               ) : (
                 <li>
                   <Link href="/login" className="hover:text-white transition-colors">
-                    Login
+                    Get Business Valuation
                   </Link>
                 </li>
               )}
               <li>
-                <Link href="/industry-analysis" className="hover:text-white transition-colors">
-                  Industry Analysis
+                <Link href="/blog" className="hover:text-white transition-colors">
+                  Business Valuation Blog
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Company */}
+          {/* Company Support */}
           <div>
-            <h3 className="font-semibold mb-4">Company</h3>
+            <h3 className="font-semibold mb-4">Company & Support</h3>
             <ul className="space-y-2 text-slate-300">
+              <li>
+                <Link href="/about" className="hover:text-white transition-colors">
+                  About ValuationGenie
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className="hover:text-white transition-colors">
+                  Contact Support
+                </Link>
+              </li>
               <li>
                 <Link href="/terms" className="hover:text-white transition-colors">
                   Terms of Service
@@ -66,11 +85,6 @@ export default function Footer() {
               <li>
                 <Link href="/privacy" className="hover:text-white transition-colors">
                   Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="hover:text-white transition-colors">
-                  Contact Support
                 </Link>
               </li>
             </ul>
