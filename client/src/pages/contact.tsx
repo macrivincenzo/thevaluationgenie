@@ -23,7 +23,7 @@ export default function Contact() {
 
   useEffect(() => {
     // SEO Meta Tags Setup
-    document.title = "Contact Us | ValuationGenie Business Valuation Software | SDE Valuation Support";
+    document.title = "Contact TheValuationGenie | Get Business Valuation Quote";
     
     const setMeta = (name: string, content: string) => {
       let meta = document.querySelector(`meta[name="${name}"]`);
@@ -35,9 +35,35 @@ export default function Contact() {
       meta.setAttribute("content", content);
     };
 
-    setMeta("description", "Contact ValuationGenie for support with our business valuation software. Get help with SDE valuation reports, business worth calculator, and technical support.");
-    setMeta("keywords", "contact ValuationGenie, business valuation support, SDE valuation help, valuation software contact, business appraisal software support");
+    const setOgMeta = (property: string, content: string) => {
+      let meta = document.querySelector(`meta[property="${property}"]`);
+      if (!meta) {
+        meta = document.createElement("meta");
+        meta.setAttribute("property", property);
+        document.head.appendChild(meta);
+      }
+      meta.setAttribute("content", content);
+    };
+
+    setMeta("description", "Contact TheValuationGenie for your business valuation needs. Get a free quote and professional consultation.");
+    setMeta("keywords", "contact valuationgenie, business valuation quote, valuation consultation");
+    setMeta("author", "ValuationGenie");
     setMeta("robots", "index, follow");
+
+    // Open Graph Meta Tags
+    setOgMeta("og:title", "Contact TheValuationGenie | Get Business Valuation Quote");
+    setOgMeta("og:description", "Contact us for your business valuation needs. Get a free quote and consultation.");
+    setOgMeta("og:type", "website");
+    setOgMeta("og:url", "https://thevaluationgenie.com/contact");
+
+    // Set canonical URL
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', 'https://thevaluationgenie.com/contact');
 
     window.scrollTo(0, 0);
   }, []);
@@ -84,7 +110,7 @@ export default function Contact() {
       <section className="bg-gradient-to-br from-slate-50 to-blue-50 py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-4">Contact ValuationGenie</h2>
+            <h1 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-4">Contact TheValuationGenie</h1>
             <h2 className="text-2xl lg:text-3xl font-semibold text-slate-700 mb-6">We're Here to Help with Your Business Valuation</h2>
             <p className="text-xl text-slate-600 max-w-2xl mx-auto">
               Get support with our business valuation software, SDE valuation reports, and technical assistance from our expert team.
