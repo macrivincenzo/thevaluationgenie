@@ -70,8 +70,53 @@ export default function Landing() {
     }
   };
 
-  // Scroll to top when component mounts (from external links)
+  // SEO Meta Tags Setup
   useEffect(() => {
+    // Set document title
+    document.title = "Business Valuation Software | SDE Valuation | Instant Business Worth Calculator | ValuationGenie";
+    
+    // Helper function to set meta tags
+    const setMeta = (name: string, content: string) => {
+      let meta = document.querySelector(`meta[name="${name}"]`);
+      if (!meta) {
+        meta = document.createElement("meta");
+        meta.setAttribute("name", name);
+        document.head.appendChild(meta);
+      }
+      meta.setAttribute("content", content);
+    };
+
+    const setOgMeta = (property: string, content: string) => {
+      let meta = document.querySelector(`meta[property="${property}"]`);
+      if (!meta) {
+        meta = document.createElement("meta");
+        meta.setAttribute("property", property);
+        document.head.appendChild(meta);
+      }
+      meta.setAttribute("content", content);
+    };
+
+    // Set basic meta tags
+    setMeta("description", "Professional business valuation software using SDE methodology. Get instant business worth calculator results. Free estimate available. Professional SDE valuation reports for $39. Start your business appraisal today.");
+    setMeta("keywords", "business valuation software, SDE valuation, business worth calculator, instant business valuation, business appraisal software, business valuation report, SDE method business valuation");
+    setMeta("robots", "index, follow");
+    setMeta("author", "ValuationGenie");
+    setMeta("viewport", "width=device-width, initial-scale=1.0");
+
+    // Set Open Graph meta tags
+    setOgMeta("og:title", "Business Valuation Software | SDE Valuation | Instant Business Worth Calculator");
+    setOgMeta("og:description", "Professional business valuation software using SDE methodology. Get instant business worth calculator results. Free estimate available. Professional SDE valuation reports for $39.");
+    setOgMeta("og:type", "website");
+    setOgMeta("og:url", "https://thevaluationgenie.com");
+    setOgMeta("og:image", "https://thevaluationgenie.com/valuation-genie-logo.jpg");
+
+    // Set Twitter Card meta tags
+    setOgMeta("twitter:card", "summary_large_image");
+    setOgMeta("twitter:title", "Business Valuation Software | SDE Valuation | Instant Business Worth Calculator");
+    setOgMeta("twitter:description", "Professional business valuation software using SDE methodology. Get instant business worth calculator results. Free estimate available. Professional SDE valuation reports for $39.");
+    setOgMeta("twitter:image", "https://thevaluationgenie.com/valuation-genie-logo.jpg");
+
+    // Scroll to top when component mounts (from external links)
     window.scrollTo(0, 0);
   }, []);
 
