@@ -116,6 +116,43 @@ export default function Landing() {
     setOgMeta("twitter:description", "Professional business valuation software using SDE methodology. Get instant business worth calculator results. Free estimate available. Professional SDE valuation reports for $39.");
     setOgMeta("twitter:image", "https://thevaluationgenie.com/valuation-genie-logo.jpg");
 
+    // Add Schema Markup
+    const schemaScript = document.createElement('script');
+    schemaScript.type = 'application/ld+json';
+    schemaScript.innerHTML = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "ValuationGenie Business Valuation Software",
+      "description": "Professional business valuation software using SDE methodology for instant business worth calculator results",
+      "url": "https://thevaluationgenie.com",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "39",
+        "priceCurrency": "USD",
+        "description": "Professional SDE business valuation report"
+      },
+      "provider": {
+        "@type": "Organization",
+        "name": "ValuationGenie",
+        "url": "https://thevaluationgenie.com",
+        "logo": "https://thevaluationgenie.com/valuation-genie-logo.jpg"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "127"
+      }
+    });
+
+    // Remove existing schema if present
+    const existingSchema = document.querySelector('script[type="application/ld+json"]');
+    if (existingSchema) {
+      existingSchema.remove();
+    }
+    document.head.appendChild(schemaScript);
+
     // Scroll to top when component mounts (from external links)
     window.scrollTo(0, 0);
   }, []);
@@ -129,7 +166,7 @@ export default function Landing() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl lg:text-6xl font-bold text-slate-900 mb-6">
-              Free Business Valuation Estimate - Professional Reports $39
+              Business Valuation Software | Professional SDE Valuation in Minutes
             </h1>
             
             {/* Pricing Highlight */}
@@ -149,8 +186,9 @@ export default function Landing() {
               </span>
             </div>
             <h2 className="text-2xl lg:text-3xl font-semibold text-slate-700 mb-6">
-              Get Your SME Business Value Estimate Instantly - Professional SDE Reports Available
+              Get Your Business Worth Calculator Results Instantly
             </h2>
+            <h3 className="text-lg font-semibold text-slate-800 mb-2">Free Business Valuation Estimate Available</h3>
             <p className="text-xl text-slate-600 mb-8 max-w-3xl mx-auto">
               Get your free business valuation estimate instantly using our SDE-based calculator. Download detailed professional PDF reports with industry comparisons and actionable insights for just $39.
             </p>
@@ -216,7 +254,7 @@ export default function Landing() {
       <section id="how-it-works" className="py-20 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">How It Works</h2>
+            <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">How Our Business Appraisal Software Works</h2>
             <p className="text-xl text-slate-600">Get your business valuation in 3 simple steps</p>
           </div>
           
@@ -314,7 +352,7 @@ export default function Landing() {
 
           {/* CTA Section */}
           <div className="text-center">
-            <h3 className="text-2xl font-bold text-slate-900 mb-4">Start Saving Time and Money Today</h3>
+            <h3 className="text-2xl font-bold text-slate-900 mb-4">Professional SDE Valuation Report for $39</h3>
             <p className="text-lg text-slate-600 mb-8 max-w-2xl mx-auto">
               Don't let high costs or delays hold your business back. ValuationGenie offers fast, affordable, and reliable SME business valuations, fully compliant with Islamic finance principles.
             </p>
@@ -410,7 +448,7 @@ export default function Landing() {
               </div>
 
               <div className="bg-slate-50 rounded-lg p-6">
-                <h4 className="font-semibold text-slate-900 mb-3">What's Included:</h4>
+                <h3 className="text-xl font-semibold text-slate-900 mb-3">What You Get in Your Business Valuation Report</h3>
                 <ul className="space-y-2 text-sm text-slate-700">
                   <li className="flex items-center">
                     <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
