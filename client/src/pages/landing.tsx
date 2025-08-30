@@ -73,7 +73,7 @@ export default function Landing() {
   // SEO Meta Tags Setup
   useEffect(() => {
     // Set document title
-    document.title = "Business Valuation Software | SDE Valuation | Instant Business Worth Calculator | ValuationGenie";
+    document.title = "Professional Business Valuation Software | ValuationGenie";
     
     // Helper function to set meta tags
     const setMeta = (name: string, content: string) => {
@@ -97,29 +97,57 @@ export default function Landing() {
     };
 
     // Set basic meta tags
-    setMeta("description", "Professional business valuation software using SDE methodology. Get instant business worth calculator results. Free estimate available. Professional SDE valuation reports for $39. Start your business appraisal today.");
+    setMeta("description", "Get instant business valuations using SDE methodology. Professional business valuation software for entrepreneurs and business owners.");
     setMeta("keywords", "business valuation software, SDE valuation, business worth calculator, instant business valuation, business appraisal software, business valuation report, SDE method business valuation");
     setMeta("robots", "index, follow");
     setMeta("author", "ValuationGenie");
     setMeta("viewport", "width=device-width, initial-scale=1.0");
 
+    // Set canonical URL
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', 'https://thevaluationgenie.com/');
+
     // Set Open Graph meta tags
-    setOgMeta("og:title", "Business Valuation Software | SDE Valuation | Instant Business Worth Calculator");
-    setOgMeta("og:description", "Professional business valuation software using SDE methodology. Get instant business worth calculator results. Free estimate available. Professional SDE valuation reports for $39.");
+    setOgMeta("og:title", "Professional Business Valuation Software | ValuationGenie");
+    setOgMeta("og:description", "Get instant business valuations using SDE methodology. Professional business valuation software for entrepreneurs and business owners.");
     setOgMeta("og:type", "website");
     setOgMeta("og:url", "https://thevaluationgenie.com");
     setOgMeta("og:image", "https://thevaluationgenie.com/valuation-genie-logo.jpg");
 
     // Set Twitter Card meta tags
     setOgMeta("twitter:card", "summary_large_image");
-    setOgMeta("twitter:title", "Business Valuation Software | SDE Valuation | Instant Business Worth Calculator");
-    setOgMeta("twitter:description", "Professional business valuation software using SDE methodology. Get instant business worth calculator results. Free estimate available. Professional SDE valuation reports for $39.");
+    setOgMeta("twitter:title", "Professional Business Valuation Software | ValuationGenie");
+    setOgMeta("twitter:description", "Get instant business valuations using SDE methodology. Professional business valuation software for entrepreneurs and business owners.");
     setOgMeta("twitter:image", "https://thevaluationgenie.com/valuation-genie-logo.jpg");
 
-    // Add Schema Markup
-    const schemaScript = document.createElement('script');
-    schemaScript.type = 'application/ld+json';
-    schemaScript.innerHTML = JSON.stringify({
+    // Add LocalBusiness Schema Markup
+    const localBusinessSchema = document.createElement('script');
+    localBusinessSchema.type = 'application/ld+json';
+    localBusinessSchema.innerHTML = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "TheValuationGenie",
+      "description": "Professional business valuation software using SDE methodology",
+      "url": "https://thevaluationgenie.com",
+      "telephone": "+1-555-0123",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "US"
+      },
+      "sameAs": [
+        "https://www.linkedin.com/company/valuationgenie"
+      ]
+    });
+
+    // Add SoftwareApplication Schema Markup (additional schema for better SEO)
+    const softwareSchema = document.createElement('script');
+    softwareSchema.type = 'application/ld+json';
+    softwareSchema.innerHTML = JSON.stringify({
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
       "name": "ValuationGenie Business Valuation Software",
@@ -146,12 +174,13 @@ export default function Landing() {
       }
     });
 
-    // Remove existing schema if present
-    const existingSchema = document.querySelector('script[type="application/ld+json"]');
-    if (existingSchema) {
-      existingSchema.remove();
-    }
-    document.head.appendChild(schemaScript);
+    // Remove existing schemas if present
+    const existingSchemas = document.querySelectorAll('script[type="application/ld+json"]');
+    existingSchemas.forEach(schema => schema.remove());
+    
+    // Add both schema markups
+    document.head.appendChild(localBusinessSchema);
+    document.head.appendChild(softwareSchema);
 
     // Scroll to top when component mounts (from external links)
     window.scrollTo(0, 0);
