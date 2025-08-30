@@ -23,6 +23,8 @@ import Privacy from "@/pages/privacy";
 import Contact from "@/pages/contact";
 import Services from "@/pages/services";
 import IndustryAnalysis from "@/pages/industry-analysis";
+import Pricing from "@/pages/pricing";
+import About from "@/pages/about";
 import NotFound from "@/pages/not-found";
 import Login from "@/pages/auth/login";
 import Signup from "@/pages/auth/signup";
@@ -80,6 +82,8 @@ function Router() {
             <Route path="/signup" component={Signup} />
             <Route path="/services" component={Services} />
             <Route path="/industry-analysis" component={IndustryAnalysis} />
+            <Route path="/pricing" component={Pricing} />
+            <Route path="/about" component={About} />
             <Route path="/lifetime" component={LifetimeSetup} />
             <Route path="/blog" component={BlogIndex} />
             <Route path="/blog/sde-business-valuation-guide" component={SdeBusinessValuationGuide} />
@@ -113,6 +117,8 @@ function Router() {
             <Route path="/dashboard" component={Dashboard} />
             <Route path="/services" component={Services} />
             <Route path="/industry-analysis" component={IndustryAnalysis} />
+            <Route path="/pricing" component={Pricing} />
+            <Route path="/about" component={About} />
             <Route path="/blog" component={BlogIndex} />
             <Route path="/blog/sde-business-valuation-guide" component={SdeBusinessValuationGuide} />
             <Route path="/blog/business-valuation-vs-market-appraisal" component={BusinessValuationVsMarketAppraisal} />
