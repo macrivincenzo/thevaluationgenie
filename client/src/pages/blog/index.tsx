@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link } from "wouter";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -231,6 +232,53 @@ export default function BlogIndex() {
   const featuredPost = blogPosts.find(post => post.featured);
   const otherPosts = blogPosts.filter(post => !post.featured);
 
+  useEffect(() => {
+    // SEO Meta Tags Setup
+    document.title = "Business Valuation Blog | Expert Insights | TheValuationGenie";
+    
+    const setMeta = (name: string, content: string) => {
+      let meta = document.querySelector(`meta[name="${name}"]`);
+      if (!meta) {
+        meta = document.createElement("meta");
+        meta.setAttribute("name", name);
+        document.head.appendChild(meta);
+      }
+      meta.setAttribute("content", content);
+    };
+
+    const setOgMeta = (property: string, content: string) => {
+      let meta = document.querySelector(`meta[property="${property}"]`);
+      if (!meta) {
+        meta = document.createElement("meta");
+        meta.setAttribute("property", property);
+        document.head.appendChild(meta);
+      }
+      meta.setAttribute("content", content);
+    };
+
+    setMeta("description", "Expert business valuation insights, industry news, and professional tips. Learn about company appraisal and valuation strategies.");
+    setMeta("keywords", "business valuation blog, valuation insights, company appraisal tips");
+    setMeta("author", "ValuationGenie");
+    setMeta("robots", "index, follow");
+
+    // Open Graph Meta Tags
+    setOgMeta("og:title", "Business Valuation Blog | Expert Insights");
+    setOgMeta("og:description", "Expert business valuation insights and professional tips.");
+    setOgMeta("og:type", "website");
+    setOgMeta("og:url", "https://thevaluationgenie.com/blog");
+
+    // Set canonical URL
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', 'https://thevaluationgenie.com/blog');
+
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       {/* Header */}
@@ -238,7 +286,7 @@ export default function BlogIndex() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="text-center">
             <h1 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-6">
-              Business Valuation <span className="text-blue-600">Insights</span>
+              Business Valuation Blog
             </h1>
             <p className="text-xl text-slate-600 max-w-3xl mx-auto mb-8">
               Expert guidance on business valuation, SDE analysis, and exit planning. 

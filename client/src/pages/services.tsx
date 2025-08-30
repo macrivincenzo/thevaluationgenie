@@ -108,7 +108,7 @@ export default function Services() {
         {/* Hero Section */}
         <div className="text-center mb-16">
           <h1 className="text-4xl font-bold text-slate-900 mb-4">
-            Professional Business Valuation Services
+            Business Valuation Services
           </h1>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto">
             Get instant, credible business valuations using industry-standard methodologies. 
