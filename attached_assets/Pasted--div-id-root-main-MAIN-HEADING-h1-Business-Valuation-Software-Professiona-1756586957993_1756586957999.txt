@@ -1,0 +1,70 @@
+<div id="root">
+  <main>
+    <!-- MAIN HEADING -->
+    <h1>Business Valuation Software | Professional SDE Valuation in Minutes</h1>
+    
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <h2>Get Your Business Worth Calculator Results Instantly</h2>
+      <p>Professional business valuation software using SDE methodology. Trusted by 1000+ business owners worldwide.</p>
+      <button class="cta-button">Start Free Valuation</button>
+    </section>
+    
+    <!-- FEATURES SECTION -->
+    <section class="features">
+      <h2>Why Choose Our Business Valuation Software?</h2>
+      
+      <div class="feature-grid">
+        <div class="feature">
+          <h3>Free Business Valuation Estimate</h3>
+          <p>Start with a free estimate to understand your business value. No commitment required.</p>
+        </div>
+        
+        <div class="feature">
+          <h3>Professional SDE Valuation Report for $39</h3>
+          <p>Get comprehensive business appraisal reports for serious business decisions.</p>
+        </div>
+        
+        <div class="feature">
+          <h3>AI-Powered Accuracy</h3>
+          <p>Advanced SDE methodology with real market data for precise valuations.</p>
+        </div>
+      </div>
+    </section>
+    
+    <!-- PROCESS SECTION -->
+    <section class="process">
+      <h2>How Our Business Appraisal Software Works</h2>
+      
+      <div class="step-grid">
+        <div class="step">
+          <h3>Step 1: Enter Business Data</h3>
+          <p>Provide basic financial information and business details.</p>
+        </div>
+        
+        <div class="step">
+          <h3>Step 2: Get Instant Estimate</h3>
+          <p>Receive your free business valuation estimate immediately.</p>
+        </div>
+        
+        <div class="step">
+          <h3>Step 3: Download Professional Report</h3>
+          <p>Get your comprehensive SDE valuation report for $39.</p>
+        </div>
+      </div>
+    </section>
+    
+    <!-- BENEFITS SECTION -->
+    <section class="benefits">
+      <h2>What You Get in Your Valuation Report</h2>
+      
+      <ul>
+        <li>Comprehensive SDE analysis</li>
+        <li>Market comparison data</li>
+        <li>Professional presentation format</li>
+        <li>Ready for business decisions</li>
+        <li>Industry-standard methodology</li>
+      </ul>
+    </section>
+  </main>
+</div>
