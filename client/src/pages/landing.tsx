@@ -169,6 +169,29 @@ export default function Landing() {
               Business Valuation Software | Professional SDE Valuation in Minutes
             </h1>
             
+            <section className="mb-8">
+              <h2 className="text-2xl lg:text-3xl font-semibold text-slate-700 mb-4">
+                Get Your Business Worth Calculator Results Instantly
+              </h2>
+              <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+                Professional business valuation software using SDE methodology. Trusted by 1000+ business owners worldwide.
+              </p>
+            </section>
+            
+            <section className="mb-6">
+              <h3 className="text-lg font-semibold text-slate-800 mb-2">Free Business Valuation Estimate Available</h3>
+              <p className="text-slate-600 max-w-2xl mx-auto">
+                Start with a free estimate to understand your business value.
+              </p>
+            </section>
+            
+            <section className="mb-8">
+              <h3 className="text-lg font-semibold text-slate-800 mb-2">Professional SDE Valuation Report for $39</h3>
+              <p className="text-slate-600 max-w-2xl mx-auto">
+                Get comprehensive business appraisal reports for serious decisions.
+              </p>
+            </section>
+            
             {/* Pricing Highlight */}
             <div className="flex items-center justify-center gap-4 mb-6">
               <div className="bg-red-100 border border-red-200 rounded-lg px-4 py-2">
@@ -185,13 +208,6 @@ export default function Landing() {
                 🔥 Save $50 (56% OFF) - Limited Time
               </span>
             </div>
-            <h2 className="text-2xl lg:text-3xl font-semibold text-slate-700 mb-6">
-              Get Your Business Worth Calculator Results Instantly
-            </h2>
-            <h3 className="text-lg font-semibold text-slate-800 mb-2">Free Business Valuation Estimate Available</h3>
-            <p className="text-xl text-slate-600 mb-8 max-w-3xl mx-auto">
-              Get your free business valuation estimate instantly using our SDE-based calculator. Download detailed professional PDF reports with industry comparisons and actionable insights for just $39.
-            </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <div className="flex gap-3 justify-center">
                 <Button 
