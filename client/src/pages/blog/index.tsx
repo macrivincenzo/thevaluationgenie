@@ -308,9 +308,9 @@ export default function BlogIndex() {
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="text-center">
-            <h1 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-6">
+            <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-6">
               Business Valuation Blog
-            </h1>
+            </h2>
             <p className="text-xl text-slate-600 max-w-3xl mx-auto mb-8">
               Expert guidance on business valuation, SDE analysis, and exit planning. 
               Stay informed with the latest market data and proven valuation methodologies.

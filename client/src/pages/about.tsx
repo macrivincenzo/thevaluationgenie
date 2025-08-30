@@ -79,9 +79,9 @@ export default function About() {
       <section className="bg-gradient-to-br from-slate-50 to-blue-50 py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h1 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
+            <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
               About TheValuationGenie
-            </h1>
+            </h2>
             <h2 className="text-2xl lg:text-3xl font-semibold text-slate-700 mb-6">
               Revolutionizing Business Valuation with SDE Methodology
             </h2>
