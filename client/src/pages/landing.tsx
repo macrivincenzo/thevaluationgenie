@@ -98,9 +98,9 @@ export default function Landing() {
 
     // Set basic meta tags
     setMeta("description", "Get instant business valuations using SDE methodology. Professional business valuation software for entrepreneurs and business owners.");
-    setMeta("keywords", "business valuation software, SDE valuation, business worth calculator, instant business valuation, business appraisal software, business valuation report, SDE method business valuation");
+    setMeta("keywords", "business valuation, SDE valuation, business worth calculator, business appraisal, company valuation, business value");
     setMeta("robots", "index, follow");
-    setMeta("author", "ValuationGenie");
+    setMeta("author", "TheValuationGenie");
     setMeta("viewport", "width=device-width, initial-scale=1.0");
 
     // Set canonical URL
@@ -116,14 +116,14 @@ export default function Landing() {
     setOgMeta("og:title", "Professional Business Valuation Software | ValuationGenie");
     setOgMeta("og:description", "Get instant business valuations using SDE methodology. Professional business valuation software for entrepreneurs and business owners.");
     setOgMeta("og:type", "website");
-    setOgMeta("og:url", "https://thevaluationgenie.com");
-    setOgMeta("og:image", "https://thevaluationgenie.com/valuation-genie-logo.jpg");
+    setOgMeta("og:url", "https://thevaluationgenie.com/");
+    setOgMeta("og:image", "https://thevaluationgenie.com/images/og-image.jpg");
 
     // Set Twitter Card meta tags
     setOgMeta("twitter:card", "summary_large_image");
     setOgMeta("twitter:title", "Professional Business Valuation Software | ValuationGenie");
     setOgMeta("twitter:description", "Get instant business valuations using SDE methodology. Professional business valuation software for entrepreneurs and business owners.");
-    setOgMeta("twitter:image", "https://thevaluationgenie.com/valuation-genie-logo.jpg");
+    setOgMeta("twitter:image", "https://thevaluationgenie.com/images/twitter-image.jpg");
 
     // Add LocalBusiness Schema Markup
     const localBusinessSchema = document.createElement('script');
