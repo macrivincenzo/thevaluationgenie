@@ -21,7 +21,7 @@ export default function Header() {
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-14">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-3">
             <div className="relative">
@@ -33,7 +33,7 @@ export default function Header() {
               <Sparkles className="w-3 h-3 text-yellow-500 absolute -top-1 -right-1 animate-pulse" />
             </div>
             <div className="flex flex-col">
-              <span className="text-xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+              <span className="text-lg font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
                 ValuationGenie
               </span>
               <span className="text-xs text-slate-500 font-medium -mt-1">Instant Business Valuation</span>
@@ -41,38 +41,38 @@ export default function Header() {
           </Link>
 
           {/* SEO Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            <Link href="/" className="text-slate-600 hover:text-slate-900 transition-colors">
+          <nav className="hidden md:flex items-center space-x-6">
+            <Link href="/" className="text-sm text-slate-600 hover:text-slate-900 transition-colors font-medium">
               Home
             </Link>
-            <Link href="/pricing" className="text-slate-600 hover:text-slate-900 transition-colors">
-              Business Valuation Pricing
+            <Link href="/pricing" className="text-sm text-slate-600 hover:text-slate-900 transition-colors font-medium">
+              Pricing
             </Link>
-            <Link href="/about" className="text-slate-600 hover:text-slate-900 transition-colors">
-              About Our Valuation Software
+            <Link href="/about" className="text-sm text-slate-600 hover:text-slate-900 transition-colors font-medium">
+              About
             </Link>
-            <Link href="/contact" className="text-slate-600 hover:text-slate-900 transition-colors">
-              Contact Valuation Support
+            <Link href="/contact" className="text-sm text-slate-600 hover:text-slate-900 transition-colors font-medium">
+              Contact
             </Link>
-            <Link href="/blog" className="text-slate-600 hover:text-slate-900 transition-colors">
-              SDE Valuation Blog
+            <Link href="/blog" className="text-sm text-slate-600 hover:text-slate-900 transition-colors font-medium">
+              Blog
             </Link>
-            <Link href="/lifetime" className="flex items-center text-yellow-600 hover:text-yellow-700 transition-colors font-medium">
-              <Crown className="w-4 h-4 mr-1" />
-              AppSumo Deal
+            <Link href="/lifetime" className="flex items-center text-sm text-yellow-600 hover:text-yellow-700 transition-colors font-medium">
+              <Crown className="w-3 h-3 mr-1" />
+              AppSumo
             </Link>
             {isAuthenticated ? (
               <>
-                <Link href="/valuation" className="text-slate-600 hover:text-slate-900 transition-colors">
+                <Link href="/valuation" className="text-sm text-slate-600 hover:text-slate-900 transition-colors font-medium">
                   Get Valuation
                 </Link>
-                <Link href="/dashboard" className="text-slate-600 hover:text-slate-900 transition-colors">
+                <Link href="/dashboard" className="text-sm text-slate-600 hover:text-slate-900 transition-colors font-medium">
                   Dashboard
                 </Link>
 
               </>
             ) : (
-              <Link href="/login" className="text-slate-600 hover:text-slate-900 transition-colors">
+              <Link href="/login" className="text-sm text-slate-600 hover:text-slate-900 transition-colors font-medium">
                 Get Valuation
               </Link>
             )}
