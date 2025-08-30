@@ -65,6 +65,34 @@ export default function Contact() {
     }
     canonical.setAttribute('href', 'https://thevaluationgenie.com/contact');
 
+    // Add ContactPage Schema Markup
+    const contactSchema = document.createElement('script');
+    contactSchema.type = 'application/ld+json';
+    contactSchema.innerHTML = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "ContactPage",
+      "name": "Contact TheValuationGenie",
+      "description": "Contact us for business valuation services",
+      "url": "https://thevaluationgenie.com/contact",
+      "mainEntity": {
+        "@type": "Organization",
+        "name": "TheValuationGenie",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+1-555-123-4567",
+          "contactType": "customer service",
+          "email": "info@thevaluationgenie.com"
+        }
+      }
+    });
+
+    // Remove existing contact schema if present
+    const existingContactSchema = document.querySelector('script[type="application/ld+json"]:has-text("ContactPage")');
+    if (existingContactSchema) {
+      existingContactSchema.remove();
+    }
+    document.head.appendChild(contactSchema);
+
     window.scrollTo(0, 0);
   }, []);
 
