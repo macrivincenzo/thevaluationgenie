@@ -276,6 +276,29 @@ export default function BlogIndex() {
     }
     canonical.setAttribute('href', 'https://thevaluationgenie.com/blog');
 
+    // Add Blog Schema Markup
+    const blogSchema = document.createElement('script');
+    blogSchema.type = 'application/ld+json';
+    blogSchema.innerHTML = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Blog",
+      "name": "TheValuationGenie Business Valuation Blog",
+      "description": "Expert insights on business valuation, company appraisal, and business worth assessment",
+      "url": "https://thevaluationgenie.com/blog",
+      "publisher": {
+        "@type": "Organization",
+        "name": "TheValuationGenie",
+        "url": "https://thevaluationgenie.com"
+      }
+    });
+
+    // Remove existing blog schema if present
+    const existingBlogSchema = document.querySelector('script[type="application/ld+json"]:has-text("Blog")');
+    if (existingBlogSchema) {
+      existingBlogSchema.remove();
+    }
+    document.head.appendChild(blogSchema);
+
     window.scrollTo(0, 0);
   }, []);
 
