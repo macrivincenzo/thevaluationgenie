@@ -278,11 +278,11 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Why Choose Our SME Business Valuation Software */}
+      {/* Why Choose Our Business Valuation Software */}
       <section className="py-20 bg-slate-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">Why Choose Our SME Business Valuation Software?</h2>
+            <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">Why Choose Our Business Valuation Software?</h2>
             <p className="text-xl text-slate-600 max-w-3xl mx-auto">
               Our affordable business valuation tool is built for small and medium enterprises like yours
             </p>
@@ -292,9 +292,9 @@ export default function Landing() {
             <Card className="shadow-lg">
               <CardContent className="p-6 text-center">
                 <DollarSign className="w-12 h-12 text-green-500 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-slate-900 mb-3">Save Thousands</h3>
+                <h3 className="text-xl font-semibold text-slate-900 mb-3">AI-Powered SDE Methodology Accuracy</h3>
                 <p className="text-slate-600">
-                  Avoid $3,000+ appraisals with reliable SME valuation reports at a fraction of the cost.
+                  Advanced algorithms ensure precise Seller's Discretionary Earnings calculations using current market data.
                 </p>
               </CardContent>
             </Card>
@@ -302,9 +302,9 @@ export default function Landing() {
             <Card className="shadow-lg">
               <CardContent className="p-6 text-center">
                 <Clock className="w-12 h-12 text-blue-500 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-slate-900 mb-3">Instant Insights</h3>
+                <h3 className="text-xl font-semibold text-slate-900 mb-3">Instant Results in Minutes, Not Weeks</h3>
                 <p className="text-slate-600">
-                  Get SDE-based (100% halal compliant) business valuation reports in minutes, not months, with our AI-powered platform.
+                  Get professional business valuations immediately - no waiting for external appraisers.
                 </p>
               </CardContent>
             </Card>
@@ -312,9 +312,9 @@ export default function Landing() {
             <Card className="shadow-lg">
               <CardContent className="p-6 text-center">
                 <Building className="w-12 h-12 text-purple-500 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-slate-900 mb-3">Tailored for Small Businesses</h3>
+                <h3 className="text-xl font-semibold text-slate-900 mb-3">Professional-Grade Reports for $39</h3>
                 <p className="text-slate-600">
-                  From retail to services, our small business valuation software delivers clear, industry-specific, Sharia-compliant insights.
+                  Comprehensive PDF reports at fraction of traditional appraisal costs ($2,000+ vs $39).
                 </p>
               </CardContent>
             </Card>
@@ -322,9 +322,9 @@ export default function Landing() {
             <Card className="shadow-lg">
               <CardContent className="p-6 text-center">
                 <TrendingUp className="w-12 h-12 text-green-500 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-slate-900 mb-3">Trusted Accuracy</h3>
+                <h3 className="text-xl font-semibold text-slate-900 mb-3">Trusted by 1000+ Business Owners</h3>
                 <p className="text-slate-600">
-                  Powered by advanced AI and industry benchmarks, our halal business valuation supports confident decisions for sales, loans, or growth.
+                  Used by buyers, sellers, brokers, and consultants across multiple industries.
                 </p>
               </CardContent>
             </Card>
@@ -389,8 +389,73 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Valuation Flow Demo */}
+      {/* What You Get Section */}
       <section className="py-20 bg-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">
+              What You Get in Your Valuation Report
+            </h2>
+            <p className="text-xl text-slate-600">
+              Complete business analysis in professional format
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 gap-8 mb-12">
+            <Card className="shadow-lg">
+              <CardContent className="p-6">
+                <FileText className="w-10 h-10 text-blue-600 mb-4" />
+                <h3 className="text-xl font-semibold text-slate-900 mb-3">Comprehensive SDE Analysis</h3>
+                <ul className="text-slate-600 space-y-2">
+                  <li>• Detailed Seller's Discretionary Earnings calculation</li>
+                  <li>• Industry-specific multiple applications</li>
+                  <li>• Risk factor assessments</li>
+                  <li>• Cash flow projections</li>
+                </ul>
+              </CardContent>
+            </Card>
+            <Card className="shadow-lg">
+              <CardContent className="p-6">
+                <TrendingUp className="w-10 h-10 text-blue-600 mb-4" />
+                <h3 className="text-xl font-semibold text-slate-900 mb-3">Market Comparison Data</h3>
+                <ul className="text-slate-600 space-y-2">
+                  <li>• Recent comparable business sales</li>
+                  <li>• Industry benchmarking metrics</li>
+                  <li>• Market trend analysis</li>
+                  <li>• Competitive positioning insights</li>
+                </ul>
+              </CardContent>
+            </Card>
+            <Card className="shadow-lg">
+              <CardContent className="p-6">
+                <Building className="w-10 h-10 text-blue-600 mb-4" />
+                <h3 className="text-xl font-semibold text-slate-900 mb-3">Professional Presentation Format</h3>
+                <ul className="text-slate-600 space-y-2">
+                  <li>• Banker/investor ready formatting</li>
+                  <li>• Executive summary with key findings</li>
+                  <li>• Charts and visual data representations</li>
+                  <li>• Methodology explanation</li>
+                </ul>
+              </CardContent>
+            </Card>
+            <Card className="shadow-lg">
+              <CardContent className="p-6">
+                <CheckCircle className="w-10 h-10 text-blue-600 mb-4" />
+                <h3 className="text-xl font-semibold text-slate-900 mb-3">Ready for Business Decisions</h3>
+                <ul className="text-slate-600 space-y-2">
+                  <li>• Listing price recommendations</li>
+                  <li>• Negotiation strategy guidance</li>
+                  <li>• Value improvement suggestions</li>
+                  <li>• Due diligence preparation tips</li>
+                </ul>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Valuation Flow Demo */}
+      <section className="py-20 bg-slate-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">Valuation Process</h2>
