@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
@@ -8,6 +9,96 @@ import { Calculator, BarChart3, TrendingUp, CheckCircle, Clock, Shield } from "l
 
 export default function Services() {
   const { isAuthenticated } = useAuth();
+
+  useEffect(() => {
+    // SEO Meta Tags Setup
+    document.title = "Business Valuation Services | Company Appraisal | TheValuationGenie";
+    
+    const setMeta = (name: string, content: string) => {
+      let meta = document.querySelector(`meta[name="${name}"]`);
+      if (!meta) {
+        meta = document.createElement("meta");
+        meta.setAttribute("name", name);
+        document.head.appendChild(meta);
+      }
+      meta.setAttribute("content", content);
+    };
+
+    const setOgMeta = (property: string, content: string) => {
+      let meta = document.querySelector(`meta[property="${property}"]`);
+      if (!meta) {
+        meta = document.createElement("meta");
+        meta.setAttribute("property", property);
+        document.head.appendChild(meta);
+      }
+      meta.setAttribute("content", content);
+    };
+
+    setMeta("description", "Professional business valuation services including SDE analysis, company appraisal, and comprehensive valuation reports.");
+    setMeta("keywords", "business valuation services, company appraisal, SDE analysis, valuation reports");
+    setMeta("author", "ValuationGenie");
+    setMeta("robots", "index, follow");
+
+    // Open Graph Meta Tags
+    setOgMeta("og:title", "Business Valuation Services | Company Appraisal");
+    setOgMeta("og:description", "Professional business valuation services including SDE analysis and comprehensive reports.");
+    setOgMeta("og:type", "website");
+    setOgMeta("og:url", "https://thevaluationgenie.com/services");
+
+    // Set canonical URL
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', 'https://thevaluationgenie.com/services');
+
+    // Add Services Schema Markup
+    const servicesSchema = document.createElement('script');
+    servicesSchema.type = 'application/ld+json';
+    servicesSchema.innerHTML = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "Business Valuation Services",
+      "description": "Professional business valuation and company appraisal services",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "TheValuationGenie"
+      },
+      "serviceType": "Business Valuation",
+      "areaServed": "United States",
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Valuation Services",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "SDE Business Valuation"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Company Appraisal"
+            }
+          }
+        ]
+      }
+    });
+
+    // Remove existing services schema if present
+    const existingServicesSchema = document.querySelector('script[type="application/ld+json"]:has-text("Service")');
+    if (existingServicesSchema) {
+      existingServicesSchema.remove();
+    }
+    document.head.appendChild(servicesSchema);
+
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="min-h-screen bg-white">
