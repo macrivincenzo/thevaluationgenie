@@ -22,7 +22,7 @@ export default function About() {
 
   useEffect(() => {
     // SEO Meta Tags Setup
-    document.title = "About ValuationGenie | Business Valuation Software Company | SDE Valuation Experts";
+    document.title = "About TheValuationGenie | Business Valuation Experts";
     
     const setMeta = (name: string, content: string) => {
       let meta = document.querySelector(`meta[name="${name}"]`);
@@ -34,9 +34,35 @@ export default function About() {
       meta.setAttribute("content", content);
     };
 
-    setMeta("description", "Learn about ValuationGenie, the company behind the leading business valuation software. AI-powered SDE valuation for small businesses. Professional business appraisal software.");
-    setMeta("keywords", "about ValuationGenie, business valuation company, SDE valuation experts, valuation software company, business appraisal software company");
+    const setOgMeta = (property: string, content: string) => {
+      let meta = document.querySelector(`meta[property="${property}"]`);
+      if (!meta) {
+        meta = document.createElement("meta");
+        meta.setAttribute("property", property);
+        document.head.appendChild(meta);
+      }
+      meta.setAttribute("content", content);
+    };
+
+    setMeta("description", "Learn about TheValuationGenie, your trusted partner for professional business valuations and company appraisals.");
+    setMeta("keywords", "about valuationgenie, business valuation experts, company appraisal professionals");
+    setMeta("author", "ValuationGenie");
     setMeta("robots", "index, follow");
+
+    // Open Graph Meta Tags
+    setOgMeta("og:title", "About TheValuationGenie | Business Valuation Experts");
+    setOgMeta("og:description", "Learn about TheValuationGenie, your trusted partner for professional business valuations.");
+    setOgMeta("og:type", "website");
+    setOgMeta("og:url", "https://thevaluationgenie.com/about");
+
+    // Set canonical URL
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', 'https://thevaluationgenie.com/about');
 
     window.scrollTo(0, 0);
   }, []);

@@ -74,9 +74,9 @@ export default function Pricing() {
       <section className="bg-gradient-to-br from-slate-50 to-blue-50 py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
-              Simple, Transparent Pricing
-            </h2>
+            <h1 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
+              Business Valuation Pricing
+            </h1>
             <h2 className="text-2xl lg:text-3xl font-semibold text-slate-700 mb-6">
               Get Your Business Valued Today
             </h2>
@@ -92,7 +92,7 @@ export default function Pricing() {
             <Card className="shadow-lg border-2 border-slate-200">
               <CardHeader className="text-center pb-4">
                 <CardTitle className="text-2xl font-bold text-slate-900">
-                  <h3>Free Business Valuation Estimate</h3>
+                  <h2>Free Business Valuation Estimate</h2>
                 </CardTitle>
                 <div className="text-4xl font-bold text-blue-600 my-4">$0</div>
                 <p className="text-slate-600">Perfect for getting started</p>
@@ -134,7 +134,7 @@ export default function Pricing() {
               </Badge>
               <CardHeader className="text-center pb-4">
                 <CardTitle className="text-2xl font-bold text-slate-900">
-                  <h3>Professional SDE Valuation Report</h3>
+                  <h2>Professional Report</h2>
                 </CardTitle>
                 <div className="text-4xl font-bold text-blue-600 my-4">$39</div>
                 <p className="text-slate-600">Comprehensive business appraisal</p>
