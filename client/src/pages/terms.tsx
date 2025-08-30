@@ -9,7 +9,7 @@ export default function Terms() {
       
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-slate-900 mb-4">Terms of Service</h1>
+          <h2 className="text-4xl font-bold text-slate-900 mb-4">Terms of Service</h2>
           <p className="text-xl text-slate-600">Last updated: {new Date().toLocaleDateString()}</p>
         </div>
 

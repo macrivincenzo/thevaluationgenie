@@ -54,7 +54,7 @@ export default function QuickCheckout() {
               Back to Dashboard
             </Link>
           </Button>
-          <h1 className="text-3xl font-bold text-center">Quick Checkout</h1>
+          <h2 className="text-3xl font-bold text-center">Quick Checkout</h2>
         </div>
 
         <Card className="text-center">

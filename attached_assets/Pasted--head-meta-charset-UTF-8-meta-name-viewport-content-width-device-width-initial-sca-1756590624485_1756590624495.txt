@@ -1,0 +1,38 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- FIXED: Title under 60 characters -->
+    <title>Business Valuation Software | SDE Valuation | TheValuationGenie</title>
+    
+    <!-- FIXED: Description under 160 characters -->
+    <meta name="description" content="Professional business valuation software using SDE methodology. Get instant business worth calculator results. Free estimate available.">
+    
+    <meta name="keywords" content="business valuation software, SDE valuation, business worth calculator, instant business valuation, business appraisal software, business valuation report, SDE method business valuation">
+    <meta name="author" content="ValuationGenie">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Business Valuation Software | SDE Valuation | TheValuationGenie">
+    <meta property="og:description" content="Professional business valuation software using SDE methodology. Get instant business worth calculator results.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://thevaluationgenie.com/">
+    <meta property="og:image" content="https://thevaluationgenie.com/valuation-genie-logo.jpg">
+    <meta property="og:site_name" content="TheValuationGenie">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Business Valuation Software | SDE Valuation">
+    <meta name="twitter:description" content="Professional business valuation software using SDE methodology.">
+    <meta name="twitter:image" content="https://thevaluationgenie.com/valuation-genie-logo.jpg">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://thevaluationgenie.com/">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="/css/main.css" as="style">
+    <link rel="preload" href="/js/main.js" as="script">
+</head>

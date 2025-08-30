@@ -12,7 +12,7 @@ export default function Pricing() {
 
   useEffect(() => {
     // SEO Meta Tags Setup
-    document.title = "Pricing | Business Valuation Software | SDE Valuation | ValuationGenie";
+    document.title = "Business Valuation Pricing | Professional Reports $39 | TheValuationGenie";
     
     const setMeta = (name: string, content: string) => {
       let meta = document.querySelector(`meta[name="${name}"]`);
@@ -24,9 +24,36 @@ export default function Pricing() {
       meta.setAttribute("content", content);
     };
 
-    setMeta("description", "Clear pricing for our business valuation software. Free estimate available. Professional SDE valuation reports for $39. Business worth calculator pricing.");
-    setMeta("keywords", "business valuation pricing, SDE valuation cost, business appraisal price, valuation software pricing, business worth calculator pricing");
+    const setOgMeta = (property: string, content: string) => {
+      let meta = document.querySelector(`meta[property="${property}"]`);
+      if (!meta) {
+        meta = document.createElement("meta");
+        meta.setAttribute("property", property);
+        document.head.appendChild(meta);
+      }
+      meta.setAttribute("content", content);
+    };
+
+    setMeta("description", "Professional business valuation reports for just $39. Get comprehensive SDE analysis, market comparisons, and expert insights.");
+    setMeta("keywords", "business valuation pricing, valuation report cost, SDE valuation price, business appraisal cost");
+    setMeta("author", "ValuationGenie");
     setMeta("robots", "index, follow");
+
+    // Open Graph Meta Tags
+    setOgMeta("og:title", "Business Valuation Pricing | Professional Reports $39");
+    setOgMeta("og:description", "Professional business valuation reports for just $39. Get comprehensive SDE analysis and expert insights.");
+    setOgMeta("og:type", "website");
+    setOgMeta("og:url", "https://thevaluationgenie.com/pricing");
+    setOgMeta("og:image", "https://thevaluationgenie.com/valuation-genie-logo.jpg");
+
+    // Set canonical URL
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', 'https://thevaluationgenie.com/pricing');
 
     window.scrollTo(0, 0);
   }, []);
@@ -47,9 +74,9 @@ export default function Pricing() {
       <section className="bg-gradient-to-br from-slate-50 to-blue-50 py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h1 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
+            <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
               Simple, Transparent Pricing
-            </h1>
+            </h2>
             <h2 className="text-2xl lg:text-3xl font-semibold text-slate-700 mb-6">
               Get Your Business Valued Today
             </h2>

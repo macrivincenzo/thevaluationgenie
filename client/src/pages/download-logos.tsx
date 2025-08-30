@@ -293,7 +293,7 @@ export default function DownloadLogos() {
               <Sparkles className="w-4 h-4 text-yellow-500 absolute -top-1 -right-1 animate-pulse" />
             </div>
           </div>
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">ValuationGenie Logo Download</h1>
+          <h2 className="text-3xl font-bold text-slate-900 mb-2">ValuationGenie Logo Download</h2>
           <p className="text-slate-600">Download professional logo variations for your promotional activities</p>
         </div>
 

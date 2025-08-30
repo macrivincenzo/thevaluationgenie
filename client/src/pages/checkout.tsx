@@ -98,9 +98,9 @@ export default function Checkout() {
               Back to Dashboard
             </Link>
           </Button>
-          <h1 className="text-3xl font-bold text-center bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+          <h2 className="text-3xl font-bold text-center bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
             Upgrade to Professional Report
-          </h1>
+          </h2>
           <p className="text-center text-muted-foreground mt-2">
             Get your comprehensive business valuation report
           </p>

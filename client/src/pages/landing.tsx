@@ -166,7 +166,7 @@ export default function Landing() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl lg:text-6xl font-bold text-slate-900 mb-6">
-              Business Valuation Software | Professional SDE Valuation in Minutes
+              Professional Business Valuation Software
             </h1>
             
             {/* Pricing Highlight */}
