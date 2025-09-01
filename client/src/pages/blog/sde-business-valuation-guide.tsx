@@ -7,6 +7,7 @@ import { Link } from "wouter";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import { BlogSEO, InternalLinks, FAQSchema } from "@/components/seo/BlogSEO";
+import RelatedArticles from "@/components/seo/RelatedArticles";
 
 export default function SdeBusinessValuationGuide() {
   const schemaMarkup = {
@@ -433,6 +434,12 @@ export default function SdeBusinessValuationGuide() {
           </Button>
           <p className="text-blue-100 text-sm mt-4">✨ 7-day money-back guarantee • Instant download • Professional quality</p>
         </div>
+        
+        {/* Related Articles Section */}
+        <RelatedArticles 
+          currentPage="/blog/sde-business-valuation-guide" 
+          category="methodology" 
+        />
       </div>
       
       <Footer />

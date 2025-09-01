@@ -195,7 +195,7 @@ export default function Landing() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl lg:text-6xl font-bold text-slate-900 mb-6">
-              Professional Business Valuation Software
+              Business Valuation Calculator 2025: Free SDE Calculator Tool
             </h1>
             
             {/* Pricing Highlight */}
@@ -205,7 +205,7 @@ export default function Landing() {
               </div>
               <div className="text-2xl lg:text-3xl font-bold text-slate-400">→</div>
               <div className="bg-green-100 border border-green-200 rounded-lg px-6 py-3">
-                <span className="text-green-700 text-2xl lg:text-3xl font-bold">Launch price just $39</span>
+                <span className="text-green-700 text-2xl lg:text-3xl font-bold">Professional Reports $39</span>
               </div>
             </div>
             
@@ -215,9 +215,9 @@ export default function Landing() {
               </span>
             </div>
             <h2 className="text-2xl lg:text-3xl font-semibold text-slate-700 mb-6">
-              Get Your Business Worth Calculator Results Instantly
+              Get Instant Business Valuation Results with SDE Methodology
             </h2>
-            <h3 className="text-lg font-semibold text-slate-800 mb-2">Free Business Valuation Estimate Available</h3>
+            <h3 className="text-lg font-semibold text-slate-800 mb-2">Free Business Valuation Estimate - Professional Reports Available</h3>
             <p className="text-xl text-slate-600 mb-8 max-w-3xl mx-auto">
               Professional business valuation software using SDE methodology. Trusted by 1000+ business owners worldwide. Start with a free estimate to understand your business value. Get comprehensive business appraisal reports for serious decisions for just $39.
             </p>

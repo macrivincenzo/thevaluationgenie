@@ -34,11 +34,13 @@ export const BlogSEO: React.FC<BlogSEOProps> = ({ title, description, keywords, 
       meta.setAttribute("content", content);
     };
 
-    // Set basic meta tags
+    // Set enhanced SEO meta tags
     setMeta("description", description);
     setMeta("keywords", keywords);
     setMeta("robots", "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1");
+    setMeta("googlebot", "index, follow");
     setMeta("author", "ValuationGenie");
+    setMeta("publisher", "ValuationGenie");
     setMeta("viewport", "width=device-width, initial-scale=1.0");
 
     // Set Open Graph meta tags
@@ -63,15 +65,42 @@ export const BlogSEO: React.FC<BlogSEOProps> = ({ title, description, keywords, 
     }
     canonical.setAttribute("href", url);
 
-    // Add schema markup if provided
+    // Add enhanced schema markup if provided
     if (schemaMarkup) {
-      let script = document.querySelector('script[type="application/ld+json"]');
+      let script = document.querySelector('script[data-schema="article"]');
       if (!script) {
         script = document.createElement("script");
         script.setAttribute("type", "application/ld+json");
+        script.setAttribute("data-schema", "article");
         document.head.appendChild(script);
       }
-      script.textContent = JSON.stringify(schemaMarkup);
+      
+      // Enhance schema markup with additional SEO data
+      const enhancedSchema = {
+        ...schemaMarkup,
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": url
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "ValuationGenie",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://thevaluationgenie.com/valuation-genie-logo.jpg"
+          }
+        },
+        "author": {
+          "@type": "Person",
+          "name": "ValuationGenie Expert"
+        },
+        "datePublished": new Date().toISOString().split('T')[0],
+        "dateModified": new Date().toISOString().split('T')[0]
+      };
+      
+      script.textContent = JSON.stringify(enhancedSchema);
     }
 
     // Add structured breadcrumb data
