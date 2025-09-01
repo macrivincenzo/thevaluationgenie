@@ -52,20 +52,65 @@ export default function Header() {
             <Link href="/about" className="text-sm text-slate-600 hover:text-slate-900 transition-colors font-medium">
               About
             </Link>
-            <a 
-              href="/contact"
+            <span
+              onClick={() => {
+                window.location.replace('/contact');
+              }}
               className="text-sm text-slate-600 hover:text-slate-900 transition-colors font-medium cursor-pointer" 
               data-testid="nav-contact"
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  window.location.replace('/contact');
+                }
+              }}
             >
               Contact
-            </a>
-            <a 
-              href="/blog"
+            </span>
+            <span
+              onClick={() => {
+                // Ultimate robust navigation solution
+                const currentPath = window.location.pathname;
+                console.log('Blog navigation attempt from:', currentPath);
+                
+                // Multiple fallback approaches for maximum reliability
+                try {
+                  if (currentPath === '/blog') {
+                    // If already on blog, force reload
+                    window.location.reload();
+                  } else {
+                    // Primary method: Use replace to clear navigation state
+                    window.location.replace('/blog');
+                  }
+                } catch (error) {
+                  // Fallback 1: Use href assignment
+                  console.log('Replace failed, using href fallback');
+                  window.location.href = '/blog';
+                }
+                
+                // Fallback 2: Use timeout to ensure navigation happens
+                setTimeout(() => {
+                  if (window.location.pathname !== '/blog') {
+                    console.log('Navigation failed, forcing with href');
+                    window.location.href = '/blog';
+                  }
+                }, 100);
+              }}
               className="text-sm text-slate-600 hover:text-slate-900 transition-colors font-medium cursor-pointer" 
               data-testid="nav-blog"
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  window.location.replace('/blog');
+                }
+              }}
             >
               Blog
-            </a>
+            </span>
             <Link href="/lifetime" className="flex items-center text-sm text-yellow-600 hover:text-yellow-700 transition-colors font-medium">
               <Crown className="w-3 h-3 mr-1" />
               AppSumo
