@@ -14,7 +14,7 @@ export default function Home() {
     queryKey: ["/api/valuations"],
   });
 
-  const recentValuations = valuations.slice(0, 3);
+  const recentValuations = (valuations as any[]).slice(0, 3);
 
   return (
     <div className="min-h-screen bg-white">
