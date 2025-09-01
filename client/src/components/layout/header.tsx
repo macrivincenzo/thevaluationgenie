@@ -1,4 +1,4 @@
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { useAuth } from "@/hooks/useAuth";
 import { useLogout } from "@/hooks/useLogout";
 import { Button } from "@/components/ui/button";
@@ -17,6 +17,7 @@ export default function Header() {
   const { user, isAuthenticated, isLoading } = useAuth();
   const logout = useLogout();
   const typedUser = user as UserType | undefined;
+  const [, setLocation] = useLocation();
 
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
@@ -51,12 +52,20 @@ export default function Header() {
             <Link href="/about" className="text-sm text-slate-600 hover:text-slate-900 transition-colors font-medium">
               About
             </Link>
-            <Link href="/contact" className="text-sm text-slate-600 hover:text-slate-900 transition-colors font-medium" data-testid="nav-contact">
+            <button
+              onClick={() => setLocation('/contact')}
+              className="text-sm text-slate-600 hover:text-slate-900 transition-colors font-medium cursor-pointer" 
+              data-testid="nav-contact"
+            >
               Contact
-            </Link>
-            <Link href="/blog" className="text-sm text-slate-600 hover:text-slate-900 transition-colors font-medium" data-testid="nav-blog">
+            </button>
+            <button
+              onClick={() => setLocation('/blog')}
+              className="text-sm text-slate-600 hover:text-slate-900 transition-colors font-medium cursor-pointer" 
+              data-testid="nav-blog"
+            >
               Blog
-            </Link>
+            </button>
             <Link href="/lifetime" className="flex items-center text-sm text-yellow-600 hover:text-yellow-700 transition-colors font-medium">
               <Crown className="w-3 h-3 mr-1" />
               AppSumo
