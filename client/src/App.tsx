@@ -75,38 +75,43 @@ function Router() {
   return (
     <>
       <Switch>
+        {/* Blog routes available to both authenticated and non-authenticated users */}
+        <Route path="/blog" component={BlogIndex} />
+        <Route path="/blog/sde-business-valuation-guide" component={SdeBusinessValuationGuide} />
+        <Route path="/blog/business-valuation-vs-market-appraisal" component={BusinessValuationVsMarketAppraisal} />
+        <Route path="/blog/small-business-sale-preparation" component={SmallBusinessSalePreparation} />
+        <Route path="/blog/industry-valuation-multiples-2025" component={IndustryValuationMultiples2025} />
+        <Route path="/blog/how-to-value-service-business" component={HowToValueServiceBusiness} />
+        <Route path="/blog/business-valuation-mistakes" component={BusinessValuationMistakes} />
+        <Route path="/blog/ecommerce-business-valuation" component={EcommerceBusinessValuation} />
+        <Route path="/blog/sde-vs-ebitda-guide" component={SdeVsEbitdaGuide} />
+        <Route path="/blog/restaurant-valuation-guide" component={RestaurantValuationGuide} />
+        <Route path="/blog/business-valuation-calculator" component={BusinessValuationCalculator} />
+        <Route path="/blog/business-broker-vs-diy-valuation" component={BusinessBrokerVsDiyValuation} />
+        <Route path="/blog/business-appraisal-cost-guide" component={BusinessAppraisalCostGuide} />
+        <Route path="/blog/family-business-valuation-estate-planning" component={FamilyBusinessValuationEstatePlanning} />
+        <Route path="/blog/manufacturing-business-valuation-multiples" component={ManufacturingBusinessValuationMultiples} />
+        <Route path="/blog/business-valuation-divorce-proceedings" component={BusinessValuationDivorceProceedings} />
+        <Route path="/blog/restaurant-employee-buyout-valuation" component={RestaurantEmployeeBuyoutValuation} />
+        <Route path="/blog/saas-startup-valuation-calculator" component={SaaSStartupValuationCalculator} />
+        
+        {/* Common routes available to both authenticated and non-authenticated users */}
+        <Route path="/services" component={Services} />
+        <Route path="/industry-analysis" component={IndustryAnalysis} />
+        <Route path="/pricing" component={Pricing} />
+        <Route path="/about" component={About} />
+        <Route path="/contact" component={Contact} />
+        <Route path="/terms" component={Terms} />
+        <Route path="/privacy" component={Privacy} />
+        <Route path="/download-logos" component={DownloadLogos} />
+        <Route path="/lifetime" component={LifetimeSetup} />
+        
         {!isAuthenticated ? (
           <>
             <Route path="/" component={Landing} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
-            <Route path="/services" component={Services} />
-            <Route path="/industry-analysis" component={IndustryAnalysis} />
-            <Route path="/pricing" component={Pricing} />
-            <Route path="/about" component={About} />
-            <Route path="/lifetime" component={LifetimeSetup} />
-            <Route path="/blog" component={BlogIndex} />
-            <Route path="/blog/sde-business-valuation-guide" component={SdeBusinessValuationGuide} />
-            <Route path="/blog/business-valuation-vs-market-appraisal" component={BusinessValuationVsMarketAppraisal} />
-            <Route path="/blog/small-business-sale-preparation" component={SmallBusinessSalePreparation} />
-            <Route path="/blog/industry-valuation-multiples-2025" component={IndustryValuationMultiples2025} />
-            <Route path="/blog/how-to-value-service-business" component={HowToValueServiceBusiness} />
-            <Route path="/blog/business-valuation-mistakes" component={BusinessValuationMistakes} />
-            <Route path="/blog/ecommerce-business-valuation" component={EcommerceBusinessValuation} />
-            <Route path="/blog/sde-vs-ebitda-guide" component={SdeVsEbitdaGuide} />
-            <Route path="/blog/restaurant-valuation-guide" component={RestaurantValuationGuide} />
-            <Route path="/blog/business-valuation-calculator" component={BusinessValuationCalculator} />
-            <Route path="/blog/business-broker-vs-diy-valuation" component={BusinessBrokerVsDiyValuation} />
-            <Route path="/blog/business-appraisal-cost-guide" component={BusinessAppraisalCostGuide} />
-            <Route path="/blog/family-business-valuation-estate-planning" component={FamilyBusinessValuationEstatePlanning} />
-            <Route path="/blog/manufacturing-business-valuation-multiples" component={ManufacturingBusinessValuationMultiples} />
-            <Route path="/blog/business-valuation-divorce-proceedings" component={BusinessValuationDivorceProceedings} />
-            <Route path="/blog/restaurant-employee-buyout-valuation" component={RestaurantEmployeeBuyoutValuation} />
-            <Route path="/blog/saas-startup-valuation-calculator" component={SaaSStartupValuationCalculator} />
-            <Route path="/download-logos" component={DownloadLogos} />
-            <Route path="/terms" component={Terms} />
-            <Route path="/privacy" component={Privacy} />
-            <Route path="/contact" component={Contact} />
+
           </>
         ) : (
           <>
@@ -115,29 +120,7 @@ function Router() {
             <Route path="/checkout/:id" component={Checkout} />
             <Route path="/checkout-success" component={CheckoutSuccess} />
             <Route path="/dashboard" component={Dashboard} />
-            <Route path="/services" component={Services} />
-            <Route path="/industry-analysis" component={IndustryAnalysis} />
-            <Route path="/pricing" component={Pricing} />
-            <Route path="/about" component={About} />
-            <Route path="/blog" component={BlogIndex} />
-            <Route path="/blog/sde-business-valuation-guide" component={SdeBusinessValuationGuide} />
-            <Route path="/blog/business-valuation-vs-market-appraisal" component={BusinessValuationVsMarketAppraisal} />
-            <Route path="/blog/small-business-sale-preparation" component={SmallBusinessSalePreparation} />
-            <Route path="/blog/industry-valuation-multiples-2025" component={IndustryValuationMultiples2025} />
-            <Route path="/blog/how-to-value-service-business" component={HowToValueServiceBusiness} />
-            <Route path="/blog/business-valuation-mistakes" component={BusinessValuationMistakes} />
-            <Route path="/blog/ecommerce-business-valuation" component={EcommerceBusinessValuation} />
-            <Route path="/blog/sde-vs-ebitda-guide" component={SdeVsEbitdaGuide} />
-            <Route path="/blog/restaurant-valuation-guide" component={RestaurantValuationGuide} />
-            <Route path="/blog/business-valuation-calculator" component={BusinessValuationCalculator} />
-            <Route path="/blog/business-broker-vs-diy-valuation" component={BusinessBrokerVsDiyValuation} />
-            <Route path="/blog/business-appraisal-cost-guide" component={BusinessAppraisalCostGuide} />
-            <Route path="/blog/family-business-valuation-estate-planning" component={FamilyBusinessValuationEstatePlanning} />
-            <Route path="/blog/manufacturing-business-valuation-multiples" component={ManufacturingBusinessValuationMultiples} />
-            <Route path="/blog/business-valuation-divorce-proceedings" component={BusinessValuationDivorceProceedings} />
-            <Route path="/blog/restaurant-employee-buyout-valuation" component={RestaurantEmployeeBuyoutValuation} />
-            <Route path="/blog/saas-startup-valuation-calculator" component={SaaSStartupValuationCalculator} />
-            <Route path="/download-logos" component={DownloadLogos} />
+
 
             <Route path="/admin" component={Admin} />
             <Route path="/customer-data" component={CustomerData} />
