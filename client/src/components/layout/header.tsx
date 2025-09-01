@@ -53,14 +53,27 @@ export default function Header() {
               About
             </Link>
             <button
-              onClick={() => setLocation('/contact')}
+              onClick={() => {
+                // Force a complete navigation refresh to ensure contact loads properly
+                window.location.pathname = '/contact';
+              }}
               className="text-sm text-slate-600 hover:text-slate-900 transition-colors font-medium cursor-pointer" 
               data-testid="nav-contact"
             >
               Contact
             </button>
             <button
-              onClick={() => setLocation('/blog')}
+              onClick={() => {
+                // Force a complete navigation refresh to ensure blog index loads properly from any context
+                console.log('Navigating to blog from:', window.location.pathname);
+                if (window.location.pathname === '/blog') {
+                  // Already on blog page, force reload
+                  window.location.reload();
+                } else {
+                  // Navigate to blog
+                  window.location.href = '/blog';
+                }
+              }}
               className="text-sm text-slate-600 hover:text-slate-900 transition-colors font-medium cursor-pointer" 
               data-testid="nav-blog"
             >
