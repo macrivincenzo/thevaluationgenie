@@ -75,7 +75,7 @@ function Router() {
   return (
     <>
       <Switch>
-        {/* Blog routes available to both authenticated and non-authenticated users */}
+        {/* Blog routes - must be first to avoid authentication conflicts */}
         <Route path="/blog" component={BlogIndex} />
         <Route path="/blog/sde-business-valuation-guide" component={SdeBusinessValuationGuide} />
         <Route path="/blog/business-valuation-vs-market-appraisal" component={BusinessValuationVsMarketAppraisal} />

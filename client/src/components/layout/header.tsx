@@ -55,19 +55,15 @@ export default function Header() {
             <Link href="/contact" className="text-sm text-slate-600 hover:text-slate-900 transition-colors font-medium" data-testid="nav-contact">
               Contact
             </Link>
-            <button
-              onClick={() => {
-                console.log('Blog button clicked - forcing page navigation');
-                // Clear any browser cache or navigation state
-                sessionStorage.clear();
-                // Force complete page reload to blog
-                window.location.href = '/blog';
-              }}
-              className="text-sm text-slate-600 hover:text-slate-900 transition-colors font-medium cursor-pointer bg-transparent border-none"
+            <a
+              href="/blog"
+              target="_self"
+              rel="noopener"
+              className="text-sm text-slate-600 hover:text-slate-900 transition-colors font-medium"
               data-testid="nav-blog"
             >
               Blog
-            </button>
+            </a>
             <Link href="/lifetime" className="flex items-center text-sm text-yellow-600 hover:text-yellow-700 transition-colors font-medium">
               <Crown className="w-3 h-3 mr-1" />
               AppSumo
