@@ -292,14 +292,17 @@ export default function BlogIndex() {
       }
     });
 
-    // Remove existing blog schema if present
+    // Add schema only if not already present
     const existingSchemas = document.querySelectorAll('script[type="application/ld+json"]');
+    let schemaExists = false;
     existingSchemas.forEach(schema => {
       if (schema.textContent?.includes('"@type": "Blog"')) {
-        schema.remove();
+        schemaExists = true;
       }
     });
-    document.head.appendChild(blogSchema);
+    if (!schemaExists) {
+      document.head.appendChild(blogSchema);
+    }
 
     window.scrollTo(0, 0);
   }, []);

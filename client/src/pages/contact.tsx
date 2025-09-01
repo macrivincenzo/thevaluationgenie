@@ -86,14 +86,17 @@ export default function Contact() {
       }
     });
 
-    // Remove existing contact schema if present
+    // Add schema only if not already present
     const existingSchemas = document.querySelectorAll('script[type="application/ld+json"]');
+    let schemaExists = false;
     existingSchemas.forEach(schema => {
       if (schema.textContent?.includes('ContactPage')) {
-        schema.remove();
+        schemaExists = true;
       }
     });
-    document.head.appendChild(contactSchema);
+    if (!schemaExists) {
+      document.head.appendChild(contactSchema);
+    }
 
     window.scrollTo(0, 0);
   }, []);
