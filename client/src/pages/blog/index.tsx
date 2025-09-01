@@ -293,10 +293,12 @@ export default function BlogIndex() {
     });
 
     // Remove existing blog schema if present
-    const existingBlogSchema = document.querySelector('script[type="application/ld+json"]:has-text("Blog")');
-    if (existingBlogSchema) {
-      existingBlogSchema.remove();
-    }
+    const existingSchemas = document.querySelectorAll('script[type="application/ld+json"]');
+    existingSchemas.forEach(schema => {
+      if (schema.textContent?.includes('"@type": "Blog"')) {
+        schema.remove();
+      }
+    });
     document.head.appendChild(blogSchema);
 
     window.scrollTo(0, 0);

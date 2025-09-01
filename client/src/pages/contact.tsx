@@ -87,10 +87,12 @@ export default function Contact() {
     });
 
     // Remove existing contact schema if present
-    const existingContactSchema = document.querySelector('script[type="application/ld+json"]:has-text("ContactPage")');
-    if (existingContactSchema) {
-      existingContactSchema.remove();
-    }
+    const existingSchemas = document.querySelectorAll('script[type="application/ld+json"]');
+    existingSchemas.forEach(schema => {
+      if (schema.textContent?.includes('ContactPage')) {
+        schema.remove();
+      }
+    });
     document.head.appendChild(contactSchema);
 
     window.scrollTo(0, 0);
