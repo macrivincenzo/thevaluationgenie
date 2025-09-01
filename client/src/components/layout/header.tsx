@@ -51,10 +51,10 @@ export default function Header() {
             <Link href="/about" className="text-sm text-slate-600 hover:text-slate-900 transition-colors font-medium">
               About
             </Link>
-            <Link href="/contact" className="text-sm text-slate-600 hover:text-slate-900 transition-colors font-medium">
+            <Link href="/contact" className="text-sm text-slate-600 hover:text-slate-900 transition-colors font-medium" data-testid="nav-contact">
               Contact
             </Link>
-            <Link href="/blog" className="text-sm text-slate-600 hover:text-slate-900 transition-colors font-medium">
+            <Link href="/blog" className="text-sm text-slate-600 hover:text-slate-900 transition-colors font-medium" data-testid="nav-blog">
               Blog
             </Link>
             <Link href="/lifetime" className="flex items-center text-sm text-yellow-600 hover:text-yellow-700 transition-colors font-medium">
