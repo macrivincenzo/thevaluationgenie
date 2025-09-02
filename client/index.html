@@ -64,70 +64,15 @@
     <noscript><link rel="stylesheet" href="/src/index.css"></noscript>
     <!-- Remove modulepreload to eliminate 150ms render-blocking -->
     
-    <!-- ZERO JavaScript during critical render for 100 PageSpeed score -->
+    <!-- Preload key resources -->
+    <link rel="prefetch" href="/api/auth/user">
+    <link rel="prefetch" href="/api/stripe/config">
     
     <!-- Critical CSS Inlined for FCP -->
     <style>
-      /* COMPLETE above-fold content - zero external requests */
-      * { box-sizing: border-box; margin: 0; padding: 0; }
-      body { 
-        margin: 0; 
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
-        line-height: 1.6; 
-        background: #ffffff;
-        color: #0f172a;
-      }
-      
-      /* Complete hero section - inline everything */
-      .static-hero {
-        min-height: 100vh;
-        padding: 2rem 1rem;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-      }
-      
-      .static-hero h1 {
-        font-size: 3.5rem;
-        font-weight: 800;
-        margin-bottom: 1.5rem;
-        max-width: 800px;
-      }
-      
-      .static-hero p {
-        font-size: 1.25rem;
-        margin-bottom: 2rem;
-        max-width: 600px;
-        opacity: 0.9;
-      }
-      
-      .static-cta {
-        background: #3b82f6;
-        color: white;
-        padding: 1rem 2rem;
-        border: none;
-        border-radius: 0.5rem;
-        font-size: 1.1rem;
-        font-weight: 600;
-        cursor: pointer;
-        text-decoration: none;
-        display: inline-block;
-        transition: background 0.2s;
-      }
-      
-      .static-cta:hover {
-        background: #2563eb;
-      }
-      
-      @media (max-width: 768px) {
-        .static-hero h1 { font-size: 2.5rem; }
-        .static-hero p { font-size: 1.1rem; }
-        .static-hero { padding: 1rem 0.5rem; min-height: 80vh; }
-      }
+      /* Critical above-the-fold styles */
+      * { box-sizing: border-box; }
+      body { margin: 0; font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; }
       
       /* Critical layout styles optimized for forced reflow prevention */
       .hero-section { 
@@ -544,42 +489,11 @@
       </main>
     </noscript>
     
-    <!-- Static hero content for INSTANT FCP/LCP with ZERO external requests -->
-    <div class="static-hero">
-      <h1>Professional Business Valuation Software</h1>
-      <p>Get instant, accurate valuations using SDE methodology. Trusted by 1000+ business owners worldwide.</p>
-      <a href="#" class="static-cta" onclick="loadApp(); return false;">Get Your Free Valuation</a>
-    </div>
-    
-    <!-- Hidden React app container -->
-    <div id="root" style="display: none;"></div>
+    <div id="root"></div>
     
     <!-- ZERO JavaScript during critical render - moved to end for 100 score -->
     
-    <!-- Ultimate PageSpeed optimization - load app only when clicked -->
-    <script>
-      function loadApp() {
-        // Hide static content
-        document.querySelector('.static-hero').style.display = 'none';
-        // Show React app
-        document.getElementById('root').style.display = 'block';
-        
-        // Load main React app
-        const script = document.createElement('script');
-        script.type = 'module';
-        script.src = '/src/main.tsx';
-        document.head.appendChild(script);
-        
-        // Load API calls
-        setTimeout(() => {
-          fetch('/api/auth/user').catch(() => {});
-          fetch('/api/stripe/config').catch(() => {});
-        }, 500);
-      }
-      
-      // For PageSpeed: NO automatic loading - only load when user interacts
-      // This gives perfect FCP/LCP scores as only static HTML/CSS renders
-    </script>
+    <script type="module" src="/src/main.tsx"></script>
     <!-- Remove Replit dev banner for production performance -->
     <script>
       // Only load Replit dev banner in development
