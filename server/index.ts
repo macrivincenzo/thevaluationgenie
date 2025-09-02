@@ -5,10 +5,6 @@ import { db, withDatabaseRetry, checkDatabaseHealth } from "./db";
 import { users } from "@shared/schema";
 import { eq } from "drizzle-orm";
 
-// Track application readiness state
-let isReady = false;
-let initializationError: string | null = null;
-
 // Initialize users in database to match in-memory auth system with retry logic
 async function initializeUsers() {
   try {
@@ -45,12 +41,9 @@ async function initializeUsers() {
     });
 
     console.log('Users created:', ['test@test.com', 'macrivincenzo@hotmail.com']);
-    isReady = true;
   } catch (error) {
     console.error('Error initializing database users:', error);
     console.warn('Application will continue with in-memory auth fallback');
-    initializationError = error instanceof Error ? error.message : 'Unknown initialization error';
-    isReady = true; // Still mark as ready since we have fallback
   }
 }
 
@@ -92,48 +85,11 @@ app.use((req, res, next) => {
   next();
 });
 
-// Add health check endpoint for Cloud Run
-app.get('/health', (req, res) => {
-  const healthStatus: any = {
-    status: 'ok',
-    timestamp: new Date().toISOString(),
-    ready: isReady,
-    uptime: process.uptime(),
-  };
-
-  if (initializationError) {
-    healthStatus.warning = `Database initialization issue: ${initializationError}`;
-  }
-
-  res.status(200).json(healthStatus);
-});
-
-// Add readiness check endpoint
-app.get('/ready', (req, res) => {
-  if (isReady) {
-    res.status(200).json({
-      status: 'ready',
-      timestamp: new Date().toISOString(),
-      message: 'Application is ready to serve requests'
-    });
-  } else {
-    res.status(503).json({
-      status: 'not_ready',
-      timestamp: new Date().toISOString(),
-      message: 'Application is still initializing'
-    });
-  }
-});
-
 (async () => {
+  // Initialize database users before starting server
+  await initializeUsers();
+  
   const server = await registerRoutes(app);
-
-  // Start database initialization in background (non-blocking)
-  setImmediate(() => {
-    initializeUsers().catch(error => {
-      console.error('Background database initialization failed:', error);
-    });
-  });
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;

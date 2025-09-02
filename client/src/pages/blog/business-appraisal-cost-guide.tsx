@@ -698,16 +698,11 @@ export default function BusinessAppraisalCostGuide() {
           <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
             Get the same professional methodology as expensive appraisers for just $39. Comprehensive 3+ page report delivered in 15 minutes, not 8 weeks.
           </p>
-          <Button 
-            size="lg" 
-            className="bg-white text-blue-600 hover:bg-gray-100"
-            onClick={() => {
-              try { sessionStorage.clear(); } catch (e) {}
-              window.location.assign('/');
-            }}
-          >
-            <FileText className="w-5 h-5 mr-2" />
-            Get Your Professional Appraisal - $39
+          <Button asChild size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
+            <a href="https://thevaluationgenie.com/" className="inline-flex items-center">
+              <FileText className="w-5 h-5 mr-2" />
+              Get Your Professional Appraisal - $39
+            </a>
           </Button>
           <p className="text-blue-100 text-sm mt-4">✨ 7-day money-back guarantee • Instant download • Professional quality</p>
         </div>

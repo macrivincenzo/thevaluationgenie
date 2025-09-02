@@ -57,11 +57,8 @@ export default function Header() {
             </Link>
             <button
               onClick={() => {
-                // Clean navigation to prevent state accumulation
-                try {
-                  sessionStorage.clear();
-                } catch (e) {}
-                window.location.assign('/blog');
+                // Force page reload to ensure clean navigation state
+                window.location.href = '/blog';
               }}
               className="text-sm text-slate-600 hover:text-slate-900 transition-colors font-medium bg-transparent border-none p-0 cursor-pointer"
               data-testid="nav-blog"

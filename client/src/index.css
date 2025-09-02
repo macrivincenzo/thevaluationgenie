@@ -2,32 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Advanced Performance Optimizations */
-* {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-/* Reduce motion for users who prefer it */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
 /* Performance optimizations for mobile */
 @media (max-width: 768px) {
   * {
     transform-style: flat;
-    will-change: auto;
   }
   
   .animate-pulse {
@@ -36,99 +14,6 @@ html {
   
   .transition-colors {
     transition-duration: 0.15s;
-  }
-  
-  /* Optimize scrolling on mobile */
-  body {
-    -webkit-overflow-scrolling: touch;
-  }
-}
-
-/* Optimize font loading */
-@font-face {
-  font-family: 'Inter';
-  font-display: swap;
-  src: local('Inter'), local('Inter-Regular');
-}
-
-/* Contain layout to prevent reflow */
-.container {
-  contain: layout style paint;
-}
-
-/* GPU acceleration for smooth animations */
-.animate-spin,
-.animate-pulse,
-.hover\:scale-105:hover {
-  transform: translateZ(0);
-  will-change: transform;
-}
-
-/* Critical above-the-fold optimization */
-.hero-section {
-  contain: layout;
-  will-change: auto;
-}
-
-/* Lazy loading placeholder */
-.lazy-load {
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-}
-
-.lazy-load.loaded {
-  opacity: 1;
-}
-
-/* Performance optimizations for different device capabilities */
-.mobile-optimized .animate-spin,
-.mobile-optimized .animate-pulse,
-.mobile-optimized .transition-all {
-  animation-duration: 0.8s;
-  transition-duration: 0.2s;
-}
-
-.slow-connection img {
-  filter: contrast(0.9);
-}
-
-.slow-connection .bg-gradient-to-r {
-  background: linear-gradient(45deg, var(--primary), var(--primary-foreground));
-}
-
-/* Improved focus indicators for accessibility */
-*:focus-visible {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
-  border-radius: 4px;
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-  .btn-primary {
-    border: 2px solid currentColor;
-  }
-  
-  .text-slate-600 {
-    color: #000000 !important;
-  }
-  
-  .border-slate-200 {
-    border-color: #000000 !important;
-  }
-}
-
-/* Reduce animations for users who prefer reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  .spinner {
-    animation: none;
-  }
-  
-  .loading-screen .spinner::after {
-    content: "Loading...";
-    display: block;
-    text-align: center;
-    margin-top: 50px;
   }
 }
 

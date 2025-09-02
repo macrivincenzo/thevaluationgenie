@@ -4,55 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- Critical Performance Optimizations -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-    <link rel="preconnect" href="https://api.stripe.com" crossorigin>
-    <link rel="dns-prefetch" href="//thevaluationgenie.com">
-    
-    <!-- Critical CSS Inlined for FCP -->
-    <style>
-      /* Critical above-the-fold styles */
-      * { box-sizing: border-box; }
-      body { margin: 0; font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; }
-      .loading-screen { 
-        position: fixed; 
-        top: 0; 
-        left: 0; 
-        width: 100vw; 
-        height: 100vh; 
-        background: #fff; 
-        display: flex; 
-        align-items: center; 
-        justify-content: center; 
-        z-index: 9999;
-      }
-      .spinner { 
-        width: 40px; 
-        height: 40px; 
-        border: 3px solid #f3f3f3; 
-        border-top: 3px solid #3b82f6; 
-        border-radius: 50%; 
-        animation: spin 1s linear infinite; 
-      }
-      @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-      
-      /* Critical layout styles */
-      .hero-section { min-height: 80vh; padding: 2rem 1rem; }
-      .container { max-width: 1200px; margin: 0 auto; }
-      .btn-primary { 
-        background: #3b82f6; 
-        color: white; 
-        padding: 0.75rem 1.5rem; 
-        border: none; 
-        border-radius: 0.5rem; 
-        font-weight: 600; 
-        cursor: pointer;
-        display: inline-block;
-        text-decoration: none;
-      }
-      .btn-primary:hover { background: #2563eb; }
-    </style>
-    
     <!-- Enhanced SEO Meta Tags -->
     <title>Business Valuation Calculator 2025 | Free SDE Calculator | Professional Reports $39</title>
     <meta name="description" content="Get instant business valuation results with our free SDE calculator. Download professional reports for $39. Trusted by 1000+ business owners. Start your valuation today!">
@@ -61,14 +12,6 @@
     <meta name="publisher" content="ValuationGenie">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <meta name="googlebot" content="index, follow">
-    
-    <!-- Security Headers -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://replit.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.stripe.com https://thevaluationgenie.com; frame-src https://js.stripe.com;">
-    <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="X-Frame-Options" content="DENY">
-    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
-    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
-    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
     
     <!-- Enhanced Open Graph Tags -->
     <meta property="og:title" content="Business Valuation Calculator 2025 | Free SDE Calculator | Professional Reports $39">
@@ -247,25 +190,17 @@
     <meta name="msvalidate.01" content="PENDING_BING_SETUP" />
   </head>
   <body>
-    <!-- Loading Screen for Better Perceived Performance -->
-    <div id="loading-screen" class="loading-screen">
-      <div class="spinner"></div>
-    </div>
-    
     <!-- SEO Semantic Structure for Crawlers -->
     <noscript>
-      <!-- Skip to main content for screen readers -->
-      <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-blue-600 text-white px-4 py-2 rounded">Skip to main content</a>
-      
-      <nav class="main-navigation" role="navigation" aria-label="Main navigation">
-        <a href="/" aria-current="page">Home</a>
+      <nav class="main-navigation">
+        <a href="/">Home</a>
         <a href="/pricing">Pricing</a>
         <a href="/about">About</a>
         <a href="/contact">Contact</a>
         <a href="/how-it-works">How It Works</a>
       </nav>
       
-      <main id="main-content" role="main">
+      <main>
         <h1>Professional Business Valuation Software</h1>
         
         <section class="hero">
@@ -350,28 +285,6 @@
     </noscript>
     
     <div id="root"></div>
-    
-    <!-- Performance-Optimized Script Loading -->
-    <script>
-      // Remove loading screen when app loads
-      window.addEventListener('load', function() {
-        setTimeout(function() {
-          const loadingScreen = document.getElementById('loading-screen');
-          if (loadingScreen) {
-            loadingScreen.style.opacity = '0';
-            loadingScreen.style.transition = 'opacity 0.3s ease';
-            setTimeout(() => loadingScreen.remove(), 300);
-          }
-        }, 100);
-      });
-      
-      // Preload critical resources
-      const preloadLink = document.createElement('link');
-      preloadLink.rel = 'modulepreload';
-      preloadLink.href = '/src/main.tsx';
-      document.head.appendChild(preloadLink);
-    </script>
-    
     <script type="module" src="/src/main.tsx"></script>
     <!-- This is a replit script which adds a banner on the top of the page when opened in development mode outside the replit environment -->
     <script type="text/javascript" src="https://replit.com/public/js/replit-dev-banner.js"></script>
