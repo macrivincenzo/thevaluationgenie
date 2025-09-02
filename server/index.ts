@@ -1,4 +1,5 @@
 import express, { type Request, Response, NextFunction } from "express";
+import compression from "compression";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { db, withDatabaseRetry, checkDatabaseHealth } from "./db";
@@ -55,6 +56,20 @@ async function initializeUsers() {
 }
 
 const app = express();
+
+// Add compression middleware FIRST for PageSpeed optimization
+app.use(compression({
+  filter: (req, res) => {
+    // Compress all text-based responses
+    if (req.headers['x-no-compression']) {
+      return false;
+    }
+    return compression.filter(req, res);
+  },
+  level: 6, // Good balance of compression vs speed
+  threshold: 1024, // Only compress responses > 1KB
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
