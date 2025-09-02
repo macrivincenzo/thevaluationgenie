@@ -6,8 +6,17 @@
     
     <!-- Critical Performance Optimizations -->
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://api.stripe.com" crossorigin>
     <link rel="dns-prefetch" href="//thevaluationgenie.com">
+    <link rel="dns-prefetch" href="//js.stripe.com">
+    
+    <!-- Preload critical fonts -->
+    <link rel="preload" href="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2" as="font" type="font/woff2" crossorigin>
+    
+    <!-- Preload critical CSS -->
+    <link rel="preload" href="/src/index.css" as="style">
+    <link rel="preload" href="/src/main.tsx" as="script">
     
     <!-- Critical CSS Inlined for FCP -->
     <style>
@@ -37,8 +46,19 @@
       @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
       
       /* Critical layout styles */
-      .hero-section { min-height: 80vh; padding: 2rem 1rem; }
-      .container { max-width: 1200px; margin: 0 auto; }
+      .hero-section { 
+        min-height: 80vh; 
+        padding: 2rem 1rem; 
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+      .container { 
+        max-width: 1200px; 
+        margin: 0 auto; 
+        contain: layout style;
+      }
       .btn-primary { 
         background: #3b82f6; 
         color: white; 
@@ -49,8 +69,19 @@
         cursor: pointer;
         display: inline-block;
         text-decoration: none;
+        transform: translateZ(0);
+        will-change: background-color;
       }
-      .btn-primary:hover { background: #2563eb; }
+      .btn-primary:hover { 
+        background: #2563eb; 
+        transform: translateZ(0) scale(1.02);
+      }
+      
+      /* Optimize initial render */
+      #root { 
+        min-height: 100vh;
+        contain: layout style;
+      }
     </style>
     
     <!-- Enhanced SEO Meta Tags -->
@@ -353,23 +384,39 @@
     
     <!-- Performance-Optimized Script Loading -->
     <script>
-      // Remove loading screen when app loads
-      window.addEventListener('load', function() {
-        setTimeout(function() {
-          const loadingScreen = document.getElementById('loading-screen');
-          if (loadingScreen) {
-            loadingScreen.style.opacity = '0';
-            loadingScreen.style.transition = 'opacity 0.3s ease';
-            setTimeout(() => loadingScreen.remove(), 300);
-          }
-        }, 100);
+      // Remove loading screen when DOM is ready (faster)
+      document.addEventListener('DOMContentLoaded', function() {
+        const loadingScreen = document.getElementById('loading-screen');
+        if (loadingScreen) {
+          loadingScreen.style.opacity = '0';
+          loadingScreen.style.transition = 'opacity 0.2s ease';
+          setTimeout(() => loadingScreen.remove(), 200);
+        }
       });
       
-      // Preload critical resources
+      // Preload critical resources immediately
       const preloadLink = document.createElement('link');
       preloadLink.rel = 'modulepreload';
       preloadLink.href = '/src/main.tsx';
       document.head.appendChild(preloadLink);
+      
+      // Optimize performance for different devices
+      if (navigator.hardwareConcurrency <= 4) {
+        // Low-end device optimizations
+        document.documentElement.style.setProperty('--animation-duration', '0.1s');
+        document.documentElement.classList.add('low-performance');
+      }
+      
+      // Aggressive resource prefetching
+      setTimeout(() => {
+        const criticalPaths = ['/pricing', '/services'];
+        criticalPaths.forEach(path => {
+          const link = document.createElement('link');
+          link.rel = 'prefetch';
+          link.href = path;
+          document.head.appendChild(link);
+        });
+      }, 1000);
     </script>
     
     <script type="module" src="/src/main.tsx"></script>
