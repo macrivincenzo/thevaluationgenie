@@ -126,6 +126,10 @@ function Router() {
             <Route path="/admin" component={Admin} />
             <Route path="/customer-data" component={CustomerData} />
             <Route path="/stripe-test" component={StripeTest} />
+            <Route path="/lifetime" component={LifetimeSetup} />
+            <Route path="/terms" component={Terms} />
+            <Route path="/privacy" component={Privacy} />
+            <Route path="/contact" component={Contact} />
           </>
         )}
         <Route component={NotFound} />
@@ -147,8 +151,8 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Elements stripe={stripePromise}>
-          <Router />
           <Toaster />
+          <Router />
         </Elements>
       </TooltipProvider>
     </QueryClientProvider>
