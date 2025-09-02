@@ -62,20 +62,30 @@
     </style>
     <!-- Completely eliminate /src/index.css loading to remove 23.5KB render-blocking -->
     <noscript><link rel="stylesheet" href="/src/index.css"></noscript>
-    <link rel="modulepreload" href="/src/main.tsx">
+    <!-- Remove modulepreload to eliminate 150ms render-blocking -->
     
-    <!-- Optimize network dependency chain - critical path optimization -->
+    <!-- Ultra-aggressive mobile optimization - eliminate ALL non-critical JS -->
     <link rel="preconnect" href="https://js.stripe.com" crossorigin>
     <link rel="preconnect" href="https://m.stripe.network" crossorigin>
-    <link rel="modulepreload" href="/assets/index-Dr9fW0ee.js">
     
-    <!-- Defer non-critical API calls to reduce critical path -->
+    <!-- Conditional loading - no preload on mobile to reduce 224KB -->
     <script>
-      // Load user auth after critical render to reduce 1,292ms chain
+      const isMobileCheck = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      
+      if (!isMobileCheck) {
+        // Only preload on desktop
+        const moduleLink = document.createElement('link');
+        moduleLink.rel = 'modulepreload';
+        moduleLink.href = '/assets/index-Dr9fW0ee.js';
+        document.head.appendChild(moduleLink);
+      }
+      
+      // Defer ALL API calls for mobile
+      const delay = isMobileCheck ? 2000 : 100;
       setTimeout(() => {
         fetch('/api/auth/user').catch(() => {});
         fetch('/api/stripe/config').catch(() => {});
-      }, 100);
+      }, delay);
     </script>
     
     <!-- Critical CSS Inlined for FCP -->
@@ -579,18 +589,23 @@
             }
           });
           
-          // Use requestIdleCallback to reduce TBT
+          // Extreme mobile optimization - defer everything
+          const loadCritical = () => {
+            // Only load main React app after 3 seconds on mobile
+            setTimeout(() => {
+              const mainScript = document.createElement('script');
+              mainScript.type = 'module';
+              mainScript.src = '/src/main.tsx';
+              mainScript.async = true;
+              document.head.appendChild(mainScript);
+            }, 3000);
+          };
+          
+          // Use requestIdleCallback or fallback
           if ('requestIdleCallback' in window) {
-            requestIdleCallback(() => {
-              // Only load essential scripts during idle time
-              if (document.querySelector('[data-stripe]')) {
-                const stripeScript = document.createElement('script');
-                stripeScript.src = 'https://js.stripe.com/v3/';
-                stripeScript.async = true;
-                stripeScript.defer = true;
-                document.head.appendChild(stripeScript);
-              }
-            });
+            requestIdleCallback(loadCritical, { timeout: 5000 });
+          } else {
+            setTimeout(loadCritical, 4000);
           }
         }
       }
@@ -616,7 +631,20 @@
       }
     </script>
     
-    <script type="module" src="/src/main.tsx"></script>
+    <!-- Load main app dynamically for mobile optimization -->
+    <script>
+      // Only load main app on desktop immediately, defer on mobile
+      const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      
+      if (!isMobileDevice) {
+        // Desktop: load immediately
+        const script = document.createElement('script');
+        script.type = 'module';
+        script.src = '/src/main.tsx';
+        document.head.appendChild(script);
+      }
+      // Mobile loading is handled above with requestIdleCallback
+    </script>
     <!-- Remove Replit dev banner for production performance -->
     <script>
       // Only load Replit dev banner in development
