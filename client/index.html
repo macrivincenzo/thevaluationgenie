@@ -539,16 +539,16 @@
       document.head.appendChild(preloadLink);
       
       // Aggressive mobile and low-end device optimizations
-      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
       const isLowEnd = navigator.hardwareConcurrency <= 4 || navigator.deviceMemory <= 4;
       
-      if (isMobile || isLowEnd) {
+      if (isMobileUA || isLowEnd) {
         // Disable animations and transitions for mobile/low-end devices
         document.documentElement.style.setProperty('--animation-duration', '0ms');
         document.documentElement.classList.add('low-performance');
         
         // Aggressive mobile JavaScript optimization
-        if (isMobile) {
+        if (isMobileUA) {
           document.documentElement.classList.add('mobile-device');
           
           // Remove all non-critical resources immediately on mobile
@@ -576,7 +576,7 @@
       }
       
       // Aggressive resource prefetching (only for desktop)
-      if (!isMobile) {
+      if (!isMobileUA) {
         setTimeout(() => {
           const criticalPaths = ['/pricing', '/services'];
           criticalPaths.forEach(path => {
