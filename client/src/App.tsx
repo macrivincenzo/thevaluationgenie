@@ -77,7 +77,7 @@ function Router() {
       <Switch>
         {/* Blog routes - must be first to avoid authentication conflicts */}
         <Route path="/blog" component={BlogIndex} />
-        <Route path="/blog/" component={BlogIndex} />
+
         <Route path="/blog/sde-business-valuation-guide" component={SdeBusinessValuationGuide} />
         <Route path="/blog/business-valuation-vs-market-appraisal" component={BusinessValuationVsMarketAppraisal} />
         <Route path="/blog/small-business-sale-preparation" component={SmallBusinessSalePreparation} />
