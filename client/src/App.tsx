@@ -147,8 +147,8 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Elements stripe={stripePromise}>
-          <Toaster />
           <Router />
+          <Toaster />
         </Elements>
       </TooltipProvider>
     </QueryClientProvider>
