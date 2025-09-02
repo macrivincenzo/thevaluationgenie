@@ -1,19 +1,25 @@
 User-agent: *
 Allow: /
 
-# Important pages for SEO crawling
-Allow: /valuation
-Allow: /services
-Allow: /industry-analysis
-Allow: /contact
-
-# Block sensitive pages
-Disallow: /dashboard
-Disallow: /admin
-Disallow: /api/
-
-# Sitemap location
+# High-priority pages
 Sitemap: https://thevaluationgenie.com/sitemap.xml
 
-# Crawl delay (optional - helps with server load)
+# SEO Optimized crawling
 Crawl-delay: 1
+
+# Allow all major search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+# Block AI training bots (optional)
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /

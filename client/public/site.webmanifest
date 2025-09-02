@@ -1,26 +1,25 @@
 {
-  "name": "ValuationGenie",
+  "name": "ValuationGenie - Business Valuation Calculator",
   "short_name": "ValuationGenie",
-  "description": "Instant Business Valuation - Professional reports for $39",
+  "description": "Professional business valuation software using SDE methodology",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3b82f6",
   "icons": [
     {
       "src": "/favicon.svg",
       "sizes": "any",
-      "type": "image/svg+xml"
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     },
     {
-      "src": "/favicon-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "/favicon-512x512.png",
-      "sizes": "512x512",
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
       "type": "image/png"
     }
   ],
-  "theme_color": "#4f46e5",
-  "background_color": "#ffffff",
-  "display": "standalone",
-  "start_url": "/"
+  "categories": ["business", "finance", "tools"],
+  "lang": "en",
+  "orientation": "portrait-primary"
 }

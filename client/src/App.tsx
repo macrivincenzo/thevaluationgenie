@@ -7,7 +7,11 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useAuth } from "@/hooks/useAuth";
 import { usePerformanceOptimization } from "@/hooks/use-performance";
+import { useWebVitals } from "@/hooks/use-web-vitals";
 import { useState, useEffect } from "react";
+import { SkipLink } from "@/components/accessibility/SkipLink";
+import { LiveRegion } from "@/components/accessibility/LiveRegion";
+import { ResourcePreloader } from "@/components/performance/ResourcePreloader";
 import ProfileCompletionModal from "@/components/auth/profile-completion-modal";
 import Landing from "@/pages/landing";
 import Home from "@/pages/home";
@@ -53,9 +57,11 @@ import DownloadLogos from "@/pages/download-logos";
 function Router() {
   const { isAuthenticated, isLoading, user } = useAuth();
   const [showProfileModal, setShowProfileModal] = useState(false);
+  const [announceMessage, setAnnounceMessage] = useState('');
   
   // Apply performance optimizations
   usePerformanceOptimization();
+  useWebVitals();
 
   // Check if user needs to complete profile
   useEffect(() => {
@@ -76,8 +82,22 @@ function Router() {
     );
   }
 
+  // Critical resources to preload
+  const criticalResources = [
+    { href: '/src/pages/valuation-flow.tsx', as: 'script' as const },
+    { href: '/src/pages/pricing.tsx', as: 'script' as const },
+    { href: '/src/pages/blog/index.tsx', as: 'script' as const },
+  ];
+
   return (
     <>
+      {/* Performance optimizations */}
+      <ResourcePreloader resources={criticalResources} priority="high" />
+      
+      {/* Accessibility improvements */}
+      <SkipLink href="#main-content">Skip to main content</SkipLink>
+      <LiveRegion message={announceMessage} />
+      
       <Switch>
         {/* Blog routes - must be first to avoid authentication conflicts */}
         <Route path="/blog" component={BlogIndex} />
