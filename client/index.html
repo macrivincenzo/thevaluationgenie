@@ -73,6 +73,32 @@
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
       }
+      
+      /* Mobile-specific optimizations */
+      @media (max-width: 768px) {
+        .hero-section {
+          min-height: 60vh;
+          padding: 1rem;
+        }
+        body {
+          text-rendering: optimizeSpeed;
+        }
+        * {
+          -webkit-tap-highlight-color: transparent;
+        }
+      }
+      
+      /* Reduce animations on low-performance devices */
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+        .spinner {
+          animation: none;
+        }
+      }
       .btn-primary { 
         background: #3b82f6; 
         color: white; 
