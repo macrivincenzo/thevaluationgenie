@@ -74,17 +74,30 @@
         -moz-osx-font-smoothing: grayscale;
       }
       
-      /* Mobile-specific optimizations */
+      /* Aggressive mobile-specific optimizations */
       @media (max-width: 768px) {
         .hero-section {
-          min-height: 60vh;
-          padding: 1rem;
+          min-height: 50vh;
+          padding: 0.5rem;
         }
         body {
           text-rendering: optimizeSpeed;
+          font-display: swap;
         }
         * {
           -webkit-tap-highlight-color: transparent;
+          transform: translateZ(0);
+        }
+        /* Disable expensive visual effects on mobile */
+        .mobile-device * {
+          box-shadow: none !important;
+          border-radius: 4px !important;
+          backdrop-filter: none !important;
+        }
+        /* Optimize images for mobile */
+        img {
+          image-rendering: optimizeSpeed;
+          transform: translateZ(0);
         }
       }
       
@@ -440,11 +453,27 @@
       preloadLink.href = '/src/main.tsx';
       document.head.appendChild(preloadLink);
       
-      // Optimize performance for different devices
-      if (navigator.hardwareConcurrency <= 4) {
-        // Low-end device optimizations
-        document.documentElement.style.setProperty('--animation-duration', '0.1s');
+      // Aggressive mobile and low-end device optimizations
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      const isLowEnd = navigator.hardwareConcurrency <= 4 || navigator.deviceMemory <= 4;
+      
+      if (isMobile || isLowEnd) {
+        // Disable animations and transitions for mobile/low-end devices
+        document.documentElement.style.setProperty('--animation-duration', '0ms');
         document.documentElement.classList.add('low-performance');
+        
+        // Reduce JavaScript execution priority for mobile
+        if (isMobile) {
+          document.documentElement.classList.add('mobile-device');
+          // Defer non-critical JavaScript
+          setTimeout(() => {
+            // Load non-critical resources after initial render
+            const nonCriticalLinks = document.querySelectorAll('link[rel="prefetch"]');
+            nonCriticalLinks.forEach(link => {
+              link.remove();
+            });
+          }, 2000);
+        }
       }
       
       // Aggressive resource prefetching
