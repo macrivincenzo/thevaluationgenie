@@ -11,9 +11,10 @@
     <link rel="dns-prefetch" href="//thevaluationgenie.com">
     <link rel="dns-prefetch" href="//js.stripe.com">
     
-    <!-- Early resource hints for 100 performance score -->
-    <link rel="preload" href="/api/auth/user" as="fetch" crossorigin>
+    <!-- Critical resource preloading optimized -->
     <link rel="preload" href="/api/stripe/config" as="fetch" crossorigin>
+    <link rel="dns-prefetch" href="//m.stripe.network">
+    <link rel="dns-prefetch" href="//m.stripe.com">
     
     <!-- Preload critical fonts -->
     <link rel="preload" href="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2" as="font" type="font/woff2" crossorigin>
@@ -456,8 +457,8 @@
         removeLoadingScreen();
       }
       
-      // Fallback removal after short delay
-      setTimeout(removeLoadingScreen, 50);
+      // Faster fallback removal for better FCP
+      setTimeout(removeLoadingScreen, 10);
       
       // Preload critical resources immediately
       const preloadLink = document.createElement('link');
