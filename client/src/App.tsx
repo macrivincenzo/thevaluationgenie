@@ -8,20 +8,21 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { useAuth } from "@/hooks/useAuth";
 import { usePerformanceOptimization } from "@/hooks/use-performance";
 import { useWebVitals } from "@/hooks/use-web-vitals";
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { SkipLink } from "@/components/accessibility/SkipLink";
 import { LiveRegion } from "@/components/accessibility/LiveRegion";
 import { ResourcePreloader } from "@/components/performance/ResourcePreloader";
 import ProfileCompletionModal from "@/components/auth/profile-completion-modal";
 import Landing from "@/pages/landing";
 import Home from "@/pages/home";
-import ValuationFlow from "@/pages/valuation-flow";
-import Checkout from "@/pages/checkout";
-import CheckoutSuccess from "@/pages/checkout-success";
-import Dashboard from "@/pages/dashboard";
-import Admin from "@/pages/admin";
-import CustomerData from "@/pages/customer-data";
-import StripeTest from "@/pages/stripe-test";
+// Lazy load heavy authenticated pages
+const ValuationFlow = lazy(() => import("@/pages/valuation-flow"));
+const Checkout = lazy(() => import("@/pages/checkout"));
+const CheckoutSuccess = lazy(() => import("@/pages/checkout-success"));
+const Dashboard = lazy(() => import("@/pages/dashboard"));
+const Admin = lazy(() => import("@/pages/admin"));
+const CustomerData = lazy(() => import("@/pages/customer-data"));
+const StripeTest = lazy(() => import("@/pages/stripe-test"));
 
 import Terms from "@/pages/terms";
 import Privacy from "@/pages/privacy";
@@ -34,25 +35,34 @@ import NotFound from "@/pages/not-found";
 import Login from "@/pages/auth/login";
 import Signup from "@/pages/auth/signup";
 import LifetimeSetup from "@/pages/lifetime-setup";
-import BlogIndex from "@/pages/blog/index";
-import SdeBusinessValuationGuide from "@/pages/blog/sde-business-valuation-guide";
-import BusinessValuationVsMarketAppraisal from "@/pages/blog/business-valuation-vs-market-appraisal";
-import SmallBusinessSalePreparation from "@/pages/blog/small-business-sale-preparation";
-import IndustryValuationMultiples2025 from "@/pages/blog/industry-valuation-multiples-2025";
-import HowToValueServiceBusiness from "@/pages/blog/how-to-value-service-business";
-import BusinessValuationMistakes from "@/pages/blog/business-valuation-mistakes";
-import EcommerceBusinessValuation from "@/pages/blog/ecommerce-business-valuation";
-import SdeVsEbitdaGuide from "@/pages/blog/sde-vs-ebitda-guide";
-import RestaurantValuationGuide from "@/pages/blog/restaurant-valuation-guide";
-import BusinessValuationCalculator from "@/pages/blog/business-valuation-calculator";
-import BusinessBrokerVsDiyValuation from "@/pages/blog/business-broker-vs-diy-valuation";
-import BusinessAppraisalCostGuide from "@/pages/blog/business-appraisal-cost-guide";
-import FamilyBusinessValuationEstatePlanning from "@/pages/blog/family-business-valuation-estate-planning";
-import ManufacturingBusinessValuationMultiples from "@/pages/blog/manufacturing-business-valuation-multiples";
-import BusinessValuationDivorceProceedings from "@/pages/blog/business-valuation-divorce-proceedings";
-import RestaurantEmployeeBuyoutValuation from "@/pages/blog/restaurant-employee-buyout-valuation";
-import SaaSStartupValuationCalculator from "@/pages/blog/saas-startup-valuation-calculator";
+
+// Lazy load blog pages for better performance
+const BlogIndex = lazy(() => import("@/pages/blog/index"));
+const SdeBusinessValuationGuide = lazy(() => import("@/pages/blog/sde-business-valuation-guide"));
+const BusinessValuationVsMarketAppraisal = lazy(() => import("@/pages/blog/business-valuation-vs-market-appraisal"));
+const SmallBusinessSalePreparation = lazy(() => import("@/pages/blog/small-business-sale-preparation"));
+const IndustryValuationMultiples2025 = lazy(() => import("@/pages/blog/industry-valuation-multiples-2025"));
+const HowToValueServiceBusiness = lazy(() => import("@/pages/blog/how-to-value-service-business"));
+const BusinessValuationMistakes = lazy(() => import("@/pages/blog/business-valuation-mistakes"));
+const EcommerceBusinessValuation = lazy(() => import("@/pages/blog/ecommerce-business-valuation"));
+const SdeVsEbitdaGuide = lazy(() => import("@/pages/blog/sde-vs-ebitda-guide"));
+const RestaurantValuationGuide = lazy(() => import("@/pages/blog/restaurant-valuation-guide"));
+const BusinessValuationCalculator = lazy(() => import("@/pages/blog/business-valuation-calculator"));
+const BusinessBrokerVsDiyValuation = lazy(() => import("@/pages/blog/business-broker-vs-diy-valuation"));
+const BusinessAppraisalCostGuide = lazy(() => import("@/pages/blog/business-appraisal-cost-guide"));
+const FamilyBusinessValuationEstatePlanning = lazy(() => import("@/pages/blog/family-business-valuation-estate-planning"));
+const ManufacturingBusinessValuationMultiples = lazy(() => import("@/pages/blog/manufacturing-business-valuation-multiples"));
+const BusinessValuationDivorceProceedings = lazy(() => import("@/pages/blog/business-valuation-divorce-proceedings"));
+const RestaurantEmployeeBuyoutValuation = lazy(() => import("@/pages/blog/restaurant-employee-buyout-valuation"));
+const SaaSStartupValuationCalculator = lazy(() => import("@/pages/blog/saas-startup-valuation-calculator"));
 import DownloadLogos from "@/pages/download-logos";
+
+// Loading fallback for lazy loaded components
+const PageLoadingFallback = () => (
+  <div className="min-h-screen bg-white flex items-center justify-center">
+    <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" />
+  </div>
+);
 
 function Router() {
   const { isAuthenticated, isLoading, user } = useAuth();
@@ -82,11 +92,10 @@ function Router() {
     );
   }
 
-  // Critical resources to preload
-  const criticalResources = [
-    { href: '/src/pages/valuation-flow.tsx', as: 'script' as const },
-    { href: '/src/pages/pricing.tsx', as: 'script' as const },
-    { href: '/src/pages/blog/index.tsx', as: 'script' as const },
+  // Critical resources to preload - only core app pages
+  const criticalResources: Array<{ href: string; as: 'script' | 'style' | 'font' }> = [
+    // Note: With lazy loading, these chunks will be requested on demand
+    // Preloading core fonts and styles instead
   ];
 
   return (
@@ -100,25 +109,25 @@ function Router() {
       
       <Switch>
         {/* Blog routes - must be first to avoid authentication conflicts */}
-        <Route path="/blog" component={BlogIndex} />
-        <Route path="/blog/" component={BlogIndex} />
-        <Route path="/blog/sde-business-valuation-guide" component={SdeBusinessValuationGuide} />
-        <Route path="/blog/business-valuation-vs-market-appraisal" component={BusinessValuationVsMarketAppraisal} />
-        <Route path="/blog/small-business-sale-preparation" component={SmallBusinessSalePreparation} />
-        <Route path="/blog/industry-valuation-multiples-2025" component={IndustryValuationMultiples2025} />
-        <Route path="/blog/how-to-value-service-business" component={HowToValueServiceBusiness} />
-        <Route path="/blog/business-valuation-mistakes" component={BusinessValuationMistakes} />
-        <Route path="/blog/ecommerce-business-valuation" component={EcommerceBusinessValuation} />
-        <Route path="/blog/sde-vs-ebitda-guide" component={SdeVsEbitdaGuide} />
-        <Route path="/blog/restaurant-valuation-guide" component={RestaurantValuationGuide} />
-        <Route path="/blog/business-valuation-calculator" component={BusinessValuationCalculator} />
-        <Route path="/blog/business-broker-vs-diy-valuation" component={BusinessBrokerVsDiyValuation} />
-        <Route path="/blog/business-appraisal-cost-guide" component={BusinessAppraisalCostGuide} />
-        <Route path="/blog/family-business-valuation-estate-planning" component={FamilyBusinessValuationEstatePlanning} />
-        <Route path="/blog/manufacturing-business-valuation-multiples" component={ManufacturingBusinessValuationMultiples} />
-        <Route path="/blog/business-valuation-divorce-proceedings" component={BusinessValuationDivorceProceedings} />
-        <Route path="/blog/restaurant-employee-buyout-valuation" component={RestaurantEmployeeBuyoutValuation} />
-        <Route path="/blog/saas-startup-valuation-calculator" component={SaaSStartupValuationCalculator} />
+        <Route path="/blog" component={() => <Suspense fallback={<PageLoadingFallback />}><BlogIndex /></Suspense>} />
+        <Route path="/blog/" component={() => <Suspense fallback={<PageLoadingFallback />}><BlogIndex /></Suspense>} />
+        <Route path="/blog/sde-business-valuation-guide" component={() => <Suspense fallback={<PageLoadingFallback />}><SdeBusinessValuationGuide /></Suspense>} />
+        <Route path="/blog/business-valuation-vs-market-appraisal" component={() => <Suspense fallback={<PageLoadingFallback />}><BusinessValuationVsMarketAppraisal /></Suspense>} />
+        <Route path="/blog/small-business-sale-preparation" component={() => <Suspense fallback={<PageLoadingFallback />}><SmallBusinessSalePreparation /></Suspense>} />
+        <Route path="/blog/industry-valuation-multiples-2025" component={() => <Suspense fallback={<PageLoadingFallback />}><IndustryValuationMultiples2025 /></Suspense>} />
+        <Route path="/blog/how-to-value-service-business" component={() => <Suspense fallback={<PageLoadingFallback />}><HowToValueServiceBusiness /></Suspense>} />
+        <Route path="/blog/business-valuation-mistakes" component={() => <Suspense fallback={<PageLoadingFallback />}><BusinessValuationMistakes /></Suspense>} />
+        <Route path="/blog/ecommerce-business-valuation" component={() => <Suspense fallback={<PageLoadingFallback />}><EcommerceBusinessValuation /></Suspense>} />
+        <Route path="/blog/sde-vs-ebitda-guide" component={() => <Suspense fallback={<PageLoadingFallback />}><SdeVsEbitdaGuide /></Suspense>} />
+        <Route path="/blog/restaurant-valuation-guide" component={() => <Suspense fallback={<PageLoadingFallback />}><RestaurantValuationGuide /></Suspense>} />
+        <Route path="/blog/business-valuation-calculator" component={() => <Suspense fallback={<PageLoadingFallback />}><BusinessValuationCalculator /></Suspense>} />
+        <Route path="/blog/business-broker-vs-diy-valuation" component={() => <Suspense fallback={<PageLoadingFallback />}><BusinessBrokerVsDiyValuation /></Suspense>} />
+        <Route path="/blog/business-appraisal-cost-guide" component={() => <Suspense fallback={<PageLoadingFallback />}><BusinessAppraisalCostGuide /></Suspense>} />
+        <Route path="/blog/family-business-valuation-estate-planning" component={() => <Suspense fallback={<PageLoadingFallback />}><FamilyBusinessValuationEstatePlanning /></Suspense>} />
+        <Route path="/blog/manufacturing-business-valuation-multiples" component={() => <Suspense fallback={<PageLoadingFallback />}><ManufacturingBusinessValuationMultiples /></Suspense>} />
+        <Route path="/blog/business-valuation-divorce-proceedings" component={() => <Suspense fallback={<PageLoadingFallback />}><BusinessValuationDivorceProceedings /></Suspense>} />
+        <Route path="/blog/restaurant-employee-buyout-valuation" component={() => <Suspense fallback={<PageLoadingFallback />}><RestaurantEmployeeBuyoutValuation /></Suspense>} />
+        <Route path="/blog/saas-startup-valuation-calculator" component={() => <Suspense fallback={<PageLoadingFallback />}><SaaSStartupValuationCalculator /></Suspense>} />
         
         {/* Common routes available to both authenticated and non-authenticated users */}
         <Route path="/services" component={Services} />
@@ -141,15 +150,15 @@ function Router() {
         ) : (
           <>
             <Route path="/" component={Home} />
-            <Route path="/valuation" component={ValuationFlow} />
-            <Route path="/checkout/:id" component={Checkout} />
-            <Route path="/checkout-success" component={CheckoutSuccess} />
-            <Route path="/dashboard" component={Dashboard} />
+            <Route path="/valuation" component={() => <Suspense fallback={<PageLoadingFallback />}><ValuationFlow /></Suspense>} />
+            <Route path="/checkout/:id" component={() => <Suspense fallback={<PageLoadingFallback />}><Checkout /></Suspense>} />
+            <Route path="/checkout-success" component={() => <Suspense fallback={<PageLoadingFallback />}><CheckoutSuccess /></Suspense>} />
+            <Route path="/dashboard" component={() => <Suspense fallback={<PageLoadingFallback />}><Dashboard /></Suspense>} />
 
 
-            <Route path="/admin" component={Admin} />
-            <Route path="/customer-data" component={CustomerData} />
-            <Route path="/stripe-test" component={StripeTest} />
+            <Route path="/admin" component={() => <Suspense fallback={<PageLoadingFallback />}><Admin /></Suspense>} />
+            <Route path="/customer-data" component={() => <Suspense fallback={<PageLoadingFallback />}><CustomerData /></Suspense>} />
+            <Route path="/stripe-test" component={() => <Suspense fallback={<PageLoadingFallback />}><StripeTest /></Suspense>} />
             <Route path="/lifetime" component={LifetimeSetup} />
             <Route path="/terms" component={Terms} />
             <Route path="/privacy" component={Privacy} />
