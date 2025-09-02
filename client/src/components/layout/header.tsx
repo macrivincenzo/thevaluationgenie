@@ -55,28 +55,9 @@ export default function Header() {
             <Link href="/contact" className="text-sm text-slate-600 hover:text-slate-900 transition-colors font-medium" data-testid="nav-contact">
               Contact
             </Link>
-            <span
-              onClick={() => {
-                console.log('Blog navigation clicked');
-                // Use pushState to update URL without page reload, then force Wouter to recognize the change
-                window.history.pushState(null, '', '/blog');
-                // Trigger a popstate event to make Wouter recognize the URL change
-                window.dispatchEvent(new PopStateEvent('popstate', { state: null }));
-              }}
-              className="text-sm text-slate-600 hover:text-slate-900 transition-colors font-medium cursor-pointer"
-              data-testid="nav-blog"
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  window.history.pushState(null, '', '/blog');
-                  window.dispatchEvent(new PopStateEvent('popstate', { state: null }));
-                }
-              }}
-            >
+            <Link href="/blog" className="text-sm text-slate-600 hover:text-slate-900 transition-colors font-medium" data-testid="nav-blog">
               Blog
-            </span>
+            </Link>
             <Link href="/lifetime" className="flex items-center text-sm text-yellow-600 hover:text-yellow-700 transition-colors font-medium">
               <Crown className="w-3 h-3 mr-1" />
               AppSumo

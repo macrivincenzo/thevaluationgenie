@@ -233,9 +233,7 @@ export default function BlogIndex() {
   const otherPosts = blogPosts.filter(post => !post.featured);
 
   useEffect(() => {
-    // Force router to recognize this as current location
     console.log('Blog page mounted successfully');
-    
 
     // SEO Meta Tags Setup
     document.title = "Business Valuation Blog | Expert Insights | TheValuationGenie";
