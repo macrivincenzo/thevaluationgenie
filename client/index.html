@@ -64,9 +64,19 @@
     <noscript><link rel="stylesheet" href="/src/index.css"></noscript>
     <link rel="modulepreload" href="/src/main.tsx">
     
-    <!-- Preload key resources -->
-    <link rel="prefetch" href="/api/auth/user">
-    <link rel="prefetch" href="/api/stripe/config">
+    <!-- Optimize network dependency chain - critical path optimization -->
+    <link rel="preconnect" href="https://js.stripe.com" crossorigin>
+    <link rel="preconnect" href="https://m.stripe.network" crossorigin>
+    <link rel="modulepreload" href="/assets/index-Dr9fW0ee.js">
+    
+    <!-- Defer non-critical API calls to reduce critical path -->
+    <script>
+      // Load user auth after critical render to reduce 1,292ms chain
+      setTimeout(() => {
+        fetch('/api/auth/user').catch(() => {});
+        fetch('/api/stripe/config').catch(() => {});
+      }, 100);
+    </script>
     
     <!-- Critical CSS Inlined for FCP -->
     <style>
