@@ -6,7 +6,6 @@ import { stripePromise } from "@/lib/stripe";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useAuth } from "@/hooks/useAuth";
-import { usePerformanceOptimization } from "@/hooks/use-performance";
 import { useState, useEffect } from "react";
 import ProfileCompletionModal from "@/components/auth/profile-completion-modal";
 import Landing from "@/pages/landing";
@@ -53,9 +52,6 @@ import DownloadLogos from "@/pages/download-logos";
 function Router() {
   const { isAuthenticated, isLoading, user } = useAuth();
   const [showProfileModal, setShowProfileModal] = useState(false);
-  
-  // Apply performance optimizations
-  usePerformanceOptimization();
 
   // Check if user needs to complete profile
   useEffect(() => {

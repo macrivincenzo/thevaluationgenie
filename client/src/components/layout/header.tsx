@@ -55,16 +55,9 @@ export default function Header() {
             <Link href="/contact" className="text-sm text-slate-600 hover:text-slate-900 transition-colors font-medium" data-testid="nav-contact">
               Contact
             </Link>
-            <button
-              onClick={() => {
-                // Force page reload to ensure clean navigation state
-                window.location.href = '/blog';
-              }}
-              className="text-sm text-slate-600 hover:text-slate-900 transition-colors font-medium bg-transparent border-none p-0 cursor-pointer"
-              data-testid="nav-blog"
-            >
+            <Link href="/blog" className="text-sm text-slate-600 hover:text-slate-900 transition-colors font-medium" data-testid="nav-blog">
               Blog
-            </button>
+            </Link>
             <Link href="/lifetime" className="flex items-center text-sm text-yellow-600 hover:text-yellow-700 transition-colors font-medium">
               <Crown className="w-3 h-3 mr-1" />
               AppSumo
