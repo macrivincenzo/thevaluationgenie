@@ -6,22 +6,8 @@
     
     <!-- Critical Performance Optimizations -->
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://api.stripe.com" crossorigin>
     <link rel="dns-prefetch" href="//thevaluationgenie.com">
-    <link rel="dns-prefetch" href="//js.stripe.com">
-    
-    <!-- Preload critical fonts -->
-    <link rel="preload" href="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2" as="font" type="font/woff2" crossorigin>
-    
-    <!-- Critical CSS loaded inline, full CSS loaded asynchronously -->
-    <link rel="preload" href="/src/index.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/src/index.css"></noscript>
-    <link rel="modulepreload" href="/src/main.tsx">
-    
-    <!-- Preload key resources -->
-    <link rel="prefetch" href="/api/auth/user">
-    <link rel="prefetch" href="/api/stripe/config">
     
     <!-- Critical CSS Inlined for FCP -->
     <style>
@@ -50,29 +36,9 @@
       }
       @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
       
-      /* Critical layout styles with performance optimizations */
-      .hero-section { 
-        min-height: 80vh; 
-        padding: 2rem 1rem; 
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        contain: layout style;
-        will-change: auto;
-      }
-      .container { 
-        max-width: 1200px; 
-        margin: 0 auto; 
-        contain: layout style;
-      }
-      
-      /* Optimize font rendering */
-      body {
-        text-rendering: optimizeSpeed;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-      }
+      /* Critical layout styles */
+      .hero-section { min-height: 80vh; padding: 2rem 1rem; }
+      .container { max-width: 1200px; margin: 0 auto; }
       .btn-primary { 
         background: #3b82f6; 
         color: white; 
@@ -83,19 +49,8 @@
         cursor: pointer;
         display: inline-block;
         text-decoration: none;
-        transform: translateZ(0);
-        will-change: background-color;
       }
-      .btn-primary:hover { 
-        background: #2563eb; 
-        transform: translateZ(0) scale(1.02);
-      }
-      
-      /* Optimize initial render */
-      #root { 
-        min-height: 100vh;
-        contain: layout style;
-      }
+      .btn-primary:hover { background: #2563eb; }
     </style>
     
     <!-- Enhanced SEO Meta Tags -->
@@ -398,51 +353,27 @@
     
     <!-- Performance-Optimized Script Loading -->
     <script>
-      // Remove loading screen when DOM is ready (faster)
-      document.addEventListener('DOMContentLoaded', function() {
-        const loadingScreen = document.getElementById('loading-screen');
-        if (loadingScreen) {
-          loadingScreen.style.opacity = '0';
-          loadingScreen.style.transition = 'opacity 0.2s ease';
-          setTimeout(() => loadingScreen.remove(), 200);
-        }
+      // Remove loading screen when app loads
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          const loadingScreen = document.getElementById('loading-screen');
+          if (loadingScreen) {
+            loadingScreen.style.opacity = '0';
+            loadingScreen.style.transition = 'opacity 0.3s ease';
+            setTimeout(() => loadingScreen.remove(), 300);
+          }
+        }, 100);
       });
       
-      // Preload critical resources immediately
+      // Preload critical resources
       const preloadLink = document.createElement('link');
       preloadLink.rel = 'modulepreload';
       preloadLink.href = '/src/main.tsx';
       document.head.appendChild(preloadLink);
-      
-      // Optimize performance for different devices
-      if (navigator.hardwareConcurrency <= 4) {
-        // Low-end device optimizations
-        document.documentElement.style.setProperty('--animation-duration', '0.1s');
-        document.documentElement.classList.add('low-performance');
-      }
-      
-      // Aggressive resource prefetching
-      setTimeout(() => {
-        const criticalPaths = ['/pricing', '/services'];
-        criticalPaths.forEach(path => {
-          const link = document.createElement('link');
-          link.rel = 'prefetch';
-          link.href = path;
-          document.head.appendChild(link);
-        });
-      }, 1000);
     </script>
     
     <script type="module" src="/src/main.tsx"></script>
-    <!-- Remove Replit dev banner for production performance -->
-    <script>
-      // Only load Replit dev banner in development
-      if (window.location.hostname === 'localhost' || window.location.hostname.includes('replit.dev')) {
-        const script = document.createElement('script');
-        script.src = 'https://replit.com/public/js/replit-dev-banner.js';
-        script.async = true;
-        document.head.appendChild(script);
-      }
-    </script>
+    <!-- This is a replit script which adds a banner on the top of the page when opened in development mode outside the replit environment -->
+    <script type="text/javascript" src="https://replit.com/public/js/replit-dev-banner.js"></script>
   </body>
 </html>
