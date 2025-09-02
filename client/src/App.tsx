@@ -1,149 +1,26 @@
-import { Switch, Route } from "wouter";
-import { queryClient } from "./lib/queryClient";
-import { QueryClientProvider } from "@tanstack/react-query";
-import { Elements } from '@stripe/react-stripe-js';
-import { stripePromise } from "@/lib/stripe";
-import { Toaster } from "@/components/ui/toaster";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { useAuth } from "@/hooks/useAuth";
-import { useState, useEffect } from "react";
-import ProfileCompletionModal from "@/components/auth/profile-completion-modal";
-import Landing from "@/pages/landing";
-import Home from "@/pages/home";
-import ValuationFlow from "@/pages/valuation-flow";
-import Checkout from "@/pages/checkout";
-import CheckoutSuccess from "@/pages/checkout-success";
-import Dashboard from "@/pages/dashboard";
-import Admin from "@/pages/admin";
-import CustomerData from "@/pages/customer-data";
-import StripeTest from "@/pages/stripe-test";
-import Terms from "@/pages/terms";
-import Privacy from "@/pages/privacy";
-import Contact from "@/pages/contact";
-import Services from "@/pages/services";
-import IndustryAnalysis from "@/pages/industry-analysis";
-import Pricing from "@/pages/pricing";
-import About from "@/pages/about";
-import NotFound from "@/pages/not-found";
-import Login from "@/pages/auth/login";
-import Signup from "@/pages/auth/signup";
-import LifetimeSetup from "@/pages/lifetime-setup";
-
-// Blog pages
-import BlogIndex from "@/pages/blog/index";
-import SdeBusinessValuationGuide from "@/pages/blog/sde-business-valuation-guide";
-import BusinessValuationVsMarketAppraisal from "@/pages/blog/business-valuation-vs-market-appraisal";
-import SmallBusinessSalePreparation from "@/pages/blog/small-business-sale-preparation";
-import IndustryValuationMultiples2025 from "@/pages/blog/industry-valuation-multiples-2025";
-import HowToValueServiceBusiness from "@/pages/blog/how-to-value-service-business";
-import BusinessValuationMistakes from "@/pages/blog/business-valuation-mistakes";
-import EcommerceBusinessValuation from "@/pages/blog/ecommerce-business-valuation";
-import SdeVsEbitdaGuide from "@/pages/blog/sde-vs-ebitda-guide";
-import RestaurantValuationGuide from "@/pages/blog/restaurant-valuation-guide";
-import BusinessValuationCalculator from "@/pages/blog/business-valuation-calculator";
-import BusinessBrokerVsDiyValuation from "@/pages/blog/business-broker-vs-diy-valuation";
-import BusinessAppraisalCostGuide from "@/pages/blog/business-appraisal-cost-guide";
-
-function Router() {
-  const { isAuthenticated, isLoading, user } = useAuth();
-  const [showProfileModal, setShowProfileModal] = useState(false);
-
-  useEffect(() => {
-    if (isAuthenticated && user && (!user.firstName || !user.lastName)) {
-      setShowProfileModal(true);
-    }
-  }, [isAuthenticated, user]);
-
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
-      </div>
-    );
-  }
-
-  return (
-    <>
-      <Switch>
-        <Route path="/" component={Landing} />
-        <Route path="/home" component={Home} />
-        
-        {/* Blog routes */}
-        <Route path="/blog" component={BlogIndex} />
-        <Route path="/blog/sde-business-valuation-guide" component={SdeBusinessValuationGuide} />
-        <Route path="/blog/business-valuation-vs-market-appraisal" component={BusinessValuationVsMarketAppraisal} />
-        <Route path="/blog/small-business-sale-preparation" component={SmallBusinessSalePreparation} />
-        <Route path="/blog/industry-valuation-multiples-2025" component={IndustryValuationMultiples2025} />
-        <Route path="/blog/how-to-value-service-business" component={HowToValueServiceBusiness} />
-        <Route path="/blog/business-valuation-mistakes" component={BusinessValuationMistakes} />
-        <Route path="/blog/ecommerce-business-valuation" component={EcommerceBusinessValuation} />
-        <Route path="/blog/sde-vs-ebitda-guide" component={SdeVsEbitdaGuide} />
-        <Route path="/blog/restaurant-valuation-guide" component={RestaurantValuationGuide} />
-        <Route path="/blog/business-valuation-calculator" component={BusinessValuationCalculator} />
-        <Route path="/blog/business-broker-vs-diy-valuation" component={BusinessBrokerVsDiyValuation} />
-        <Route path="/blog/business-appraisal-cost-guide" component={BusinessAppraisalCostGuide} />
-        
-        {/* Public pages */}
-        <Route path="/services" component={Services} />
-        <Route path="/industry-analysis" component={IndustryAnalysis} />
-        <Route path="/pricing" component={Pricing} />
-        <Route path="/about" component={About} />
-        
-        {/* Authentication routes */}
-        {!isAuthenticated && (
-          <>
-            <Route path="/login" component={Login} />
-            <Route path="/signup" component={Signup} />
-          </>
-        )}
-        
-        {/* Protected routes */}
-        {isAuthenticated && (
-          <>
-            <Route path="/valuation" component={ValuationFlow} />
-            <Route path="/checkout" component={Checkout} />
-            <Route path="/checkout/success" component={CheckoutSuccess} />
-            <Route path="/dashboard" component={Dashboard} />
-            <Route path="/stripe-test" component={StripeTest} />
-            
-            {user?.role === 'admin' && (
-              <>
-                <Route path="/admin" component={Admin} />
-                <Route path="/customer-data" component={CustomerData} />
-              </>
-            )}
-          </>
-        )}
-        
-        <Route path="/lifetime" component={LifetimeSetup} />
-        <Route path="/terms" component={Terms} />
-        <Route path="/privacy" component={Privacy} />
-        <Route path="/contact" component={Contact} />
-        
-        <Route component={NotFound} />
-      </Switch>
-      
-      {showProfileModal && user && (
-        <ProfileCompletionModal 
-          isOpen={showProfileModal}
-          user={user}
-          onClose={() => setShowProfileModal(false)}
-        />
-      )}
-    </>
-  );
-}
+import React from 'react';
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Elements stripe={stripePromise}>
-          <Toaster />
-          <Router />
-        </Elements>
-      </TooltipProvider>
-    </QueryClientProvider>
+    <div style={{ padding: '40px', textAlign: 'center', fontFamily: 'Arial, sans-serif' }}>
+      <h1 style={{ color: '#1e40af', fontSize: '48px', marginBottom: '20px' }}>
+        ValuationGenie
+      </h1>
+      <p style={{ fontSize: '24px', color: '#64748b', marginBottom: '30px' }}>
+        Instant Business Valuation - Testing App Recovery
+      </p>
+      <div style={{ 
+        backgroundColor: '#f8fafc', 
+        padding: '20px', 
+        borderRadius: '8px',
+        maxWidth: '600px',
+        margin: '0 auto'
+      }}>
+        <p style={{ fontSize: '18px', color: '#374151' }}>
+          Your ValuationGenie application is being restored. This is a basic test to ensure React is working properly.
+        </p>
+      </div>
+    </div>
   );
 }
 
