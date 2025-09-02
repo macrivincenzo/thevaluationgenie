@@ -60,19 +60,14 @@
         * { transform: translateZ(0); -webkit-tap-highlight-color: transparent; }
       }
     </style>
-    <!-- Completely eliminate /src/index.css loading to remove 23.5KB render-blocking -->
-    <noscript><link rel="stylesheet" href="/src/index.css"></noscript>
-    <!-- Remove modulepreload to eliminate 150ms render-blocking -->
+    
+    <!-- Critical CSS and JavaScript loading -->
+    <link rel="stylesheet" href="/src/index.css">
+    <link rel="modulepreload" href="/src/main.tsx">
     
     <!-- Preload key resources -->
     <link rel="prefetch" href="/api/auth/user">
     <link rel="prefetch" href="/api/stripe/config">
-    
-    <!-- Critical CSS Inlined for FCP -->
-    <style>
-      /* Critical above-the-fold styles */
-      * { box-sizing: border-box; }
-      body { margin: 0; font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; }
       
       /* Critical layout styles optimized for forced reflow prevention */
       .hero-section { 
@@ -490,9 +485,6 @@
     </noscript>
     
     <div id="root"></div>
-    
-    <!-- ZERO JavaScript during critical render - moved to end for 100 score -->
-    
     <script type="module" src="/src/main.tsx"></script>
     <!-- Remove Replit dev banner for production performance -->
     <script>
