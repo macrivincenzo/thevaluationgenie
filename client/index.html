@@ -11,82 +11,17 @@
     <link rel="dns-prefetch" href="//thevaluationgenie.com">
     <link rel="dns-prefetch" href="//js.stripe.com">
     
-    <!-- Critical resource preloading optimized -->
-    <link rel="preload" href="/api/stripe/config" as="fetch" crossorigin>
-    <link rel="dns-prefetch" href="//m.stripe.network">
-    <link rel="dns-prefetch" href="//m.stripe.com">
-    
     <!-- Preload critical fonts -->
     <link rel="preload" href="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2" as="font" type="font/woff2" crossorigin>
     
-    <!-- Aggressive mobile CSS optimization - eliminate 1,680ms blocking -->
-    <style id="critical-css-mobile">
-      /* Inline ALL critical styles to eliminate mobile render blocking */
-      * { box-sizing: border-box; margin: 0; padding: 0; }
-      body { 
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; 
-        line-height: 1.6; 
-        color: #0f172a;
-        text-rendering: optimizeSpeed;
-        -webkit-font-smoothing: antialiased;
-      }
-      .loading-screen { display: none !important; } /* Force hide for mobile */
-      .hero-section { 
-        min-height: 80vh; 
-        padding: 2rem 1rem; 
-        display: flex; 
-        align-items: center; 
-        justify-content: center; 
-        text-align: center;
-        contain: layout style paint;
-        transform: translateZ(0);
-      }
-      .container { max-width: 1200px; margin: 0 auto; contain: layout; }
-      .btn-primary { 
-        background: #3b82f6; 
-        color: white; 
-        padding: 0.75rem 1.5rem; 
-        border: none; 
-        border-radius: 0.5rem; 
-        font-weight: 600; 
-        cursor: pointer;
-        display: inline-block;
-        text-decoration: none;
-        transform: translateZ(0);
-      }
-      @media (max-width: 768px) {
-        .hero-section { min-height: 50vh; padding: 1rem 0.5rem; }
-        body { font-size: 14px; }
-        * { transform: translateZ(0); -webkit-tap-highlight-color: transparent; }
-      }
-    </style>
-    <!-- Completely eliminate /src/index.css loading to remove 23.5KB render-blocking -->
+    <!-- Critical CSS loaded inline, full CSS loaded asynchronously -->
+    <link rel="preload" href="/src/index.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/src/index.css"></noscript>
     <link rel="modulepreload" href="/src/main.tsx">
     
-    <!-- Ultra-aggressive mobile optimization - eliminate ALL non-critical JS -->
-    <link rel="preconnect" href="https://js.stripe.com" crossorigin>
-    <link rel="preconnect" href="https://m.stripe.network" crossorigin>
-    
-    <!-- Conditional loading - no preload on mobile to reduce 224KB -->
-    <script>
-      const isMobileCheck = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-      
-      if (!isMobileCheck) {
-        // Only preload on desktop
-        const moduleLink = document.createElement('link');
-        moduleLink.rel = 'modulepreload';
-        moduleLink.href = '/assets/index-Dr9fW0ee.js';
-        document.head.appendChild(moduleLink);
-      }
-      
-      // Defer ALL API calls for mobile
-      const delay = isMobileCheck ? 2000 : 100;
-      setTimeout(() => {
-        fetch('/api/auth/user').catch(() => {});
-        fetch('/api/stripe/config').catch(() => {});
-      }, delay);
-    </script>
+    <!-- Preload key resources -->
+    <link rel="prefetch" href="/api/auth/user">
+    <link rel="prefetch" href="/api/stripe/config">
     
     <!-- Critical CSS Inlined for FCP -->
     <style>
@@ -115,7 +50,7 @@
       }
       @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
       
-      /* Critical layout styles optimized for forced reflow prevention */
+      /* Critical layout styles with performance optimizations */
       .hero-section { 
         min-height: 80vh; 
         padding: 2rem 1rem; 
@@ -123,9 +58,8 @@
         align-items: center;
         justify-content: center;
         text-align: center;
-        contain: layout style paint;
+        contain: layout style;
         will-change: auto;
-        transform: translateZ(0); /* Force GPU layer to prevent reflow */
       }
       .container { 
         max-width: 1200px; 
@@ -138,76 +72,6 @@
         text-rendering: optimizeSpeed;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-      }
-      
-      /* Aggressive mobile-specific optimizations */
-      @media (max-width: 768px) {
-        .hero-section {
-          min-height: 50vh;
-          padding: 0.5rem;
-        }
-        body {
-          text-rendering: optimizeSpeed;
-          font-display: swap;
-        }
-        * {
-          -webkit-tap-highlight-color: transparent;
-          transform: translateZ(0);
-        }
-        /* Disable expensive visual effects on mobile */
-        .mobile-device * {
-          box-shadow: none !important;
-          border-radius: 4px !important;
-          backdrop-filter: none !important;
-        }
-        /* Optimize images for mobile */
-        img {
-          image-rendering: optimizeSpeed;
-          transform: translateZ(0);
-        }
-      }
-      
-      /* Fix ALL contrast issues - PageSpeed specific (96→100) */
-      .text-yellow-600 { color: #713f12 !important; } /* Even darker for better contrast */
-      .text-red-500 { color: #991b1b !important; } /* Darker red */
-      .text-blue-100 { color: #1e40af !important; } /* Much darker blue for contrast on bg-primary */
-      .text-secondary { color: #111827 !important; }
-      .text-slate-400 { color: #374151 !important; } /* Darker for footer contrast */
-      
-      /* Critical mobile performance CSS - reduce DOM complexity */
-      @media (max-width: 768px) {
-        .inline-flex.items-center { 
-          color: #111827 !important; 
-          background-color: rgba(255, 255, 255, 0.95) !important;
-        }
-        .text-sm { color: #111827 !important; } /* Much darker */
-        .line-through { color: #991b1b !important; }
-        p.text-xl.text-blue-100 { color: #1e40af !important; } /* Fix main contrast issue */
-        p.text-blue-100.text-sm { color: #1e40af !important; } /* Fix footer contrast */
-        footer p.text-sm { color: #f1f5f9 !important; } /* Lighter for dark background */
-        
-        /* Eliminate forced reflow - optimize layout calculations */
-        * {
-          will-change: auto !important;
-          backface-visibility: hidden !important;
-          perspective: 1000px !important;
-        }
-        
-        /* Reduce DOM complexity */
-        .hero-section * { contain: layout !important; }
-        .container * { contain: layout !important; }
-      }
-      
-      /* Reduce animations on low-performance devices */
-      @media (prefers-reduced-motion: reduce) {
-        *, *::before, *::after {
-          animation-duration: 0.01ms !important;
-          animation-iteration-count: 1 !important;
-          transition-duration: 0.01ms !important;
-        }
-        .spinner {
-          animation: none;
-        }
       }
       .btn-primary { 
         background: #3b82f6; 
@@ -534,29 +398,15 @@
     
     <!-- Performance-Optimized Script Loading -->
     <script>
-      // Aggressive mobile optimization - eliminate 2,320ms render delay
-      const loadingScreen = document.getElementById('loading-screen');
-      if (loadingScreen) {
-        loadingScreen.style.display = 'none'; // Immediate hide
-        loadingScreen.remove(); // Then remove from DOM
-      }
-      
-      // Mobile-specific performance boost
-      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-      if (isMobile) {
-        // Disable all animations immediately on mobile
-        document.documentElement.style.cssText += `
-          *, *::before, *::after {
-            animation-duration: 0ms !important;
-            transition-duration: 0ms !important;
-            transform: translateZ(0) !important;
-          }
-        `;
-        
-        // Force immediate content visibility
-        document.body.style.visibility = 'visible';
-        document.body.style.opacity = '1';
-      }
+      // Remove loading screen when DOM is ready (faster)
+      document.addEventListener('DOMContentLoaded', function() {
+        const loadingScreen = document.getElementById('loading-screen');
+        if (loadingScreen) {
+          loadingScreen.style.opacity = '0';
+          loadingScreen.style.transition = 'opacity 0.2s ease';
+          setTimeout(() => loadingScreen.remove(), 200);
+        }
+      });
       
       // Preload critical resources immediately
       const preloadLink = document.createElement('link');
@@ -564,65 +414,23 @@
       preloadLink.href = '/src/main.tsx';
       document.head.appendChild(preloadLink);
       
-      // Aggressive mobile and low-end device optimizations
-      const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-      const isLowEnd = navigator.hardwareConcurrency <= 4 || navigator.deviceMemory <= 4;
-      
-      if (isMobileUA || isLowEnd) {
-        // Disable animations and transitions for mobile/low-end devices
-        document.documentElement.style.setProperty('--animation-duration', '0ms');
+      // Optimize performance for different devices
+      if (navigator.hardwareConcurrency <= 4) {
+        // Low-end device optimizations
+        document.documentElement.style.setProperty('--animation-duration', '0.1s');
         document.documentElement.classList.add('low-performance');
-        
-        // Aggressive mobile JavaScript optimization - eliminate TBT
-        if (isMobileUA) {
-          document.documentElement.classList.add('mobile-device');
-          
-          // Remove all non-critical resources immediately on mobile
-          const nonCriticalLinks = document.querySelectorAll('link[rel="prefetch"], link[rel="dns-prefetch"]:not([href*="stripe"])');
-          nonCriticalLinks.forEach(link => link.remove());
-          
-          // Optimize main thread by deferring ALL non-critical JS
-          const scripts = document.querySelectorAll('script:not([type="module"])');
-          scripts.forEach(script => {
-            if (script.src && !script.src.includes('main.tsx')) {
-              script.defer = true;
-            }
-          });
-          
-          // Mobile optimization - defer only non-critical scripts
-          if ('requestIdleCallback' in window) {
-            requestIdleCallback(() => {
-              // Only load Stripe during idle time on mobile
-              if (document.querySelector('[data-stripe]')) {
-                const stripeScript = document.createElement('script');
-                stripeScript.src = 'https://js.stripe.com/v3/';
-                stripeScript.async = true;
-                document.head.appendChild(stripeScript);
-              }
-            });
-          }
-        }
       }
       
-      // Register service worker for aggressive caching
-      if ('serviceWorker' in navigator && 'caches' in window) {
-        navigator.serviceWorker.register('/sw.js')
-          .then(() => console.log('SW registered'))
-          .catch(() => {}); // Silent fail
-      }
-      
-      // Aggressive resource prefetching (only for desktop)
-      if (!isMobileUA) {
-        setTimeout(() => {
-          const criticalPaths = ['/pricing', '/services'];
-          criticalPaths.forEach(path => {
-            const link = document.createElement('link');
-            link.rel = 'prefetch';
-            link.href = path;
-            document.head.appendChild(link);
-          });
-        }, 1000);
-      }
+      // Aggressive resource prefetching
+      setTimeout(() => {
+        const criticalPaths = ['/pricing', '/services'];
+        criticalPaths.forEach(path => {
+          const link = document.createElement('link');
+          link.rel = 'prefetch';
+          link.href = path;
+          document.head.appendChild(link);
+        });
+      }, 1000);
     </script>
     
     <script type="module" src="/src/main.tsx"></script>

@@ -94,17 +94,12 @@ export default function BusinessValuationMistakes() {
               <p className="text-muted-foreground mb-4">
                 Professional business valuation using proven SDE methodology. See your true market value in minutes.
               </p>
-              <Button 
-                size="lg" 
-                className="bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700"
-                onClick={() => {
-                  try { sessionStorage.clear(); } catch (e) {}
-                  window.location.assign('/');
-                }}
-              >
-                <Calculator className="w-5 h-5 mr-2" />
-                Calculate Correct Valuation Now
-                <ArrowRight className="w-4 h-4 ml-2" />
+              <Button asChild size="lg" className="bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700">
+                <a href="https://thevaluationgenie.com/" className="inline-flex items-center">
+                  <Calculator className="w-5 h-5 mr-2" />
+                  Calculate Correct Valuation Now
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </a>
               </Button>
             </div>
           </Card>

@@ -119,10 +119,7 @@ export default function LifetimeSetup() {
                 
                 <div className="space-y-3">
                   <Button 
-                    onClick={() => {
-                      try { sessionStorage.clear(); } catch (e) {}
-                      window.location.assign('/signup');
-                    }} 
+                    onClick={() => window.location.href = '/signup'} 
                     size="lg" 
                     className="w-full bg-yellow-600 hover:bg-yellow-700 text-white"
                   >
@@ -184,14 +181,7 @@ export default function LifetimeSetup() {
               </div>
               
               <div className="text-center pt-4">
-                <Button 
-                  onClick={() => {
-                    try { sessionStorage.clear(); } catch (e) {}
-                    window.location.assign('/valuation');
-                  }} 
-                  size="lg" 
-                  className="bg-green-600 hover:bg-green-700"
-                >
+                <Button onClick={() => window.location.href = '/valuation'} size="lg" className="bg-green-600 hover:bg-green-700">
                   Start Your Business Valuation
                 </Button>
               </div>

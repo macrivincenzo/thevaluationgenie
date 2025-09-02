@@ -1,5 +1,4 @@
 import express, { type Request, Response, NextFunction } from "express";
-import compression from "compression";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { db, withDatabaseRetry, checkDatabaseHealth } from "./db";
@@ -56,38 +55,6 @@ async function initializeUsers() {
 }
 
 const app = express();
-
-// Add compression middleware FIRST for PageSpeed optimization
-app.use(compression({
-  filter: (req, res) => {
-    // Compress all text-based responses
-    if (req.headers['x-no-compression']) {
-      return false;
-    }
-    return compression.filter(req, res);
-  },
-  level: 6, // Good balance of compression vs speed
-  threshold: 1024, // Only compress responses > 1KB
-}));
-
-// Add cache headers for static assets (PageSpeed: 208KB savings)
-app.use((req, res, next) => {
-  // Cache static assets aggressively
-  if (req.url.match(/\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$/)) {
-    res.setHeader('Cache-Control', 'public, max-age=31536000, immutable'); // 1 year
-    res.setHeader('Expires', new Date(Date.now() + 31536000000).toUTCString());
-  }
-  // Cache API responses briefly
-  else if (req.url.startsWith('/api/')) {
-    res.setHeader('Cache-Control', 'public, max-age=300'); // 5 minutes
-  }
-  // Cache HTML files briefly
-  else {
-    res.setHeader('Cache-Control', 'public, max-age=3600'); // 1 hour
-  }
-  next();
-});
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 

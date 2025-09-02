@@ -67,9 +67,6 @@ const PageLoadingFallback = () => (
 function Router() {
   const { isAuthenticated, isLoading, user } = useAuth();
   const [showProfileModal, setShowProfileModal] = useState(false);
-  
-  // Mobile performance optimization - defer heavy components
-  const isMobileDevice = typeof window !== 'undefined' && /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   const [announceMessage, setAnnounceMessage] = useState('');
   
   // Apply performance optimizations

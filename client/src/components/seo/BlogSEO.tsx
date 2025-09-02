@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React from "react";
 
 interface BlogSEOProps {
   title: string;
@@ -8,8 +8,8 @@ interface BlogSEOProps {
   schemaMarkup?: any;
 }
 
-export const BlogSEO = ({ title, description, keywords, url, schemaMarkup }: BlogSEOProps) => {
-  useEffect(() => {
+export const BlogSEO: React.FC<BlogSEOProps> = ({ title, description, keywords, url, schemaMarkup }) => {
+  React.useEffect(() => {
     // Set document title
     document.title = title;
     
@@ -149,7 +149,7 @@ interface InternalLinksProps {
   links: { href: string; text: string; category: string }[];
 }
 
-export const InternalLinks = ({ title, links }: InternalLinksProps) => {
+export const InternalLinks: React.FC<InternalLinksProps> = ({ title, links }) => {
   const categories = links.reduce((acc, link) => {
     if (!acc[link.category]) {
       acc[link.category] = [];
@@ -187,8 +187,8 @@ interface FAQSchemaProps {
   faqs: FAQItem[];
 }
 
-export const FAQSchema = ({ faqs }: FAQSchemaProps) => {
-  useEffect(() => {
+export const FAQSchema: React.FC<FAQSchemaProps> = ({ faqs }) => {
+  React.useEffect(() => {
     const faqSchema = {
       "@context": "https://schema.org",
       "@type": "FAQPage",

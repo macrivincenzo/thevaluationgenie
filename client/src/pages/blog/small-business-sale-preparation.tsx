@@ -85,17 +85,12 @@ export default function SmallBusinessSalePreparation() {
               <p className="text-slate-600 mb-4">
                 Start with a professional valuation to understand your current value and improvement opportunities.
               </p>
-              <Button 
-                size="lg" 
-                className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700"
-                onClick={() => {
-                  try { sessionStorage.clear(); } catch (e) {}
-                  window.location.assign('/');
-                }}
-              >
-                <Calculator className="w-5 h-5 mr-2" />
-                Start Free Valuation
-                <ArrowRight className="w-4 h-4 ml-2" />
+              <Button asChild size="lg" className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700">
+                <a href="https://thevaluationgenie.com/" className="inline-flex items-center">
+                  <Calculator className="w-5 h-5 mr-2" />
+                  Start Free Valuation
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </a>
               </Button>
             </div>
           </Card>
@@ -502,16 +497,11 @@ export default function SmallBusinessSalePreparation() {
           <p className="text-green-100 mb-6 max-w-2xl mx-auto">
             Get professional valuation and preparation guidance to maximize your business sale value. Proven strategies used by thousands of successful business owners.
           </p>
-          <Button 
-            size="lg" 
-            className="bg-white text-green-600 hover:bg-gray-100"
-            onClick={() => {
-              try { sessionStorage.clear(); } catch (e) {}
-              window.location.assign('/');
-            }}
-          >
-            <TrendingUp className="w-5 h-5 mr-2" />
-            Get Sale Preparation Report - $39
+          <Button asChild size="lg" className="bg-white text-green-600 hover:bg-gray-100">
+            <a href="https://thevaluationgenie.com/" className="inline-flex items-center">
+              <TrendingUp className="w-5 h-5 mr-2" />
+              Get Sale Preparation Report - $39
+            </a>
           </Button>
           <p className="text-green-100 text-sm mt-4">✨ 7-day money-back guarantee • Preparation timeline included • Maximize your sale value</p>
         </div>

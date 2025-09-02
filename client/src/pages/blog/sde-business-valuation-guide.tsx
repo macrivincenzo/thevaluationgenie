@@ -86,17 +86,12 @@ export default function SdeBusinessValuationGuide() {
               <p className="text-slate-600 mb-4">
                 Professional SDE-based business valuation in under 10 minutes. See your true market value now.
               </p>
-              <Button 
-                size="lg" 
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
-                onClick={() => {
-                  try { sessionStorage.clear(); } catch (e) {}
-                  window.location.assign('/');
-                }}
-              >
-                <Calculator className="w-5 h-5 mr-2" />
-                Calculate My SDE Valuation
-                <ArrowRight className="w-4 h-4 ml-2" />
+              <Button asChild size="lg" className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700">
+                <a href="https://thevaluationgenie.com/" className="inline-flex items-center">
+                  <Calculator className="w-5 h-5 mr-2" />
+                  Calculate My SDE Valuation
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </a>
               </Button>
             </div>
           </Card>
