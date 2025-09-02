@@ -227,11 +227,15 @@ export default function BusinessValuationCalculator() {
                 <div className="bg-gradient-to-r from-indigo-50 to-blue-50 p-6 rounded-lg border border-indigo-200">
                   <h4 className="font-semibold text-lg mb-2">Want a Professional Valuation Report?</h4>
                   <p className="text-slate-600 mb-4">This free calculator provides a basic estimate. Get a comprehensive 3+ page professional report with detailed analysis, risk assessment, and market comparisons for just $39.</p>
-                  <Button asChild className="bg-indigo-600 hover:bg-indigo-700">
-                    <a href="https://thevaluationgenie.com/" className="inline-flex items-center">
-                      <FileText className="w-4 h-4 mr-2" />
-                      Get Professional Report - $39
-                    </a>
+                  <Button 
+                    className="bg-indigo-600 hover:bg-indigo-700"
+                    onClick={() => {
+                      try { sessionStorage.clear(); } catch (e) {}
+                      window.location.assign('/');
+                    }}
+                  >
+                    <FileText className="w-4 h-4 mr-2" />
+                    Get Professional Report - $39
                   </Button>
                 </div>
               </div>

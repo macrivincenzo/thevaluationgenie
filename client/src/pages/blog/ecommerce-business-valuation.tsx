@@ -85,12 +85,17 @@ export default function EcommerceBusinessValuation() {
               <p className="text-muted-foreground mb-4">
                 Professional valuation for online stores, Amazon businesses, and digital commerce. Results in 10 minutes.
               </p>
-              <Button asChild size="lg" className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700">
-                <a href="https://thevaluationgenie.com/" className="inline-flex items-center">
-                  <ShoppingCart className="w-5 h-5 mr-2" />
-                  Value My E-commerce Business
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </a>
+              <Button 
+                size="lg" 
+                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
+                onClick={() => {
+                  try { sessionStorage.clear(); } catch (e) {}
+                  window.location.assign('/');
+                }}
+              >
+                <ShoppingCart className="w-5 h-5 mr-2" />
+                Value My E-commerce Business
+                <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             </div>
           </Card>
