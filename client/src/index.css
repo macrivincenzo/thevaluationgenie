@@ -2,6 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Performance optimizations for mobile */
+@media (max-width: 768px) {
+  * {
+    transform-style: flat;
+  }
+  
+  .animate-pulse {
+    animation-duration: 2s;
+  }
+  
+  .transition-colors {
+    transition-duration: 0.15s;
+  }
+}
+
 :root {
   --background: hsl(0, 0%, 100%);
   --foreground: hsl(20, 14.3%, 4.1%);
