@@ -1,8 +1,7 @@
 import { Switch, Route } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { Elements } from '@stripe/react-stripe-js';
-import { stripePromise } from "@/lib/stripe";
+import { LazyStripe } from "@/components/performance/LazyStripe";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useAuth } from "@/hooks/useAuth";
@@ -24,17 +23,18 @@ const Admin = lazy(() => import("@/pages/admin"));
 const CustomerData = lazy(() => import("@/pages/customer-data"));
 const StripeTest = lazy(() => import("@/pages/stripe-test"));
 
-import Terms from "@/pages/terms";
-import Privacy from "@/pages/privacy";
-import Contact from "@/pages/contact";
-import Services from "@/pages/services";
-import IndustryAnalysis from "@/pages/industry-analysis";
-import Pricing from "@/pages/pricing";
-import About from "@/pages/about";
-import NotFound from "@/pages/not-found";
-import Login from "@/pages/auth/login";
-import Signup from "@/pages/auth/signup";
-import LifetimeSetup from "@/pages/lifetime-setup";
+// Lazy load all static pages to reduce initial bundle
+const Terms = lazy(() => import("@/pages/terms"));
+const Privacy = lazy(() => import("@/pages/privacy"));
+const Contact = lazy(() => import("@/pages/contact"));
+const Services = lazy(() => import("@/pages/services"));
+const IndustryAnalysis = lazy(() => import("@/pages/industry-analysis"));
+const Pricing = lazy(() => import("@/pages/pricing"));
+const About = lazy(() => import("@/pages/about"));
+const NotFound = lazy(() => import("@/pages/not-found"));
+const Login = lazy(() => import("@/pages/auth/login"));
+const Signup = lazy(() => import("@/pages/auth/signup"));
+const LifetimeSetup = lazy(() => import("@/pages/lifetime-setup"));
 
 // Lazy load blog pages for better performance
 const BlogIndex = lazy(() => import("@/pages/blog/index"));
@@ -55,7 +55,7 @@ const ManufacturingBusinessValuationMultiples = lazy(() => import("@/pages/blog/
 const BusinessValuationDivorceProceedings = lazy(() => import("@/pages/blog/business-valuation-divorce-proceedings"));
 const RestaurantEmployeeBuyoutValuation = lazy(() => import("@/pages/blog/restaurant-employee-buyout-valuation"));
 const SaaSStartupValuationCalculator = lazy(() => import("@/pages/blog/saas-startup-valuation-calculator"));
-import DownloadLogos from "@/pages/download-logos";
+const DownloadLogos = lazy(() => import("@/pages/download-logos"));
 
 // Loading fallback for lazy loaded components
 const PageLoadingFallback = () => (
@@ -159,10 +159,10 @@ function Router() {
             <Route path="/admin" component={() => <Suspense fallback={<PageLoadingFallback />}><Admin /></Suspense>} />
             <Route path="/customer-data" component={() => <Suspense fallback={<PageLoadingFallback />}><CustomerData /></Suspense>} />
             <Route path="/stripe-test" component={() => <Suspense fallback={<PageLoadingFallback />}><StripeTest /></Suspense>} />
-            <Route path="/lifetime" component={LifetimeSetup} />
-            <Route path="/terms" component={Terms} />
-            <Route path="/privacy" component={Privacy} />
-            <Route path="/contact" component={Contact} />
+            <Route path="/lifetime" component={() => <Suspense fallback={<PageLoadingFallback />}><LifetimeSetup /></Suspense>} />
+            <Route path="/terms" component={() => <Suspense fallback={<PageLoadingFallback />}><Terms /></Suspense>} />
+            <Route path="/privacy" component={() => <Suspense fallback={<PageLoadingFallback />}><Privacy /></Suspense>} />
+            <Route path="/contact" component={() => <Suspense fallback={<PageLoadingFallback />}><Contact /></Suspense>} />
           </>
         )}
         <Route component={NotFound} />
@@ -183,10 +183,10 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <Elements stripe={stripePromise}>
+        <LazyStripe enableStripe={false}>
           <Toaster />
           <Router />
-        </Elements>
+        </LazyStripe>
       </TooltipProvider>
     </QueryClientProvider>
   );

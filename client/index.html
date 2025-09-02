@@ -14,9 +14,14 @@
     <!-- Preload critical fonts -->
     <link rel="preload" href="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2" as="font" type="font/woff2" crossorigin>
     
-    <!-- Preload critical CSS -->
-    <link rel="preload" href="/src/index.css" as="style">
-    <link rel="preload" href="/src/main.tsx" as="script">
+    <!-- Critical CSS loaded inline, full CSS loaded asynchronously -->
+    <link rel="preload" href="/src/index.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/src/index.css"></noscript>
+    <link rel="modulepreload" href="/src/main.tsx">
+    
+    <!-- Preload key resources -->
+    <link rel="prefetch" href="/api/auth/user">
+    <link rel="prefetch" href="/api/stripe/config">
     
     <!-- Critical CSS Inlined for FCP -->
     <style>
@@ -45,7 +50,7 @@
       }
       @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
       
-      /* Critical layout styles */
+      /* Critical layout styles with performance optimizations */
       .hero-section { 
         min-height: 80vh; 
         padding: 2rem 1rem; 
@@ -53,11 +58,20 @@
         align-items: center;
         justify-content: center;
         text-align: center;
+        contain: layout style;
+        will-change: auto;
       }
       .container { 
         max-width: 1200px; 
         margin: 0 auto; 
         contain: layout style;
+      }
+      
+      /* Optimize font rendering */
+      body {
+        text-rendering: optimizeSpeed;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
       }
       .btn-primary { 
         background: #3b82f6; 
@@ -420,7 +434,15 @@
     </script>
     
     <script type="module" src="/src/main.tsx"></script>
-    <!-- This is a replit script which adds a banner on the top of the page when opened in development mode outside the replit environment -->
-    <script type="text/javascript" src="https://replit.com/public/js/replit-dev-banner.js"></script>
+    <!-- Remove Replit dev banner for production performance -->
+    <script>
+      // Only load Replit dev banner in development
+      if (window.location.hostname === 'localhost' || window.location.hostname.includes('replit.dev')) {
+        const script = document.createElement('script');
+        script.src = 'https://replit.com/public/js/replit-dev-banner.js';
+        script.async = true;
+        document.head.appendChild(script);
+      }
+    </script>
   </body>
 </html>
