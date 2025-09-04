@@ -85,13 +85,13 @@ export default function SdeVsEbitdaGuide() {
               <p className="text-slate-600 mb-4">
                 Get professional business valuation using the correct method for your business size and structure.
               </p>
-              <Button asChild size="lg" className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700">
-                <a href="https://thevaluationgenie.com/" className="inline-flex items-center">
+              <Link href="/">
+                <Button size="lg" className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700">
                   <Calculator className="w-5 h-5 mr-2" />
                   Get Professional Valuation
                   <ArrowRight className="w-4 h-4 ml-2" />
-                </a>
-              </Button>
+                </Button>
+              </Link>
             </div>
           </Card>
         </div>
@@ -518,7 +518,7 @@ export default function SdeVsEbitdaGuide() {
             We automatically use SDE or EBITDA based on your business characteristics, ensuring accurate, industry-standard valuations every time.
           </p>
           <Button asChild size="lg" className="bg-white text-purple-600 hover:bg-gray-100">
-            <a href="https://thevaluationgenie.com/" className="inline-flex items-center">
+            <a href="/" className="inline-flex items-center">
               <FileText className="w-5 h-5 mr-2" />
               Get Professional Report - $39
             </a>

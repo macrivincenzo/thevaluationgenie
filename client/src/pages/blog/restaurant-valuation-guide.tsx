@@ -85,13 +85,13 @@ export default function RestaurantValuationGuide() {
               <p className="text-muted-foreground mb-4">
                 Professional restaurant valuation using industry-specific methodology. Results in 10 minutes.
               </p>
-              <Button asChild size="lg" className="bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700">
-                <a href="https://thevaluationgenie.com/" className="inline-flex items-center">
+              <Link href="/">
+                <Button size="lg" className="bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700">
                   <ChefHat className="w-5 h-5 mr-2" />
                   Value My Restaurant
                   <ArrowRight className="w-4 h-4 ml-2" />
-                </a>
-              </Button>
+                </Button>
+              </Link>
             </div>
           </Card>
         </div>
@@ -436,7 +436,7 @@ export default function RestaurantValuationGuide() {
               </div>
               
               <Button asChild size="lg" className="bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-lg px-8 py-4">
-                <a href="https://thevaluationgenie.com/" className="inline-flex items-center">
+                <a href="/" className="inline-flex items-center">
                   <ChefHat className="w-5 h-5 mr-2" />
                   Get Restaurant Valuation Now
                   <ArrowRight className="w-5 h-5 ml-2" />

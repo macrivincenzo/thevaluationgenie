@@ -228,7 +228,7 @@ export default function BusinessValuationCalculator() {
                   <h4 className="font-semibold text-lg mb-2">Want a Professional Valuation Report?</h4>
                   <p className="text-slate-600 mb-4">This free calculator provides a basic estimate. Get a comprehensive 3+ page professional report with detailed analysis, risk assessment, and market comparisons for just $39.</p>
                   <Button asChild className="bg-indigo-600 hover:bg-indigo-700">
-                    <a href="https://thevaluationgenie.com/" className="inline-flex items-center">
+                    <a href="/" className="inline-flex items-center">
                       <FileText className="w-4 h-4 mr-2" />
                       Get Professional Report - $39
                     </a>
@@ -408,7 +408,7 @@ export default function BusinessValuationCalculator() {
             
             <div className="text-center mt-6">
               <Button asChild size="lg" className="bg-indigo-600 hover:bg-indigo-700">
-                <a href="https://thevaluationgenie.com/" className="inline-flex items-center">
+                <a href="/" className="inline-flex items-center">
                   <FileText className="w-5 h-5 mr-2" />
                   Get Your Professional Report - $39
                 </a>
@@ -449,7 +449,7 @@ export default function BusinessValuationCalculator() {
             Join thousands of business owners who've trusted ValuationGenie for accurate, professional business valuations. Get your comprehensive report in minutes, not weeks.
           </p>
           <Button asChild size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
-            <a href="https://thevaluationgenie.com/" className="inline-flex items-center">
+            <a href="/" className="inline-flex items-center">
               <DollarSign className="w-5 h-5 mr-2" />
               Start Your Professional Report - $39
             </a>

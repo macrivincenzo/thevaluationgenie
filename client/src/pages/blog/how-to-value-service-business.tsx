@@ -85,13 +85,13 @@ export default function HowToValueServiceBusiness() {
               <p className="text-muted-foreground mb-4">
                 Professional service business valuation in under 10 minutes. No registration required.
               </p>
-              <Button asChild size="lg" className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700">
-                <a href="https://thevaluationgenie.com/" className="inline-flex items-center">
+              <Link href="/">
+                <Button size="lg" className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700">
                   <Calculator className="w-5 h-5 mr-2" />
                   Start Free Valuation Now
                   <ArrowRight className="w-4 h-4 ml-2" />
-                </a>
-              </Button>
+                </Button>
+              </Link>
             </div>
           </Card>
         </div>

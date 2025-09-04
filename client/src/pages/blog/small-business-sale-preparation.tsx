@@ -85,13 +85,13 @@ export default function SmallBusinessSalePreparation() {
               <p className="text-slate-600 mb-4">
                 Start with a professional valuation to understand your current value and improvement opportunities.
               </p>
-              <Button asChild size="lg" className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700">
-                <a href="https://thevaluationgenie.com/" className="inline-flex items-center">
+              <Link href="/">
+                <Button size="lg" className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700">
                   <Calculator className="w-5 h-5 mr-2" />
                   Start Free Valuation
                   <ArrowRight className="w-4 h-4 ml-2" />
-                </a>
-              </Button>
+                </Button>
+              </Link>
             </div>
           </Card>
         </div>
@@ -498,7 +498,7 @@ export default function SmallBusinessSalePreparation() {
             Get professional valuation and preparation guidance to maximize your business sale value. Proven strategies used by thousands of successful business owners.
           </p>
           <Button asChild size="lg" className="bg-white text-green-600 hover:bg-gray-100">
-            <a href="https://thevaluationgenie.com/" className="inline-flex items-center">
+            <a href="/" className="inline-flex items-center">
               <TrendingUp className="w-5 h-5 mr-2" />
               Get Sale Preparation Report - $39
             </a>
