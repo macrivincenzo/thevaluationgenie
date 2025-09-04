@@ -20,7 +20,7 @@ export default function Header() {
   const [, setLocation] = useLocation();
 
   return (
-    <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
+    <header role="banner" className="bg-white border-b border-gray-200 sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-14">
           {/* Logo */}
@@ -41,9 +41,9 @@ export default function Header() {
             </div>
           </Link>
 
-          {/* SEO Navigation */}
-          <nav className="hidden md:flex items-center space-x-6">
-            <Link href="/" className="text-sm text-slate-600 hover:text-slate-900 transition-colors font-medium">
+          {/* CRITICAL: Semantic navigation with ARIA */}
+          <nav role="navigation" aria-label="Main navigation" className="hidden md:flex items-center space-x-6">
+            <Link href="/" className="text-sm text-slate-600 hover:text-slate-900 transition-colors font-medium" aria-current="page">
               Home
             </Link>
             <Link href="/pricing" className="text-sm text-slate-600 hover:text-slate-900 transition-colors font-medium">

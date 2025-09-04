@@ -5,7 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 export default function Footer() {
   const { isAuthenticated } = useAuth();
   return (
-    <footer className="bg-slate-900 text-white">
+    <footer role="contentinfo" className="bg-slate-900 text-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid md:grid-cols-4 gap-8">
           {/* Logo and Description */}

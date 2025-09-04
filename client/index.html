@@ -305,6 +305,27 @@
     }
     </script>
     
+    <!-- CRITICAL: Comprehensive structured data for SEO 100/100 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Valuation Genie",
+      "url": "https://thevaluationgenie.com",
+      "description": "Professional business valuation services using SDE methodology for accurate company valuations",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://thevaluationgenie.com/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "TheValuationGenie",
+        "logo": "https://thevaluationgenie.com/valuation-genie-logo.jpg"
+      }
+    }
+    </script>
+    
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.svg" />
@@ -347,6 +368,15 @@
     <!-- Resource hints for better performance and caching -->
     <link rel="prefetch" href="/src/components/ui/button.tsx" as="script" crossorigin>
     <link rel="dns-prefetch" href="https://replit.com">
+    
+    <!-- CRITICAL: Security headers for Best Practices 100/100 -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://js.stripe.com https://replit.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://api.stripe.com;">
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
     
     <!-- CRITICAL: Optimize cache lifetimes for static assets (195 KiB savings) -->
     <meta http-equiv="Cache-Control" content="public, max-age=31536000, immutable">
