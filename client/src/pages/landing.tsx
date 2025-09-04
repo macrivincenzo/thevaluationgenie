@@ -709,7 +709,7 @@ export default function Landing() {
       <section className="py-20 bg-primary">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">Stay Updated</h2>
-          <p className="text-xl text-blue-100 mb-8">Get tips on business valuation and updates on new features</p>
+          <p className="text-xl text-blue-50 mb-8">Get tips on business valuation and updates on new features</p>
           
           <form className="max-w-md mx-auto flex gap-4" onSubmit={handleSubscribe}>
             <Input 
@@ -729,7 +729,7 @@ export default function Landing() {
             </Button>
           </form>
           
-          <p className="text-blue-100 text-sm mt-4">
+          <p className="text-blue-50 text-sm mt-4">
             No spam, unsubscribe at any time
           </p>
         </div>

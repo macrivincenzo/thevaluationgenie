@@ -423,7 +423,7 @@ export default function SdeBusinessValuationGuide() {
         {/* Final CTA */}
         <div className="text-center mt-12 p-8 bg-gradient-to-r from-blue-600 to-indigo-700 rounded-xl text-white">
           <h3 className="text-2xl font-bold mb-4">Get Your Professional SDE Valuation Report</h3>
-          <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
+          <p className="text-blue-50 mb-6 max-w-2xl mx-auto">
             Professional SDE analysis with industry multiples, value enhancement recommendations, and comprehensive documentation. Trusted by thousands of business owners.
           </p>
           <Link href="/">
@@ -432,7 +432,7 @@ export default function SdeBusinessValuationGuide() {
               Get Professional SDE Report - $39
             </Button>
           </Link>
-          <p className="text-blue-100 text-sm mt-4">✨ 7-day money-back guarantee • Instant download • Professional quality</p>
+          <p className="text-blue-50 text-sm mt-4">✨ 7-day money-back guarantee • Instant download • Professional quality</p>
         </div>
         
         {/* Related Articles Section */}

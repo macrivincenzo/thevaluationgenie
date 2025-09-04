@@ -4,6 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
+    <!-- Critical CSS for above-the-fold content -->
+    <style>
+      /* Critical CSS for initial page load */
+      body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; }
+      #root { min-height: 100vh; }
+      .loading-spinner { 
+        display: flex; align-items: center; justify-content: center; height: 100vh;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+      .spinner { 
+        width: 40px; height: 40px; border: 4px solid rgba(255,255,255,0.3);
+        border-top: 4px solid white; border-radius: 50%; animation: spin 1s linear infinite;
+      }
+      @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+    
     <!-- Enhanced SEO Meta Tags -->
     <title>Business Valuation Calculator 2025 | Free SDE Calculator | Professional Reports $39</title>
     <meta name="description" content="Get instant business valuation results with our free SDE calculator. Download professional reports for $39. Trusted by 1000+ business owners. Start your valuation today!">
@@ -32,10 +48,18 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="https://thevaluationgenie.com/">
     
+    <!-- Performance: Preconnect to external domains -->
+    <link rel="preconnect" href="https://js.stripe.com">
+    <link rel="preconnect" href="https://m.stripe.network">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    
+    <!-- Additional performance optimizations -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="theme-color" content="#667eea">
+    
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    
-    <!-- Keep existing CSS and other head content -->
     
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -284,7 +308,17 @@
       </main>
     </noscript>
     
-    <div id="root"></div>
+    <div id="root">
+      <!-- Initial loading state -->
+      <div class="loading-spinner">
+        <div class="spinner"></div>
+      </div>
+    </div>
+    
+    <!-- Preload critical resources -->
+    <link rel="modulepreload" href="/src/main.tsx">
+    
+    <!-- Load main script with defer for non-blocking -->
     <script type="module" src="/src/main.tsx"></script>
     <!-- This is a replit script which adds a banner on the top of the page when opened in development mode outside the replit environment -->
     <script type="text/javascript" src="https://replit.com/public/js/replit-dev-banner.js"></script>

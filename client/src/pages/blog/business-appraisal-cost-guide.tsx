@@ -695,7 +695,7 @@ export default function BusinessAppraisalCostGuide() {
         {/* Final CTA */}
         <div className="text-center mt-12 p-8 bg-gradient-to-r from-blue-600 to-green-700 rounded-xl text-white">
           <h3 className="text-2xl font-bold mb-4">Save $15,000+ on Professional Business Appraisal</h3>
-          <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
+          <p className="text-blue-50 mb-6 max-w-2xl mx-auto">
             Get the same professional methodology as expensive appraisers for just $39. Comprehensive 3+ page report delivered in 15 minutes, not 8 weeks.
           </p>
           <Button asChild size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
@@ -704,7 +704,7 @@ export default function BusinessAppraisalCostGuide() {
               Get Your Professional Appraisal - $39
             </a>
           </Button>
-          <p className="text-blue-100 text-sm mt-4">✨ 7-day money-back guarantee • Instant download • Professional quality</p>
+          <p className="text-blue-50 text-sm mt-4">✨ 7-day money-back guarantee • Instant download • Professional quality</p>
         </div>
       </main>
       

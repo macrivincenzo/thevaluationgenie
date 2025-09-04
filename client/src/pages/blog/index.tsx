@@ -348,8 +348,8 @@ export default function BlogIndex() {
                   </span>
                 </div>
                 <h3 className="text-3xl font-bold mb-4">{featuredPost.title}</h3>
-                <p className="text-xl text-blue-100 mb-6">{featuredPost.excerpt}</p>
-                <div className="flex items-center gap-6 text-blue-100 mb-6">
+                <p className="text-xl text-blue-50 mb-6">{featuredPost.excerpt}</p>
+                <div className="flex items-center gap-6 text-blue-50 mb-6">
                   <div className="flex items-center gap-2">
                     <CalendarDays className="w-4 h-4" />
                     <span>{new Date(featuredPost.publishDate).toLocaleDateString()}</span>
@@ -417,7 +417,7 @@ export default function BlogIndex() {
         <div className="mt-16 text-center">
           <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-8 text-white">
             <h3 className="text-2xl font-bold mb-4">Ready to Value Your Business?</h3>
-            <p className="text-xl text-blue-100 mb-6 max-w-2xl mx-auto">
+            <p className="text-xl text-blue-50 mb-6 max-w-2xl mx-auto">
               Get your free business valuation estimate in minutes using our SDE-based calculator.
             </p>
             <Link href="/">

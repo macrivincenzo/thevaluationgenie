@@ -445,7 +445,7 @@ export default function BusinessValuationCalculator() {
         {/* Final CTA */}
         <div className="text-center mt-12 p-8 bg-gradient-to-r from-blue-600 to-indigo-700 rounded-xl text-white">
           <h3 className="text-2xl font-bold mb-4">Get Your Professional Business Valuation Report</h3>
-          <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
+          <p className="text-blue-50 mb-6 max-w-2xl mx-auto">
             Join thousands of business owners who've trusted ValuationGenie for accurate, professional business valuations. Get your comprehensive report in minutes, not weeks.
           </p>
           <Button asChild size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
