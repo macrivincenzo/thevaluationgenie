@@ -58,6 +58,21 @@
   }
 }
 
+/* CRITICAL: Consolidate similar styles to reduce CSS */
+.button, .btn, .cta-button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  font-size: 16px;
+}
+
 /* Fix any potential pointer event issues */
 .buyer-seller-option {
   pointer-events: auto !important;
