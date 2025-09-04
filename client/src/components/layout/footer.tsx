@@ -18,7 +18,7 @@ export default function Footer() {
               Professional business valuations for buyers and sellers. Get instant, 
               credible valuations with industry-standard methodologies.
             </p>
-            <p className="text-sm text-slate-400">
+            <p className="text-sm text-slate-300">
               © 2025 ValuationGenie. All rights reserved.
             </p>
           </div>
@@ -91,7 +91,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-slate-700 mt-8 pt-8 text-center text-slate-400">
+        <div className="border-t border-slate-700 mt-8 pt-8 text-center text-slate-300">
           <p className="text-sm">
             Professional disclaimer: Valuations provided are for informational purposes only and do not constitute formal business appraisals.
           </p>

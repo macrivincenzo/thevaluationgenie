@@ -233,13 +233,18 @@
     <!-- Preload critical resources -->
     <link rel="modulepreload" href="/src/main.tsx">
     
-    <!-- Resource hints for better performance -->
-    <link rel="preload" href="/src/index.css" as="style">
-    <link rel="prefetch" href="/src/components/ui/button.tsx" as="script">
+    <!-- Resource hints for better performance and caching -->
+    <link rel="preload" href="/src/index.css" as="style" crossorigin>
+    <link rel="prefetch" href="/src/components/ui/button.tsx" as="script" crossorigin>
+    <link rel="dns-prefetch" href="https://replit.com">
     
-    <!-- Load main script with defer for non-blocking -->
-    <script type="module" src="/src/main.tsx" defer></script>
+    <!-- Cache optimization headers via meta tags -->
+    <meta http-equiv="Cache-Control" content="public, max-age=31536000">
+    <meta http-equiv="Expires" content="Thu, 31 Dec 2025 23:59:59 GMT">
+    
+    <!-- Load main script with async to prevent render blocking -->
+    <script type="module" src="/src/main.tsx" async></script>
     <!-- This is a replit script which adds a banner on the top of the page when opened in development mode outside the replit environment -->
-    <script type="text/javascript" src="https://replit.com/public/js/replit-dev-banner.js" async defer></script>
+    <script type="text/javascript" src="https://replit.com/public/js/replit-dev-banner.js" async></script>
   </body>
 </html>

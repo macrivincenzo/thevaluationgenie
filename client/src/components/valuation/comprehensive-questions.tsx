@@ -703,7 +703,7 @@ export default function ComprehensiveQuestions({ data, onChange, onNext, onPrevi
               </div>
 
               <div>
-                <Label htmlFor="outstandingDebt">Outstanding Business Debt <span className="text-slate-400 text-sm">(optional)</span></Label>
+                <Label htmlFor="outstandingDebt">Outstanding Business Debt <span className="text-slate-600 text-sm">(optional)</span></Label>
                 <Input
                   id="outstandingDebt"
                   type="number"

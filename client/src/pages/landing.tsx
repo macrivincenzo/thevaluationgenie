@@ -10,22 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
-import { 
-  Calculator, 
-  Shield, 
-  Clock, 
-  FileText, 
-  CheckCircle, 
-  Users, 
-  TrendingUp, 
-  Download,
-  Building,
-  Calendar,
-  DollarSign,
-  Trash2,
-  UserMinus,
-  Info
-} from "lucide-react";
+import { Calculator, Shield, Clock, FileText, CheckCircle, Users, TrendingUp, Download, DollarSign, Building, Info, Calendar, Trash2, UserMinus } from "lucide-react";
 
 export default function Landing() {
   const [email, setEmail] = useState("");
