@@ -28,11 +28,9 @@ export default function FileUpload({ valuationId, onNext, onPrevious, isLoading,
 
   const uploadMutation = useMutation({
     mutationFn: async (file: File) => {
-      console.log("Creating FormData with file:", file.name);
       const formData = new FormData();
       formData.append('file', file);
       
-      console.log("Sending file upload request...");
       // Upload to temporary files endpoint that doesn't require valuation ID
       const response = await fetch('/api/files/upload', {
         method: 'POST',
@@ -40,19 +38,15 @@ export default function FileUpload({ valuationId, onNext, onPrevious, isLoading,
         credentials: 'include', // Include cookies for authentication
       });
       
-      console.log("Upload response status:", response.status);
       if (!response.ok) {
         const errorText = await response.text();
-        console.error("Upload failed:", errorText);
         throw new Error(`Upload failed: ${errorText}`);
       }
       
       const result = await response.json();
-      console.log("Upload successful:", result);
       return result;
     },
     onSuccess: (data) => {
-      console.log("Upload mutation success:", data);
       const newFiles = [...uploadedFiles, data];
       setUploadedFiles(newFiles);
       onFilesUpdate?.(newFiles);
@@ -62,7 +56,6 @@ export default function FileUpload({ valuationId, onNext, onPrevious, isLoading,
       });
     },
     onError: (error: Error) => {
-      console.error("Upload mutation error:", error);
       toast({
         title: "Upload failed",
         description: error.message,
@@ -99,7 +92,6 @@ export default function FileUpload({ valuationId, onNext, onPrevious, isLoading,
   };
 
   const handleFile = (file: File) => {
-    console.log("File selected:", file.name, file.type, file.size);
     
     // Validate file type - be more permissive to handle different MIME types
     const allowedTypes = [

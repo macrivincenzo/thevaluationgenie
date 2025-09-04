@@ -9,7 +9,9 @@ export function useLogout() {
     queryClient.clear();
     
     // Make logout request in background
-    apiRequest("POST", "/api/auth/logout").catch(console.error);
+    apiRequest("POST", "/api/auth/logout").catch(() => {
+      // Silent fail for logout request
+    });
     
     // Immediate redirect
     window.location.href = "/";
