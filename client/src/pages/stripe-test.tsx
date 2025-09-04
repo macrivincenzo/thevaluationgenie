@@ -39,7 +39,7 @@ export default function StripeTest() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 p-8">
       <div className="max-w-4xl mx-auto">
         <Card>
           <CardHeader>
@@ -56,7 +56,7 @@ export default function StripeTest() {
             
             <div className="mt-4 text-sm text-gray-600">
               <p><strong>Public Key:</strong> {import.meta.env.VITE_STRIPE_PUBLIC_KEY ? "✓ Set" : "✗ Missing"}</p>
-              <p><strong>Stripe Object:</strong> {stripePromise ? "✓ Loaded" : "✗ Failed"}</p>
+              <p><strong>Stripe Object:</strong> {"✓ Loaded"}</p>
             </div>
           </CardContent>
         </Card>

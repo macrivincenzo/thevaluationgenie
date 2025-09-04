@@ -214,98 +214,13 @@
     <meta name="msvalidate.01" content="PENDING_BING_SETUP" />
   </head>
   <body>
-    <!-- SEO Semantic Structure for Crawlers -->
+    <!-- Minimal noscript for SEO -->
     <noscript>
-      <nav class="main-navigation">
-        <a href="/">Home</a>
-        <a href="/pricing">Pricing</a>
-        <a href="/about">About</a>
-        <a href="/contact">Contact</a>
-        <a href="/how-it-works">How It Works</a>
-      </nav>
-      
-      <main>
+      <div style="text-align:center;padding:40px;">
         <h1>Professional Business Valuation Software</h1>
-        
-        <section class="hero">
-          <h2>Get Your Business Worth Calculator Results Instantly</h2>
-          <p>Professional business valuation software using SDE methodology. Trusted by 1000+ business owners worldwide.</p>
-          <button class="cta-button">Start Free Valuation</button>
-        </section>
-        
-        <section class="features">
-          <h2>Why Choose Our Business Valuation Software?</h2>
-          
-          <div class="feature-grid">
-            <div class="feature">
-              <h3>Free Business Valuation Estimate</h3>
-              <p>Start with a free estimate to understand your business value. No commitment required.</p>
-            </div>
-            
-            <div class="feature">
-              <h3>Professional SDE Valuation Report for $39</h3>
-              <p>Get comprehensive business appraisal reports for serious business decisions.</p>
-            </div>
-            
-            <div class="feature">
-              <h3>AI-Powered Accuracy</h3>
-              <p>Advanced SDE methodology with real market data for precise valuations.</p>
-            </div>
-          </div>
-        </section>
-        
-        <section class="process">
-          <h2>How Our Business Appraisal Software Works</h2>
-          
-          <div class="step-grid">
-            <div class="step">
-              <h3>Step 1: Enter Business Data</h3>
-              <p>Provide basic financial information and business details.</p>
-            </div>
-            
-            <div class="step">
-              <h3>Step 2: Get Instant Estimate</h3>
-              <p>Receive your free business valuation estimate immediately.</p>
-            </div>
-            
-            <div class="step">
-              <h3>Step 3: Download Professional Report</h3>
-              <p>Get your comprehensive SDE valuation report for $39.</p>
-            </div>
-          </div>
-        </section>
-        
-        <section class="benefits">
-          <h2>What You Get in Your Valuation Report</h2>
-          
-          <ul>
-            <li>Comprehensive SDE analysis</li>
-            <li>Market comparison data</li>
-            <li>Professional presentation format</li>
-            <li>Ready for business decisions</li>
-            <li>Industry-standard methodology</li>
-          </ul>
-        </section>
-        
-        <!-- CALL-TO-ACTION SECTIONS -->
-        <section class="cta-section">
-          <h2>Ready to Discover Your Business Value?</h2>
-          <p>Join 1000+ business owners who trust our valuation software</p>
-          <div class="cta-buttons">
-            <button class="primary-cta">Get Free Estimate</button>
-            <button class="secondary-cta">Learn More</button>
-          </div>
-        </section>
-
-        <!-- SOCIAL PROOF -->
-        <section class="social-proof">
-          <h2>Trusted by Business Owners Worldwide</h2>
-          <div class="testimonials">
-            <blockquote>"Accurate valuation in minutes!" - John D., Restaurant Owner</blockquote>
-            <blockquote>"Professional reports worth every penny!" - Sarah M., Retail Owner</blockquote>
-          </div>
-        </section>
-      </main>
+        <p>Get instant business valuations with our SDE methodology. Professional reports for $39.</p>
+        <p><a href="/">Start Free Valuation</a></p>
+      </div>
     </noscript>
     
     <div id="root">
@@ -318,9 +233,13 @@
     <!-- Preload critical resources -->
     <link rel="modulepreload" href="/src/main.tsx">
     
+    <!-- Resource hints for better performance -->
+    <link rel="preload" href="/src/index.css" as="style">
+    <link rel="prefetch" href="/src/components/ui/button.tsx" as="script">
+    
     <!-- Load main script with defer for non-blocking -->
-    <script type="module" src="/src/main.tsx"></script>
+    <script type="module" src="/src/main.tsx" defer></script>
     <!-- This is a replit script which adds a banner on the top of the page when opened in development mode outside the replit environment -->
-    <script type="text/javascript" src="https://replit.com/public/js/replit-dev-banner.js"></script>
+    <script type="text/javascript" src="https://replit.com/public/js/replit-dev-banner.js" async defer></script>
   </body>
 </html>

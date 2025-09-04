@@ -142,7 +142,7 @@ export const RelatedArticles: React.FC<RelatedArticlesProps> = ({ currentPage, c
           <Card key={article.href} className="shadow-lg hover:shadow-xl transition-shadow duration-300 group">
             <CardHeader>
               <div className="flex items-center gap-3 mb-3">
-                <div className="p-2 bg-blue-100 rounded-lg group-hover:bg-blue-200 transition-colors">
+                <div className="p-2 bg-blue-50 rounded-lg group-hover:bg-blue-100 transition-colors">
                   <article.icon className="w-5 h-5 text-blue-600" />
                 </div>
                 <span className="text-sm font-medium text-blue-600 capitalize">{article.category}</span>
