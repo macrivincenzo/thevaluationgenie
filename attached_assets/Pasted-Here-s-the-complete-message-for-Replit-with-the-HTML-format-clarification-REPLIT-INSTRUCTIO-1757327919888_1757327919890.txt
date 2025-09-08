@@ -1,0 +1,47 @@
+Here's the complete message for Replit with the HTML format clarification:
+
+---
+
+**REPLIT INSTRUCTIONS - ADD RESTAURANT VALUATION ARTICLE**
+
+**TASK:** Add the restaurant valuation article to the website as a new page at `/restaurant-valuation-calculator`
+
+**WHAT YOU'RE GETTING:**
+- Complete HTML article with full SEO optimization
+- 2,500+ words of expert content about restaurant valuation
+- All meta tags, schema markup, and technical SEO elements included
+- Ready-to-use HTML code that just needs to be integrated into your existing website
+
+**CRITICAL REQUIREMENTS:**
+- ❌ DO NOT change the existing website design, calculator functionality, valuation software features, user interface, database, backend, pricing structure, or user flow
+- ✅ ONLY add the new article content using existing website styling and design elements
+
+**INTERNAL LINKING:**
+Add 3-5 internal links per section using existing website styling:
+- Link "restaurant valuation calculator" to `/valuation` (main calculator page)
+- Link "SDE methodology" to the SDE vs EBITDA blog post
+- Link "restaurant industry multiples" to industry benchmarks page
+- Link "restaurant valuation mistakes" to mistakes article
+- Link "professional reports" to `/pricing`
+- Link "business valuation" to homepage
+- Link "restaurant valuation for sale" to sale preparation guide
+
+**CALL-TO-ACTION BUTTONS:**
+Add prominent CTAs using existing website button design:
+- Primary CTA: "Calculate My Restaurant's Value" → links to `/valuation`
+- Secondary CTA: "Get Professional Report" → links to `/pricing`
+- Place CTAs at top, middle, and bottom of article
+- Use existing website's button styling and colors
+
+**IMPLEMENTATION:**
+- Use existing page template and styling
+- Keep same header, footer, navigation, color scheme, fonts
+- Maintain existing responsive design
+- Follow existing content formatting
+- This is content addition only - do not rebuild anything
+
+**GOAL:** Drive traffic to existing valuation calculator without changing website functionality.
+
+---
+
+**Copy and paste this entire message to Replit.**
