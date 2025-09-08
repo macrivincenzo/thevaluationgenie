@@ -55,6 +55,7 @@ const ManufacturingBusinessValuationMultiples = lazy(() => import("@/pages/blog/
 const BusinessValuationDivorceProceedings = lazy(() => import("@/pages/blog/business-valuation-divorce-proceedings"));
 const RestaurantEmployeeBuyoutValuation = lazy(() => import("@/pages/blog/restaurant-employee-buyout-valuation"));
 const SaaSStartupValuationCalculator = lazy(() => import("@/pages/blog/saas-startup-valuation-calculator"));
+const RestaurantValuationCalculator = lazy(() => import("@/pages/restaurant-valuation-calculator"));
 
 // Loading component for lazy-loaded pages
 const PageLoader = () => (
@@ -110,6 +111,9 @@ function Router() {
           <Route path="/blog/business-valuation-divorce-proceedings" component={BusinessValuationDivorceProceedings} />
           <Route path="/blog/restaurant-employee-buyout-valuation" component={RestaurantEmployeeBuyoutValuation} />
           <Route path="/blog/saas-startup-valuation-calculator" component={SaaSStartupValuationCalculator} />
+          
+          {/* Restaurant Valuation Calculator - Available to all users */}
+          <Route path="/restaurant-valuation-calculator" component={RestaurantValuationCalculator} />
           
           {/* Common routes available to both authenticated and non-authenticated users */}
           <Route path="/services" component={Services} />
