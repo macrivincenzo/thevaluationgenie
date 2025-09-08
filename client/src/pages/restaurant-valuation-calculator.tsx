@@ -111,14 +111,14 @@ export default function RestaurantValuationCalculator() {
                 <p className="text-muted-foreground mb-4">
                   Calculate your restaurant's worth in under 5 minutes using our proven SDE methodology.
                 </p>
-                <Link href="/valuation">
+                <Link href="/">
                   <Button size="lg" className="bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700">
                     <ChefHat className="w-5 h-5 mr-2" />
                     Calculate My Restaurant's Value
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 </Link>
-                <p className="text-sm text-muted-foreground mt-2">Free estimate • <Link href="/pricing" className="text-primary hover:underline">Professional $39 reports</Link> available</p>
+                <p className="text-sm text-muted-foreground mt-2">Free estimate • <Link href="/" className="text-primary hover:underline">Professional $39 reports</Link> available</p>
               </div>
             </Card>
           </CardContent>
@@ -308,13 +308,13 @@ export default function RestaurantValuationCalculator() {
               Get instant estimates using our proven <Link href="/blog/sde-vs-ebitda-guide" className="text-primary hover:underline">SDE methodology</Link>
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/valuation">
+              <Link href="/">
                 <Button size="lg" className="bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700">
                   <Calculator className="w-5 h-5 mr-2" />
                   Calculate My Restaurant's Value
                 </Button>
               </Link>
-              <Link href="/pricing">
+              <Link href="/">
                 <Button size="lg" variant="outline">
                   <ArrowRight className="w-5 h-5 mr-2" />
                   Get Professional Report
