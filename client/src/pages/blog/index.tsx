@@ -123,6 +123,19 @@ const blogPosts = [
     slug: "/blog/restaurant-valuation-guide"
   },
   {
+    id: "restaurant-valuation-calculator",
+    title: "Restaurant Valuation Calculator - Calculate Your Restaurant's Worth in 2025",
+    description: "Free restaurant valuation calculator using SDE methodology. Get instant estimates for your restaurant's worth. Professional $39 reports with detailed analysis, market comparisons, and industry benchmarks.",
+    excerpt: "Get instant restaurant valuation results with our free SDE calculator. Professional reports available for $39. Learn restaurant-specific multiples, common mistakes, and optimization strategies.",
+    category: "Restaurant Tools",
+    readTime: "25 min read",
+    publishDate: "2025-01-08",
+    featured: false,
+    keywords: ["restaurant valuation calculator", "restaurant worth calculator", "restaurant business value", "restaurant appraisal"],
+    icon: ChefHat,
+    slug: "/restaurant-valuation-calculator"
+  },
+  {
     id: "business-valuation-calculator",
     title: "Business Valuation Calculator: Free Tool + Professional Reports (2025)",
     description: "Get instant business value estimates with our free SDE-based calculator, then upgrade to comprehensive professional reports for just $39. Perfect for business sales and financing.",
