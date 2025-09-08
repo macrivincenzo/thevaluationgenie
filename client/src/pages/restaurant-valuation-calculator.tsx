@@ -41,11 +41,11 @@ export default function RestaurantValuationCalculator() {
   };
 
   const internalLinks = [
-    { href: "/valuation", text: "Free Business Valuation Calculator", category: "Valuation Tools" },
+    { href: "/", text: "Free Business Valuation Calculator", category: "Valuation Tools" },
     { href: "/blog/sde-vs-ebitda-guide", text: "SDE vs EBITDA Guide", category: "Valuation Methods" },
     { href: "/blog/industry-valuation-multiples-2025", text: "Industry Valuation Multiples", category: "Industry Benchmarks" },
     { href: "/blog/business-valuation-mistakes", text: "Restaurant Valuation Mistakes", category: "Expert Guidance" },
-    { href: "/pricing", text: "Professional Reports", category: "Services" },
+    { href: "/", text: "Professional Reports", category: "Services" },
     { href: "/", text: "Business Valuation", category: "Home" },
     { href: "/blog/small-business-sale-preparation", text: "Restaurant Sale Preparation Guide", category: "Sale Planning" }
   ];
@@ -102,7 +102,7 @@ export default function RestaurantValuationCalculator() {
           <CardContent className="pt-6">
             <h2 className="text-2xl font-bold mb-4 text-orange-600">Discover Your Restaurant's True Value with Our Free SDE-Based Calculator</h2>
             <p className="mb-6">
-              Are you planning to <strong>sell your restaurant</strong>, secure financing, or simply want to know what your restaurant is worth? Our <Link href="/valuation" className="text-primary hover:underline"><strong>restaurant valuation calculator</strong></Link> uses industry-standard <Link href="/blog/sde-vs-ebitda-guide" className="text-primary hover:underline"><strong>SDE (Seller's Discretionary Earnings) methodology</strong></Link> to provide instant, accurate estimates of your restaurant's value. Unlike traditional appraisal methods that can cost $15,000-$50,000, our calculator gives you professional-grade results in minutes.
+              Are you planning to <strong>sell your restaurant</strong>, secure financing, or simply want to know what your restaurant is worth? Our <Link href="/" className="text-primary hover:underline"><strong>restaurant valuation calculator</strong></Link> uses industry-standard <Link href="/blog/sde-vs-ebitda-guide" className="text-primary hover:underline"><strong>SDE (Seller's Discretionary Earnings) methodology</strong></Link> to provide instant, accurate estimates of your restaurant's value. Unlike traditional appraisal methods that can cost $15,000-$50,000, our calculator gives you professional-grade results in minutes.
             </p>
             
             <Card className="border-2 border-primary/20 bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-950 dark:to-red-950 p-6">
@@ -152,7 +152,7 @@ export default function RestaurantValuationCalculator() {
                   <DollarSign className="w-6 h-6 text-orange-500 mt-1" />
                   <div>
                     <h3 className="text-lg font-semibold mb-2">💰 Transparent Pricing</h3>
-                    <p className="text-muted-foreground">Free estimates with optional <Link href="/pricing" className="text-primary hover:underline"><strong>$39 professional reports</strong></Link>. Compare this to traditional appraisals that cost $15,000-$50,000. Save 99% on valuation costs.</p>
+                    <p className="text-muted-foreground">Free estimates with optional <Link href="/" className="text-primary hover:underline"><strong>$39 professional reports</strong></Link>. Compare this to traditional appraisals that cost $15,000-$50,000. Save 99% on valuation costs.</p>
                   </div>
                 </div>
                 
@@ -172,7 +172,7 @@ export default function RestaurantValuationCalculator() {
         <Card className="mb-8">
           <CardContent className="pt-6">
             <h2 className="text-2xl font-bold mb-4 text-orange-600">How Our Restaurant Valuation Calculator Works</h2>
-            <p className="mb-6">Our <Link href="/valuation" className="text-primary hover:underline"><strong>restaurant valuation calculator</strong></Link> uses a proven 3-step process to determine your restaurant's worth:</p>
+            <p className="mb-6">Our <Link href="/" className="text-primary hover:underline"><strong>restaurant valuation calculator</strong></Link> uses a proven 3-step process to determine your restaurant's worth:</p>
             
             <div className="space-y-6">
               <Card className="border border-primary/20">
@@ -517,7 +517,7 @@ export default function RestaurantValuationCalculator() {
           <CardContent className="pt-6">
             <h2 className="text-3xl font-bold mb-4 text-center">Ready to Discover Your Restaurant's True Value?</h2>
             <p className="text-lg text-muted-foreground mb-6 text-center max-w-2xl mx-auto">
-              Don't leave money on the table. Use our <Link href="/valuation" className="text-primary hover:underline"><strong>restaurant valuation calculator</strong></Link> to get an accurate estimate of your restaurant's worth in minutes, not weeks.
+              Don't leave money on the table. Use our <Link href="/" className="text-primary hover:underline"><strong>restaurant valuation calculator</strong></Link> to get an accurate estimate of your restaurant's worth in minutes, not weeks.
             </p>
             
             <div className="grid md:grid-cols-2 gap-6 mb-8">
@@ -525,7 +525,7 @@ export default function RestaurantValuationCalculator() {
                 <CardContent className="pt-6">
                   <h3 className="text-xl font-semibold mb-3">🆓 Free Restaurant Valuation</h3>
                   <p className="text-sm text-muted-foreground mb-4">Get instant estimates using our proven SDE methodology</p>
-                  <Link href="/valuation">
+                  <Link href="/">
                     <Button size="lg" className="bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 w-full">
                       Calculate My Restaurant's Value
                     </Button>
@@ -537,7 +537,7 @@ export default function RestaurantValuationCalculator() {
                 <CardContent className="pt-6">
                   <h3 className="text-xl font-semibold mb-3">📊 Professional Report - $39</h3>
                   <p className="text-sm text-muted-foreground mb-4">Detailed 3+ page report with market analysis, risk assessment, and strategic recommendations</p>
-                  <Link href="/pricing">
+                  <Link href="/">
                     <Button size="lg" variant="outline" className="w-full">
                       Get Professional Report
                     </Button>
@@ -548,7 +548,7 @@ export default function RestaurantValuationCalculator() {
             
             <div className="text-center">
               <p className="text-sm font-semibold text-green-600">
-                <strong>7-Day Money-Back Guarantee:</strong> Not satisfied with your <Link href="/pricing" className="text-primary hover:underline">professional report</Link>? We'll refund your $39, no questions asked.
+                <strong>7-Day Money-Back Guarantee:</strong> Not satisfied with your <Link href="/" className="text-primary hover:underline">professional report</Link>? We'll refund your $39, no questions asked.
               </p>
             </div>
           </CardContent>
