@@ -112,10 +112,45 @@ export default function EcommerceValuationCalculator() {
       }
     });
 
+    // FAQ Schema
+    const faqSchema = document.createElement('script');
+    faqSchema.type = 'application/ld+json';
+    faqSchema.innerHTML = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How accurate is your e-commerce valuation calculator?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Our calculator uses the same SDE methodology trusted by business brokers and lenders nationwide. While no online calculator can replace a professional appraisal, our results are typically within 10-15% of professional valuations, making it an excellent starting point for planning and negotiations."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What's the difference between SDE and EBITDA for e-commerce valuation?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "SDE (Seller's Discretionary Earnings) is preferred for e-commerce businesses under $5M in revenue because it adds back owner benefits, making it more accurate for small business valuations. EBITDA is typically used for larger corporations and doesn't account for owner compensation."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How often should I get my e-commerce business valued?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We recommend getting a valuation annually or whenever you're considering major decisions like selling, seeking investment, or bringing in partners. E-commerce markets evolve rapidly, and your business value can change significantly over time."
+          }
+        }
+      ]
+    });
+
     // Add schemas only if not already present
     const existingSchemas = document.querySelectorAll('script[type="application/ld+json"]');
     let webPageSchemaExists = false;
     let businessSchemaExists = false;
+    let faqSchemaExists = false;
     
     existingSchemas.forEach(schema => {
       const content = schema.textContent || '';
@@ -125,6 +160,9 @@ export default function EcommerceValuationCalculator() {
       if (content.includes('"@type": "LocalBusiness"') && content.includes('E-commerce Business Valuation Calculator')) {
         businessSchemaExists = true;
       }
+      if (content.includes('"@type": "FAQPage"')) {
+        faqSchemaExists = true;
+      }
     });
     
     if (!webPageSchemaExists) {
@@ -132,6 +170,9 @@ export default function EcommerceValuationCalculator() {
     }
     if (!businessSchemaExists) {
       document.head.appendChild(businessSchema);
+    }
+    if (!faqSchemaExists) {
+      document.head.appendChild(faqSchema);
     }
 
     window.scrollTo(0, 0);
@@ -238,7 +279,7 @@ export default function EcommerceValuationCalculator() {
                   <Calculator className="w-6 h-6 text-blue-500 mt-1" />
                   <div>
                     <h3 className="text-lg font-semibold mb-2">💰 Transparent Pricing</h3>
-                    <p className="text-muted-foreground">Free estimates with optional <Link href="/" className="text-primary hover:underline"><strong>$39 professional reports</strong></Link>. Compare this to traditional appraisals that cost $15,000-$50,000. Save 99% on valuation costs.</p>
+                    <p className="text-muted-foreground">Free estimates with optional <strong>$39 professional reports</strong>. Compare this to traditional appraisals that cost $15,000-$50,000. Save 99% on valuation costs.</p>
                   </div>
                 </div>
                 
@@ -258,7 +299,7 @@ export default function EcommerceValuationCalculator() {
         <Card className="mb-8">
           <CardContent className="pt-6">
             <h2 className="text-2xl font-bold mb-4 text-blue-600">How Our E-commerce Valuation Calculator Works</h2>
-            <p className="mb-6">Our <Link href="/" className="text-primary hover:underline"><strong>e-commerce valuation calculator</strong></Link> uses a proven 3-step process to determine your online store's worth:</p>
+            <p className="mb-6">Our <strong>e-commerce valuation calculator</strong> uses a proven 3-step process to determine your online store's worth:</p>
             
             <div className="space-y-6">
               <Card className="border border-primary/20">
@@ -606,7 +647,7 @@ export default function EcommerceValuationCalculator() {
           <CardContent className="pt-6">
             <h2 className="text-3xl font-bold mb-4 text-center">Ready to Discover Your E-commerce Store's True Value?</h2>
             <p className="text-lg text-muted-foreground mb-6 text-center max-w-2xl mx-auto">
-              Don't leave money on the table. Use our <Link href="/" className="text-primary hover:underline"><strong>e-commerce valuation calculator</strong></Link> to get an accurate estimate of your online store's worth in minutes, not weeks.
+              Don't leave money on the table. Use our <strong>e-commerce valuation calculator</strong> to get an accurate estimate of your online store's worth in minutes, not weeks.
             </p>
             
             <div className="grid md:grid-cols-2 gap-6 mb-8">
