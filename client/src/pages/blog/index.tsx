@@ -136,6 +136,19 @@ const blogPosts = [
     slug: "/restaurant-valuation-calculator"
   },
   {
+    id: "ecommerce-valuation-calculator",
+    title: "E-commerce Business Calculator - Value Your Online Store with SDE Methodology",
+    description: "Free e-commerce business valuation calculator using SDE methodology. Get instant estimates for your online store's worth. Professional $39 reports with detailed analysis, market comparisons, and industry benchmarks.",
+    excerpt: "Discover your e-commerce store's true value with our free SDE-based calculator. Get instant estimates, learn industry multiples, and avoid costly valuation mistakes that could cost you thousands.",
+    category: "E-commerce Tools",
+    readTime: "28 min read",
+    publishDate: "2025-01-08",
+    featured: false,
+    keywords: ["e-commerce valuation calculator", "online store worth calculator", "ecommerce business value", "online business appraisal"],
+    icon: ShoppingCart,
+    slug: "/ecommerce-valuation-calculator"
+  },
+  {
     id: "business-valuation-calculator",
     title: "Business Valuation Calculator: Free Tool + Professional Reports (2025)",
     description: "Get instant business value estimates with our free SDE-based calculator, then upgrade to comprehensive professional reports for just $39. Perfect for business sales and financing.",
