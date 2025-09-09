@@ -3,6 +3,8 @@ import { Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Calculator, CheckCircle, ShoppingCart, TrendingUp, Users, AlertTriangle, Award, Target } from "lucide-react";
+import Header from "@/components/layout/header";
+import Footer from "@/components/layout/footer";
 
 export default function EcommerceValuationCalculator() {
   useEffect(() => {
@@ -209,6 +211,7 @@ export default function EcommerceValuationCalculator() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-blue-900">
+      <Header />
       {/* Schema.org structured data */}
       <script type="application/ld+json">
         {JSON.stringify(structuredData)}
@@ -706,6 +709,7 @@ export default function EcommerceValuationCalculator() {
           </CardContent>
         </Card>
       </div>
+      <Footer />
     </div>
   );
 }
