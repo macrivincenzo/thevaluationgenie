@@ -133,6 +133,9 @@ function Router() {
           <Route path="/privacy" component={Privacy} />
           <Route path="/download-logos" component={DownloadLogos} />
           <Route path="/lifetime" component={LifetimeSetup} />
+          
+          {/* Valuation flow - available to all users for SEO crawling */}
+          <Route path="/valuation" component={ValuationFlow} />
         
         {!isAuthenticated ? (
           <>
@@ -144,7 +147,6 @@ function Router() {
         ) : (
           <>
             <Route path="/" component={Home} />
-            <Route path="/valuation" component={ValuationFlow} />
             <Route path="/checkout/:id" component={Checkout} />
             <Route path="/checkout-success" component={CheckoutSuccess} />
             <Route path="/dashboard" component={Dashboard} />
