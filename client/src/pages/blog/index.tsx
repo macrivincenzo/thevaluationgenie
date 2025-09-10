@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Link } from "wouter";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CalendarDays, Clock, ArrowRight, TrendingUp, Calculator, FileText, Users, AlertTriangle, ShoppingCart, Target, ChefHat, DollarSign, Building, Cog, Scale, HandHeart, Zap } from "lucide-react";
+import { CalendarDays, Clock, ArrowRight, TrendingUp, Calculator, FileText, Users, AlertTriangle, ShoppingCart, Target, ChefHat, DollarSign, Building, Cog, Scale, HandHeart, Zap, Code } from "lucide-react";
 
 const blogPosts = [
   {
@@ -147,6 +147,19 @@ const blogPosts = [
     keywords: ["e-commerce valuation calculator", "online store worth calculator", "ecommerce business value", "online business appraisal"],
     icon: ShoppingCart,
     slug: "/ecommerce-valuation-calculator"
+  },
+  {
+    id: "saas-valuation-calculator",
+    title: "SaaS Company Calculator - Calculate SaaS Business Value & Revenue Multiples",
+    description: "Free SaaS business valuation calculator using ARR, MRR, and industry multiples. Get instant estimates for your software company's worth. Professional $39 reports with detailed analysis.",
+    excerpt: "Discover your SaaS company's true value with our free ARR-based calculator. Learn industry multiples, avoid costly valuation mistakes, and understand key metrics like churn rate, LTV:CAC, and Rule of 40.",
+    category: "SaaS Tools",
+    readTime: "32 min read",
+    publishDate: "2025-01-08",
+    featured: false,
+    keywords: ["saas valuation calculator", "saas business value", "software company worth", "ARR valuation", "MRR calculator"],
+    icon: Code,
+    slug: "/saas-valuation-calculator"
   },
   {
     id: "business-valuation-calculator",
