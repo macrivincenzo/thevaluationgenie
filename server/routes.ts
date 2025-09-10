@@ -1336,6 +1336,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Stripe configuration endpoint
   app.get("/api/stripe/config", (req, res) => {
+    // Prevent indexing by search engines
+    res.setHeader('X-Robots-Tag', 'noindex, nofollow, nosnippet, noarchive');
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    
     const publicKey = process.env.VITE_STRIPE_PUBLIC_KEY || '';
     res.json({
       publicKey: publicKey,

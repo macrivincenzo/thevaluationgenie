@@ -175,6 +175,10 @@ export function setupSimpleAuth(app: Express) {
 
   // Ultra-fast user check
   app.get('/api/auth/user', (req, res) => {
+    // Prevent indexing by search engines
+    res.setHeader('X-Robots-Tag', 'noindex, nofollow, nosnippet, noarchive');
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    
     const sessionId = req.cookies.session;
     if (!sessionId || !sessions.has(sessionId)) {
       return res.status(401).json({ message: 'Not authenticated' });
