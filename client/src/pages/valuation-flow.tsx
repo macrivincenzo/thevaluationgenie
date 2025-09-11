@@ -12,6 +12,7 @@ import ComprehensiveQuestions from "@/components/valuation/comprehensive-questio
 import IndustrySelection from "@/components/valuation/industry-selection";
 import FileUpload from "@/components/valuation/file-upload";
 import ValuationResult from "@/components/valuation/valuation-result";
+import { BlogSEO } from "@/components/seo/BlogSEO";
 
 export interface ValuationData {
   // Step 1: Buyer/Seller Selection
@@ -198,6 +199,35 @@ export default function ValuationFlow() {
   const { toast } = useToast();
   const [, setLocation] = useLocation();
 
+  // SEO data for the valuation page
+  const seoData = {
+    title: "Business Valuation - Get Professional SDE Valuation Report | ValuationGenie",
+    description: "Start your professional business valuation today. Get comprehensive SDE-based valuation reports with industry analysis. Used by 1000+ business owners worldwide.",
+    keywords: "business valuation, professional valuation report, SDE valuation, business appraisal, company valuation, business value assessment",
+    url: "https://thevaluationgenie.com/valuation"
+  };
+
+  // Schema markup for the valuation page
+  const schemaMarkup = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Professional Business Valuation Service",
+    "description": "Comprehensive business valuation using SDE methodology with professional reporting",
+    "url": "https://thevaluationgenie.com/valuation",
+    "serviceType": "Business Valuation",
+    "provider": {
+      "@type": "Organization",
+      "name": "ValuationGenie",
+      "url": "https://thevaluationgenie.com"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "39",
+      "priceCurrency": "USD",
+      "description": "Professional business valuation report"
+    }
+  };
+
   // Total steps: 1=Start, 2=Questions, 3=Industry, 4=FileUpload, 5=Results
   const totalSteps = 5;
 
@@ -351,6 +381,13 @@ export default function ValuationFlow() {
 
   return (
     <div className="min-h-screen bg-white">
+      <BlogSEO 
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        url={seoData.url}
+        schemaMarkup={schemaMarkup}
+      />
       <Header />
       
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
