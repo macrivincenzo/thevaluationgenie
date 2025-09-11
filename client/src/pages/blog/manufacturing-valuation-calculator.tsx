@@ -1,4 +1,6 @@
 import { Link } from "wouter";
+import Header from "@/components/layout/header";
+import Footer from "@/components/layout/footer";
 import { BlogSEO, InternalLinks, FAQSchema } from "@/components/seo/BlogSEO";
 
 export default function ManufacturingValuationCalculator() {
@@ -56,7 +58,7 @@ export default function ManufacturingValuationCalculator() {
   ];
 
   return (
-    <>
+    <div className="min-h-screen bg-white">
       <BlogSEO 
         title="Manufacturing Business Calculator - Value Your Manufacturing Company Today | TheValuationGenie"
         description="Free manufacturing business valuation calculator using SDE methodology. Get instant estimates for your manufacturing company's worth. Professional $39 reports with detailed analysis, equipment valuation, and industry benchmarks."
@@ -65,8 +67,9 @@ export default function ManufacturingValuationCalculator() {
         schemaMarkup={schemaMarkup}
       />
       <FAQSchema faqs={faqs} />
-
-      <div className="min-h-screen bg-gray-50">
+      <Header />
+      
+      <div className="max-w-4xl mx-auto px-4 py-12">
         <div className="manufacturing-article">
           <article>
             <header>
@@ -631,6 +634,8 @@ export default function ManufacturingValuationCalculator() {
           </article>
         </div>
       </div>
+      
+      <Footer />
 
       <style>{`
         .manufacturing-article {
@@ -841,6 +846,6 @@ export default function ManufacturingValuationCalculator() {
           border-radius: 10px;
         }
       `}</style>
-    </>
+    </div>
   );
 }
