@@ -175,6 +175,19 @@ const blogPosts = [
     slug: "/blog/business-valuation-calculator"
   },
   {
+    id: "manufacturing-valuation-calculator",
+    title: "Manufacturing Business Calculator - Value Your Manufacturing Company Today",
+    description: "Free manufacturing business valuation calculator using SDE methodology. Get instant estimates for your manufacturing company's worth. Professional $39 reports with detailed analysis, equipment valuation, and industry benchmarks.",
+    excerpt: "Calculate your manufacturing company's worth using proven SDE methodology. Industry-specific multiples, equipment analysis, and comprehensive valuation approach for all manufacturing types.",
+    category: "Manufacturing Tools",
+    readTime: "25 min read",
+    publishDate: "2025-01-08",
+    featured: false,
+    keywords: ["manufacturing business valuation calculator", "manufacturing company worth", "manufacturing business appraisal", "SDE manufacturing valuation"],
+    icon: Cog,
+    slug: "/blog/manufacturing-valuation-calculator"
+  },
+  {
     id: "business-broker-vs-diy-valuation",
     title: "Business Broker vs DIY Valuation: Complete Cost Comparison Guide (2025)",
     description: "Compare business broker fees ($15K-$50K+) versus online professional valuations ($39). Real cost breakdowns, case studies, and ROI analysis for smart business owners.",
