@@ -162,6 +162,19 @@ const blogPosts = [
     slug: "/saas-valuation-calculator"
   },
   {
+    id: "service-business-valuation-calculator",
+    title: "Service Business Calculator - Calculate Service Business Worth & SDE",
+    description: "Free service business valuation calculator using SDE methodology. Get instant estimates for your service company's worth. Professional $39 reports with detailed analysis, client base evaluation, and industry benchmarks.",
+    excerpt: "Calculate your service business value using proven SDE methodology. Works for consulting, marketing, IT services, professional services, and all service-based businesses.",
+    category: "Service Business Tools",
+    readTime: "18 min read",
+    publishDate: "2025-01-12",
+    featured: true,
+    keywords: ["service business valuation calculator", "service company worth", "SDE service valuation"],
+    icon: Code,
+    slug: "/blog/service-business-valuation-calculator"
+  },
+  {
     id: "business-valuation-calculator",
     title: "Business Valuation Calculator: Free Tool + Professional Reports (2025)",
     description: "Get instant business value estimates with our free SDE-based calculator, then upgrade to comprehensive professional reports for just $39. Perfect for business sales and financing.",

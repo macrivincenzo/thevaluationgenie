@@ -36,6 +36,14 @@
     <priority>0.9</priority>
   </url>
   
+  <!-- Service Business Valuation Calculator -->
+  <url>
+    <loc>https://thevaluationgenie.com/blog/service-business-valuation-calculator</loc>
+    <lastmod>2025-01-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
   <!-- User Authentication Pages -->
   <url>
     <loc>https://thevaluationgenie.com/login</loc>
