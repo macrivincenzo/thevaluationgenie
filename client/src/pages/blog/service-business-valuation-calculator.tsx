@@ -336,7 +336,7 @@ export default function ServiceBusinessValuationCalculator() {
                 <div className="factors-grid">
                   <div className="factor">
                     <h4>⚠️ High Client Concentration</h4>
-                    <p>If your top 3 clients represent >40% of revenue, your business is high-risk. Buyers typically apply 20-30% valuation discounts for concentration risk.</p>
+                    <p>If your top 3 clients represent &gt;40% of revenue, your business is high-risk. Buyers typically apply 20-30% valuation discounts for concentration risk.</p>
                   </div>
                   
                   <div className="factor">
@@ -346,7 +346,7 @@ export default function ServiceBusinessValuationCalculator() {
                   
                   <div className="factor">
                     <h4>⚠️ Project-Based Revenue</h4>
-                    <p>If >60% of revenue comes from one-time projects, your business lacks predictable cash flow. Recurring revenue commands premium multiples.</p>
+                    <p>If &gt;60% of revenue comes from one-time projects, your business lacks predictable cash flow. Recurring revenue commands premium multiples.</p>
                   </div>
                   
                   <div className="factor">
@@ -423,7 +423,7 @@ export default function ServiceBusinessValuationCalculator() {
                   <h3>❌ Mistake #3: Overlooking Client Concentration Risk</h3>
                   <p><strong>The Error:</strong> Not adjusting valuation for client concentration</p>
                   <p><strong>Why It's Wrong:</strong> High client concentration creates revenue volatility and buyer risk</p>
-                  <p><strong>The Fix:</strong> Diversify client base before seeking valuation. Target no single client representing >15% of revenue</p>
+                  <p><strong>The Fix:</strong> Diversify client base before seeking valuation. Target no single client representing &gt;15% of revenue</p>
                   <p><strong>Impact:</strong> High concentration can reduce valuations by 20-40%</p>
                 </div>
                 
@@ -525,7 +525,7 @@ export default function ServiceBusinessValuationCalculator() {
                 
                 <div className="faq-item">
                   <h3>Q: What factors increase service business valuation?</h3>
-                  <p>Key value drivers include: recurring revenue streams (60%+), diverse client base (no client >15% of revenue), long-term contracts, proprietary methodologies, strong team, documented processes, and consistent growth trends.</p>
+                  <p>Key value drivers include: recurring revenue streams (60%+), diverse client base (no client &gt;15% of revenue), long-term contracts, proprietary methodologies, strong team, documented processes, and consistent growth trends.</p>
                 </div>
                 
                 <div className="faq-item">
