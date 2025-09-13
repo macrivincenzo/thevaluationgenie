@@ -1,0 +1,74 @@
+REPLIT TASK: Add HTML Article to Blog Section with Google Indexing Optimization
+CORE INSTRUCTIONS:
+
+Add the provided HTML article to the blog section
+Use the article EXACTLY as I give it to you - make NO changes
+Do NOT modify any existing website design, functionality, or features
+
+LINKING REQUIREMENTS:
+
+All Call-to-Action buttons/links in the article SHALL lead to the homepage (where users can make the valuation of their business)
+Do NOT send them to broken links or blank pages
+Add internal linking within the article to existing website pages
+Do NOT change the website's existing design, functionality, or features when adding these links
+
+GOOGLE INDEXING REQUIREMENTS (CRITICAL):
+
+1. CREATE AS SEPARATE HTML FILE:
+   - Save the article as a standalone .html file (e.g., manufacturing-valuation-calculator.html)
+   - DO NOT embed it within existing pages or templates
+   - Each article must be a complete, independent HTML document
+
+2. PRESERVE ALL SEO ELEMENTS:
+   - Keep ALL meta tags, schema markup, and SEO elements intact
+   - Maintain the complete HTML5 structure (<html>, <head>, <body>)
+   - Preserve canonical URLs and robots meta tags
+   - Keep all JSON-LD schema markup for Google understanding
+
+3. PROPER URL STRUCTURE:
+   - Use clean, SEO-friendly URLs (e.g., /manufacturing-valuation-calculator)
+   - Ensure the URL matches the canonical tag in the article
+   - Make sure the file is accessible via direct URL
+
+4. INTERNAL LINKING STRATEGY:
+   - Add links to existing website pages within the article content
+   - Link to homepage, other calculator pages, and relevant resources
+   - Use descriptive anchor text for better SEO value
+   - Ensure all internal links work and lead to existing pages
+
+5. SITEMAP INTEGRATION:
+   - Add the new article URL to your website's sitemap.xml
+   - Include proper lastmod, changefreq, and priority values
+   - Ensure Google can discover the new article through sitemap
+
+WHAT NOT TO DO:
+
+Do not modify the article content
+Do not change existing website design
+Do not alter current functionality
+Do not break existing features
+Do not create broken links
+Do not modify the software functionality
+Do not embed article in templates or existing pages
+Do not remove any SEO elements or schema markup
+Do not change canonical URLs or meta tags
+
+WHAT TO DO:
+
+Add article as separate HTML file exactly as provided
+Ensure all CTAs lead to homepage
+Add internal links to existing pages only
+Preserve all SEO elements and schema markup
+Create proper URL structure for the article
+Add article to sitemap.xml
+Preserve everything else unchanged
+
+RESULT: Article integrated into blog section as standalone HTML file with working links, complete 
+SEO optimization, proper Google indexing setup, no design changes, no functionality changes.
+
+VERY IMPORTANT: Set it up properly so it will be INDEXED by GOOGLE without changing design, 
+feature, functionality of the website. The article must be discoverable by search engines and 
+properly structured for maximum SEO impact.
+
+Plus add the navigation bar in the blog article. And add the blog article in the blog section so it can
+be found. 
