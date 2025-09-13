@@ -111,7 +111,8 @@ export default function RetailStoreValuationCalculator() {
       
       <Header />
       
-      <div className="retail-article" style={{
+      <div className="max-w-4xl mx-auto px-4 py-12">
+        <div className="retail-article" style={{
         background: 'linear-gradient(135deg, #FF6B35 0%, #F7931E 50%, #FFD23F 100%)',
         color: 'white',
         padding: '20px',
@@ -1057,6 +1058,7 @@ export default function RetailStoreValuationCalculator() {
             </section>
           </div>
         </article>
+        </div>
       </div>
       
       <Footer />
