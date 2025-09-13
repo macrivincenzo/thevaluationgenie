@@ -1,7 +1,8 @@
-import { Header } from "@/components/layout/header";
-import { Footer } from "@/components/layout/footer";
-import { BlogSEO } from "@/components/seo/BlogSEO";
+import Header from "@/components/layout/header";
+import Footer from "@/components/layout/footer";
+import { BlogSEO, FAQSchema } from "@/components/seo/BlogSEO";
 import { Link } from "wouter";
+import { useEffect } from "react";
 
 const faqData = [
   {
@@ -39,6 +40,64 @@ const faqData = [
 ];
 
 export default function RetailStoreValuationCalculator() {
+  // Enhanced meta tags via BlogSEO component
+  const enhancedSchemaMarkup = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Retail Store Calculator - Value Your Retail Business with Industry Multiples",
+    "description": "Free retail business valuation calculator using SDE methodology. Get instant estimates for your retail store's worth. Professional $39 reports with detailed analysis, inventory valuation, and location factors.",
+    "image": ["https://thevaluationgenie.com/images/retail-store-calculator-og.jpg"],
+    "author": {
+      "@type": "Organization",
+      "name": "TheValuationGenie"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "TheValuationGenie",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://thevaluationgenie.com/logo.png"
+      }
+    },
+    "datePublished": "2025-01-12",
+    "dateModified": "2025-01-12",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://thevaluationgenie.com/retail-store-valuation-calculator"
+    },
+    "wordCount": 2847,
+    "articleSection": "Business Valuation",
+    "keywords": ["retail store valuation", "retail business worth", "SDE methodology", "inventory valuation", "location factors", "retail multiples"]
+  };
+  
+  useEffect(() => {
+    // Add specific Open Graph and Twitter images from original HTML
+    // (BlogSEO handles most other meta tags)
+    const setOgMeta = (property: string, content: string) => {
+      let meta = document.querySelector(`meta[property="${property}"]`);
+      if (!meta) {
+        meta = document.createElement("meta");
+        meta.setAttribute("property", property);
+        document.head.appendChild(meta);
+      }
+      meta.setAttribute("content", content);
+    };
+    
+    const setMeta = (name: string, content: string) => {
+      let meta = document.querySelector(`meta[name="${name}"]`);
+      if (!meta) {
+        meta = document.createElement("meta");
+        meta.setAttribute("name", name);
+        document.head.appendChild(meta);
+      }
+      meta.setAttribute("content", content);
+    };
+    
+    // Only set the specific image URLs from original HTML that aren't handled by BlogSEO
+    setOgMeta("og:image", "https://thevaluationgenie.com/images/retail-store-calculator-og.jpg");
+    setMeta("twitter:image", "https://thevaluationgenie.com/images/retail-store-calculator-twitter.jpg");
+  }, []);
+  
   return (
     <>
       <BlogSEO 
@@ -46,13 +105,9 @@ export default function RetailStoreValuationCalculator() {
         description="Free retail business valuation calculator using SDE methodology. Get instant estimates for your retail store's worth. Professional $39 reports with detailed analysis, inventory valuation, and location factors."
         keywords="retail store valuation calculator, retail business worth, retail store appraisal, SDE retail valuation, retail business value 2025, retail store multiples, inventory valuation, location factors retail"
         url="https://thevaluationgenie.com/retail-store-valuation-calculator"
-        ogImage="https://thevaluationgenie.com/images/retail-store-calculator-og.jpg"
-        publishDate="2025-01-12"
-        modifiedDate="2025-01-12"
-        wordCount={2847}
-        articleSection="Business Valuation"
-        faqData={faqData}
+        schemaMarkup={enhancedSchemaMarkup}
       />
+      <FAQSchema faqs={faqData} />
       
       <Header />
       
