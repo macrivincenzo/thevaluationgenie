@@ -57,6 +57,7 @@ const RestaurantEmployeeBuyoutValuation = lazy(() => import("@/pages/blog/restau
 const SaaSStartupValuationCalculator = lazy(() => import("@/pages/blog/saas-startup-valuation-calculator"));
 const ManufacturingValuationCalculator = lazy(() => import("@/pages/blog/manufacturing-valuation-calculator"));
 const ServiceBusinessValuationCalculator = lazy(() => import("@/pages/blog/service-business-valuation-calculator"));
+const RetailStoreValuationCalculator = lazy(() => import("@/pages/blog/retail-store-valuation-calculator"));
 const RestaurantValuationCalculator = lazy(() => import("@/pages/restaurant-valuation-calculator"));
 const EcommerceValuationCalculator = lazy(() => import("@/pages/ecommerce-valuation-calculator"));
 const SaasValuationCalculator = lazy(() => import("@/pages/saas-valuation-calculator"));
@@ -117,6 +118,7 @@ function Router() {
           <Route path="/blog/saas-startup-valuation-calculator" component={SaaSStartupValuationCalculator} />
           <Route path="/blog/manufacturing-valuation-calculator" component={ManufacturingValuationCalculator} />
           <Route path="/blog/service-business-valuation-calculator" component={ServiceBusinessValuationCalculator} />
+          <Route path="/blog/retail-store-valuation-calculator" component={RetailStoreValuationCalculator} />
           
           {/* Restaurant Valuation Calculator - Available to all users */}
           <Route path="/restaurant-valuation-calculator" component={RestaurantValuationCalculator} />

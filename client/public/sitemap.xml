@@ -44,6 +44,14 @@
     <priority>0.9</priority>
   </url>
   
+  <!-- Retail Store Valuation Calculator -->
+  <url>
+    <loc>https://thevaluationgenie.com/blog/retail-store-valuation-calculator</loc>
+    <lastmod>2025-01-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
   <!-- User Authentication Pages -->
   <url>
     <loc>https://thevaluationgenie.com/login</loc>

@@ -1,5 +1,5 @@
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { Header } from "@/components/layout/header";
+import { Footer } from "@/components/layout/footer";
 import { BlogSEO } from "@/components/seo/BlogSEO";
 import { Link } from "wouter";
 
@@ -45,7 +45,7 @@ export default function RetailStoreValuationCalculator() {
         title="Retail Store Calculator - Value Your Retail Business with Industry Multiples | TheValuationGenie"
         description="Free retail business valuation calculator using SDE methodology. Get instant estimates for your retail store's worth. Professional $39 reports with detailed analysis, inventory valuation, and location factors."
         keywords="retail store valuation calculator, retail business worth, retail store appraisal, SDE retail valuation, retail business value 2025, retail store multiples, inventory valuation, location factors retail"
-        canonicalUrl="https://thevaluationgenie.com/retail-store-valuation-calculator"
+        url="https://thevaluationgenie.com/retail-store-valuation-calculator"
         ogImage="https://thevaluationgenie.com/images/retail-store-calculator-og.jpg"
         publishDate="2025-01-12"
         modifiedDate="2025-01-12"

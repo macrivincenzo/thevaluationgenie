@@ -162,6 +162,19 @@ const blogPosts = [
     slug: "/saas-valuation-calculator"
   },
   {
+    id: "retail-store-valuation-calculator",
+    title: "Retail Store Calculator - Value Your Retail Business with Industry Multiples",
+    description: "Free retail business valuation calculator using SDE methodology. Get instant estimates for your retail store's worth. Professional $39 reports with detailed analysis, inventory valuation, and location factors.",
+    excerpt: "Calculate your retail store value using proven SDE methodology. Works for clothing stores, electronics retailers, food markets, specialty shops, and all retail businesses.",
+    category: "Retail Business Tools",
+    readTime: "16 min read",
+    publishDate: "2025-01-12",
+    featured: true,
+    keywords: ["retail store valuation calculator", "retail business worth", "SDE retail valuation"],
+    icon: ShoppingCart,
+    slug: "/blog/retail-store-valuation-calculator"
+  },
+  {
     id: "service-business-valuation-calculator",
     title: "Service Business Calculator - Calculate Service Business Worth & SDE",
     description: "Free service business valuation calculator using SDE methodology. Get instant estimates for your service company's worth. Professional $39 reports with detailed analysis, client base evaluation, and industry benchmarks.",
