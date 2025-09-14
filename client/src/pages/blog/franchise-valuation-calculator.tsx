@@ -55,7 +55,7 @@ export default function FranchiseValuationCalculator() {
     "dateModified": "2025-01-15",
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": "https://thevaluationgenie.com/franchise-valuation-calculator"
+      "@id": "https://thevaluationgenie.com/blog/franchise-valuation-calculator"
     },
     "wordCount": 3245,
     "articleSection": "Business Valuation",
@@ -85,8 +85,22 @@ export default function FranchiseValuationCalculator() {
     };
     
     // Set specific images and meta from original HTML
+    // Additional OG and Twitter meta tags from original HTML
+    setOgMeta("og:title", "Franchise Valuation Calculator - Calculate Franchise Value & ROI 2025");
+    setOgMeta("og:description", "Free franchise valuation calculator using SDE methodology. Calculate your franchise value, ROI, and market worth instantly.");
+    setOgMeta("og:url", "https://thevaluationgenie.com/blog/franchise-valuation-calculator");
+    setOgMeta("og:type", "website");
     setOgMeta("og:image", "https://thevaluationgenie.com/images/franchise-valuation-calculator.jpg");
+    setOgMeta("og:site_name", "TheValuationGenie");
+    
+    setMeta("twitter:card", "summary_large_image");
+    setMeta("twitter:title", "Franchise Valuation Calculator - Calculate Franchise Value & ROI 2025");
+    setMeta("twitter:description", "Free franchise valuation calculator using SDE methodology. Calculate your franchise value, ROI, and market worth instantly.");
     setMeta("twitter:image", "https://thevaluationgenie.com/images/franchise-valuation-calculator.jpg");
+    
+    setMeta("robots", "index, follow");
+    setMeta("author", "TheValuationGenie");
+    setMeta("keywords", "franchise valuation, franchise calculator, franchise worth, franchise ROI, SDE methodology, franchise multiples, franchise value");
   }, []);
 
   return (
@@ -95,7 +109,7 @@ export default function FranchiseValuationCalculator() {
         title="Franchise Valuation Calculator - Calculate Franchise Value & ROI 2025"
         description="Free franchise valuation calculator using SDE methodology. Calculate your franchise value, ROI, and market worth instantly. Professional $39 reports with detailed analysis."
         keywords="franchise valuation, franchise calculator, franchise worth, franchise ROI, SDE methodology, franchise multiples, franchise value"
-        url="https://thevaluationgenie.com/franchise-valuation-calculator"
+        url="https://thevaluationgenie.com/blog/franchise-valuation-calculator"
         schemaMarkup={enhancedSchemaMarkup}
       />
       <FAQSchema faqs={faqData} />
