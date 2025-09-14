@@ -71,61 +71,62 @@ export default function FranchiseValuationCalculator() {
   };
 
   useEffect(() => {
-    // Complete calculator functionality exactly from your HTML
-    const handleCalculatorSubmit = (e: Event) => {
-      e.preventDefault();
-      e.stopPropagation();
-      
-      const revenue = parseFloat((document.getElementById('annual-revenue') as HTMLInputElement).value);
-      const sde = parseFloat((document.getElementById('sde-amount') as HTMLInputElement).value);
-      const franchiseType = (document.getElementById('franchise-type') as HTMLSelectElement).value;
-      const yearsOperating = parseInt((document.getElementById('years-operating') as HTMLInputElement).value);
-      const territorySize = parseFloat((document.getElementById('territory-size') as HTMLInputElement).value);
-      const royaltyRate = parseFloat((document.getElementById('royalty-rate') as HTMLInputElement).value);
-      
-      // Franchise type multipliers exactly from your HTML
-      const multipliers: {[key: string]: number} = {
-        'food-service': 4.2,
-        'retail': 2.8,
-        'service': 3.3,
-        'healthcare': 4.5,
-        'fitness': 2.7,
-        'automotive': 3.1
-      };
-      
-      const baseMultiple = multipliers[franchiseType] || 3.0;
-      
-      // Adjustments based on factors exactly from your HTML
-      let adjustedMultiple = baseMultiple;
-      
-      // Years operating adjustment
-      if (yearsOperating >= 5) adjustedMultiple += 0.2;
-      if (yearsOperating >= 10) adjustedMultiple += 0.3;
-      
-      // Territory size adjustment
-      if (territorySize >= 50) adjustedMultiple += 0.1;
-      if (territorySize >= 100) adjustedMultiple += 0.2;
-      
-      // Royalty rate adjustment (lower is better)
-      if (royaltyRate <= 5) adjustedMultiple += 0.1;
-      if (royaltyRate >= 8) adjustedMultiple -= 0.1;
-      
-      const estimatedValue = sde * adjustedMultiple;
-      const roi = ((estimatedValue - (revenue * 0.3)) / (revenue * 0.3)) * 100;
-      
-      const resultElement = document.getElementById('result-content');
-      if (resultElement) {
-        resultElement.innerHTML = `
-          <p><strong>Estimated Franchise Value: $${estimatedValue.toLocaleString()}</strong></p>
-          <p>SDE Multiple Used: ${adjustedMultiple.toFixed(1)}x</p>
-          <p>Estimated ROI: ${roi.toFixed(1)}%</p>
-          <p>Valuation Range: $${(estimatedValue * 0.85).toLocaleString()} - $${(estimatedValue * 1.15).toLocaleString()}</p>
-        `;
-      }
-      
-      const resultDiv = document.getElementById('valuation-result');
-      if (resultDiv) {
-        resultDiv.style.display = 'block';
+    // Simple calculator function that will be attached to window
+    (window as any).calculateFranchiseValue = () => {
+      try {
+        const revenue = parseFloat((document.getElementById('annual-revenue') as HTMLInputElement).value);
+        const sde = parseFloat((document.getElementById('sde-amount') as HTMLInputElement).value);
+        const franchiseType = (document.getElementById('franchise-type') as HTMLSelectElement).value;
+        const yearsOperating = parseInt((document.getElementById('years-operating') as HTMLInputElement).value);
+        const territorySize = parseFloat((document.getElementById('territory-size') as HTMLInputElement).value);
+        const royaltyRate = parseFloat((document.getElementById('royalty-rate') as HTMLInputElement).value);
+        
+        // Franchise type multipliers exactly from your HTML
+        const multipliers: {[key: string]: number} = {
+          'food-service': 4.2,
+          'retail': 2.8,
+          'service': 3.3,
+          'healthcare': 4.5,
+          'fitness': 2.7,
+          'automotive': 3.1
+        };
+        
+        const baseMultiple = multipliers[franchiseType] || 3.0;
+        
+        // Adjustments based on factors exactly from your HTML
+        let adjustedMultiple = baseMultiple;
+        
+        // Years operating adjustment
+        if (yearsOperating >= 5) adjustedMultiple += 0.2;
+        if (yearsOperating >= 10) adjustedMultiple += 0.3;
+        
+        // Territory size adjustment
+        if (territorySize >= 50) adjustedMultiple += 0.1;
+        if (territorySize >= 100) adjustedMultiple += 0.2;
+        
+        // Royalty rate adjustment (lower is better)
+        if (royaltyRate <= 5) adjustedMultiple += 0.1;
+        if (royaltyRate >= 8) adjustedMultiple -= 0.1;
+        
+        const estimatedValue = sde * adjustedMultiple;
+        const roi = ((estimatedValue - (revenue * 0.3)) / (revenue * 0.3)) * 100;
+        
+        const resultElement = document.getElementById('result-content');
+        if (resultElement) {
+          resultElement.innerHTML = `
+            <p><strong>Estimated Franchise Value: $${estimatedValue.toLocaleString()}</strong></p>
+            <p>SDE Multiple Used: ${adjustedMultiple.toFixed(1)}x</p>
+            <p>Estimated ROI: ${roi.toFixed(1)}%</p>
+            <p>Valuation Range: $${(estimatedValue * 0.85).toLocaleString()} - $${(estimatedValue * 1.15).toLocaleString()}</p>
+          `;
+        }
+        
+        const resultDiv = document.getElementById('valuation-result');
+        if (resultDiv) {
+          resultDiv.style.display = 'block';
+        }
+      } catch (error) {
+        console.error('Calculator error:', error);
       }
     };
 
@@ -146,28 +147,6 @@ export default function FranchiseValuationCalculator() {
       window.print();
     };
 
-    // Add calculator event listener with slight delay to ensure DOM is ready
-    const attachCalculatorListener = () => {
-      const calculator = document.getElementById('franchise-calculator');
-      if (calculator) {
-        calculator.addEventListener('submit', handleCalculatorSubmit);
-        
-        // Also attach to the button directly as backup
-        const button = document.getElementById('calc-button');
-        if (button) {
-          button.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            handleCalculatorSubmit(e);
-          });
-        }
-      } else {
-        // Retry if form not found yet
-        setTimeout(attachCalculatorListener, 100);
-      }
-    };
-    
-    attachCalculatorListener();
 
     // All meta tags exactly from your HTML
     const setMeta = (name: string, content: string) => {
@@ -289,18 +268,7 @@ export default function FranchiseValuationCalculator() {
     addSchemaScript(organizationSchema, 'organization-schema');
     addSchemaScript(breadcrumbSchema, 'breadcrumb-schema');
 
-    // Cleanup
-    return () => {
-      const calc = document.getElementById('franchise-calculator');
-      if (calc) {
-        calc.removeEventListener('submit', handleCalculatorSubmit);
-      }
-      
-      const button = document.getElementById('calc-button');
-      if (button) {
-        button.removeEventListener('click', handleCalculatorSubmit);
-      }
-    };
+    // No cleanup needed for window function
   }, []);
 
   return (
@@ -598,7 +566,7 @@ export default function FranchiseValuationCalculator() {
                   <h3>Get Your Instant Franchise Valuation</h3>
                   <p>Enter your franchise financial data below to receive an instant valuation estimate using our proven SDE methodology.</p>
                   
-                  <form id="franchise-calculator" onSubmit={(e) => { e.preventDefault(); e.stopPropagation(); }}>
+                  <div id="franchise-calculator">
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "20px", margin: "20px 0" }}>
                       <div>
                         <label htmlFor="annual-revenue" style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>Annual Revenue ($):</label>
@@ -634,8 +602,8 @@ export default function FranchiseValuationCalculator() {
                       </div>
                     </div>
                     
-                    <button type="button" id="calc-button" className="cta-button" data-testid="button-calculate-franchise">Calculate My Franchise Value</button>
-                  </form>
+                    <button type="button" id="calc-button" className="cta-button" data-testid="button-calculate-franchise" onClick={() => (window as any).calculateFranchiseValue()}>Calculate My Franchise Value</button>
+                  </div>
                   
                   <div id="valuation-result" style={{ marginTop: "20px", padding: "20px", background: "rgba(255,255,255,0.1)", borderRadius: "5px", display: "none" }}>
                     <h4>Your Franchise Valuation Estimate</h4>
