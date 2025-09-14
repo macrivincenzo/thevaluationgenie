@@ -570,15 +570,15 @@ export default function FranchiseValuationCalculator() {
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "20px", margin: "20px 0" }}>
                       <div>
                         <label htmlFor="annual-revenue" style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>Annual Revenue ($):</label>
-                        <input type="number" id="annual-revenue" placeholder="500000" required style={{ width: "100%", padding: "10px", borderRadius: "5px", border: "none" }} />
+                        <input type="number" id="annual-revenue" placeholder="500000" required style={{ width: "100%", padding: "10px", borderRadius: "5px", border: "none", color: "black" }} />
                       </div>
                       <div>
                         <label htmlFor="sde-amount" style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>Seller's Discretionary Earnings ($):</label>
-                        <input type="number" id="sde-amount" placeholder="150000" required style={{ width: "100%", padding: "10px", borderRadius: "5px", border: "none" }} />
+                        <input type="number" id="sde-amount" placeholder="150000" required style={{ width: "100%", padding: "10px", borderRadius: "5px", border: "none", color: "black" }} />
                       </div>
                       <div>
                         <label htmlFor="franchise-type" style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>Franchise Type:</label>
-                        <select id="franchise-type" required style={{ width: "100%", padding: "10px", borderRadius: "5px", border: "none" }}>
+                        <select id="franchise-type" required style={{ width: "100%", padding: "10px", borderRadius: "5px", border: "none", color: "black" }}>
                           <option value="">Select Franchise Type</option>
                           <option value="food-service">Food Service</option>
                           <option value="retail">Retail</option>
@@ -590,15 +590,15 @@ export default function FranchiseValuationCalculator() {
                       </div>
                       <div>
                         <label htmlFor="years-operating" style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>Years Operating:</label>
-                        <input type="number" id="years-operating" placeholder="5" required style={{ width: "100%", padding: "10px", borderRadius: "5px", border: "none" }} />
+                        <input type="number" id="years-operating" placeholder="5" required style={{ width: "100%", padding: "10px", borderRadius: "5px", border: "none", color: "black" }} />
                       </div>
                       <div>
                         <label htmlFor="territory-size" style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>Territory Size (sq miles):</label>
-                        <input type="number" id="territory-size" placeholder="25" required style={{ width: "100%", padding: "10px", borderRadius: "5px", border: "none" }} />
+                        <input type="number" id="territory-size" placeholder="25" required style={{ width: "100%", padding: "10px", borderRadius: "5px", border: "none", color: "black" }} />
                       </div>
                       <div>
                         <label htmlFor="royalty-rate" style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>Royalty Rate (%):</label>
-                        <input type="number" id="royalty-rate" placeholder="6" step="0.1" required style={{ width: "100%", padding: "10px", borderRadius: "5px", border: "none" }} />
+                        <input type="number" id="royalty-rate" placeholder="6" step="0.1" required style={{ width: "100%", padding: "10px", borderRadius: "5px", border: "none", color: "black" }} />
                       </div>
                     </div>
                     
