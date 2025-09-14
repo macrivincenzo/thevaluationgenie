@@ -6,28 +6,36 @@ import { useEffect } from "react";
 
 const faqData = [
   {
-    question: "How accurate is your franchise valuation calculator?",
-    answer: "Our calculator provides highly accurate estimates using industry-standard SDE methodology and current market multiples. For final decisions like sales or financing, we recommend professional reports with detailed franchise analysis."
+    question: "What is the difference between franchise valuation and regular business valuation?",
+    answer: "Franchise valuation considers unique factors like brand recognition, territory rights, royalty obligations, and franchise agreement terms that don't apply to independent businesses. These factors can significantly impact the final valuation."
   },
   {
-    question: "What makes franchise valuation different from regular business valuation?",
-    answer: "Franchise valuation considers unique factors like brand recognition, territory rights, royalty structures, franchise agreement terms, and franchisor support systems that don't apply to independent businesses."
+    question: "How accurate is the franchise valuation calculator?",
+    answer: "Our calculator provides estimates within 15-20% of professional valuations for most franchises. Accuracy depends on the quality of input data and specific franchise characteristics. For precise valuations, professional appraisal is recommended."
   },
   {
-    question: "Which franchise types have the highest valuations?",
-    answer: "Healthcare and food service franchises typically command the highest multiples (3.5x-5.5x SDE) due to strong cash flows, brand recognition, and market demand."
+    question: "What SDE multiple should I use for my franchise?",
+    answer: "SDE multiples vary by industry, brand strength, and business performance. Food service franchises typically use 3.0x-5.0x, while service franchises use 2.5x-4.0x. Our calculator automatically applies appropriate multiples based on your franchise type."
   },
   {
-    question: "How do franchise fees affect valuation?",
-    answer: "Ongoing royalty fees are factored into SDE calculations, while initial franchise fees and territory rights add premium value to established franchises with proven performance."
+    question: "How do I calculate SDE for my franchise?",
+    answer: "SDE = Net Income + Owner's Salary + Benefits + Discretionary Expenses + Non-recurring Expenses - Non-recurring Income. For franchises, add back royalty payments and marketing fees as they're not operational expenses."
   },
   {
-    question: "When should I get a professional franchise valuation?",
-    answer: "Professional valuations are essential for franchise sales, SBA lending, investor presentations, estate planning, or partnership disputes. Our $39 reports provide comprehensive analysis for these situations."
+    question: "Does territory size affect franchise valuation?",
+    answer: "Yes, territory size and exclusivity significantly impact franchise value. Larger, more exclusive territories typically command higher valuations due to reduced competition and greater market potential."
   },
   {
-    question: "How often should franchise values be updated?",
-    answer: "Annual valuations help track performance and market changes. More frequent valuations are recommended during expansion planning, refinancing, or when considering sale opportunities."
+    question: "How often should I get my franchise valued?",
+    answer: "Franchise valuations should be updated annually or when significant changes occur, such as major renovations, market shifts, or when considering sale or financing options."
+  },
+  {
+    question: "What documents do I need for franchise valuation?",
+    answer: "Essential documents include 3 years of financial statements, franchise agreement, territory maps, royalty payment records, marketing fee documentation, and any recent appraisals or valuations."
+  },
+  {
+    question: "Can I use this calculator for any franchise brand?",
+    answer: "Yes, our calculator works for most franchise brands. However, some unique franchise models may require specialized valuation approaches. For unusual franchise structures, professional consultation is recommended."
   }
 ];
 
@@ -51,29 +59,184 @@ export default function FranchiseValuationCalculator() {
         "url": "https://thevaluationgenie.com/logo.png"
       }
     },
-    "datePublished": "2025-01-15",
-    "dateModified": "2025-01-15",
+    "datePublished": "2025-01-12",
+    "dateModified": "2025-01-12",
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https://thevaluationgenie.com/blog/franchise-valuation-calculator"
     },
-    "wordCount": 3245,
+    "wordCount": 2847,
     "articleSection": "Business Valuation",
     "keywords": ["franchise valuation", "franchise calculator", "franchise worth", "franchise ROI", "SDE methodology", "franchise multiples"]
   };
+
+  // Organization Schema exactly from original
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "TheValuationGenie",
+    "url": "https://thevaluationgenie.com",
+    "description": "Professional business valuation services using AI-driven SDE methodology",
+    "foundingDate": "2024",
+    "serviceArea": {
+      "@type": "Country",
+      "name": "United States"
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Business Valuation Services",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Franchise Valuation Calculator",
+            "description": "Free franchise valuation calculator using SDE methodology"
+          },
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Professional Valuation Report",
+            "description": "Detailed professional valuation report with market analysis"
+          },
+          "price": "39",
+          "priceCurrency": "USD"
+        }
+      ]
+    }
+  };
+
+  // Breadcrumb Schema exactly from original
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://thevaluationgenie.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Calculators",
+        "item": "https://thevaluationgenie.com/calculators"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Franchise Valuation Calculator",
+        "item": "https://thevaluationgenie.com/blog/franchise-valuation-calculator"
+      }
+    ]
+  };
   
   useEffect(() => {
-    // Add specific Open Graph and Twitter images from original HTML
-    const setOgMeta = (property: string, content: string) => {
-      let meta = document.querySelector(`meta[property="${property}"]`);
-      if (!meta) {
-        meta = document.createElement("meta");
-        meta.setAttribute("property", property);
-        document.head.appendChild(meta);
+    // Calculator functionality exactly from original HTML
+    const handleCalculatorSubmit = (e: Event) => {
+      e.preventDefault();
+      
+      const form = e.target as HTMLFormElement;
+      const formData = new FormData(form);
+      
+      const revenue = parseFloat((document.getElementById('annual-revenue') as HTMLInputElement).value);
+      const sde = parseFloat((document.getElementById('sde-amount') as HTMLInputElement).value);
+      const franchiseType = (document.getElementById('franchise-type') as HTMLSelectElement).value;
+      const yearsOperating = parseInt((document.getElementById('years-operating') as HTMLInputElement).value);
+      const territorySize = parseFloat((document.getElementById('territory-size') as HTMLInputElement).value);
+      const royaltyRate = parseFloat((document.getElementById('royalty-rate') as HTMLInputElement).value);
+      
+      // Franchise type multipliers exactly from original
+      const multipliers: {[key: string]: number} = {
+        'food-service': 4.2,
+        'retail': 2.8,
+        'service': 3.3,
+        'healthcare': 4.5,
+        'fitness': 2.7,
+        'automotive': 3.1
+      };
+      
+      const baseMultiple = multipliers[franchiseType] || 3.0;
+      
+      // Adjustments based on factors exactly from original
+      let adjustedMultiple = baseMultiple;
+      
+      // Years operating adjustment
+      if (yearsOperating >= 5) adjustedMultiple += 0.2;
+      if (yearsOperating >= 10) adjustedMultiple += 0.3;
+      
+      // Territory size adjustment
+      if (territorySize >= 50) adjustedMultiple += 0.1;
+      if (territorySize >= 100) adjustedMultiple += 0.2;
+      
+      // Royalty rate adjustment (lower is better)
+      if (royaltyRate <= 5) adjustedMultiple += 0.1;
+      if (royaltyRate >= 8) adjustedMultiple -= 0.1;
+      
+      const estimatedValue = sde * adjustedMultiple;
+      const roi = ((estimatedValue - (revenue * 0.3)) / (revenue * 0.3)) * 100;
+      
+      const resultElement = document.getElementById('result-content');
+      if (resultElement) {
+        resultElement.innerHTML = `
+          <p><strong>Estimated Franchise Value: $${estimatedValue.toLocaleString()}</strong></p>
+          <p>SDE Multiple Used: ${adjustedMultiple.toFixed(1)}x</p>
+          <p>Estimated ROI: ${roi.toFixed(1)}%</p>
+          <p>Valuation Range: $${(estimatedValue * 0.85).toLocaleString()} - $${(estimatedValue * 1.15).toLocaleString()}</p>
+        `;
       }
-      meta.setAttribute("content", content);
+      
+      const resultDiv = document.getElementById('valuation-result');
+      if (resultDiv) {
+        resultDiv.style.display = 'block';
+      }
+    };
+
+    // Social sharing functions exactly from original
+    (window as any).shareOnFacebook = () => {
+      window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(window.location.href));
     };
     
+    (window as any).shareOnTwitter = () => {
+      window.open('https://twitter.com/intent/tweet?url=' + encodeURIComponent(window.location.href) + '&text=' + encodeURIComponent(document.title));
+    };
+    
+    (window as any).shareOnLinkedIn = () => {
+      window.open('https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(window.location.href));
+    };
+    
+    (window as any).printArticle = () => {
+      window.print();
+    };
+
+    // Add calculator event listener
+    const calculator = document.getElementById('franchise-calculator');
+    if (calculator) {
+      calculator.addEventListener('submit', handleCalculatorSubmit);
+    }
+
+    // Add all schema markup exactly from original
+    const addSchemaScript = (schema: object, id: string) => {
+      let script = document.getElementById(id);
+      if (script) {
+        document.head.removeChild(script);
+      }
+      script = document.createElement('script');
+      script.id = id;
+      script.type = 'application/ld+json';
+      script.textContent = JSON.stringify(schema);
+      document.head.appendChild(script);
+    };
+
+    addSchemaScript(organizationSchema, 'organization-schema');
+    addSchemaScript(breadcrumbSchema, 'breadcrumb-schema');
+
+    // Set specific meta tags from original HTML
     const setMeta = (name: string, content: string) => {
       let meta = document.querySelector(`meta[name="${name}"]`);
       if (!meta) {
@@ -84,8 +247,17 @@ export default function FranchiseValuationCalculator() {
       meta.setAttribute("content", content);
     };
     
-    // Set specific images and meta from original HTML
-    // Additional OG and Twitter meta tags from original HTML
+    const setOgMeta = (property: string, content: string) => {
+      let meta = document.querySelector(`meta[property="${property}"]`);
+      if (!meta) {
+        meta = document.createElement("meta");
+        meta.setAttribute("property", property);
+        document.head.appendChild(meta);
+      }
+      meta.setAttribute("content", content);
+    };
+    
+    // All meta tags exactly from original HTML
     setOgMeta("og:title", "Franchise Valuation Calculator - Calculate Franchise Value & ROI 2025");
     setOgMeta("og:description", "Free franchise valuation calculator using SDE methodology. Calculate your franchise value, ROI, and market worth instantly.");
     setOgMeta("og:url", "https://thevaluationgenie.com/blog/franchise-valuation-calculator");
@@ -101,6 +273,14 @@ export default function FranchiseValuationCalculator() {
     setMeta("robots", "index, follow");
     setMeta("author", "TheValuationGenie");
     setMeta("keywords", "franchise valuation, franchise calculator, franchise worth, franchise ROI, SDE methodology, franchise multiples, franchise value");
+
+    // Cleanup
+    return () => {
+      const calc = document.getElementById('franchise-calculator');
+      if (calc) {
+        calc.removeEventListener('submit', handleCalculatorSubmit);
+      }
+    };
   }, []);
 
   return (
@@ -188,14 +368,14 @@ export default function FranchiseValuationCalculator() {
               color: #34495e;
               margin-top: 30px;
             }
-            .franchise-highlight-box {
+            .highlight-box {
               background: #e8f4fd;
               border: 1px solid #3498db;
               border-radius: 5px;
               padding: 20px;
               margin: 20px 0;
             }
-            .franchise-calculator-box {
+            .calculator-box {
               background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
               color: white;
               padding: 30px;
@@ -203,7 +383,7 @@ export default function FranchiseValuationCalculator() {
               text-align: center;
               margin: 30px 0;
             }
-            .franchise-cta-button {
+            .cta-button {
               background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
               color: white;
               padding: 15px 30px;
@@ -217,18 +397,18 @@ export default function FranchiseValuationCalculator() {
               margin: 10px;
               transition: transform 0.3s ease;
             }
-            .franchise-cta-button:hover {
+            .cta-button:hover {
               transform: translateY(-2px);
               box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             }
-            .franchise-faq-item {
+            .faq-item {
               background: #f8f9fa;
               border: 1px solid #dee2e6;
               border-radius: 5px;
               margin: 15px 0;
               overflow: hidden;
             }
-            .franchise-faq-question {
+            .faq-question {
               background: #e9ecef;
               padding: 15px 20px;
               margin: 0;
@@ -236,33 +416,33 @@ export default function FranchiseValuationCalculator() {
               color: #2c3e50;
               cursor: pointer;
             }
-            .franchise-faq-answer {
+            .faq-answer {
               padding: 20px;
               margin: 0;
               color: #555;
             }
-            .franchise-comparison-table {
+            .comparison-table {
               width: 100%;
               border-collapse: collapse;
               margin: 20px 0;
               background: white;
               box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             }
-            .franchise-comparison-table th,
-            .franchise-comparison-table td {
+            .comparison-table th,
+            .comparison-table td {
               border: 1px solid #ddd;
               padding: 12px;
               text-align: left;
             }
-            .franchise-comparison-table th {
+            .comparison-table th {
               background: #3498db;
               color: white;
               font-weight: bold;
             }
-            .franchise-comparison-table tr:nth-child(even) {
+            .comparison-table tr:nth-child(even) {
               background: #f8f9fa;
             }
-            .franchise-stats-box {
+            .stats-box {
               background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
               color: white;
               padding: 20px;
@@ -270,51 +450,67 @@ export default function FranchiseValuationCalculator() {
               margin: 20px 0;
               text-align: center;
             }
-            .franchise-author-bio {
+            .author-bio {
               background: #f8f9fa;
               border: 1px solid #dee2e6;
               border-radius: 10px;
               padding: 20px;
               margin: 30px 0;
             }
-            .franchise-related-articles {
+            .related-articles {
               background: #e8f4fd;
               border: 1px solid #3498db;
               border-radius: 10px;
               padding: 20px;
               margin: 30px 0;
             }
-            .franchise-related-articles h3 {
+            .related-articles h3 {
               color: #2c3e50;
               margin-top: 0;
             }
-            .franchise-related-articles ul {
+            .related-articles ul {
               list-style: none;
               padding-left: 0;
             }
-            .franchise-related-articles li {
+            .related-articles li {
               margin: 10px 0;
             }
-            .franchise-related-articles a {
+            .related-articles a {
               color: #3498db;
               text-decoration: none;
               font-weight: 500;
             }
-            .franchise-related-articles a:hover {
+            .related-articles a:hover {
               text-decoration: underline;
             }
-            .franchise-breadcrumb {
+            .breadcrumb {
               background: #f8f9fa;
               padding: 10px 20px;
               border-radius: 5px;
               margin-bottom: 20px;
             }
-            .franchise-breadcrumb a {
+            .breadcrumb a {
               color: #3498db;
               text-decoration: none;
             }
-            .franchise-breadcrumb a:hover {
+            .breadcrumb a:hover {
               text-decoration: underline;
+            }
+            .social-share {
+              text-align: center;
+              margin: 30px 0;
+            }
+            .social-share button {
+              background: #3498db;
+              color: white;
+              border: none;
+              padding: 10px 20px;
+              margin: 5px;
+              border-radius: 5px;
+              cursor: pointer;
+            }
+            .social-share button:hover {
+              background: #2980b9;
             }
             @media (max-width: 768px) {
               .franchise-container {
@@ -324,7 +520,7 @@ export default function FranchiseValuationCalculator() {
               .franchise-article-header h1 {
                 font-size: 2em;
               }
-              .franchise-comparison-table {
+              .comparison-table {
                 font-size: 0.9em;
               }
             }
@@ -332,7 +528,7 @@ export default function FranchiseValuationCalculator() {
 
           <div className="franchise-container">
             {/* Breadcrumb Navigation */}
-            <nav className="franchise-breadcrumb">
+            <nav className="breadcrumb">
               <Link href="/">Home</Link> &gt; 
               <Link href="/blog">Blog</Link> &gt; 
               <span>Franchise Valuation Calculator</span>
@@ -370,7 +566,7 @@ export default function FranchiseValuationCalculator() {
                   
                   <p>Understanding your franchise value is crucial for multiple purposes: selling your franchise, securing financing, estate planning, partnership buyouts, or simply knowing your business worth. Our comprehensive franchise valuation calculator uses industry-standard SDE methodology combined with franchise-specific factors to provide accurate, reliable estimates.</p>
 
-                  <div className="franchise-highlight-box">
+                  <div className="highlight-box">
                     <h3>Quick Answer: What is Franchise Valuation?</h3>
                     <p>Franchise valuation is the process of determining the fair market value of a franchise business by analyzing its financial performance, brand strength, territory value, and market conditions. It typically uses SDE methodology and franchise-specific multiples to calculate worth.</p>
                   </div>
@@ -378,51 +574,52 @@ export default function FranchiseValuationCalculator() {
 
                 <section id="calculator">
                   <h2>Free Franchise Valuation Calculator</h2>
-                  <div className="franchise-calculator-box">
+                  <div className="calculator-box">
                     <h3>Get Your Instant Franchise Valuation</h3>
                     <p>Enter your franchise financial data below to receive an instant valuation estimate using our proven SDE methodology.</p>
                     
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "20px", margin: "20px 0" }}>
-                      <div>
-                        <label htmlFor="annual-revenue" style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>Annual Revenue ($):</label>
-                        <input type="number" id="annual-revenue" placeholder="500000" style={{ width: "100%", padding: "10px", borderRadius: "5px", border: "1px solid #ccc" }} />
+                    <form id="franchise-calculator">
+                      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "20px", margin: "20px 0" }}>
+                        <div>
+                          <label htmlFor="annual-revenue" style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>Annual Revenue ($):</label>
+                          <input type="number" id="annual-revenue" placeholder="500000" required style={{ width: "100%", padding: "10px", borderRadius: "5px", border: "1px solid #ccc" }} />
+                        </div>
+                        <div>
+                          <label htmlFor="sde-amount" style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>Seller's Discretionary Earnings ($):</label>
+                          <input type="number" id="sde-amount" placeholder="150000" required style={{ width: "100%", padding: "10px", borderRadius: "5px", border: "1px solid #ccc" }} />
+                        </div>
+                        <div>
+                          <label htmlFor="franchise-type" style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>Franchise Type:</label>
+                          <select id="franchise-type" required style={{ width: "100%", padding: "10px", borderRadius: "5px", border: "1px solid #ccc" }}>
+                            <option value="">Select Franchise Type</option>
+                            <option value="food-service">Food Service</option>
+                            <option value="retail">Retail</option>
+                            <option value="service">Service</option>
+                            <option value="healthcare">Healthcare</option>
+                            <option value="fitness">Fitness</option>
+                            <option value="automotive">Automotive</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label htmlFor="years-operating" style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>Years Operating:</label>
+                          <input type="number" id="years-operating" placeholder="5" required style={{ width: "100%", padding: "10px", borderRadius: "5px", border: "1px solid #ccc" }} />
+                        </div>
+                        <div>
+                          <label htmlFor="territory-size" style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>Territory Size (sq miles):</label>
+                          <input type="number" id="territory-size" placeholder="25" required style={{ width: "100%", padding: "10px", borderRadius: "5px", border: "1px solid #ccc" }} />
+                        </div>
+                        <div>
+                          <label htmlFor="royalty-rate" style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>Royalty Rate (%):</label>
+                          <input type="number" id="royalty-rate" placeholder="6" step="0.1" required style={{ width: "100%", padding: "10px", borderRadius: "5px", border: "1px solid #ccc" }} />
+                        </div>
                       </div>
-                      <div>
-                        <label htmlFor="sde-amount" style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>Seller's Discretionary Earnings ($):</label>
-                        <input type="number" id="sde-amount" placeholder="150000" style={{ width: "100%", padding: "10px", borderRadius: "5px", border: "1px solid #ccc" }} />
-                      </div>
-                      <div>
-                        <label htmlFor="franchise-type" style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>Franchise Type:</label>
-                        <select id="franchise-type" style={{ width: "100%", padding: "10px", borderRadius: "5px", border: "1px solid #ccc" }}>
-                          <option value="">Select Franchise Type</option>
-                          <option value="food-service">Food Service</option>
-                          <option value="retail">Retail</option>
-                          <option value="service">Service</option>
-                          <option value="healthcare">Healthcare</option>
-                          <option value="fitness">Fitness</option>
-                          <option value="automotive">Automotive</option>
-                        </select>
-                      </div>
-                      <div>
-                        <label htmlFor="years-operating" style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>Years Operating:</label>
-                        <input type="number" id="years-operating" placeholder="5" style={{ width: "100%", padding: "10px", borderRadius: "5px", border: "1px solid #ccc" }} />
-                      </div>
-                      <div>
-                        <label htmlFor="territory-size" style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>Territory Size (sq miles):</label>
-                        <input type="number" id="territory-size" placeholder="25" style={{ width: "100%", padding: "10px", borderRadius: "5px", border: "1px solid #ccc" }} />
-                      </div>
-                      <div>
-                        <label htmlFor="royalty-rate" style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>Royalty Rate (%):</label>
-                        <input type="number" id="royalty-rate" placeholder="6" step="0.1" style={{ width: "100%", padding: "10px", borderRadius: "5px", border: "1px solid #ccc" }} />
-                      </div>
-                    </div>
+                      
+                      <button type="submit" className="cta-button" data-testid="button-calculate-franchise">Calculate My Franchise Value</button>
+                    </form>
                     
-                    <Link href="/" className="franchise-cta-button" data-testid="button-calculate-franchise">Calculate My Franchise Value</Link>
-                    
-                    <div style={{ marginTop: "20px", padding: "20px", background: "rgba(255,255,255,0.1)", borderRadius: "5px" }}>
-                      <h4>Want Professional Analysis?</h4>
-                      <p>Get a comprehensive $39 franchise valuation report with detailed market analysis, comparables, and recommendations.</p>
-                      <Link href="/" className="franchise-cta-button" data-testid="button-professional-franchise-report">Get Professional Report</Link>
+                    <div id="valuation-result" style={{ marginTop: "20px", padding: "20px", background: "rgba(255,255,255,0.1)", borderRadius: "5px", display: "none" }}>
+                      <h4>Your Franchise Valuation Estimate</h4>
+                      <div id="result-content"></div>
                     </div>
                   </div>
                 </section>
@@ -433,7 +630,7 @@ export default function FranchiseValuationCalculator() {
 
                   <h3>How SDE is Calculated for Franchises</h3>
                   <p>SDE calculation for franchises follows this formula:</p>
-                  <div className="franchise-highlight-box">
+                  <div className="highlight-box">
                     <p><strong>SDE = Net Income + Owner's Salary + Benefits + Discretionary Expenses + Non-recurring Expenses - Non-recurring Income</strong></p>
                   </div>
 
@@ -446,7 +643,7 @@ export default function FranchiseValuationCalculator() {
                     <li><strong>Brand Recognition:</strong> Consider the premium value of established brand recognition</li>
                   </ul>
 
-                  <div className="franchise-stats-box">
+                  <div className="stats-box">
                     <h3>Industry Statistics</h3>
                     <p>Average franchise SDE multiples range from 2.5x to 4.5x depending on industry, with food service franchises typically commanding higher multiples due to their proven business models and brand recognition.</p>
                   </div>
@@ -497,7 +694,7 @@ export default function FranchiseValuationCalculator() {
                   <h2>Franchise Industry Multiples 2025</h2>
                   <p>Franchise valuation multiples vary significantly by industry and business performance. Here are the current industry benchmarks:</p>
 
-                  <table className="franchise-comparison-table">
+                  <table className="comparison-table">
                     <thead>
                       <tr>
                         <th>Franchise Industry</th>
@@ -552,7 +749,7 @@ export default function FranchiseValuationCalculator() {
                     </tbody>
                   </table>
 
-                  <div className="franchise-highlight-box">
+                  <div className="highlight-box">
                     <h3>Understanding Multiple Ranges</h3>
                     <p>Higher multiples typically indicate franchises with strong brand recognition, proven profitability, and growth potential. Lower multiples may reflect market challenges, operational issues, or less established brands.</p>
                   </div>
@@ -563,7 +760,7 @@ export default function FranchiseValuationCalculator() {
                   <p>Return on Investment (ROI) analysis is crucial for franchise valuation, helping determine the financial attractiveness of the investment.</p>
 
                   <h3>ROI Calculation Methods</h3>
-                  <div className="franchise-highlight-box">
+                  <div className="highlight-box">
                     <p><strong>Simple ROI = (Current Value - Initial Investment) / Initial Investment × 100</strong></p>
                   </div>
 
@@ -588,125 +785,158 @@ export default function FranchiseValuationCalculator() {
                 <section id="case-studies">
                   <h2>Real Franchise Valuation Case Studies</h2>
                   
-                  <h3>Case Study 1: McDonald's Franchise</h3>
-                  <div className="franchise-highlight-box">
-                    <p><strong>Business Overview:</strong> Established McDonald's location in suburban Dallas, operating for 8 years</p>
-                    <p><strong>Financial Performance:</strong> $1.2M annual revenue, $280K SDE</p>
-                    <p><strong>Valuation Multiple:</strong> 4.5x SDE = $1,260,000</p>
-                    <p><strong>Key Value Drivers:</strong> Strong brand, prime location, consistent performance, 15-year franchise term remaining</p>
-                  </div>
-                  
-                  <h3>Case Study 2: Anytime Fitness Franchise</h3>
-                  <div className="franchise-highlight-box">
-                    <p><strong>Business Overview:</strong> 24-hour fitness franchise in mid-size city, 5 years operating</p>
-                    <p><strong>Financial Performance:</strong> $450K annual revenue, $125K SDE</p>
-                    <p><strong>Valuation Multiple:</strong> 2.8x SDE = $350,000</p>
-                    <p><strong>Key Considerations:</strong> Growing membership base, recent equipment upgrades, competitive market</p>
+                  <h3>Case Study 1: Subway Franchise</h3>
+                  <div className="highlight-box">
+                    <p><strong>Location:</strong> Suburban shopping center<br />
+                    <strong>Annual Revenue:</strong> $450,000<br />
+                    <strong>SDE:</strong> $120,000<br />
+                    <strong>Years Operating:</strong> 8 years<br />
+                    <strong>Valuation:</strong> $480,000 (4.0x SDE multiple)<br />
+                    <strong>Key Factors:</strong> High foot traffic location, established customer base, consistent profitability</p>
                   </div>
 
-                  <div className="franchise-calculator-box">
-                    <h3>Get Your Franchise Valuation</h3>
-                    <p>See how your franchise compares to these case studies with our professional analysis.</p>
-                    <Link href="/" className="franchise-cta-button" data-testid="button-compare-franchise">Compare My Franchise</Link>
+                  <h3>Case Study 2: Cleaning Service Franchise</h3>
+                  <div className="highlight-box">
+                    <p><strong>Service Area:</strong> 50 square miles<br />
+                    <strong>Annual Revenue:</strong> $280,000<br />
+                    <strong>SDE:</strong> $95,000<br />
+                    <strong>Years Operating:</strong> 5 years<br />
+                    <strong>Valuation:</strong> $285,000 (3.0x SDE multiple)<br />
+                    <strong>Key Factors:</strong> Recurring revenue contracts, low overhead, scalable operations</p>
+                  </div>
+
+                  <h3>Case Study 3: Fitness Franchise</h3>
+                  <div className="highlight-box">
+                    <p><strong>Location:</strong> Urban strip mall<br />
+                    <strong>Annual Revenue:</strong> $320,000<br />
+                    <strong>SDE:</strong> $85,000<br />
+                    <strong>Years Operating:</strong> 3 years<br />
+                    <strong>Valuation:</strong> $230,000 (2.7x SDE multiple)<br />
+                    <strong>Key Factors:</strong> Growing membership base, modern equipment, strong brand support</p>
                   </div>
                 </section>
 
                 <section id="mistakes">
                   <h2>Common Franchise Valuation Mistakes</h2>
-                  <p>Avoid these costly errors when valuing your franchise:</p>
+                  <p>Avoiding these common mistakes is crucial for accurate franchise valuation:</p>
 
-                  <div className="franchise-highlight-box">
-                    <h3>Mistake #1: Ignoring Franchise Agreement Terms</h3>
-                    <p><strong>The Error:</strong> Not considering remaining franchise term, renewal options, or transfer restrictions</p>
-                    <p><strong>Impact:</strong> Can result in 20-40% valuation errors</p>
-                    <p><strong>Solution:</strong> Always factor in contract terms and territory rights</p>
-                  </div>
+                  <h3>1. Ignoring Franchise-Specific Factors</h3>
+                  <p>Many valuations fail to account for unique franchise elements like territory rights, brand value, and ongoing royalty obligations.</p>
 
-                  <div className="franchise-highlight-box">
-                    <h3>Mistake #2: Using Generic Business Multiples</h3>
-                    <p><strong>The Error:</strong> Applying general business multiples instead of franchise-specific ones</p>
-                    <p><strong>Impact:</strong> Undervalues brand premium and territory rights</p>
-                    <p><strong>Solution:</strong> Use industry-specific franchise multiples and comparable sales</p>
-                  </div>
+                  <h3>2. Using Inappropriate Multiples</h3>
+                  <p>Applying generic business multiples instead of franchise-specific multiples can lead to significant valuation errors.</p>
 
-                  <div className="franchise-highlight-box">
-                    <h3>Mistake #3: Overlooking Territory Value</h3>
-                    <p><strong>The Error:</strong> Not properly valuing exclusive territory rights and market potential</p>
-                    <p><strong>Impact:</strong> Misses significant value component unique to franchises</p>
-                    <p><strong>Solution:</strong> Analyze territory demographics, growth potential, and competitive landscape</p>
-                  </div>
+                  <h3>3. Overlooking Market Conditions</h3>
+                  <p>Failing to consider local market conditions, competition, and economic factors can result in inaccurate valuations.</p>
+
+                  <h3>4. Incomplete Financial Analysis</h3>
+                  <p>Not properly calculating SDE or including all relevant financial factors can skew valuation results.</p>
+
+                  <h3>5. Ignoring Franchise Agreement Terms</h3>
+                  <p>Contract terms, renewal options, and transfer restrictions significantly impact franchise value and must be considered.</p>
                 </section>
 
                 <section id="faq">
                   <h2>Frequently Asked Questions</h2>
                   
-                  <div className="franchise-faq-item">
-                    <div className="franchise-faq-question">Q: How accurate is your franchise valuation calculator?</div>
-                    <div className="franchise-faq-answer">Our calculator provides highly accurate estimates using industry-standard SDE methodology and current market multiples. For final decisions like sales or financing, we recommend professional reports with detailed franchise analysis.</div>
+                  <div className="faq-item">
+                    <h3 className="faq-question">What is the difference between franchise valuation and regular business valuation?</h3>
+                    <div className="faq-answer">
+                      <p>Franchise valuation considers unique factors like brand recognition, territory rights, royalty obligations, and franchise agreement terms that don't apply to independent businesses. These factors can significantly impact the final valuation.</p>
+                    </div>
                   </div>
 
-                  <div className="franchise-faq-item">
-                    <div className="franchise-faq-question">Q: What makes franchise valuation different from regular business valuation?</div>
-                    <div className="franchise-faq-answer">Franchise valuation considers unique factors like brand recognition, territory rights, royalty structures, franchise agreement terms, and franchisor support systems that don't apply to independent businesses.</div>
+                  <div className="faq-item">
+                    <h3 className="faq-question">How accurate is the franchise valuation calculator?</h3>
+                    <div className="faq-answer">
+                      <p>Our calculator provides estimates within 15-20% of professional valuations for most franchises. Accuracy depends on the quality of input data and specific franchise characteristics. For precise valuations, professional appraisal is recommended.</p>
+                    </div>
                   </div>
 
-                  <div className="franchise-faq-item">
-                    <div className="franchise-faq-question">Q: Which franchise types have the highest valuations?</div>
-                    <div className="franchise-faq-answer">Healthcare and food service franchises typically command the highest multiples (3.5x-5.5x SDE) due to strong cash flows, brand recognition, and market demand.</div>
+                  <div className="faq-item">
+                    <h3 className="faq-question">What SDE multiple should I use for my franchise?</h3>
+                    <div className="faq-answer">
+                      <p>SDE multiples vary by industry, brand strength, and business performance. Food service franchises typically use 3.0x-5.0x, while service franchises use 2.5x-4.0x. Our calculator automatically applies appropriate multiples based on your franchise type.</p>
+                    </div>
                   </div>
 
-                  <div className="franchise-faq-item">
-                    <div className="franchise-faq-question">Q: How do franchise fees affect valuation?</div>
-                    <div className="franchise-faq-answer">Ongoing royalty fees are factored into SDE calculations, while initial franchise fees and territory rights add premium value to established franchises with proven performance.</div>
+                  <div className="faq-item">
+                    <h3 className="faq-question">How do I calculate SDE for my franchise?</h3>
+                    <div className="faq-answer">
+                      <p>SDE = Net Income + Owner's Salary + Benefits + Discretionary Expenses + Non-recurring Expenses - Non-recurring Income. For franchises, add back royalty payments and marketing fees as they're not operational expenses.</p>
+                    </div>
                   </div>
 
-                  <div className="franchise-faq-item">
-                    <div className="franchise-faq-question">Q: When should I get a professional franchise valuation?</div>
-                    <div className="franchise-faq-answer">Professional valuations are essential for franchise sales, SBA lending, investor presentations, estate planning, or partnership disputes. Our <Link href="/" className="franchise-cta-button inline">$39 reports</Link> provide comprehensive analysis for these situations.</div>
+                  <div className="faq-item">
+                    <h3 className="faq-question">Does territory size affect franchise valuation?</h3>
+                    <div className="faq-answer">
+                      <p>Yes, territory size and exclusivity significantly impact franchise value. Larger, more exclusive territories typically command higher valuations due to reduced competition and greater market potential.</p>
+                    </div>
                   </div>
 
-                  <div className="franchise-faq-item">
-                    <div className="franchise-faq-question">Q: How often should franchise values be updated?</div>
-                    <div className="franchise-faq-answer">Annual valuations help track performance and market changes. More frequent valuations are recommended during expansion planning, refinancing, or when considering sale opportunities.</div>
+                  <div className="faq-item">
+                    <h3 className="faq-question">How often should I get my franchise valued?</h3>
+                    <div className="faq-answer">
+                      <p>Franchise valuations should be updated annually or when significant changes occur, such as major renovations, market shifts, or when considering sale or financing options.</p>
+                    </div>
+                  </div>
+
+                  <div className="faq-item">
+                    <h3 className="faq-question">What documents do I need for franchise valuation?</h3>
+                    <div className="faq-answer">
+                      <p>Essential documents include 3 years of financial statements, franchise agreement, territory maps, royalty payment records, marketing fee documentation, and any recent appraisals or valuations.</p>
+                    </div>
+                  </div>
+
+                  <div className="faq-item">
+                    <h3 className="faq-question">Can I use this calculator for any franchise brand?</h3>
+                    <div className="faq-answer">
+                      <p>Yes, our calculator works for most franchise brands. However, some unique franchise models may require specialized valuation approaches. For unusual franchise structures, professional consultation is recommended.</p>
+                    </div>
                   </div>
                 </section>
 
                 <section id="conclusion">
                   <h2>Conclusion & Next Steps</h2>
-                  <p>Understanding your franchise value is essential for making informed business decisions. Whether you're considering a sale, seeking financing, or planning for the future, regular valuations provide crucial insights into your investment's performance and potential.</p>
+                  <p>Accurate franchise valuation is essential for making informed business decisions, whether you're selling, buying, or seeking financing. Our franchise valuation calculator provides reliable estimates using proven SDE methodology and industry-specific multiples.</p>
 
-                  <div className="franchise-calculator-box">
-                    <h3>Ready to Value Your Franchise?</h3>
-                    <p>Get started with our free franchise valuation calculator, or upgrade to a professional report for detailed analysis.</p>
-                    
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "20px", margin: "20px 0" }}>
-                      <div>
-                        <h4>🆓 Free Calculator</h4>
-                        <p>Instant estimates using SDE methodology</p>
-                        <Link href="/" className="franchise-cta-button" data-testid="button-free-franchise-calc">Try Free Calculator</Link>
-                      </div>
-                      
-                      <div>
-                        <h4>📊 Professional Report - $39</h4>
-                        <p>Comprehensive analysis with market comparables</p>
-                        <Link href="/" className="franchise-cta-button" data-testid="button-professional-franchise-39">Get $39 Report</Link>
-                      </div>
-                    </div>
+                  <p>For the most accurate results, ensure you input complete and accurate financial data. Consider factors like brand strength, territory rights, and market conditions when interpreting results.</p>
+
+                  <div className="calculator-box">
+                    <h3>Ready to Get Your Professional Franchise Valuation?</h3>
+                    <p>Get a detailed, professional franchise valuation report with comprehensive analysis, market comparisons, and actionable insights for just $39.</p>
+                    <Link href="/" className="cta-button" data-testid="button-order-professional-report">Order Professional Report</Link>
+                    <Link href="/" className="cta-button" data-testid="button-contact-experts">Contact Our Experts</Link>
                   </div>
 
-                  <div className="franchise-related-articles">
-                    <h3>Related Resources</h3>
+                  <div className="related-articles">
+                    <h3>Related Articles</h3>
                     <ul>
-                      <li><Link href="/blog/retail-store-valuation-calculator">Retail Business Valuation Calculator</Link></li>
-                      <li><Link href="/blog/service-business-valuation-calculator">Service Business Valuation Guide</Link></li>
-                      <li><Link href="/blog/business-valuation-calculator">General Business Valuation Calculator</Link></li>
-                      <li><Link href="/services">Professional Valuation Services</Link></li>
-                      <li><Link href="/industry-analysis">Industry Analysis & Trends</Link></li>
-                      <li><Link href="/contact">Contact Our Valuation Experts</Link></li>
+                      <li><Link href="/restaurant-valuation-calculator">Restaurant Valuation Calculator</Link></li>
+                      <li><Link href="/blog/retail-store-valuation-calculator">Retail Store Valuation Calculator</Link></li>
+                      <li><Link href="/blog/service-business-valuation-calculator">Service Business Valuation Calculator</Link></li>
+                      <li><Link href="/blog/sde-vs-ebitda-guide">SDE vs EBITDA: Which Method for Small Business</Link></li>
+                      <li><Link href="/blog/business-valuation-mistakes">Common Business Valuation Mistakes to Avoid</Link></li>
                     </ul>
                   </div>
                 </section>
               </article>
+
+              {/* Author Bio exactly from original HTML */}
+              <aside className="author-bio">
+                <h3>About TheValuationGenie</h3>
+                <p>TheValuationGenie is a leading provider of business valuation services, specializing in SDE methodology for small to medium-sized businesses. With over 15 years of experience, we've helped thousands of business owners understand their company's true worth through accurate, reliable valuations.</p>
+                <p>Our team of certified business appraisers and financial analysts combines industry expertise with cutting-edge technology to deliver comprehensive valuation reports that meet professional standards and regulatory requirements.</p>
+              </aside>
+
+              {/* Social Sharing exactly from original HTML */}
+              <div className="social-share">
+                <h3>Share This Article</h3>
+                <button onClick={() => (window as any).shareOnFacebook()}>Share on Facebook</button>
+                <button onClick={() => (window as any).shareOnTwitter()}>Share on Twitter</button>
+                <button onClick={() => (window as any).shareOnLinkedIn()}>Share on LinkedIn</button>
+                <button onClick={() => (window as any).printArticle()}>Print Article</button>
+              </div>
             </div>
           </div>
         </div>
