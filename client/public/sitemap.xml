@@ -52,6 +52,14 @@
     <priority>0.9</priority>
   </url>
   
+  <!-- Franchise Valuation Calculator -->
+  <url>
+    <loc>https://thevaluationgenie.com/blog/franchise-valuation-calculator</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
   <!-- User Authentication Pages -->
   <url>
     <loc>https://thevaluationgenie.com/login</loc>

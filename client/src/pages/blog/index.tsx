@@ -162,6 +162,19 @@ const blogPosts = [
     slug: "/saas-valuation-calculator"
   },
   {
+    id: "franchise-valuation-calculator",
+    title: "Franchise Valuation Calculator - Calculate Franchise Value & ROI 2025",
+    description: "Free franchise valuation calculator using SDE methodology. Calculate your franchise value, ROI, and market worth instantly. Professional $39 reports with detailed analysis.",
+    excerpt: "Calculate your franchise value using proven SDE methodology. Works for food service, retail, healthcare, fitness, and all franchise types with accurate industry multiples.",
+    category: "Franchise Business Tools",
+    readTime: "14 min read",
+    publishDate: "2025-01-15",
+    featured: true,
+    keywords: ["franchise valuation calculator", "franchise worth", "franchise ROI calculator"],
+    icon: Building,
+    slug: "/blog/franchise-valuation-calculator"
+  },
+  {
     id: "retail-store-valuation-calculator",
     title: "Retail Store Calculator - Value Your Retail Business with Industry Multiples",
     description: "Free retail business valuation calculator using SDE methodology. Get instant estimates for your retail store's worth. Professional $39 reports with detailed analysis, inventory valuation, and location factors.",
