@@ -74,6 +74,7 @@ export default function FranchiseValuationCalculator() {
     // Complete calculator functionality exactly from your HTML
     const handleCalculatorSubmit = (e: Event) => {
       e.preventDefault();
+      e.stopPropagation();
       
       const revenue = parseFloat((document.getElementById('annual-revenue') as HTMLInputElement).value);
       const sde = parseFloat((document.getElementById('sde-amount') as HTMLInputElement).value);
@@ -145,11 +146,28 @@ export default function FranchiseValuationCalculator() {
       window.print();
     };
 
-    // Add calculator event listener
-    const calculator = document.getElementById('franchise-calculator');
-    if (calculator) {
-      calculator.addEventListener('submit', handleCalculatorSubmit);
-    }
+    // Add calculator event listener with slight delay to ensure DOM is ready
+    const attachCalculatorListener = () => {
+      const calculator = document.getElementById('franchise-calculator');
+      if (calculator) {
+        calculator.addEventListener('submit', handleCalculatorSubmit);
+        
+        // Also attach to the button directly as backup
+        const button = document.getElementById('calc-button');
+        if (button) {
+          button.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            handleCalculatorSubmit(e);
+          });
+        }
+      } else {
+        // Retry if form not found yet
+        setTimeout(attachCalculatorListener, 100);
+      }
+    };
+    
+    attachCalculatorListener();
 
     // All meta tags exactly from your HTML
     const setMeta = (name: string, content: string) => {
@@ -276,6 +294,11 @@ export default function FranchiseValuationCalculator() {
       const calc = document.getElementById('franchise-calculator');
       if (calc) {
         calc.removeEventListener('submit', handleCalculatorSubmit);
+      }
+      
+      const button = document.getElementById('calc-button');
+      if (button) {
+        button.removeEventListener('click', handleCalculatorSubmit);
       }
     };
   }, []);
@@ -575,7 +598,7 @@ export default function FranchiseValuationCalculator() {
                   <h3>Get Your Instant Franchise Valuation</h3>
                   <p>Enter your franchise financial data below to receive an instant valuation estimate using our proven SDE methodology.</p>
                   
-                  <form id="franchise-calculator">
+                  <form id="franchise-calculator" onSubmit={(e) => { e.preventDefault(); e.stopPropagation(); }}>
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "20px", margin: "20px 0" }}>
                       <div>
                         <label htmlFor="annual-revenue" style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>Annual Revenue ($):</label>
@@ -611,7 +634,7 @@ export default function FranchiseValuationCalculator() {
                       </div>
                     </div>
                     
-                    <button type="submit" className="cta-button" data-testid="button-calculate-franchise">Calculate My Franchise Value</button>
+                    <button type="button" id="calc-button" className="cta-button" data-testid="button-calculate-franchise">Calculate My Franchise Value</button>
                   </form>
                   
                   <div id="valuation-result" style={{ marginTop: "20px", padding: "20px", background: "rgba(255,255,255,0.1)", borderRadius: "5px", display: "none" }}>
