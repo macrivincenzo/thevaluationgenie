@@ -197,7 +197,7 @@ export default function FranchiseValuationCalculator() {
       }
       script = document.createElement('script');
       script.id = id;
-      script.type = 'application/ld+json';
+      (script as HTMLScriptElement).type = 'application/ld+json';
       script.textContent = JSON.stringify(schema);
       document.head.appendChild(script);
     };
