@@ -4,3 +4,21 @@ dist
 server/public
 vite.config.ts.*
 *.tar.gz
+
+# Test files and temporary files
+*.pdf
+*test*.txt
+*session*.txt
+*cookie*.txt
+*debug*.txt
+*.log
+
+# Cache directories
+.cache
+.local
+.upm
+.config
+
+# Environment files
+.env
+.env.local
