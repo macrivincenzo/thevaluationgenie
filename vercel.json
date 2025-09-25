@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/node"
+  "functions": {
+    "api/index.js": {
+      "runtime": "nodejs20.x",
+      "maxDuration": 30
     }
-  ],
+  },
   "routes": [
     {
       "src": "/api/(.*)",
@@ -16,11 +16,5 @@
       "dest": "/dist/public/$1"
     }
   ],
-  "functions": {
-    "api/index.js": {
-      "runtime": "nodejs20.x",
-      "maxDuration": 30
-    }
-  },
   "outputDirectory": "dist/public"
 }
