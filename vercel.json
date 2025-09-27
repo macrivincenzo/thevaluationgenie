@@ -3,7 +3,7 @@
   "builds": [
     {
       "src": "api/index.js",
-      "use": "@vercel/node@2.15.10",
+      "use": "@vercel/node@3.0.7",
       "config": {
         "maxLambdaSize": "50mb"
       }
@@ -27,6 +27,6 @@
     }
   ],
   "env": {
-    "NODE_VERSION": "18.18.0"
+    "NODE_VERSION": "20.10.0"
   }
 }
